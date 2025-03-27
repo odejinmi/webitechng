@@ -334,7 +334,10 @@ class UtilityController extends Controller
         $pageTitle       = 'Utility';
         $user = auth()->user();
         $log = Order::whereUserId($user->id)->whereType('utility')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
-        return view(checkTemplate(). 'user.bills.utility.utility_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.bills.utility.utility_log', $data, compact('pageTitle', 'log'));
     }
 
 

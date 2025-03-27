@@ -34,7 +34,10 @@ class SavingsController extends Controller
     {
         $pageTitle       = 'Savings';
         $user = auth()->user();
-        return view(checkTemplate(). 'user.vendor.savings.index', compact('pageTitle', 'user'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.vendor.savings.index', $data, compact('pageTitle', 'user'));
     }
 
     public function requestsavings()
@@ -43,7 +46,10 @@ class SavingsController extends Controller
         $user = Auth::user();
         $plans     = FdrPlan::active()->orderBy('interest_rate')->get();
 
-        return view(checkTemplate(). 'user.vendor.savings.request', compact(
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.vendor.savings.request', $data, compact(
             'pageTitle',
             'user',
             'plans'
@@ -196,7 +202,10 @@ class SavingsController extends Controller
         $saved = Savings::where('user_id', $user->id)->orderBy('created_at','desc')->searchable(['reference'])->paginate(10);
         $emptyMessage = "Data Not Found";
 
-        return view(checkTemplate(). 'user.vendor.savings.log', compact('pageTitle','saved','emptyMessage'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.vendor.savings.log', $data, compact('pageTitle','saved','emptyMessage'));
     }
 
 
@@ -253,7 +262,10 @@ class SavingsController extends Controller
             $data['oct'] = Installment::where('user_id', $user->id)->whereStatus(1)->whereYear('installment_date', $year)->whereInstallmentableId($fdr->id)->whereMonth('installment_date', $oct)->sum('amount');
             $data['nov'] = Installment::where('user_id', $user->id)->whereStatus(1)->whereYear('installment_date', $year)->whereInstallmentableId($fdr->id)->whereMonth('installment_date', $nov)->sum('amount');
             $data['dec'] = Installment::where('user_id', $user->id)->whereStatus(1)->whereYear('installment_date', $year)->whereInstallmentableId($fdr->id)->whereMonth('installment_date', $dec)->sum('amount');
-            return view(checkTemplate(). 'user.vendor.savings.fixed', $data, compact('pageTitle', 'installments', 'fdr','pay','sum','saved'));
+            $activeTemplate = checkTemplate();
+            $data['activeTemplate'] = $activeTemplate;
+
+            return view($activeTemplate. 'user.vendor.savings.fixed', $data, compact('pageTitle', 'installments', 'fdr','pay','sum','saved'));
         }
 
 
@@ -273,7 +285,10 @@ class SavingsController extends Controller
         $pay = SavingPay::where('user_id', $user->id)->whereSavingId($id)->get();
         $sum = SavingPay::where('user_id', $user->id)->whereSavingId($id)->sum('amount');
         $data['count'] = SavingPay::where('user_id', $user->id)->whereSavingId($id)->count();
-        return view(checkTemplate().'user.vendor.savings.view',$data, compact('pageTitle','saved','pay','sum'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate.'user.vendor.savings.view',$data, compact('pageTitle','saved','pay','sum'));
     }
 
 

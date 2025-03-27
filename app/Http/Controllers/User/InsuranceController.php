@@ -94,7 +94,10 @@ class InsuranceController extends Controller
         $pageTitle       = 'Insurance';
         $user = auth()->user();
         $log = Order::whereUserId($user->id)->whereType('cabletv')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
-        return view(checkTemplate(). 'user.bills.insurance.index', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.bills.insurance.index', $data, compact('pageTitle', 'log'));
     }
 
     public function buy_insurance(Request $request)
@@ -115,7 +118,10 @@ class InsuranceController extends Controller
             }
             ]';
         $providers = json_decode($providers,true);
-        return view(checkTemplate(). 'user.bills.insurance.insurance_buy', compact('pageTitle','providers'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.bills.insurance.insurance_buy', $data, compact('pageTitle','providers'));
     }
 
 
@@ -515,7 +521,10 @@ class InsuranceController extends Controller
         $pageTitle       = 'Insurance Log';
         $user = auth()->user();
         $log = Order::whereUserId($user->id)->whereType('insurance')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
-        return view(checkTemplate(). 'user.bills.insurance.insurance_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.bills.insurance.insurance_log', $data, compact('pageTitle', 'log'));
     }
 
 

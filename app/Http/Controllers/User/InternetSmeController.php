@@ -20,20 +20,6 @@ class InternetSmeController extends Controller
 {
 
 
-    function checkTemplate1($asset = false)
-    {
-        $template = Auth::user();
-        dd($template);
-        $default = session()->get('default_template');
-        if($default != null || $default != '')
-        {
-            $template = $default;
-        }
-
-        if ($asset) return 'assets/templates/' . $template . '/';
-        return 'templates.' . $template . '.';
-    }
-
     public function __construct()
     {
         $this->middleware('kyc.status');
@@ -103,7 +89,10 @@ class InternetSmeController extends Controller
         $pageTitle       = 'SME Internet Subscription';
         $user = auth()->user();
         $log = Order::whereUserId($user->id)->whereType('smeinternet')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
-        return view(checkTemplate(). 'user.bills.internetsme.index', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.bills.internetsme.index', $data, compact('pageTitle', 'log'));
     }
 
     public function buy_internet(Request $request)
@@ -135,13 +124,16 @@ class InternetSmeController extends Controller
 
 
         $plans = [];
+
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
         if(gs()->internetsme_provider == 'N3TDATA')
         {
-            return view(checkTemplate(). 'user.bills.internetsme.internet_buy_N3TDATA', compact('pageTitle','countries','networks','plans'));
+            return view($activeTemplate. 'user.bills.internetsme.internet_buy_N3TDATA', $data, compact('pageTitle','countries','networks','plans'));
         }
         if(gs()->internetsme_provider == 'GSUBZ')
         {
-            return view(checkTemplate(). 'user.bills.internetsme.internet_buy_GSUBZ', compact('pageTitle','countries','networks','plans'));
+            return view($activeTemplate. 'user.bills.internetsme.internet_buy_GSUBZ', $data, compact('pageTitle','countries','networks','plans'));
         }
 
         if(gs()->internetsme_provider == 'GTIDINGSDATA')
@@ -171,7 +163,7 @@ class InternetSmeController extends Controller
 
            $plans = [];
 
-            return view(checkTemplate(). 'user.bills.internetsme.internet_buy_GTIDINGS', compact('pageTitle','countries','networks','plans'));
+            return view($activeTemplate. 'user.bills.internetsme.internet_buy_GTIDINGS', $data, compact('pageTitle','countries','networks','plans'));
         }
         if(gs()->internetsme_provider == 'NATKEMLINKS')
         {
@@ -207,7 +199,7 @@ class InternetSmeController extends Controller
 
             $data['internetlog'] = Order::whereUserId($user->id)->whereType('smedata')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
 
-            return view(checkTemplate(). 'user.bills.internetsme.internet_buy_NATKEMLINKS', $data,compact('pageTitle','countries','networks','plans'));
+            return view($activeTemplate. 'user.bills.internetsme.internet_buy_NATKEMLINKS', $data,compact('pageTitle','countries','networks','plans'));
         }
 
         if(gs()->internetsme_provider == 'TECHHUB')
@@ -243,7 +235,7 @@ class InternetSmeController extends Controller
             $data['etisalat'] = Order::whereUserId($user->id)->whereType('smedata')->whereProductName('etisalat')->sum('price');
             $data['internetlog'] = Order::whereUserId($user->id)->whereType('smedata')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
 
-            return view(checkTemplate(). 'user.bills.internetsme.internet_buy_TECHHUB', $data,compact('pageTitle','countries','networks','plans'));
+            return view($activeTemplate. 'user.bills.internetsme.internet_buy_TECHHUB', $data,compact('pageTitle','countries','networks','plans'));
         }
     }
 
@@ -1022,7 +1014,10 @@ class InternetSmeController extends Controller
         $pageTitle    = 'SME Internet Data';
         $user = auth()->user();
         $log = Order::whereUserId($user->id)->whereType('smedata')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
-        return view(checkTemplate(). 'user.bills.internetsme.internet_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.bills.internetsme.internet_log', $data, compact('pageTitle', 'log'));
     }
 
 }

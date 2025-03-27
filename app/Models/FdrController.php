@@ -19,19 +19,24 @@ class FdrController extends Controller {
         $pageTitle = 'My FDR List';
         $allFdr    = Fdr::where('user_id', auth()->id())->searchable(['fdr_number', 'plan:name'])->dateFilter('next_installment_date')->with('plan:id,name')->orderBy('id', 'DESC');
 
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
         if (request()->download == 'pdf') {
             $allFdr = $allFdr->get();
-            return downloadPDF(checkTemplate(). 'pdf.fdr_list', compact('pageTitle', 'allFdr'));
+            return downloadPDF($activeTemplate . 'pdf.fdr_list', $data, compact('pageTitle', 'allFdr'));
         }
         $allFdr = $allFdr->paginate(getPaginate());
 
-        return view(checkTemplate(). 'user.fdr.list', compact('pageTitle', 'allFdr'));
+        return view($activeTemplate. 'user.fdr.list', $data, compact('pageTitle', 'allFdr'));
     }
 
     public function plans() {
         $pageTitle = 'Fixed Deposit Receipt Plans';
         $plans     = FdrPlan::active()->orderBy('interest_rate')->get();
-        return view(checkTemplate(). 'user.fdr.plans', compact('pageTitle', 'plans'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.fdr.plans', $data, compact('pageTitle', 'plans'));
     }
 
     public function apply(Request $request, $id) {
@@ -54,7 +59,10 @@ class FdrController extends Controller {
         $amount         = $verification->additional_data->amount;
         $verificationId = $verification->id;
         $pageTitle      = 'FDR Application Preview';
-        return view(checkTemplate(). 'user.fdr.preview', compact('pageTitle', 'plan', 'amount', 'verificationId'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.fdr.preview', $data, compact('pageTitle', 'plan', 'amount', 'verificationId'));
     }
 
     public function confirm($id) {
@@ -181,7 +189,10 @@ class FdrController extends Controller {
         $fdr          = Fdr::where('user_id', auth()->id())->where('fdr_number', $fdr_number)->firstOrFail();
         $installments = $fdr->installments()->paginate(getPaginate());
         $pageTitle    = 'FDR Installments';
-        return view(checkTemplate(). 'user.fdr.installments', compact('pageTitle', 'installments', 'fdr'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.fdr.installments', $data, compact('pageTitle', 'installments', 'fdr'));
     }
 
     private function validation($request, $plan) {

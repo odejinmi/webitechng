@@ -294,7 +294,7 @@
                                                                       }
                                                                   });
 
-                                                                  document.getElementById("categoeylist").innerHTML =`${categoryhtml}`
+                                                                  // document.getElementById("categoeylist").innerHTML =`${categoryhtml}`
                                                                   document.getElementById("planlist").innerHTML =
                                                                     `  <div class="row align-items-center g-3">
                                                               <div class="">
@@ -324,7 +324,7 @@
                                             </div>
                                         </div>
 
-                                                    <div id="categoeylist"></div>
+                                                    <!--<div id="categoeylist"></div>-->
                                                     <a id="planlist"></a>
 
 

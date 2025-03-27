@@ -484,10 +484,6 @@
                                                                                   <i class="ti ti-alert-circle text-gray-500 fs-6"></i>
                                                                               </span>
                                                                           </label>
-                                                                          <div class="container">
-                                                                              <div class="d-flex flex-wrap justify-content-center gap-2">${categoryhtml}</div>
-                                                                                </div>
-                                                                                <br>
                                                                                 <div id="plans-list">${html}</div>
                                                                          </div>`;
 

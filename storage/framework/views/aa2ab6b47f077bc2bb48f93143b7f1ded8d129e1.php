@@ -44,7 +44,7 @@
     </style>
 </head>
 <!--end::Head-->
-<a href="https://api.whatsapp.com/send?phone=+2349099037719&text=I%20want%20to%20Trade." class="float" target="_blank">
+<a href="https://api.whatsapp.com/send?phone=+2348031975397&text=I%20want%20to%20buy%20Smart%20Bills%20Solution." class="float" target="_blank">
     <i class="fa fa-whatsapp my-float"></i>
     </a>
 

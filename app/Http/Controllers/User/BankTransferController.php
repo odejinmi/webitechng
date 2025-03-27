@@ -27,7 +27,9 @@ class BankTransferController extends Controller
 	public function index()
 	{
             $pageTitle = 'Bank Transfer';
-			return view(checkTemplate().'user.bank.index', compact('pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        return view($activeTemplate.'user.bank.index', $data, compact('pageTitle'));
 	}
 
 	public function start()
@@ -38,14 +40,18 @@ class BankTransferController extends Controller
         {
             $pageTitle = 'Bank Transfer';
             $banks = json_decode(file_get_contents(resource_path('views/partials/banks.json')), true);
-			return view(checkTemplate().'user.bank.monnify', compact('pageTitle', 'banks'));
+			$activeTemplate = checkTemplate();
+            $data['activeTemplate'] = $activeTemplate;
+            return view($activeTemplate.'user.bank.monnify', $data, compact('pageTitle', 'banks'));
         }
 
 		if($general->transfer_provider == "BLOCHQ")
         {
             $pageTitle = 'Bank Transfer';
             $banks = json_decode(file_get_contents(resource_path('views/partials/bhqbanks.json')), true);
-			return view(checkTemplate().'user.bank.blochq', compact('pageTitle', 'banks'));
+			$activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        return view($activeTemplate.'user.bank.blochq', $data, compact('pageTitle', 'banks'));
         }
         */
 
@@ -78,7 +84,9 @@ class BankTransferController extends Controller
             return back()->withNotify($notify);
 		}
 		$banks = $reply['data']['bank_list'];
-		return view(checkTemplate().'user.bank.strowallet', compact('pageTitle', 'user', 'banks'));
+		return $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        return view($activeTemplate.'user.bank.strowallet', $data, compact('pageTitle', 'user', 'banks'));
 	}
 
 
@@ -577,7 +585,9 @@ class BankTransferController extends Controller
         $pageTitle    = 'Bank Transfer Log';
         $remarks      = Transaction::distinct('remark')->orderBy('remark')->get('remark');
         $transactions = Transaction::where('user_id', auth()->id())->searchable(['trx'])->filter(['trx_type', 'remark'])->whereRemark('Bank Transfer')->orderBy('created_at', 'desc')->paginate(getPaginate());
-        return view(checkTemplate(). 'user.bank.history', compact('pageTitle', 'transactions', 'remarks'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        return view($activeTemplate . 'user.bank.history', $data, compact('pageTitle', 'transactions', 'remarks'));
     }
 
 

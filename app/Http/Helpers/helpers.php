@@ -180,7 +180,10 @@ function activeTemplate($asset = false)
 
 function checkTemplate($asset = false)
 {
-    $template = auth()->user()->theme;
+    $template = 'basic';
+    if (auth()->user() != null) {
+        $template = auth()->user()->theme;
+    }
     $default = session()->get('default_template');
     if($default != null || $default != '')
     {

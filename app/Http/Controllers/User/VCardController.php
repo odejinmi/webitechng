@@ -160,7 +160,7 @@ class VCardController extends Controller
     // Set static fee structure
     $conversionRate = $general->virtualcard_usd_rate;
     $percentageFee = 0.0199; // Set the fee to 1.99%
-    $fixedFee = 3005; // 3423 NGN fixed fee
+    $fixedFee = 3105; // 3423 NGN fixed fee
 
     // Convert amount from $ to NGN
     $amountInNaira = $request->amount * $conversionRate;
@@ -364,7 +364,7 @@ class VCardController extends Controller
 	    $user = User::find(auth()->user()->id);
 	    // Set static fee structure
 	    $percentageFee = 0.019; // 1.9%
-	    $fixedFee = 2869; // 3306 NGN fixed fee
+	    $fixedFee = 2964; // 3306 NGN fixed fee
 	    // Calculate total fee in NGN
 	    $fee = ($percentageFee * ($amount * $usdrate)) + $fixedFee;
 	    // Convert amount to NGN

@@ -84,7 +84,7 @@
                   <div class="row">
                      <div class="col-sm-6">
                         <label for="userPhoto" class="form-label fw-semibold">@lang('User Photo')</label>
-                         <input type="text" class="form-control" name="idImage" value="{{ asset('assets/images/kyc') }}/{{ auth()->user()->username }}/back_kyc_image.png" readonly>
+                         <input type="text" class="form-control" name="userPhoto" value="{{ asset('assets/images/kyc') }}/{{ auth()->user()->username }}/back_kyc_image.png" readonly>
                     </div> 
                   </div>
                   <div class="row">

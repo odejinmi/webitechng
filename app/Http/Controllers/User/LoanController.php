@@ -35,14 +35,15 @@ class LoanController extends Controller
                 $query->whereDate('installment_date', '>=', $startDate)->whereDate('installment_date', '<=', $endDate);
             });
         }
-        if (request()->download == 'pdf') {
-            $loans = $loans->get();
-            return downloadPDF(checkTemplate(). 'pdf.loan_list', compact('pageTitle', 'loans'));
-        }
-        $loans = $loans->orderBy('id', 'DESC')->paginate(getPaginate());
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+
+        if (request()->download == 'pdf') {
+            $loans = $loans->get();
+            return downloadPDF($activeTemplate. 'pdf.loan_list', $data, compact('pageTitle', 'loans'));
+        }
+        $loans = $loans->orderBy('id', 'DESC')->paginate(getPaginate());
 
         return view($activeTemplate. 'user.loan.list', $data, compact('pageTitle', 'loans'));
     }

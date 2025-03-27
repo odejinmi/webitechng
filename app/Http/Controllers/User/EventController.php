@@ -202,8 +202,10 @@ class EventController extends Controller
         if(session()->has('coupon')){
            $coupon = session('coupon');
         }
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
 
-        return view(checkTemplate() . 'partials.cart_items', ['data' => $latest, 'subtotal' => $subtotal, 'emptyMessage'=>$emptyMessage, 'more'=>$more, 'coupon'=>$coupon]);
+        return view($activeTemplate. 'partials.cart_items', $data, ['data' => $latest, 'subtotal' => $subtotal, 'emptyMessage'=>$emptyMessage, 'more'=>$more, 'coupon'=>$coupon]);
     }
 
 
@@ -358,7 +360,10 @@ class EventController extends Controller
         $pageTitle       = 'Event Ticket Log';
         $user = auth()->user();
         $log = Order::whereUserId($user->id)->whereType('event')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
-        return view(checkTemplate(). 'user.bills.event.event_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.bills.event.event_log', $data, compact('pageTitle', 'log'));
     }
 
     public function Tickets($id)
@@ -372,7 +377,10 @@ class EventController extends Controller
         {
             $ticket = Ticket::where('trx_id', $id)->with('event','order')->where('status', 1)->first();
             $event = $ticket->event;
-            return view(checkTemplate(). 'user.bills.event.ticket',compact('pageTitle','tickets','emptyMessage','event','now'));
+            $activeTemplate = checkTemplate();
+            $data['activeTemplate'] = $activeTemplate;
+
+            return view($activeTemplate. 'user.bills.event.ticket', $data, compact('pageTitle','tickets','emptyMessage','event','now'));
         }
 
         else

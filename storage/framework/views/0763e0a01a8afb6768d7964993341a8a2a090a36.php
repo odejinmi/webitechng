@@ -335,14 +335,14 @@
                                                                                 <span class="symbol-label bg-light-primary">
                                                                                     <i class="ti ti-image fs-2x text-warning"><img src="<?php echo e(url('/')); ?>/assets/images/coins/${plan['image']}" width="30" class="path1"/></i>
                                                                                 </span>
-                                                                                
-                                                                            </span> 
+
+                                                                            </span>
                                                                             <span class="d-flex flex-column">
                                                                                 <span class="fw-bold fs-6">${plan['name']}</span>
                                                                                 <span class="fs-7 text-muted">${plan['symbol']}</span>
                                                                             </span>
                                                                         </span>
-                            
+
                                                                         <span class="form-check form-check-custom form-check-solid">
                                                                             <input class="form-check-input" type="radio" onchange="networkprovider('${plan['id']}','${plan['image']}','${plan['name']}','${plan['id']}')"
                                                                                 name="asset" id="${plan['id']}" value="${plan['id']}" />
@@ -356,13 +356,13 @@
                                                         ` <div class="mb-0"> <label class="d-flex align-items-center form-label mb-5">
                                                                         <?php echo app('translator')->get('Select Asset Currency'); ?>
                                                                         <span class="ms-1"  data-bs-toggle="tooltip" title="Please select asset currency" >
-                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>        
+                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>
                                                                         </label> ${html} </div>
                                                                     `;
                                                     KTApp.hidePageLoading();
                                                     loadingEl.remove();
                                                 }
-                                                // END GET DATA \\ 
+                                                // END GET DATA \\
                                             </script>
                                             <script>
                                                 function networkprovider(operatorId, image, name, coin) {
@@ -717,7 +717,7 @@
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-body">
-                 
+
                     <form class="ps-3 pr-3" action="<?php echo e(route('user.crypto.sell.confirm.manual')); ?>" method="POST" enctype="multipart/form-data">
                     <?php echo csrf_field(); ?>
                     <div class="mb-3">
@@ -743,7 +743,7 @@
             <!-- /.modal-dialog -->
 
     <?php $__env->stopSection(); ?>
- 
+
     <?php $__env->startPush('script'); ?>
         <script></script>
         <script>
@@ -939,7 +939,7 @@
                                                                                     <div class="order-summary border rounded p-4 my-4">
                                                                                         <div class="p-3">
                                                                                         <h5 class="fs-5 fw-semibold mb-4"><?php echo app('translator')->get('Payment Summary'); ?></h5>
-                                                                                    
+
                                                                                         <div class="d-flex justify-content-between mb-4">
                                                                                             <p class="mb-0 fs-4"><b>Fiat Value</b></p>
                                                                                             <h6 class="mb-0 fs-4 fw-semibold text-primary"><b>${Object.values(coinvalue)[1]}${Object.keys(coinvalue)[1]}</b></h6>
@@ -957,14 +957,14 @@
                                                                                         <a href="#" onClick="confirmPayment('${resp.data.invoice_id}|${resp.data.coin}')">Click Here To Verify Payment</a>
 
                                                                                         </div>
-                                                                                        
+
                                                                                     </div>
                                                                             </section>
-                                                                        </div> 
+                                                                        </div>
                                                                     </div>
                                                                     <!--end::Wrapper-->
                                                                     `;
-                                                                
+
                                                             }
                                                             if (resp.ok != false && resp.auto != true) {
                                                             var qrcode ="<?php echo e(cryptoQR('+resp.coin.wallet_address+')); ?>";
@@ -998,28 +998,28 @@
                                                                                 <div class="order-summary border rounded p-4 my-4">
                                                                                     <div class="p-3">
                                                                                     <h5 class="fs-5 fw-semibold mb-4"><?php echo app('translator')->get('Payment Summary'); ?></h5>
-                                                                                
+
                                                                                     <div class="d-flex justify-content-between mb-4">
                                                                                         <p class="mb-0 fs-4"><b>Amount</b></p>
                                                                                         <h6 class="mb-0 fs-4 fw-semibold text-primary"><b>${resp.data.payment}USD</b></h6>
-                                                                                    </div> 
+                                                                                    </div>
 
                                                                                     <button class="btn btn-primary confirmPayment" type="button" disabled onClick="confirmPayment()">
                                                                                         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                                                                                         Waiting For Payment...
                                                                                     </button>
                                                                                     <br><br>
-                                                                                 
+
                                                                                     <a href="javascript:void(0)" onClick="confirmPaymentManual('${resp.data.trx}')"  data-bs-toggle="modal" data-bs-target="#confirmPayment-modal" class="btn btn-primary">I Have Paid</a>
-                                                                                     
-                                                                                    </div> 
+
+                                                                                    </div>
                                                                                 </div>
                                                                         </section>
-                                                                    </div> 
+                                                                    </div>
                                                                 </div>
                                                                 <!--end::Wrapper-->
                                                                 `;
-                                                            
+
                                                             }
                                                             SlimNotifierJs.notification(resp.status, resp.status, resp.message, 3000);
                                                             r.goNext();
@@ -1095,7 +1095,7 @@
             SlimNotifierJs.notification('success', 'Copied', 'Wallet Address Copied Successfuly', 3000);
 
 
-        } 
+        }
         </script>
     <?php $__env->stopPush(); ?>
 

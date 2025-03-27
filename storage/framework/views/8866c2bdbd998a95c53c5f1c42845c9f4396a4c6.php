@@ -250,8 +250,8 @@
                                                 <script>
 
                                               function selectwallet(wallet) {
-                                                        localStorage.setItem('wallet', wallet); 
-                                                    } 
+                                                        localStorage.setItem('wallet', wallet);
+                                                    }
                                                 </script>
                                                 <?php $__env->stopPush(); ?>
                                             </div>
@@ -297,9 +297,9 @@
                                                 data-countrycurrency="NGN"
                                                 data-isoName="NG"
                                                 data-countrycontinent="Africa"
-                                                data-network="<?php echo e($networks); ?>" 
+                                                data-network="<?php echo e($networks); ?>"
                                                 value="Nigeria"
-                                                data-icon="currency-flag currency-flag-ng me-1">Nigeria</option> 
+                                                data-icon="currency-flag currency-flag-ng me-1">Nigeria</option>
                                             </select> <!--end::Input-->
                                         </div>
                                         <!--end::Input group-->
@@ -320,56 +320,56 @@
 
                                                     // Show page loading
                                                     KTApp.showPageLoading();
-                                                    document.getElementById('providers').innerHTML = ''; 
-                                                    var network = $("#youSendCurrency option:selected").attr('data-network'); 
+                                                    document.getElementById('providers').innerHTML = '';
+                                                    var network = $("#youSendCurrency option:selected").attr('data-network');
                                                     document.getElementById("amountlist").innerHTML = ``;
 
                                                     networks = JSON.parse(network);
-                                                                let html = ''; 
-                                                                networks.map(plan => {    
-                                                                    let htmlSegment = 
+                                                                let html = '';
+                                                                networks.map(plan => {
+                                                                    let htmlSegment =
                                                                     `<label class="d-flex flex-stack cursor-pointer mb-5" for="${plan['networkid']}" >
                                                                         <span class="d-flex align-items-center me-2">
                                                                             <span class="symbol symbol-50px me-6">
                                                                                 <span class="symbol-label bg-light-primary">
                                                                                     <i class="ti ti-image fs-2x text-warning"><img src="<?php echo e(url('/')); ?>/assets/images/provider/${plan['logo']}" width="30" class="path1"/></i>
                                                                                 </span>
-                                                                                
-                                                                            </span> 
+
+                                                                            </span>
                                                                             <span class="d-flex flex-column">
                                                                                 <span class="fw-bold fs-6">${plan['name']}</span>
                                                                                 <span class="fs-7 text-muted">SME Data & Gifting</span>
                                                                             </span>
                                                                         </span>
-                            
+
                                                                         <span class="form-check form-check-custom form-check-solid">
                                                                             <input class="form-check-input" type="radio" onchange="networkprovider('${plan['networkid']}','${plan['logo']}','${plan['name']}','${plan['networkid']}')"
                                                                                 name="operator" id="${plan['networkid']}" value="${plan['networkid']}" />
                                                                         </span>
                                                                     </label>
                                                                     `;
-                                                                    html += htmlSegment;  
-                                                                }); 
+                                                                    html += htmlSegment;
+                                                                });
 
                                                                 document.getElementById('providers').innerHTML =
                                                                     ` <div class="mb-0"> <label class="d-flex align-items-center form-label mb-5">
                                                                         <?php echo app('translator')->get('Select Operator Plan'); ?>
                                                                         <span class="ms-1"  data-bs-toggle="tooltip" title="Please select network service provider" >
-                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>        
+                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>
                                                                         </label> ${html} </div>
                                                                     `;
 
- 
+
 
                                                             KTApp.hidePageLoading();
                                                             loadingEl.remove();
-                                                        } 
-                                                    // END GET DATA \\ 
+                                                        }
+                                                    // END GET DATA \\
                                             </script>
                                             <script>
-                                                function networkprovider(operatorId,image,name,networkid) { 
+                                                function networkprovider(operatorId,image,name,networkid) {
                                                           document.getElementById("networkprovider").innerHTML = name;
-                                                          
+
                                                           document.getElementById("networkid").value = networkid;
                                                                   const loadingEl = document.createElement("div");
                                                                       document.body.prepend(loadingEl);
@@ -383,9 +383,9 @@
                                                                   `;
                                                                   KTApp.showPageLoading();
                                                                   var raw = JSON.stringify({
-                                                                  _token: "<?php echo e(csrf_token()); ?>", 
+                                                                  _token: "<?php echo e(csrf_token()); ?>",
                                                                   });
-  
+
                                                                   var requestOptions = {
                                                                   method: 'POST',
                                                                   headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -393,55 +393,108 @@
                                                                   };
                                                                   fetch("<?php echo e(route('user.internet_sme.operatorsInternetdetailsTECHHUB')); ?>", requestOptions)
                                                                   .then(response => response.text())
-                                                                  .then(result => 
+                                                                  .then(result =>
                                                                   {
-                                                                      let html = '';
                                                                       KTApp.hidePageLoading();
-                                                                      loadingEl.remove(); 
-                                                                      const plans = JSON.parse(result); 
-                                                                      plans.map(plan => {    
-                                                                        
-                                                                    if (plan['network'].toUpperCase() == name.toUpperCase()) 
+                                                                      loadingEl.remove();
+                                                                      // Function to filter plans based on selected category
+                                                                      function filterPlans(selectedCategory, event) {
+                                                                          if (event) event.preventDefault(); // Prevents the default behavior (form submission)
 
-                                                                      {
-                                                                      let htmlSegment = `
-                                                                        <label class="d-flex flex-stack cursor-pointer mb-5" for="${plan['plan_id']}" >
-                                                                          <span class="d-flex align-items-center me-2">
-                                                                              <span class="symbol symbol-50px me-6">
-                                                                                  <span class="symbol-label bg-light-primary">
-                                                                                      <i class="ti ti-image fs-2x text-warning"><img src="<?php echo e(url('/')); ?>/assets/images/provider/${image}" width="30" class="path1"/></i>
-                                                                                  </span>
-                                                                              </span> 
-                                                                              <span class="d-flex flex-column">
-                                                                                  <span class="fw-bold fs-6">${plan['network']} ${plan['plan_name']} </span>
-                                                                                  <span class="fs-7 text-muted">${plan['amount']}<small>NGN</small></span>
+                                                                          let filteredHtml = ""; // Reset filtered HTML
+
+                                                                          plans.map(plan => {
+                                                                              if (plan['network'].toUpperCase() === name.toUpperCase() && plan.category === selectedCategory) {
+                                                                                  filteredHtml += `
+                                                                                    <label class="d-flex flex-stack cursor-pointer mb-5" for="${plan['plan_id']}">
+                                                                                        <span class="d-flex align-items-center me-2">
+                                                                                            <span class="symbol symbol-50px me-6">
+                                                                                                <span class="symbol-label bg-light-primary">
+                                                                                                    <i class="ti ti-image fs-2x text-warning">
+                                                                                                        <img src="<?php echo e(url('/')); ?>/assets/images/provider/${image}" width="30" class="path1"/>
+                                                                                                    </i>
+                                                                                                </span>
+                                                                                            </span>
+                                                                                            <span class="d-flex flex-column">
+                                                                                                <span class="fw-bold fs-6">${plan['network']} ${plan['plan_name']}</span>
+                                                                                                <span class="fs-7 text-muted">${plan['amount']}<small>NGN</small></span>
+                                                                                            </span>
+                                                                                        </span>
+                                                                                        <span class="form-check form-check-custom form-check-solid">
+                                                                                            <input class="form-check-input" onchange="setamount(this)" type="radio"
+                                                                                                name="operator" id="${plan['plan_id']}" value="${plan['plan_name']}|${plan['amount']}|${plan['plan_id']}|${plan['network']}" />
+                                                                                        </span>
+                                                                                    </label>`;
+                                                                              }
+                                                                          });
+
+                                                                          // Update the plan list in the DOM
+                                                                          document.getElementById("plans-list").innerHTML = filteredHtml;
+                                                                      }
+
+                                                                        // Ensure this function is accessible globally
+                                                                      window.filterPlans = filterPlans;
+
+                                                                      const plans = JSON.parse(result);
+                                                                      const categories = [...new Set(plans.map(plan => plan.category))];
+                                                                      let categoryhtml = ""; // Initialize category HTML
+                                                                      let html = ""; // Initialize plans HTML
+
+                                                                        // Generate category buttons with click event to filter plans
+                                                                      categories.map(category => {
+                                                                          let htmlSegment = `
+                                                                            <button type="button" class="btn btn-primary category-btn" onclick="filterPlans('${category}', event)">
+                                                                                ${category}
+                                                                            </button>`;
+                                                                          categoryhtml += htmlSegment;
+                                                                      });
+                                                                      // Initial rendering of all plans
+                                                                      plans.map(plan => {
+                                                                          if (plan['network'].toUpperCase() === name.toUpperCase()) {
+                                                                              html +=
+                                                                                  `<label class="d-flex flex-stack cursor-pointer mb-5" for="${plan['plan_id']}">
+                                                                                    <span class="d-flex align-items-center me-2">
+                                                                                        <span class="symbol symbol-50px me-6">
+                                                                                            <span class="symbol-label bg-light-primary">
+                                                                                                <i class="ti ti-image fs-2x text-warning">
+                                                                                                    <img src="<?php echo e(url('/')); ?>/assets/images/provider/${image}" width="30" class="path1"/>
+                                                                                                </i>
+                                                                                            </span>
+                                                                                        </span>
+                                                                                        <span class="d-flex flex-column">
+                                                                                            <span class="fw-bold fs-6">${plan['network']} ${plan['plan_name']}</span>
+                                                                                            <span class="fs-7 text-muted">${plan['amount']}<small>NGN</small></span>
+                                                                                        </span>
+                                                                                    </span>
+                                                                                      <span class="form-check form-check-custom form-check-solid">
+                                                                                        <input class="form-check-input" onchange="setamount(this)" type="radio"
+                                                                                               name="operator" id="${plan['plan_id']}" value="${plan['plan_name']}|${plan['amount']}|${plan['plan_id']}|${plan['network']}" />
+                                                                                    </span>
+                                                                                  </label>`;
+                                                                          }
+                                                                      });
+
+                                                                        // Inject categories and initial plan list into the DOM
+                                                                      document.getElementById("amountlist").innerHTML = `
+                                                                        <div class="mb-0">
+                                                                            <label class="d-flex align-items-center form-label mb-5">
+                                                                                <?php echo app('translator')->get('Select Internet Plan'); ?>
+                                                                              <span class="ms-1" data-bs-toggle="tooltip" title="Please select network service provider">
+                                                                                  <i class="ti ti-alert-circle text-gray-500 fs-6"></i>
                                                                               </span>
-                                                                          </span>
-                              
-                                                                          <span class="form-check form-check-custom form-check-solid">
-                                                                              <input class="form-check-input" onchange="setamount(this)" type="radio"
-                                                                                  name="operator" id="${plan['plan_id']}" value="${plan['plan_name']}|${plan['amount']}|${plan['plan_id']}|${name}" />
-                                                                          </span>
-                                                                        </label>
-                                                                          `;
-                                                                          html += htmlSegment;
-                                                                        }
-                                                                        }); 
-                                                                      document.getElementById("amountlist").innerHTML = ` <div class="mb-0"> <label class="d-flex align-items-center form-label mb-5">
-                                                                          <?php echo app('translator')->get('Select Internet Plan'); ?>
-                                                                          <span class="ms-1"  data-bs-toggle="tooltip" title="Please select network service provider" >
-                                                                          <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>        
-                                                                          </label> ${html} </div>`;                                     
-                                                                        
+                                                                          </label>
+                                                                                <div id="plans-list">${html}</div>
+                                                                         </div>`;
+
                                                                   })
-                                                                  .catch(error => 
+                                                                  .catch(error =>
                                                                   {
                                                                    console.log(error);
                                                                   }
-                                                                  
-                                                                  ); 
-                                                                 
-                                                              } 
+
+                                                                  );
+
+                                                              }
                                                           // END GET OPERATORS
                                               </script>
                                         <?php $__env->stopPush(); ?>
@@ -451,7 +504,7 @@
                                         <div class="mb-0 fv-row">
 
                                             <!--begin::Options-->
-                                            <div id="providers"></div> 
+                                            <div id="providers"></div>
                                             <input id="data_plan" name="data_plan" hidden>
                                             <input id="networkid" name="networkid" hidden>
                                             <input id="networkname" name="networkname" hidden>
@@ -494,36 +547,35 @@
                                         </div>
                                         <!--end::Input group-->
 
-
-
                                         <!--begin::Input group-->
-                                        <div class="mb-10 fv-row"> 
+                                        <div class="mb-10 fv-row">
                                             <!--begin::Fixed Amount-->
                                             <div id="amountlist"></div>
-                                            <!--end::Fixed Amount-->  
+                                            <!--end::Fixed Amount-->
                                         </div>
+
                                         <!--end::Input group-->
 
 
                                         <!--begin::Input group-->
                                         <div class="fv-row mb-10">
-                                           
+
 
                                             <!--begin::Input-->
                                             <?php $__env->startPush('script'); ?>
                                                 <script>
-                                                    function setamount(input) { 
-                                                        document.getElementById("amount").value = input.value;  
-                                                        document.getElementById("networkname").value = input.value.split('|')[3];  
+                                                    function setamount(input) {
+                                                        document.getElementById("amount").value = input.value;
+                                                        document.getElementById("networkname").value = input.value.split('|')[3];
                                                         document.getElementById("dataplan").innerHTML = input.value.split('|')[0];
                                                         document.getElementById("data_plan").value = input.value.split('|')[2];
-                                                        document.getElementById("totalamount").innerHTML = input.value.split('|')[1]+'<?php echo e($general->cur_text); ?>'; 
+                                                        document.getElementById("totalamount").innerHTML = input.value.split('|')[1]+'<?php echo e($general->cur_text); ?>';
                                                     }
                                                 </script>
                                             <?php $__env->stopPush(); ?>
                                               <input name="amount" hidden  id="amount" type="text" class="form-control form-control-lg form-control-solid" />
-                                               
-                                           
+
+
                                             <!--end::Input-->
                                         </div>
                                         <!--end::Input group-->
@@ -552,18 +604,18 @@
                                             <!--end::Notice-->
                                         </div>
                                         <!--end::Heading-->
- 
+
 
                                         <!--begin::Input group-->
                                         <div class="fv-row mb-10">
 
 
-                                        <!--begin::Documents--> 
+                                        <!--begin::Documents-->
                                                   <!--begin::Table-->
                                                   <table
                                                       class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
                                                       <tbody class="fw-semibold text-gray-600">
-                                                          
+
                                                           <tr>
                                                               <td class="text-muted">
                                                                   <div class="d-flex align-items-center">
@@ -608,26 +660,26 @@
                                                             </td>
                                                             <td class="fw-bold text-end" id="dataplan"></td>
                                                         </tr>
-                                                           
+
                                                           <tr>
                                                               <td class="text-muted">
                                                                   <div class="d-flex align-items-center">
                                                                       <i class="ti ti-building-bank fs-2 me-2"><span
                                                                               class="path1"></span><span
-                                                                              class="path2"></span></i> <?php echo app('translator')->get('Total'); ?> 
+                                                                              class="path2"></span></i> <?php echo app('translator')->get('Total'); ?>
                                                                   </div>
                                                               </td>
                                                               <td class="fw-bold text-end" id="totalamount"></td>
                                                           </tr>
                                                           <tr></tr>
                                                       </tbody>
-                                                  </table> 
-                                                  
+                                                  </table>
+
                                                   <br><br><br>
-                                      
-                                            
+
+
                                             <label class="fs-6 fw-semibold mb-2">
-                                                <?php echo app('translator')->get('Enter Transaction Password'); ?> 
+                                                <?php echo app('translator')->get('Enter Transaction Password'); ?>
                                                 <span class="ms-1" data-bs-toggle="tooltip"
                                                     title="Please enter your transaction password to authenticate the wallet debit">
                                                     <i class="ti ti-alert-circle text-gray-500 fs-6"><span
@@ -653,10 +705,10 @@
                                                       aria-hidden="true"></span>
                                                     <span class="visually-hidden">Loading...</span>
                                                     </button>`);
- 
+
                                                 var raw = JSON.stringify({
-                                                  _token: "<?php echo e(csrf_token()); ?>", 
-                                                  password : e.value, 
+                                                  _token: "<?php echo e(csrf_token()); ?>",
+                                                  password : e.value,
                                                 });
 
                                                 var requestOptions = {
@@ -666,7 +718,7 @@
                                                 };
                                                 fetch("<?php echo e(route('user.trxpass')); ?>", requestOptions)
                                                   .then(response => response.text())
-                                                  .then(result => 
+                                                  .then(result =>
                                                   {
                                                     resp = JSON.parse(result);
                                                     if(resp.ok != true)
@@ -680,11 +732,11 @@
                                                     $("#passmessage").html(`<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`);
                                                   }
                                                   )
-                                                  .catch(error => 
+                                                  .catch(error =>
                                                   {
 
                                                   }
-                                                  ); 
+                                                  );
                                                   // END GET DATA \\
                                                }
                                         </script>
@@ -712,7 +764,7 @@
                                                <center>  <a href="<?php echo e(route('user.internet_sme.history')); ?>" class="btn btn-primary d-block"><?php echo app('translator')->get('View Order'); ?></a> </center>
                                               </div>
                                             </section>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <!--end::Wrapper-->
                                 </div>
@@ -770,7 +822,7 @@
     <?php $__env->stopPush(); ?>
     <?php $__env->startPush('script'); ?>
     <script>
-        
+
     </script>
         <script>
             "use strict";
@@ -779,15 +831,15 @@
                 return {
                     init: function() {
                         (e = document.querySelector("#kt_modal_create_account")) && new bootstrap.Modal(e), (t =
-                            document.querySelector("#kt_create_account_stepper")) && (i = t.querySelector("#kt_create_account_form"), 
-                                o = t.querySelector('[data-kt-stepper-action="submit"]'), 
+                            document.querySelector("#kt_create_account_stepper")) && (i = t.querySelector("#kt_create_account_form"),
+                                o = t.querySelector('[data-kt-stepper-action="submit"]'),
                                 a = t.querySelector('[data-kt-stepper-action="next"]'), (r = new KTStepper(t)).on("kt.stepper.changed",
                                 (function(e) {
                                     4 === r.getCurrentStepIndex() ? (o.classList.remove("d-none"), o.classList
                                             .add("d-inline-block"), a.classList.add("d-none")) : 5 === r
-                                        .getCurrentStepIndex() ? (o.classList.add("d-none"), 
-                                            a.classList.add("d-none")) : (o.classList.remove("d-inline-block"), 
-                                            o.classList.remove("d-none"), 
+                                        .getCurrentStepIndex() ? (o.classList.add("d-none"),
+                                            a.classList.add("d-none")) : (o.classList.remove("d-inline-block"),
+                                            o.classList.remove("d-none"),
                                             a.classList.remove("d-none"))
                                 })), r.on("kt.stepper.next", (function(e) {
                                 console.log("stepper.next");
@@ -907,14 +959,14 @@
                                             {
                                               $("#passmessage").html(``);
                                               var raw = JSON.stringify({
-                                                  _token: "<?php echo e(csrf_token()); ?>", 
-                                                  password : document.getElementById('password').value, 
-                                                  networkname : document.getElementById('networkname').value, 
-                                                  amount : document.getElementById('amount').value, 
-                                                  phone : document.getElementById('phone').value,  
-                                                  networkid : document.getElementById('networkid').value, 
-                                                  data_plan : document.getElementById('data_plan').value,  
-                                                  wallet :localStorage.getItem('wallet'), 
+                                                  _token: "<?php echo e(csrf_token()); ?>",
+                                                  password : document.getElementById('password').value,
+                                                  networkname : document.getElementById('networkname').value,
+                                                  amount : document.getElementById('amount').value,
+                                                  phone : document.getElementById('phone').value,
+                                                  networkid : document.getElementById('networkid').value,
+                                                  data_plan : document.getElementById('data_plan').value,
+                                                  wallet :localStorage.getItem('wallet'),
                                                 });
 
                                                 var requestOptions = {
@@ -924,7 +976,7 @@
                                                 };
                                                 fetch("<?php echo e(route('user.buy.internet_sme_techhub')); ?>", requestOptions)
                                                   .then(response => response.text())
-                                                  .then(result => 
+                                                  .then(result =>
                                                   {
                                                     resp = JSON.parse(result);
                                                     if(resp.ok == false)
@@ -942,11 +994,11 @@
                                                    $("#passmessage").html(`<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`);
                                                   }
                                                   )
-                                                  .catch(error => 
+                                                  .catch(error =>
                                                   {
-                                                    
+
                                                   }
-                                                  ); 
+                                                  );
                                             }
                                             // END BUY INTERNET \\
                                            // o.removeAttribute("data-kt-indicator"),
@@ -969,10 +1021,10 @@
             }();
             KTUtil.onDOMContentLoaded((function() {
                 KTCreateAccount.init()
-            })); 
+            }));
         </script>
         <script>
-            
+
         </script>
     <?php $__env->stopPush(); ?>
 

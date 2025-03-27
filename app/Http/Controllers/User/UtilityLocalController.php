@@ -33,7 +33,10 @@ class UtilityLocalController extends Controller
     {
         $pageTitle       = 'Utility Bills';
         $user = auth()->user();
-        return view(checkTemplate(). 'user.bills.utilityLocal.index', compact('pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.bills.utilityLocal.index', $data, compact('pageTitle'));
     }
 
     public function buy_utility(Request $request)
@@ -87,7 +90,10 @@ class UtilityLocalController extends Controller
         $data['count'] = Order::whereUserId($user->id)->whereType('utility')->count();
         $data['utilitylog'] = Order::whereUserId($user->id)->whereType('utility')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
 
-        return view(checkTemplate(). 'user.bills.utilityLocal.utility_buy', $data, compact('pageTitle','networks'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.bills.utilityLocal.utility_buy', $data, compact('pageTitle','networks'));
     }
 
     public function verify_utility(Request $request)
@@ -352,7 +358,10 @@ class UtilityLocalController extends Controller
         $pageTitle       = 'Utility Bills';
         $user = auth()->user();
         $log = Order::whereUserId($user->id)->whereType('utility')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
-        return view(checkTemplate(). 'user.bills.utilityLocal.utility_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.bills.utilityLocal.utility_log', $data, compact('pageTitle', 'log'));
     }
 
 

@@ -286,7 +286,10 @@ class VirtualCardController extends Controller
         $pageTitle       = 'Card History';
         $user = auth()->user();
         $log = VirtualCard::whereUserId($user->id)->searchable(['pan'])->orderBy('id', 'desc')->paginate(getPaginate());
-        return view(checkTemplate(). 'user.vendor.virtualcard.history', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.vendor.virtualcard.history', $data, compact('pageTitle', 'log'));
     }
 
 
@@ -324,7 +327,10 @@ class VirtualCardController extends Controller
             return back()->withNotify($notify);
         }
 
-        return view(checkTemplate(). 'user.vendor.virtualcard.details', compact('pageTitle', 'card','reply'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.vendor.virtualcard.details', $data, compact('pageTitle', 'card','reply'));
     }
     public function deactivate($id)
     {

@@ -17,13 +17,6 @@ class Controller extends BaseController
 
     public function __construct()
     {
-
-//        $default = session()->get('default_template');
-        $default = Session::get('default_template');
-        if($default != null || $default != '')
-        {
-            $template = $default;
-        }
         $this->activeTemplate = activeTemplate();
 
         $className = get_called_class();

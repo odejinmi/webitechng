@@ -24,7 +24,10 @@ class PaymentController extends Controller
             $gate->where('status', Status::ENABLE);
         })->with('method')->orderby('method_code')->get();
         $pageTitle = 'Deposit Methods';
-        return view(checkTemplate(). 'user.payment.deposit', compact('gatewayCurrency', 'pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. 'user.payment.deposit', $data, compact('gatewayCurrency', 'pageTitle'));
     }
 
     public function depositInsert(Request $request)
@@ -118,7 +121,10 @@ class PaymentController extends Controller
         }
 
         $pageTitle = 'Payment Confirm';
-        return view(checkTemplate(). $data->view, compact('data', 'pageTitle', 'deposit'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+
+        return view($activeTemplate. $data->view, $data, compact('data', 'pageTitle', 'deposit'));
     }
 
     public static function userDataUpdate($deposit, $isManual = null)
@@ -211,7 +217,10 @@ class PaymentController extends Controller
             $gateway   = $method->method;
             $formData        = $gateway->form->form_data;
 
-            return view(checkTemplate(). 'user.payment.manual', compact('formData','data', 'pageTitle', 'method', 'gateway'));
+            $activeTemplate = checkTemplate();
+            $data['activeTemplate'] = $activeTemplate;
+
+            return view($activeTemplate. 'user.payment.manual', $data, compact('formData','data', 'pageTitle', 'method', 'gateway'));
         }
 
         abort(404);
