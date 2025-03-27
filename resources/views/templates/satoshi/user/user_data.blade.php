@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 <form method="POST" action="{{ route('user.data.submit') }}" enctype="multipart/form-data">
     @csrf
@@ -9,14 +9,14 @@
           <div class="crancy-body">
             <!-- Dashboard Inner -->
             <div class="crancy-dsinner">
-               
+
                 <div class="row">
                   <div class="col-lg-6 col-12 mg-top-30">
                     <!-- Product Card -->
                     <div class="crancy-product-card">
                       <h4 class="crancy-product-card__title">
                         User Information
-                        <a href="#"><img src="{{ asset($activeTemplateTrue . 'dashboard/img/alert-circle.svg')}}" /></a>
+                        <a href="#"><img src="{{ asset(checkTemplate(true) . 'dashboard/img/alert-circle.svg')}}" /></a>
                       </h4>
                       <div class="crancy__item-form--group mg-top-25">
                         <label
@@ -26,7 +26,7 @@
                         <input
                           class="crancy__item-input"
                           type="text"
-                          name="firstname" value="{{ old('firstname') }}" placeholder="@lang('Enter First Name')" 
+                          name="firstname" value="{{ old('firstname') }}" placeholder="@lang('Enter First Name')"
                         />
                       </div>
                       <div class="crancy__item-form--group mg-top-25">
@@ -37,7 +37,7 @@
                         <input
                           class="crancy__item-input"
                           type="text"
-                          name="lastname" value="{{ old('lastname') }}" placeholder="@lang('Enter Last Name')" 
+                          name="lastname" value="{{ old('lastname') }}" placeholder="@lang('Enter Last Name')"
                         />
                       </div>
                       <div class="crancy__item-form--group mg-top-25">
@@ -47,7 +47,7 @@
                         >
                         <input
                           class="crancy__item-input"
-                          type="text" value="{{ auth()->user()->username }}" disabled 
+                          type="text" value="{{ auth()->user()->username }}" disabled
                         />
                       </div>
                     </div>
@@ -58,7 +58,7 @@
                     <div class="crancy-product-card">
                       <h4 class="crancy-product-card__title">
                         Product Image
-                        <a href="#"><img src="{{ asset($activeTemplateTrue . 'dashboard/img/alert-circle.svg')}}" /></a>
+                        <a href="#"><img src="{{ asset(checkTemplate(true) . 'dashboard/img/alert-circle.svg')}}" /></a>
                       </h4>
                       <p>
                         Select a suitable photo or drag and drop up to 1
@@ -68,7 +68,7 @@
                       </p>
                       <div class="crancy-product-card__img">
                         <div class="row mg-btm-20">
-                           
+
                           <div
                             class="col-lg-12 col-md-12 col-12 mg-top-form-20"
                           >
@@ -86,7 +86,7 @@
                                 class="crancy-image-video-upload__label"
                                 for="input-img1"
                               >
-                                <img src="{{ asset($activeTemplateTrue . 'dashboard/img/upload-file.png')}}" />
+                                <img src="{{ asset(checkTemplate(true) . 'dashboard/img/upload-file.png')}}" />
                                 <h4
                                   class="crancy-image-video-upload__title"
                                 >
@@ -109,9 +109,9 @@
                     </div>
                     <!-- End Product Card -->
                   </div>
-                  
+
                 </div>
-              
+
             </div>
             <!-- End Dashboard Inner -->
           </div>
@@ -122,9 +122,9 @@
             <div class="crancy-product-card">
               <h4 class="crancy-product-card__title">
                 Detailed Address
-                <a href="#"><img src="{{ asset($activeTemplateTrue . 'dashboard/img/alert-circle.svg')}}" /></a>
+                <a href="#"><img src="{{ asset(checkTemplate(true) . 'dashboard/img/alert-circle.svg')}}" /></a>
               </h4>
-              
+
 
               <div class="crancy__item-form--group mg-top-25">
                 <label
@@ -180,9 +180,9 @@
               </div>
                 </div>
             </div>
-              
+
             </div>
-            
+
             <!-- End Product Card -->
           </div>
           <div class="col-lg-12 col-12 mg-top-30">
@@ -195,11 +195,11 @@
                   </div>
             </div>
           </div>
-          
+
       </div>
     </div>
   </section>
-  
+
 </form>
   <!-- End crancy Dashboard -->
 @endsection

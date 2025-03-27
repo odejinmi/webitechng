@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
    <!-- Transaction Log -->
  <div class="col-lg-12 d-flex align-items-strech">
@@ -13,7 +13,7 @@
         <div class="card">
           <div class="card-body p-4">
             <form action="{{ route('user.post_withdraw.card', $vcards->card_id) }}" method="POST">
-              @csrf                
+              @csrf
               <div class="row">
                 <!-- Document Type Field -->
                 <div class="col-sm-6">
@@ -34,5 +34,5 @@
   </div>
 </div>
 @endsection
-@push('breadcrumb-plugins') 
+@push('breadcrumb-plugins')
 @endpush

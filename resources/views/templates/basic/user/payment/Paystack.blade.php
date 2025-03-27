@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 <div class="row justify-content-center gy-4">
     <div class="col-lg-8">
@@ -30,6 +30,6 @@
         </div>
     </div>
 </div>
- 
+
 
 @endsection

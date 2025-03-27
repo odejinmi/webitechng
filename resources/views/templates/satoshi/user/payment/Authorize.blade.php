@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
 
@@ -32,7 +32,7 @@
                 </ul>
                 <div class="mt-7 mb-2 d-flex justify-content-between align-items-center"><span
                             class="text-sm fw-semibold">{{ $deposit->gateway->alias }}!</span>
-                         
+
                             <form role="form" id="payment-form" method="{{ $data->method }}" action="{{ $data->url }}">
         @csrf
         <input type="hidden" value="{{ $data->track }}" name="track">
@@ -70,18 +70,18 @@
       <button type="submit" id="btn-confirm" class="btn btn-sm btn-square btn-dark stretched-link-btn__default"
         >Pay</button
       >
-       
+
     </form>
- 
-                         
+
+
                 </div>
             </div>
         </div>
 
     </div>
 </div>
- 
- 
+
+
 @endsection
 
 

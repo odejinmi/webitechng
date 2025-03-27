@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.auth')
+@extends(checkTemplate() . 'layouts.auth')
 @section('content')
 <!--end::Authentication - Password Reset-->
 @php
@@ -45,7 +45,7 @@ $passwordContent = getContent('password.content', true);
                     <!--begin::Form-->
                     <form class="form w-100 verify-gcaptcha"  data-kt-redirect-url="{{route('user.home')}}"  class="form w-100" novalidate="novalidate" id="kt_password_reset_form" method="POST"
                     action="{{ route('user.password.email') }}">
-                    @csrf 
+                    @csrf
 
                     <div class="text-center mb-10">
                         <img alt="Logo" class="mh-125px" src="{{ asset('assets/thirdparty/media/svg/misc/smartphone-2.svg')}}"/>
@@ -64,14 +64,14 @@ $passwordContent = getContent('password.content', true);
                             </div>
                             <!--end::Subtitle--->
                         </div>
-                        <!--begin::Heading-->  
+                        <!--begin::Heading-->
 
                         <!--begin::Input group--->
                         <div class="fv-row mb-8">
                             <!--begin::Email-->
                             <input type="text" name="value" class="form-control bg-transparent" value="{{ old('value') }}" autocomplete="off" placeholder="@lang('Username or Email')" required>
                             <!--end::Email-->
-                        </div> 
+                        </div>
 
                         <!--begin::Submit button-->
                         <div class="d-grid mb-10">
@@ -80,7 +80,7 @@ $passwordContent = getContent('password.content', true);
                                 <!--begin::Indicator label-->
                                 <span class="indicator-label">
                                     @lang('Proceed')</span>
-                                <!--end::Indicator label--> 
+                                <!--end::Indicator label-->
                              </button>
                         </div>
                         <!--end::Submit button-->
@@ -98,7 +98,7 @@ $passwordContent = getContent('password.content', true);
                     <!--end::Form-->
 
                 </div>
-                <!--end::Wrapper--> 
+                <!--end::Wrapper-->
             </div>
             <!--end::Content-->
         </div>
@@ -107,5 +107,5 @@ $passwordContent = getContent('password.content', true);
     <!--end::Body-->
 </div>
 <!--end::Authentication - Password Reset-->
- 
+
 @endsection

@@ -1,28 +1,28 @@
-@extends($activeTemplate . 'layouts.frontend')
+@extends(checkTemplate() . 'layouts.frontend')
 @section('content')
 
-@include($activeTemplate . 'partials.breadcrumb')
+@include(checkTemplate() . 'partials.breadcrumb')
 <!-- ====== Website Terms and Conditions of Use ====== -->
 @php
 $contactContent = getContent('contact.content', true);
 $addressContent = getContent('address.content', true);
 $user = auth()->user();
-@endphp 
+@endphp
 
 <!-- PAGE
 ============================================= -->
-<section id="contacts-3" class="bg-lightgrey wide-60 contacts-section division">				
+<section id="contacts-3" class="bg-lightgrey wide-60 contacts-section division">
     <div class="container">
 
-        <!-- SECTION TITLE -->	
-        <div class="row">	
+        <!-- SECTION TITLE -->
+        <div class="row">
             <div class="col-lg-10 offset-lg-1">
-                <div class="section-title text-center mb-60">		
+                <div class="section-title text-center mb-60">
 
-                    <!-- Title 	-->	
-                    <h2 class="h2-xs">Website Terms and Conditions of Use</h2>	 
-                                        
-                </div>	
+                    <!-- Title 	-->
+                    <h2 class="h2-xs">Website Terms and Conditions of Use</h2>
+
+                </div>
             </div>
         </div>
 
@@ -114,7 +114,7 @@ $user = auth()->user();
             </div>
         </div>
 
-    </div>	   <!-- End container -->		
+    </div>	   <!-- End container -->
 </section>	<!-- END CONTACTS-3 -->
 
 @endsection

@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
 <div class="card pt-4 mb-6 mb-xl-9">
@@ -14,9 +14,9 @@
 
     <!--begin::Card body-->
     <div class="card-body pt-0 pb-5">
-        <!--begin::Form--> 
+        <!--begin::Form-->
             <form method="POST" action="{{ route('user.data.submit') }}" enctype="multipart/form-data">
-                @csrf 
+                @csrf
             <!--begin::Input group-->
             <div class="mb-7">
                 <!--begin::Label-->
@@ -37,7 +37,7 @@
 
                         [data-bs-theme="dark"] .image-input-placeholder {
                             background-image: url('{{ getImage(getFilePath('userProfile') . '/' . $user->image, getFileSize('userProfile')) }}');
-                        }                
+                        }
                     </style>
                     <!--end::Image input placeholder-->
 
@@ -158,7 +158,7 @@
                     <!--end::Input group-->
                 </div>
                 <!--end::Col-->
-                
+
                 <!--begin::Col-->
                 <div class="col">
                     <!--begin::Input group-->
@@ -187,7 +187,7 @@
             <button type="submit" class="btn btn-light-primary">
                 <span class="indicator-label">
                     Save
-                </span> 
+                </span>
             </button>
             <!--end::Button-->
             </div>
@@ -196,5 +196,5 @@
     </div>
     <!--end::Card body-->
 </div>
-<!--end::Card--> 
+<!--end::Card-->
 @endsection

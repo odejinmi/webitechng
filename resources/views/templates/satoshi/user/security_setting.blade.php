@@ -1,6 +1,6 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
-    @include($activeTemplate . 'partials.settings')
+    @include(checkTemplate() . 'partials.settings')
     <form action="{{ route('user.change.password') }}" class="form" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="" id="id4" role="tabpanel">
@@ -68,7 +68,7 @@
                 <div class="col-md-6">
                     <div class=""><input type="number" name="pin" class="form-control"></div>
                 </div>
-            </div> 
+            </div>
         </div>
         <hr class="my-6 d-md-nones">
         <div class="d-flex d-md-nonse justify-content-end gap-2 mb-6">

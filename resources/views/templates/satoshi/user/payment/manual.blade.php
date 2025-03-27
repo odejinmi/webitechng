@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 
 @section('panel')
 
@@ -20,10 +20,10 @@
                                     <div class="d-flex justify-content-between align-items-center mb-5">
                                         <div>
                                             <h5>{{ @$data->gateway->name }}</h5>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <div class="vstack gap-6">
-                                         
+
                                         <div>
                                             <div class="d-flex align-items-center gap-3">
                                                 <div
@@ -70,7 +70,7 @@
 
                                 <form action="{{ route('user.deposit.manual.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
- 
+
           @if($formData)
 
                                     @foreach($formData as $k => $v)
@@ -113,7 +113,7 @@
                                                             {{$data}}
                                                         </label>
                                                       </div>
-                                                    @endforeach 
+                                                    @endforeach
                                                 </div>
                                             </div>
                                            @elseif($v->type == "textarea")
@@ -162,5 +162,5 @@
             </div>
         </div>
     </section>
- 
+
 @endsection

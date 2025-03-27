@@ -1,7 +1,7 @@
 <!-- HEADER
    ============================================= -->
 <header id="header" class="header tra-menu @if(Route::is('home') ) navbar-light @else  navbar-dark @endif">
-    
+
     <div class="header-wrapper">
 
 
@@ -31,7 +31,7 @@
 
 
                         <!-- DROPDOWN MENU -->
-                        <li aria-haspopup="true" class="text-primary"><a @if(!Route::is('home') ) style="color:black;" @endif 
+                        <li aria-haspopup="true" class="text-primary"><a @if(!Route::is('home') ) style="color:black;" @endif
                                 href="{{ route('home') }}">Home </a>
 
                         </li>
@@ -45,9 +45,9 @@
                                 <li>
                                     <a  href="{{ route('page', 'assets') }}" @if(!Route::is('home') ) style="color:black;" @endif>About</a>
                                 </li>
-                                 
+
                                 @php
-                                    $pages = App\Models\Page::where('tempname', $activeTemplate)
+                                    $pages = App\Models\Page::where('tempname', checkTemplate())
                                         ->where('is_default', 0)
                                         ->get();
                                     //$pages = getContent('pages.element', null, false, true);
@@ -58,14 +58,14 @@
                                             href="{{ route('pages', [$data->slug]) }}">{{ __($data->name) }}</a>
                                     </li>
                                 @endforeach
-                                
-                        
+
+
 
                             </ul>
                         </li>
 
 
-                        <li aria-haspopup="true" class="text-primary"><a 
+                        <li aria-haspopup="true" class="text-primary"><a
                             href="{{ route('blog') }}" @if(!Route::is('home') ) style="color:black;" @endif>Blog </a>
 
                         </li>

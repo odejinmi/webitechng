@@ -1,17 +1,17 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 <div class="row justify-content-center">
     <div class="col-lg-6 text-center">
       <h2 class="fw-bolder mb-0 fs-8 lh-base">@lang('Find below our asset trading pricing plan')</h2>
     </div>
   </div>
-  
+
   <div class="row">
-    
+
     @foreach($coins as $data)
     <div class="col-sm-6 col-lg-4">
       <div class="card">
-        <div class="card-body pt-6"> 
+        <div class="card-body pt-6">
           <span class="fw-bolder text-uppercase fs-2 d-block mb-7">{{$data->name}}</span>
           <div class="my-4">
             <img src="{{url('/')}}/assets/images/coins/{{$data->image}}" alt="" class="img-fluid" width="80" height="80">
@@ -57,7 +57,7 @@
       </div>
     </div>
     @endforeach
-     
+
   </div>
 @endsection
 

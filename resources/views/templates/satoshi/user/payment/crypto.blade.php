@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 
 @section('panel')
 
@@ -32,7 +32,7 @@
                 </ul>
                 <div class="mt-7 mb-2 d-flex justify-content-between align-items-center"><span
                             class="text-sm fw-semibold">{{ @$data->gateway->alias }}!</span>
-                         
+
                       <div class="card-body card-body-deposit text-center">
                         <h4 class="my-2"> @lang('PLEASE SEND EXACTLY') <span class="text--success"> {{ $data->amount }}</span>
                             {{ __($data->currency) }}</h4>
@@ -40,12 +40,12 @@
                         <img src="{{ $data->img }}" alt="@lang('Image')">
                         <h4 class="text-white bold my-4">@lang('SCAN TO SEND')</h4>
                     </div>
-                         
+
                 </div>
             </div>
         </div>
 
     </div>
 </div>
- 
+
 @endsection

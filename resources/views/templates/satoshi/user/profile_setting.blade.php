@@ -1,8 +1,8 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
-    @include($activeTemplate . 'partials.settings')
+    @include(checkTemplate() . 'partials.settings')
 <form action="" method="POST" class="form" enctype="multipart/form-data">
-                            @csrf 
+                            @csrf
                     <hr class="my-6">
                     <div class="row align-items-center">
                         <div class="col-md-2"><label class="form-label">First name</label></div>
@@ -33,7 +33,7 @@
                                                       value="Male">Female</option>
                                             </select></div>
                         </div>
-                    </div> 
+                    </div>
                     <hr class="my-6">
                     <div class="row align-items-center">
                         <div class="col-md-2"><label class="form-label">Country</label></div>
@@ -48,7 +48,7 @@
                                                                 data-code="{{ $key }}">
                                                                 {{ __($country->country) }}</option>
                                             @endforeach
-                                        </select>    
+                                        </select>
                             </div>
                         </div>
                     </div>
@@ -58,28 +58,28 @@
                         <div class="col-md-8 col-xl-5">
                             <div class=""><input type="text"  placeholder="state"  name="state" value="{{ @$user->address->state }}" class="form-control"></div>
                         </div>
-                    </div> 
+                    </div>
                     <hr class="my-6">
                     <div class="row align-items-center">
                         <div class="col-md-2"><label class="form-label">City</label></div>
                         <div class="col-md-8 col-xl-5">
                             <div class=""><input type="text"  placeholder="city"  name="city" value="{{ @$user->address->city }}" class="form-control"></div>
                         </div>
-                    </div> 
+                    </div>
                     <hr class="my-6">
                     <div class="row align-items-center">
                         <div class="col-md-2"><label class="form-label">Zip Code</label></div>
                         <div class="col-md-8 col-xl-5">
                             <div class=""><input type="text"  placeholder="zip"  name="zip" value="{{ @$user->address->zip }}" class="form-control"></div>
                         </div>
-                    </div> 
+                    </div>
                     <hr class="my-6">
                     <div class="row align-items-center">
                         <div class="col-md-2"><label class="form-label">Address</label></div>
                         <div class="col-md-8 col-xl-5">
                             <div class=""><input type="text"  placeholder="address"  name="address" value="{{ @$user->address->address }}" class="form-control"></div>
                         </div>
-                    </div>  
+                    </div>
                     <hr class="my-6">
                     <div class="row align-items-center">
                         <div class="col-md-2"><label class="form-label">Avatar</label></div>
@@ -107,7 +107,7 @@
                         </div>
                     </div>
 
-                    
+
                     <hr class="my-6 ">
                     <div class="row mb-6">
                                     <!--begin::Label-->
@@ -145,7 +145,7 @@
                                     <!--end::Col-->
                                 </div>
 
-                    
+
                     <hr class="my-6 ">
                     <div class="d-flex   justify-content-end gap-2 mb-6">
                          <button type="submit" class="btn btn-sm btn-primary">Save</button></div>

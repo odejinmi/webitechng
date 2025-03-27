@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <!-- File export -->
     <div class="row">
@@ -7,7 +7,7 @@
                 <div class="col-lg-6 text-center">
                   <h2 class="fw-bolder mb-0 fs-8 lh-base">{{$event->title}}</h2>
                 </div>
-              </div> 
+              </div>
 
               <div class="row">
                 @foreach($tickets as $data)
@@ -56,16 +56,16 @@
                            <i class="ti ti-check text-primary fs-4"></i>
                            <span class="text-dark">End: {{showDate($event->end_date)}} {{$event->end_time}}</span>
                          </li>
- 
+
                         </ul>
                         <button class="btn btn-primary btn-sm" onclick="printDiv('{{$data->code}}')">Print Ticket</button>
                       </div>
                     </div>
                   </div>
- 
+
                 @endforeach
-                
-                 
+
+
               </div>
         </div>
     </div>
@@ -76,7 +76,7 @@
     @endpush
     @push('script')
     <script>
-    function printDiv(divId) 
+    function printDiv(divId)
     {
      var printContents = document.getElementById(divId).innerHTML;
      var originalContents = document.body.innerHTML;

@@ -1,10 +1,10 @@
-@extends($activeTemplate . 'layouts.store')
+@extends(checkTemplate() . 'layouts.store')
 @section('panel')
     <!-- content @s
         -->
 
         <div class="row">
-            <div class="col-12"> 
+            <div class="col-12">
 
         <!--begin::Container-->
         <div class="body-wrapper">
@@ -35,7 +35,7 @@
 
                 <div class="card position-relative overflow-hidden">
                     <div class="shop-part d-flex w-100">
-                         
+
                         <div class="card-body p-4 pb-0">
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <a class="btn btn-primary d-lg-none d-flex" data-bs-toggle="offcanvas"
@@ -62,7 +62,7 @@
                                         <div class="card-body pt-3 p-4">
                                             <h6 class="fw-semibold fs-4">{{$data->name}}</h6>
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <h6 class="fw-semibold fs-4 mb-0">{{$general->cur_sym}}{{number_format($data->amount,2)}} 
+                                                <h6 class="fw-semibold fs-4 mb-0">{{$general->cur_sym}}{{number_format($data->amount,2)}}
                                                     <span class="ms-2 fw-normal text-muted fs-3"><del>{{$general->cur_sym}}{{number_format($data->amount + 10,2)}}</del></span>
                                                 </h6>
                                             </div>
@@ -71,8 +71,8 @@
                                 </div>
                                 @empty
                                     {!!emptyData2()!!}
-                                @endforelse 
-                                 
+                                @endforelse
+
                             </div>
                             @if ($products->hasPages())
                             <div class="card-footer">
@@ -80,7 +80,7 @@
                             </div>
                             @endif
                         </div>
-                         
+
                     </div>
                 </div>
             </div>

@@ -1,10 +1,10 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
-    @include($activeTemplate . 'partials.loan_plans')
+    @include(checkTemplate() . 'partials.loan_plans')
 @endsection
 
-@push('breadcrumb-plugins')  
+@push('breadcrumb-plugins')
 
     <div class="col-12 order-lg-3 order-4">
         <div class="d-flex nav-buttons flex-align gap-md-3 gap-2">

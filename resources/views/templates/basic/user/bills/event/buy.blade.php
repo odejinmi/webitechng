@@ -1,8 +1,8 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="row">
         <div class="col-12">
-          
+
           <div class="checkout">
             <div class="card shadow-none border">
               <div class="card-body p-4">
@@ -21,7 +21,7 @@
                               <th class="text-end">Price</th>
                             </tr>
                           </thead>
-                          
+
                           <tbody>
                             @if($event->tickets != null)
                             @php
@@ -36,7 +36,7 @@
                                   <img src="{{getImage(imagePath()['event']['path'] .'/'.$event->image,imagePath()['event']['size'])}}" alt="" class="img-fluid rounded"
                                     width="80">
                                   <div>
-                                    <h6 class="fw-semibold fs-4 mb-0">{{$v['name']}}</h6> 
+                                    <h6 class="fw-semibold fs-4 mb-0">{{$v['name']}}</h6>
                                   </div>
                                 </div>
                               </td>
@@ -66,14 +66,14 @@
                       <div class="order-summary border rounded p-4 my-4">
                         <div class="p-3">
                           <h5 class="fs-5 fw-semibold mb-4">Order Summary</h5>
-                         
+
                           <div class="cart-products cart--products"> </div>
                           <a href="{{route('user.event.ticket.buy.proceed',encrypt($event->id))}}" class="btn btn-sm btn-primary">
                             <span class="d-inline-block"> @lang('Continue')</span>
-                          </a> 
+                          </a>
                         </div>
                       </div>
-                    </section>  
+                    </section>
                   </form>
                 </div>
               </div>
@@ -95,7 +95,7 @@
 
 @push('script')
 <script>
-           
+
             $.ajax({
                 url: "{{ route('user.event.get-cart-total') }}",
                 method: "get",
@@ -103,13 +103,13 @@
                     $('.cart-count').text(response);
                 }
             });
- 
+
          $(document).on('click', '.cart-add-btn', function (e) {
             console.info('E dey work');
             var ticket_id = $(this).data('id');
             var attributes = $('.attribute-btn.active');
             var output = '';
-             
+
             $('.attr-data').html(output);
             var qtyvalue = document.getElementById(ticket_id).value;
             var name = document.getElementById(ticket_id+'name').value;
@@ -135,7 +135,7 @@
 
         });
 
-          
+
         function getCartData() {
             $.ajax({
                 url: "{{ route('user.event.get-cart-data') }}",
@@ -157,7 +157,7 @@
 
         $(document).on('click', '.remove-cartitem', function (e) {
             var btn         = $(this);
-            var id          = btn.data('id'); 
+            var id          = btn.data('id');
 
             var url = `{{route('user.event.remove-cart-item', '')}}/${id}`;
             $.ajax({
@@ -166,7 +166,7 @@
                 method: "POST",
                 success: function (response) {
                     if (response.success) {
-                        notify('success', response.success); 
+                        notify('success', response.success);
                         getCartData();
                         getCartTotal();
                     } else {

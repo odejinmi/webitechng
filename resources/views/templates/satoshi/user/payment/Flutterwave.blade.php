@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 
 @section('panel')
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-6 justify-content-center">
@@ -31,18 +31,18 @@
                 </ul>
                 <div class="mt-7 mb-2 d-flex justify-content-between align-items-center"><span
                             class="text-sm fw-semibold">{{ $deposit->gateway->alias }}!</span>
-                         
+
                         <button type="button" id="btn-confirm" onclick="payWithRave()"
                                 class="btn btn-sm btn-square btn-dark stretched-link">Pay</button>
-                         
+
                 </div>
             </div>
         </div>
 
     </div>
 </div>
- 
- 
+
+
 @endsection
 @push('script')
     <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>

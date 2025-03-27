@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <!-- File export -->
     <div class="row">
@@ -101,12 +101,12 @@
                                                     <div class="form-group">
                                                         <label for="logo" class="control-label">Product Status:</label>
                                                     <div class="form-check form-switch form-check-success">
-                                                        <input type="checkbox" class="form-check-input" @if ($data->status) checked @endif name="status" id="status" /> 
-                                                    </div>   
-                                                    </div>  
+                                                        <input type="checkbox" class="form-check-input" @if ($data->status) checked @endif name="status" id="status" />
+                                                    </div>
+                                                    </div>
                                                 </div>
 
-                                                
+
 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-sm bg-danger-subtle text-danger font-medium"
@@ -120,30 +120,30 @@
 
                                             </form>
                                             </div>
-                                            
+
                                         </div>
                                         </div>
                                     </div>
                                     <!-- /.EDIT MODAL -->
                                   @empty
                                     {!!emptyData2()!!}
-                                  @endforelse 
-                                   
+                                  @endforelse
+
                                 </tbody>
                               </table>
-                               
+
                             </div>
                             @if ($products->hasPages())
                             <div class="card-footer">
                                 {{ $products->links() }}
                             </div>
                             @endif
-            
+
                           </div>
                         </div>
                       </div>
                     <!--end::Heading-->
- 
+
                 </div>
                 <!--end::Card body-->
             </div>
@@ -164,7 +164,7 @@
                 <div class="modal-body">
                     <form  class="" novalidate="novalidate" action="{{route('user.storefront.products',$storefront->trx)}}" method="post"  enctype="multipart/form-data">
                     @csrf
-    
+
                     <div class="mb-3">
                       <label for="name" class="control-label">Product Name:</label>
                       <input type="text" class="form-control form-control-lg form-control-solid  name @error('name') is-invalid @enderror" id="name"  name="name" />
@@ -199,7 +199,7 @@
 
                   </form>
                 </div>
-                
+
               </div>
             </div>
           </div>

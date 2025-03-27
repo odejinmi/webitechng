@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
  <!-- content @s
 -->
@@ -18,7 +18,7 @@
 
                     <!--begin::Step 2-->
                     <div data-kt-stepper-element="scontent">
-                        
+
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -46,18 +46,18 @@
             <label class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center mb-10" for="act_wallet">
                 <i class="ti ti-wallet fs-3x me-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                 <!--begin::Info-->
-                <span class="d-block fw-semibold text-start">                            
+                <span class="d-block fw-semibold text-start">
                     <span class="text-dark fw-bold d-block fs-4 mb-2">
                         @lang('Main Wallet')
                     </span>
                     <span class="text-muted fw-semibold fs-6">{{ $general->cur_sym }}{{ showAmount(Auth::user()->balance) }}</span>
                 </span>
                 <!--end::Info-->
-            </label>   
+            </label>
             <!--end::Option-->
         </div>
         <!--end::Col-->
-        
+
         <!--begin::Col-->
         <div class="col-lg-6">
             <!--begin::Option-->
@@ -65,24 +65,24 @@
             <label class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center" for="ref_wallet">
                 <i class="ti ti-cash fs-3x me-5"><span class="path1"></span><span class="path2"></span></i>
                 <!--begin::Info-->
-                <span class="d-block fw-semibold text-start">                              
+                <span class="d-block fw-semibold text-start">
                     <span class="text-dark fw-bold d-block fs-4 mb-2"> @lang('Referral Wallet')</span>
                     <span class="text-muted fw-semibold fs-6">{{ $general->cur_sym }}{{ showAmount(Auth::user()->ref_balance) }}</span>
-                </span>           
-                <!--end::Info-->               
-            </label>           
-            <!--end::Option-->   
+                </span>
+                <!--end::Info-->
+            </label>
+            <!--end::Option-->
         </div>
         <!--end::Col-->
     </div>
-    <!--end::Row-->        
+    <!--end::Row-->
 </div>
-<!--end::Input group-->    
+<!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
                                 <!--begin::Label-->
                                 <label class="d-flex align-items-center form-label mb-3">
-                                    @lang('Fixed Amount') 
+                                    @lang('Fixed Amount')
                                     <span class="ms-1" data-bs-toggle="tooltip"
                                         title="Select a fixed amount">
                                         <i class="ti ti-alert-circle text-gray-500 fs-6"><span
@@ -167,7 +167,7 @@
                                 <input type="number" id="amount" class="form-control form-control-lg form-control-solid  amount @error('amount') is-invalid @enderror" value="{{ old('amount') }}" name="amount" placeholder="0.00" />
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group--> 
+                            <!--end::Input group-->
 
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
@@ -189,10 +189,10 @@
                                 <!--end::Label-->
 
                                 <!--begin::Input group-->
-                                <div class="d-flex flex-wrap flex-stack">  
+                                <div class="d-flex flex-wrap flex-stack">
                                     <input type="text" class="form-control form-control-lg form-control-solid  username @error('pin') is-invalid @enderror" id="pin"
-                                    name="pin" value="{{ old('pin') }}" placeholder="****" /> 
-                                </div>                
+                                    name="pin" value="{{ old('pin') }}" placeholder="****" />
+                                </div>
                                 <!--begin::Input group-->
                             </div>
                             <!--end::Section-->
@@ -206,12 +206,12 @@
 
                     <!--begin::Actions-->
                     <div class="d-flex flex-stack pt-15">
- 
+
                         <!--begin::Wrapper-->
                         <div>
 
                             <button type="submit" class="btn btn-lg btn-primary" type="button" id="submit">@lang('Proceed')
-                                
+
                                 <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i> </button>
                         </div>
                         <!--end::Wrapper-->
@@ -226,5 +226,5 @@
     </div>
     <!--end::Card-->
 </div>
-<!--end::Container--> 
+<!--end::Container-->
 @endsection

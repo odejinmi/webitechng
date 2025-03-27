@@ -48,7 +48,7 @@
                                     <a style="color:black;" href="{{ route('page', 'bills') }}">Bills Payment</a>
                                 </li>
                                 @php
-                                    $pages = App\Models\Page::where('tempname', $activeTemplate)
+                                    $pages = App\Models\Page::where('tempname', checkTemplate())
                                         ->where('is_default', 0)
                                         ->get();
                                     //$pages = getContent('pages.element', null, false, true);
@@ -59,8 +59,8 @@
                                             href="{{ route('pages', [$data->slug]) }}">{{ __($data->name) }}</a>
                                     </li>
                                 @endforeach
-                                
-                        
+
+
 
                             </ul>
                         </li>

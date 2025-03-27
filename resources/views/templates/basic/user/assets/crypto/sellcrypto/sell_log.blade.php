@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
 @push('style')
@@ -6,7 +6,7 @@
 @endpush
             <!-- File export -->
             <div class="row">
-                <div class="col-12"> 
+                <div class="col-12">
 
                   <!-- ---------------------
                               start File export
@@ -37,22 +37,22 @@
                             <!-- end row -->
                           </thead>
                           <tbody>
-                             
+
                             @forelse(@$log as $deposit)
                                     <tr>
                                         <td>
-                                            <span class="fw-bold"> 
-                                              
+                                            <span class="fw-bold">
+
                                               <span
                                                     class="text-primary">{{ __($deposit->product_name) }}<small> ({{ __($deposit->asset->symbol) }})</small></span>
-                                            </span> 
+                                            </span>
                                             <br>
                                             <span class="symbol symbol-40px me-6">
                                               <span class="symbol-label bg-light-primary">
                                                   <i class="ti ti-image fs-2x text-warning"><img src="{{ url('/') }}/assets/images/coins/{{$deposit->asset->image}}" width="30" class="path1"/></i>
                                               </span>
-                                              
-                                          </span> 
+
+                                          </span>
                                         </td>
 
                                         <td class="text-center">
@@ -62,18 +62,18 @@
                                         <td class="text-center">
                                             {{ ($deposit->deposit_code) }}
                                         </td>
-                                       
+
                                         <td class="text-center">
                                            <small> {{ showAmount($deposit->payment) }}{{ __(@$deposit->asset->symbol) }}</small>
-                                            <br> 
-                                            <strong>{{ showAmount($deposit->price) }} {{ __($deposit->currency) }}</strong>                                        
+                                            <br>
+                                            <strong>{{ showAmount($deposit->price) }} {{ __($deposit->currency) }}</strong>
                                         </td>
                                         <td class="text-center">
                                           {{ __($deposit->value) }}{{ __($general->cur_text) }}
-                                        </td> 
+                                        </td>
                                         <td class="text-center">
                                            <label class='badge text-white  @if($deposit->status_code == 1 || $deposit->status_code == 3  || $deposit->status == 'success') bg-success @else bg-danger @endif'> @php echo $deposit->status @endphp</label>
-                                        </td> 
+                                        </td>
                                     </tr>
                                 @empty
                                     {!!emptyData2()!!}
@@ -103,7 +103,7 @@
                   <!-- ---------------------
                               end File export
                           ---------------- -->
-  
+
 @endsection
 
 @push('breadcrumb-plugins')
@@ -119,5 +119,5 @@
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js')}}"></script>
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js')}}"></script>
 <script src="{{ asset('assets/assets/dist/js/datatable/datatable-advanced.init.js')}}"></script>
- 
+
 @endpush

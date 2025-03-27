@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <!-- File export -->
     <div class="row">
@@ -31,8 +31,8 @@
                                         <!--begin::Action-->
 
                                         <a href="{{ route('user.giftcard.digital.shop') }}" class="btn btn-primary er fs-6 px-8 py-4">
-                                            @lang('Buy Digital Giftcard') </a>  
-                                        <br> <br> 
+                                            @lang('Buy Digital Giftcard') </a>
+                                        <br> <br>
                                         <!--end::Action-->
                                     </div>
                                 </div>
@@ -60,4 +60,4 @@
 
     @push('breadcrumb-plugins')
     <a class="btn btn-sm btn-primary" href="{{ route('user.giftcard.digital.history') }}"> <i class="ti ti-printer"></i> @lang('Giftcard Log')</a>
-    @endpush 
+    @endpush

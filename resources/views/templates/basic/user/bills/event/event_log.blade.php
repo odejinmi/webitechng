@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
 @push('style')
@@ -6,7 +6,7 @@
 @endpush
             <!-- File export -->
             <div class="row">
-                <div class="col-12"> 
+                <div class="col-12">
 
                   <!-- ---------------------
                               start File export
@@ -36,12 +36,12 @@
                             <!-- end row -->
                           </thead>
                           <tbody>
-                             
+
                             @forelse(@$log as $deposit)
                                     <tr>
                                         <td>
-                                            <span class="fw-bold"> 
-                                              
+                                            <span class="fw-bold">
+
                                               <span
                                                     class="text-primary">{{ __($deposit->product_name) }}</span>
                                             </span>
@@ -52,20 +52,20 @@
                                         <td class="text-center">
                                             {{ showDateTime($deposit->created_at) }}<br>{{ diffForHumans($deposit->created_at) }}
                                         </td>
-                                        
+
                                         <td class="text-center">
-                                           
+
                                             <strong>{{ showAmount($deposit->payment) }} {{ __($general->cur_text) }}</strong>
                                         </td>
                                         <td class="text-center">
                                            <label class='badge @if($deposit->status == 'success') bg-success  @elseif($deposit->status == 'PENDING') bg-warning  @else  bg-danger @endif text-white'> @php echo $deposit->status @endphp</label>
-                                           
-                                        </td> 
+
+                                        </td>
                                         <td class="text-center">
                                            @if($deposit->status == 'success')<br>
                                            <a href="{{route('user.event.tickets',$deposit->trx)}}" class="btn btn-sm btn-primary">View Tickets</a>
                                            @endif
-                                        </td> 
+                                        </td>
                                     </tr>
                                 @empty
                                     {!!emptyData2()!!}
@@ -94,7 +94,7 @@
                   <!-- ---------------------
                               end File export
                           ---------------- -->
-  
+
 @endsection
 
 @push('breadcrumb-plugins')
@@ -110,5 +110,5 @@
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js')}}"></script>
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js')}}"></script>
 <script src="{{ asset('assets/assets/dist/js/datatable/datatable-advanced.init.js')}}"></script>
- 
+
 @endpush

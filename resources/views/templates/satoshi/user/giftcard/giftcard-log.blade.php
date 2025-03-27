@@ -1,10 +1,10 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
  <div>
    <div class="row">
       <div class="col-sm-12">
-         <div class="card"> 
+         <div class="card">
             <div class="card-body">
 
     <div id="content" class="main-content">
@@ -73,7 +73,7 @@
                                                                                 {{ Carbon\Carbon::parse($data->updated_at)->diffForHumans() }}
                                                                             </div>
                                                                         </td>
-                                                                        <td> 
+                                                                        <td>
                                                                             <a href="#tranxDetails{{ $data->id }}"
                                                                                 class="badge bg-primary"
                                                                                 data-bs-toggle="modal">View More <small>({{ $data->trx }})</small></a>
@@ -225,7 +225,7 @@
                                                                                                         wdith="70"
                                                                                                         alt="passport"></span>
                                                                                             </div>
-                                                                                        @endif 
+                                                                                        @endif
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -264,4 +264,4 @@
 
 @push('breadcrumb')
  <a class="btn bg-white text-primary" href="{{ route('user.tradegift') }}"> <i class="ti ti-printer"></i> @lang('Back')</a>
-@endpush 
+@endpush

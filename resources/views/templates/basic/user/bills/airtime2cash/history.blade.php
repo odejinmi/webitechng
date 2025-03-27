@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     @push('style')
         <link rel="stylesheet" href="{{ asset('assets/assets/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
@@ -24,7 +24,7 @@
                                 <tr>
                                     <th>@lang('TRX ID')</th>
                                     <th>@lang('Network')</th>
-                                    <th>@lang('Code')</th> 
+                                    <th>@lang('Code')</th>
                                     <th>@lang('Amount')</th>
                                     <th>@lang('Value')</th>
                                     <th>@lang('Fee')</th>
@@ -41,10 +41,10 @@
                                         <td class="break_line">
                                             <center> <img src="{{ url('/') }}/assets/images/provider/{{$item->product_name}}.jpeg" class="rounded-circle" alt="..." width="56"
                                                 height="56">
-                                            </center>    
+                                            </center>
                                         </td>
                                         <td class="break_line">
-                                            {{ __($item->val_2) }}</td> 
+                                            {{ __($item->val_2) }}</td>
                                                 <td>{{$general->cur_sym}}{{ number_format($item->price, 2) }}</td>
                                                 <td>{{$general->cur_sym}}{{ number_format($item->payment, 2) }}</td>
                                                 <td>{{$general->cur_sym}}{{ number_format($item->val_1, 2) }}</td>

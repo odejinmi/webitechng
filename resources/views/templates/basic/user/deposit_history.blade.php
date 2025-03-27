@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
 @push('style')
@@ -36,7 +36,7 @@
                             <!-- end row -->
                           </thead>
                           <tbody>
-                             
+
                             @forelse(@$deposits as $deposit)
                                     <tr>
                                         <td>
@@ -111,7 +111,7 @@
                   <!-- ---------------------
                               end File export
                           ---------------- -->
- 
+
     {{-- APPROVE MODAL --}}
     <div id="detailModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">

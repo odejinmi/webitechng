@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.frontend')
+@extends(checkTemplate() . 'layouts.frontend')
 @section('content')
     <!-- HERO-3
        ============================================= -->
@@ -25,14 +25,14 @@
                             <!-- AppStore -->
                             <a href="https://ltechng.co/custompage/product#" class="store">
                                 <img class="appstore-original"
-                                    src="{{ asset($activeTemplateTrue . 'front/images/appstore.png') }}"
+                                    src="{{ asset(checkTemplate(True) . 'front/images/appstore.png') }}"
                                     alt="appstore-badge" />
                             </a>
 
                             <!-- Google Play -->
                             <a href="https://play.google.com/store/apps/details?id=com.ltechng" class="store">
                                 <img class="googleplay-original"
-                                    src="{{ asset($activeTemplateTrue . 'front/images/googleplay.png') }}"
+                                    src="{{ asset(checkTemplate(True) . 'front/images/googleplay.png') }}"
                                     alt="googleplay-badge" />
                             </a>
 
@@ -46,7 +46,7 @@
                 <!-- HERO IMAGE -->
                 <div class="col-md-5 col-lg-6 m-bottom">
                     <div class="hero-3-img text-center mb-40 wow fadeInLeft" data-wow-delay="0.6s">
-                        <img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/frontapp.png') }}"
+                        <img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/frontapp.png') }}"
                             alt="hero-image">
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                 <!-- IMAGE BLOCK -->
                 <div class="col-md-5 col-lg-6">
                     <div class="img-block left-column mb-40 wow fadeInRight" data-wow-delay="0.6s">
-                        <img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/frontapp2.png') }}"
+                        <img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/frontapp2.png') }}"
                             alt="content-image">
                     </div>
                 </div>
@@ -325,7 +325,7 @@
                     <!-- IMAGE BLOCK -->
                     <div class="col-md-5 col-lg-6 m-top">
                         <div class="img-block right-column mb-40 wow fadeInLeft" data-wow-delay="0.4s">
-                            <img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/frontlady.png') }}"
+                            <img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/frontlady.png') }}"
                                 alt="content-image">
                         </div>
                     </div>
@@ -343,7 +343,7 @@
                     <!-- IMAGE BLOCK -->
                     <div class="col-md-5 col-lg-6">
                         <div class="img-block left-column mb-40 wow fadeInRight" data-wow-delay="0.4s">
-                            <img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/frontapp3.png') }}"
+                            <img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/frontapp3.png') }}"
                                 alt="content-image">
                         </div>
                     </div>
@@ -496,7 +496,7 @@
                 <!-- IMAGE BLOCK -->
                 <div class="col-md-5 col-lg-6 m-top">
                     <div class="img-block right-column mb-40 wow fadeInLeft" data-wow-delay="0.6s">
-                        <img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/shield1.png') }}"
+                        <img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/shield1.png') }}"
                             alt="content-image">
                     </div>
                 </div>
@@ -547,7 +547,7 @@
 
                             <!-- Preview Image -->
                             <img class="img-fluid radius-06"
-                                src="{{ asset($activeTemplateTrue . 'front/images/frontapp5.png') }}"
+                                src="{{ asset(checkTemplate(True) . 'front/images/frontapp5.png') }}"
                                 alt="features-image">
 
                         </div>
@@ -876,14 +876,14 @@
                             <!-- AppStore -->
                             <a href="#" class="store">
                                 <img class="appstore-original"
-                                    src="{{ asset($activeTemplateTrue . 'front/images/appstore.png') }}"
+                                    src="{{ asset(checkTemplate(True) . 'front/images/appstore.png') }}"
                                     alt="appstore-badge" />
                             </a>
 
                             <!-- Google Play -->
                             <a href="#" class="store">
                                 <img class="googleplay-original"
-                                    src="{{ asset($activeTemplateTrue . 'front/images/googleplay.png') }}"
+                                    src="{{ asset(checkTemplate(True) . 'front/images/googleplay.png') }}"
                                     alt="googleplay-badge" />
                             </a>
 

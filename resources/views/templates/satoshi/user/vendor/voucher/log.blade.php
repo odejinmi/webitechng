@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
 @push('style')
@@ -6,7 +6,7 @@
 @endpush
             <!-- File export -->
             <div class="row">
-                <div class="col-12"> 
+                <div class="col-12">
 
                   <!-- ---------------------
                               start File export
@@ -31,35 +31,35 @@
                                 <th>@lang('Vendor')</th>
                                 <th>@lang('Beneficiary')</th>
                                 <th class="text-center">@lang('Date Created')</th>
-                                <th class="text-center">@lang('Amount')</th> 
-                                <th class="text-center">@lang('Status')</th> 
+                                <th class="text-center">@lang('Amount')</th>
+                                <th class="text-center">@lang('Status')</th>
                             </tr>
                             <!-- end row -->
                           </thead>
                           <tbody>
-                             
+
                             @forelse(@$log as $deposit)
                                     <tr>
-                                      <td> 
-                                            <span class="">{{ __($deposit->code) }}</span> 
+                                      <td>
+                                            <span class="">{{ __($deposit->code) }}</span>
                                       </td>
-                                      <td> 
-                                            <span class="text-primary">{{ __(@$deposit->user->username) }}</span> 
+                                      <td>
+                                            <span class="text-primary">{{ __(@$deposit->user->username) }}</span>
                                       </td>
-                                      <td> 
-                                            <span class="text-success">{{ __(@$deposit->beneficiary->username ?? 'N/A') }}</span> 
+                                      <td>
+                                            <span class="text-success">{{ __(@$deposit->beneficiary->username ?? 'N/A') }}</span>
                                       </td>
 
                                         <td class="text-center">
                                             {{ showDateTime($deposit->created_at) }}<br>{{ diffForHumans($deposit->created_at) }}
-                                        </td> 
-                                        <td class="text-center"> 
-                                            <strong>{{ showAmount($deposit->amount) }} {{ __($general->cur_text) }}</strong>                                        
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>{{ showAmount($deposit->amount) }} {{ __($general->cur_text) }}</strong>
                                         </td>
                                         <td class="text-center">
                                            <label class='badge text-white @if($deposit->status == 1) bg-success @else  bg-danger @endif'> @if($deposit->status == 1) Active @else Used @endif</label>
-                                        </td> 
-                                         
+                                        </td>
+
                                     </tr>
                                 @empty
                                     {!!emptyData2()!!}
@@ -73,8 +73,8 @@
                               <th>@lang('Vendor')</th>
                               <th>@lang('Beneficiary')</th>
                               <th class="text-center">@lang('Date Created')</th>
-                              <th class="text-center">@lang('Amount')</th> 
-                              <th class="text-center">@lang('Status')</th> 
+                              <th class="text-center">@lang('Amount')</th>
+                              <th class="text-center">@lang('Status')</th>
                           </tr>
                           </tfoot>
                         </table>
@@ -89,7 +89,7 @@
                   <!-- ---------------------
                               end File export
                           ---------------- -->
-  
+
 @endsection
 
 @push('breadcrumb-plugins')
@@ -105,5 +105,5 @@
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js')}}"></script>
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js')}}"></script>
 <script src="{{ asset('assets/assets/dist/js/datatable/datatable-advanced.init.js')}}"></script>
- 
+
 @endpush

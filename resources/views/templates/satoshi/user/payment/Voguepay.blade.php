@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-6 justify-content-center">
     <div class="col">
@@ -33,7 +33,7 @@
                     <form action="{{ route('ipn.' . $deposit->gateway->alias) }}" method="POST" class="text-center">
                         @csrf
                         <button type="button" id="btn-confirm"
-                                class="btn btn-sm btn-square btn-dark stretched-link">Pay</button> 
+                                class="btn btn-sm btn-square btn-dark stretched-link">Pay</button>
                     </form>
                 </div>
             </div>
@@ -42,9 +42,9 @@
     </div>
 </div>
 
-   
- 
- 
+
+
+
 @endsection
 @push('script')
     <script src="//pay.voguepay.com/js/voguepay.js"></script>

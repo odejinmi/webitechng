@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <section class="section bg--light">
         <div class="container">
@@ -272,7 +272,7 @@
 @endsection
 
 @push('style-lib')
-    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/chat.css') }}">
+    <link rel="stylesheet" href="{{ asset(checkTemplate(true) . 'css/chat.css') }}">
 @endpush
 
 @push('style')

@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
  <!-- content @s
 -->
@@ -35,7 +35,7 @@
                 Network* MTN, AIRTEL
                 Phone Number* Enter the phone number you are sending from
                 Amount* Enter the Total Amount you want to convert to cash
-                You are to receive (mtn is 81%, airtel is 71%) = Echo the amount the person will receive 
+                You are to receive (mtn is 81%, airtel is 71%) = Echo the amount the person will receive
                 Our phone number is (Mtn is 08131956308, and airtel is 09022577104) Kindly send the airtime to <echo the number for the selected network>
                 WARNING!
                 We have zero tolerance for FRAUD. Do not ever think about sending stolen airtime to us. You will be handed over to the appropriate authorities immediately. You are seriously Warned
@@ -47,7 +47,7 @@
 
                     <!--begin::Step 2-->
                     <div data-kt-stepper-element="scontent">
-                        
+
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -63,12 +63,12 @@
                                 </div>
                                 <!--end::Notice-->
                             </div>
-                            <!--end::Heading-->  
-                           
+                            <!--end::Heading-->
+
                             @push('script')
-                            
-                            <script> 
-                            
+
+                            <script>
+
                                 document.getElementById("code").disabled = true;
                                 document.getElementById("pin").disabled = true;
                                 function fixeamount(e)
@@ -77,7 +77,7 @@
                                 {
                                     document.getElementById("amount").value = e.value;
                                 }
-                                
+
                                 if(document.getElementById("network").value != 'empty' && e.name == 'network')
                                 {
                                     document.getElementById("amount").value = null;
@@ -86,10 +86,10 @@
                                 }
                                 submitform();
                                 // START AIRTIME FEE \\
-                                function getNetwork() { 
+                                function getNetwork() {
                                     //loadingEl.innerHTML = ` <span class="spinner-border text-primary" role="status"></span> <span class="text-gray-800 fs-6 fw-semibold mt-5">Loading...</span>`;
                                     // Show page loading
-                                     var network_input = document.getElementById('network').value; 
+                                     var network_input = document.getElementById('network').value;
                                     var raw = JSON.stringify({
                                         _token: "{{ csrf_token() }}",
                                         network: network_input,
@@ -118,10 +118,10 @@
                                                         {{$general->cur_sym}} ${plan['min']} - {{$general->cur_sym}}${plan['max']}
                                                         <span class="badge bg-light-danger text-danger font-medium rounded-pill ms-auto"
                                                             >${plan['fee']}%</span>
-                                                        </li> `;  
-                                                        html += htmlSegment; 
-                                                    }); 
-                                                    
+                                                        </li> `;
+                                                        html += htmlSegment;
+                                                    });
+
                                                     document.getElementById("amount").disabled = false;
                                                     document.getElementById('networkfee').innerHTML =
                                                     `
@@ -131,17 +131,17 @@
                                                         <div class="mb-3">
                                                             <h5 class="mb-0">Airtime Conversion Rate</h5>
                                                         </div>
-                                                        <ul class="list-group"> 
+                                                        <ul class="list-group">
                                                         ${html}
                                                         </ul>
                                                         </div>
                                                        </div>
-                                                    </div> 
+                                                    </div>
                                                     `;
                                                 }
                                                 else
                                                 {
-                                                    
+
                                                     document.getElementById("amount").disabled = true;
                                                     document.getElementById('networkfee').innerHTML = "";
                                                     Toastify({
@@ -154,9 +154,9 @@
                                                 }
                                         })
                                         .catch(error => {
-                                             
+
                                         });
-                                        
+
                                         document.getElementById("commision").innerHTML = '';
                                         document.getElementById("worth").innerHTML = '';
                                         return;
@@ -166,12 +166,12 @@
                                 function submitform() {
                                     //loadingEl.innerHTML = ` <span class="spinner-border text-primary" role="status"></span> <span class="text-gray-800 fs-6 fw-semibold mt-5">Loading...</span>`;
                                     // Show page loading
-                                    var amount_input = document.getElementById('amount').value; 
-                                    var network_input = document.getElementById('network').value; 
+                                    var amount_input = document.getElementById('amount').value;
+                                    var network_input = document.getElementById('network').value;
                                     var raw = JSON.stringify({
                                         _token: "{{ csrf_token() }}",
                                         network: network_input,
-                                        amount: amount_input, 
+                                        amount: amount_input,
                                         fee: false,
                                     });
 
@@ -189,13 +189,13 @@
                                             //SlimNotifierJs.notification(`${resp.status}`, `${resp.status}`,`${resp.message}`, 3000);
                                             //KTApp.hidePageLoading();
                                             //loadingEl.remove();
-                                                if (resp.ok != true) 
+                                                if (resp.ok != true)
                                                 {
                                                     document.getElementById("code").disabled = true;
                                                     document.getElementById("pin").disabled = true;
                                                     document.getElementById("commision").innerHTML = '';
                                                     document.getElementById("worth").innerHTML = '';
-                                                    
+
                                                     document.getElementById("submit").disabled = true;
                                                 }
                                                 if (resp.ok != false) {
@@ -206,7 +206,7 @@
                                                     document.getElementById("worth").innerHTML = `<span class="badge bg-success text-white" id="worth">Value: {{$general->cur_text}} ${worth}</span>`;
                                                     document.getElementById("code").disabled = false;
                                                     document.getElementById("pin").disabled = false;
-                                                    
+
                                                     document.getElementById("submit").disabled = false;
                                                 }
                                         })
@@ -217,9 +217,9 @@
 
                                 }
                                 // END AIRTIME FEE \\
-                               
+
                                 }
-                                
+
                             </script>
                             @endpush
                             <!--begin::Input group-->
@@ -254,19 +254,19 @@
                                 <span class="badge bg-success text-white" id="worth"></span>
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group--> 
+                            <!--end::Input group-->
 
-                            
+
                             <!--begin::Section-->
                             <div class="mb-10 fv-row">
                                 <!--begin::Label-->
                                 <label class="form-label mb-3" data-kt-translate="two-step-label">@lang('Aitime Code')</label>
                                 <!--end::Label-->
                                 <!--begin::Input group-->
-                                <div class="d-flex flex-wrap flex-stack">  
+                                <div class="d-flex flex-wrap flex-stack">
                                     <input type="text" class="form-control form-control-lg form-control-solid  username @error('code') is-invalid @enderror" id="code"
-                                    name="code" value="{{ old('code') }}" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX" /> 
-                                </div>                
+                                    name="code" value="{{ old('code') }}" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX" />
+                                </div>
                                 <!--begin::Input group-->
                             </div>
                             <!--end::Section-->
@@ -279,9 +279,9 @@
                                 <!--end::Label-->
 
                                 <!--begin::Input group-->
-                                <div class="d-flex flex-wrap flex-stack">  
-                                    <input type="text" class="form-control form-control-lg form-control-solid  username @error('pin') is-invalid @enderror" id="pin" name="pin" value="{{ old('pin') }}" placeholder="****" /> 
-                                </div>                
+                                <div class="d-flex flex-wrap flex-stack">
+                                    <input type="text" class="form-control form-control-lg form-control-solid  username @error('pin') is-invalid @enderror" id="pin" name="pin" value="{{ old('pin') }}" placeholder="****" />
+                                </div>
                                 <!--begin::Input group-->
                             </div>
                             <!--end::Section-->
@@ -295,12 +295,12 @@
 
                     <!--begin::Actions-->
                     <div class="d-flex flex-stack pt-15">
- 
+
                         <!--begin::Wrapper-->
                         <div>
 
                             <button type="submit" class="btn btn-lg btn-primary" disabled type="button" id="submit">@lang('Proceed')
-                                
+
                                 <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i> </button>
                         </div>
                         <!--end::Wrapper-->
@@ -315,9 +315,9 @@
     </div>
     <!--end::Card-->
 </div>
-<!--end::Container--> 
+<!--end::Container-->
 @endsection
 
 @push('breadcrumb')
-    <a href="{{route('user.airtime.tocash.history')}}" class="btn btn-info btn-sm text-white">History</a> 
+    <a href="{{route('user.airtime.tocash.history')}}" class="btn btn-info btn-sm text-white">History</a>
 @endpush

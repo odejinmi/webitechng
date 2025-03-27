@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.dashboard')
+@extends(checkTemplate() . 'layouts.dashboard')
 @section('panel')
     <!-- pay money section starts -->
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-6 justify-content-center">

@@ -1,6 +1,6 @@
-@extends($activeTemplate . 'layouts.frontend')
+@extends(checkTemplate() . 'layouts.frontend')
 @section('content')
-@include($activeTemplate . 'partials.breadcrumb')
+@include(checkTemplate() . 'partials.breadcrumb')
 
 			<!-- CONTENT-4
 			============================================= -->
@@ -13,11 +13,11 @@
 						<div class="row d-flex align-items-center m-row">
 
 
-							<!-- TEXT BLOCK -->	
+							<!-- TEXT BLOCK -->
 							<div class="col-md-7 col-lg-6 m-bottom">
 								<div class="txt-block left-column pc-30 mb-40 wow fadeInRight" data-wow-delay="0.6s">
 
-									<!-- Title -->	
+									<!-- Title -->
 									<h3 class="h3-sm">Airtime Top Up</h3>
 
 									<!-- Text -->
@@ -29,18 +29,18 @@
 									</p>
 
 								</div>
-							</div>	<!-- END TEXT BLOCK -->	
+							</div>	<!-- END TEXT BLOCK -->
 
 
 							<!-- IMAGE BLOCK -->
 							<div class="col-md-5 col-lg-6 m-top">
 								<div class="img-block right-column mb-40 wow fadeInLeft" data-wow-delay="0.4s">
-									<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/img-07.png')}}" alt="content-image">
+									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/img-07.png')}}" alt="content-image">
 								</div>
 							</div>
 
 
-						</div>  <!-- End row -->	
+						</div>  <!-- End row -->
 					</div>	<!-- END CONTENT BOX-1 -->
 
 
@@ -52,19 +52,19 @@
 							<!-- IMAGE BLOCK -->
 							<div class="col-md-5 col-lg-6">
 								<div class="img-block left-column mb-40 wow fadeInRight" data-wow-delay="0.4s">
-									<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/img-08.png')}}" alt="content-image">
+									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/img-08.png')}}" alt="content-image">
 								</div>
 							</div>
 
 
-							<!-- TEXT BLOCK -->	
+							<!-- TEXT BLOCK -->
 							<div class="col-md-7 col-lg-6">
 								<div class="txt-block right-column pc-30 mb-40 wow fadeInLeft" data-wow-delay="0.6s">
 
-									<!-- Title -->	
+									<!-- Title -->
 									<h3 class="h3-sm">Data Subscription</h3>
 
-									<!-- List -->	
+									<!-- List -->
 									<ul class="simple-list grey-color">
 
 										<li class="list-item">
@@ -84,15 +84,15 @@
 									</ul>
 
 								</div>
-							</div>	<!-- END TEXT BLOCK -->	
+							</div>	<!-- END TEXT BLOCK -->
 
 
-						</div>	  <!-- End row -->	
+						</div>	  <!-- End row -->
 			 		</div>	<!-- END CONTENT BOX-2 -->
 
 
 				</div>     <!-- End container -->
-			</section>	<!-- END CONTENT-4 -->	
+			</section>	<!-- END CONTENT-4 -->
 
 
 
@@ -108,14 +108,14 @@
 						<div class="row d-flex align-items-center m-row">
 
 
-							<!-- TEXT BLOCK -->	
+							<!-- TEXT BLOCK -->
 							<div class="col-md-7 col-lg-6 m-bottom">
 								<div class="txt-block left-column pc-30 mb-40 wow fadeInRight" data-wow-delay="0.6s">
 
-									<!-- Title -->	
+									<!-- Title -->
 									<h3 class="h3-sm">Electricity Bill</h3>
 
-									<!-- List -->	
+									<!-- List -->
 									<ul class="simple-list grey-color">
 
 										<li class="list-item">
@@ -135,18 +135,18 @@
 									</ul>
 
 								</div>
-							</div>	<!-- END TEXT BLOCK -->	
+							</div>	<!-- END TEXT BLOCK -->
 
 
 							<!-- IMAGE BLOCK -->
 							<div class="col-md-5 col-lg-6 m-top">
 								<div class="img-block right-column pc-25 mb-40 wow fadeInLeft" data-wow-delay="0.4s">
-									<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/img-11.png')}}" alt="content-image">
+									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/img-11.png')}}" alt="content-image">
 								</div>
 							</div>
 
 
-						</div>  <!-- End row -->	
+						</div>  <!-- End row -->
 					</div>	<!-- END CONTENT BOX-1 -->
 
 
@@ -158,27 +158,27 @@
 							<!-- IMAGE BLOCK -->
 							<div class="col-md-5 col-lg-6">
 								<div class="img-block left-column pc-25 mb-40 wow fadeInRight" data-wow-delay="0.4s">
-									<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/img-03.png')}}" alt="content-image">
+									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/img-03.png')}}" alt="content-image">
 								</div>
 							</div>
 
 
-							<!-- TEXT BLOCK -->	
+							<!-- TEXT BLOCK -->
 							<div class="col-md-7 col-lg-6">
 								<div class="txt-block right-column pc-30 mb-40 wow fadeInLeft" data-wow-delay="0.6s">
 
-									<!-- Title -->	
+									<!-- Title -->
 									<h3 class="h3-sm">Tv Subscription</h3>
 
 									<!-- Text -->
 									<p class="p-md grey-color">Stay connected to your favourite stations and never miss an action on Super sport, Telemundo, Africa Magic, Zee world etc. have the power of more on all your cable channels with the {{$general->site_name}} crypto wallet.
 									</p>
-										
+
 								</div>
-							</div>	<!-- END TEXT BLOCK -->	
+							</div>	<!-- END TEXT BLOCK -->
 
 
-						</div>	  <!-- End row -->	
+						</div>	  <!-- End row -->
 			 		</div>	<!-- END CONTENT BOX-2 -->
 
 
@@ -188,7 +188,7 @@
 			<!-- BRANDS-2
 			============================================= -->
 			<section id="brands-2" class="wide-70 brands-section division">
-				<div class="container">	
+				<div class="container">
 
 
 					<!-- BRANDS TITLE -->
@@ -205,43 +205,43 @@
 					<div class="brands-2-wrapper">
 						<div class="row">
 							<div class="col-md-12">
-				
+
 								<!-- BRAND LOGO IMAGE -->
 								<div class="brand-logo">
 									<a href="#">
-										<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/brand-1.png')}}" alt="brand-logo" />
+										<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/brand-1.png')}}" alt="brand-logo" />
 									</a>
 								</div>
-												
+
 								<!-- BRAND LOGO IMAGE -->
 								<div class="brand-logo">
 									<a href="#">
-										<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/brand-2.png')}}" alt="brand-logo" />
+										<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/brand-2.png')}}" alt="brand-logo" />
 									</a>
 								</div>
-												
+
 								<!-- BRAND LOGO IMAGE -->
 								<div class="brand-logo">
 									<a href="#">
-										<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/brand-3.png')}}" alt="brand-logo" />
+										<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/brand-3.png')}}" alt="brand-logo" />
 									</a>
 								</div>
-												
+
 								<!-- BRAND LOGO IMAGE -->
 								<div class="brand-logo">
 									<a href="#">
-										<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/brand-4.png')}}" alt="brand-logo" />
+										<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/brand-4.png')}}" alt="brand-logo" />
 									</a>
 								</div>
-												
+
 								<!-- BRAND LOGO IMAGE -->
 								<div class="brand-logo">
 									<a href="#">
-										<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/brand-5.png')}}" alt="brand-logo" />
+										<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/brand-5.png')}}" alt="brand-logo" />
 									</a>
 								</div>
-								
-														
+
+
 							</div>
 						</div>
 					</div>  <!-- END BRANDS-2 WRAPPER -->
@@ -254,7 +254,7 @@
 
 
 			<br><br><br><br><br><br>
-			
+
 
 
 
@@ -279,8 +279,8 @@
 
 							</div>
 						</div>
-						
-						
+
+
 
 
 						<!-- CALL TO ACTION BUTTON -->
@@ -291,13 +291,13 @@
 									<a href="mailto:yourdomain@mail.com" class="btn btn-md btn-theme tra-white-hover">SUBSCRIBE NOW</a>
 								</div>
 							</div>
-						</div>	
-						
+						</div>
+
 
 
 
 					</div>    <!-- End row -->
-				</div>	   <!-- End container -->	
+				</div>	   <!-- End container -->
 			</section>	<!-- END CALL TO ACTION-6 -->
 
 

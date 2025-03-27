@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
 @push('style')
@@ -6,7 +6,7 @@
 @endpush
             <!-- File export -->
             <div class="row">
-                <div class="col-12"> 
+                <div class="col-12">
 
                   <!-- ---------------------
                               start File export
@@ -36,7 +36,7 @@
                             <!-- end row -->
                           </thead>
                           <tbody>
-                             
+
                             @forelse($saved as $k=>$data)
                             <tr>
                               <td data-label="#@lang('Trx')">{{$data->reference}}<br>
@@ -46,17 +46,17 @@
                               <td data-label="@lang('Amount')">
                                   <strong>{{showAmount($data->amount)}} {{__($general->cur_text)}}</strong><br>
                                   <small>@if($data->type == 1) Recurrent Amount @elseif($data->type == 2) Targeted Amount  @elseif($data->type == 3) Fixed Amount @endif</small>
-                              </td> 
-              
-              
+                              </td>
+
+
                               <td data-label="@lang('Status')">
                                    @if($data->status == 1)
                                   <span class="badge rounded-pill badge-light-warning me-1">@lang('Running')</span>
                                   @elseif($data->status == 0)
                                       <span class="badge rounded-pill badge-light-success me-1">@lang('Completed')</span>
-              
+
                                   @endif
-              
+
                               </td>
                               <td data-label="@lang('Saved')">
                               <a href="{{route('user.viewsaved',$data->reference)}}" class="btn btn-sm btn-primary">View</a>
@@ -89,7 +89,7 @@
                   <!-- ---------------------
                               end File export
                           ---------------- -->
-  
+
 @endsection
 
 @push('breadcrumb-plugins')
@@ -105,5 +105,5 @@
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js')}}"></script>
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js')}}"></script>
 <script src="{{ asset('assets/assets/dist/js/datatable/datatable-advanced.init.js')}}"></script>
- 
+
 @endpush

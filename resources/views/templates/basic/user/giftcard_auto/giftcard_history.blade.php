@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
 @push('style')
@@ -37,7 +37,7 @@
                             <!-- end row -->
                           </thead>
                           <tbody>
-                             
+
                             @forelse(@$log as $deposit)
                                     <tr>
                                         <td>
@@ -53,17 +53,17 @@
                                         </td>
                                         <td class="text-center">
                                            {{ showAmount($deposit->price) }}  {{ __($deposit->currency) }} / @lang('Unit')
-                                           
+
                                         </td>
                                         <td class="text-center">
-                                           
+
                                              <strong title="@lang('Quantities')">
                                                 <small> {{ ($deposit->quantity) }} @lang('Units')</small>
                                              </strong>
                                          </td>
                                         <td class="text-center">
                                            <small> 1 @lang('Unit')  = {{ __($general->cur_text) }} {{ showAmount($deposit->payment / $deposit->quantity) }}</small>
-                                            
+
                                             <br>
                                             <strong>{{ showAmount($deposit->payment) }}
                                                 {{ __($general->cur_text) }}</strong>
@@ -71,7 +71,7 @@
                                         <td class="text-center">
                                            <label class='badge @if($deposit->status == 'SUCCESSFUL') bg-success  @elseif($deposit->status == 'PENDING') bg-warning  @else  bg-danger @endif'> @php echo $deposit->status @endphp</label>
                                         </td>
-                                        
+
 
                                         <td>
                                             <a class="btn btn-sm btn-outline-primary detailBtnX"
@@ -109,7 +109,7 @@
                   <!-- ---------------------
                               end File export
                           ---------------- -->
-  
+
 @endsection
 
 @push('breadcrumb-plugins')
@@ -125,5 +125,5 @@
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js')}}"></script>
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js')}}"></script>
 <script src="{{ asset('assets/assets/dist/js/datatable/datatable-advanced.init.js')}}"></script>
- 
+
 @endpush

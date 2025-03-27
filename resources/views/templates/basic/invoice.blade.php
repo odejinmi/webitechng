@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.frontend')
+@extends(checkTemplate() . 'layouts.frontend')
 
 @section('content')
 <section>
@@ -6,13 +6,13 @@
         <form  class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" action="" method="post">
             @csrf
         <div class="row justify-content-center">
-        
+
             <div class="col-xl-6 col-lg-6">
                 <div class="gray-simple rounded-2 py-3 px-3">
                     <h1 class="fs-2 pb-3">@lang('Invoice Payment')</h1>
                     <p>Purpose: {{$invoice->purpose}}</p>
                     <h3 class="d-flex align-items-center fs-6 lh-base font--bold"><span class="square--20 font--medium circle bg-primary text-light me-2">1</span>@lang("Payer's Details")</h3>
-                   
+
                     <div class="row g-4 pb-4 pb-md-5 mb-3 mb-md-1">
                         <div class="col-sm-6">
                             <label class="form-label fs-base">First Name</label>
@@ -34,9 +34,9 @@
                                 <input class="form-control form-control-lg ps-5" name="phone" type="tel" placeholder="+1 ___ ___ __">
                             </div>
                         </div>
-                         
+
                     </div>
-                    
+
                     <h3 class="d-flex align-items-center fs-6 lh-base font--bold"><span class="square--20 font--medium circle bg-primary text-light me-2">2</span>@lang('Payment Method')</h3>
                     @forelse ($gatewayCurrency as $data)
                     <div class="form-check bg-white rounded-2 p-3 ps-4 mb-4">
@@ -45,9 +45,9 @@
                     </div>
                     @empty
                     {!!emptyData()!!}
-                    @endforelse 
-                     
-                    
+                    @endforelse
+
+
                     <div class="d-none d-lg-block pt-5 mt-n3">
                         <div class="form-check mb-4">
                             <input class="form-check-input" required type="radio" name="agree" type="checkbox" checked="" id="save-info">
@@ -55,13 +55,13 @@
                         </div>
                         <button class="btn btn-lg btn-primary px-xl-5" type="submit">Place An Order</button>
                     </div>
-                    
+
                 </div>
             </div>
-            
-             
+
+
         </div>
-        
+
         <div class="d-lg-none pb-2 mt-2 mt-lg-0 pt-4 pt-lg-5 row">
             <div class="col-xl-12 col-lg-12">
                 <div class="d-lg-none pb-2 mt-2 mt-lg-0 pt-4 pt-lg-5">
@@ -74,7 +74,7 @@
             </div>
         </div>
     </form>
-            
+
     </div>
 </section>
 @endsection

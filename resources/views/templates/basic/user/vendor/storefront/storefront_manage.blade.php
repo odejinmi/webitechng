@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
  <!-- content @s
 -->
@@ -44,9 +44,9 @@
         </div>
       </div>
     </div>
-    <!-- Column --> 
+    <!-- Column -->
 
-    <div class="col-12"> 
+    <div class="col-12">
 
         <!-- ---------------------
                     start File export
@@ -69,14 +69,14 @@
         </div>
 </div>
 
-<div class="col-12"> 
+<div class="col-12">
 
     <!-- ---------------------
                 start File export
             ---------------- -->
     <div class="card">
       <div class="card-body">
-          
+
         <div class="mb-2">
           <h5 class="mb-0">{{$pageTitle}}</h5>
         </div>
@@ -95,30 +95,30 @@
                   <th>@lang('Product')</th>
                   <th>@lang('Buyer')</th>
                   <th class="text-center">@lang('Date')</th>
-                  <th class="text-center">@lang('Amount')</th>   
-                  <th class="text-center">@lang('')</th>   
+                  <th class="text-center">@lang('Amount')</th>
+                  <th class="text-center">@lang('')</th>
               </tr>
               <!-- end row -->
             </thead>
             <tbody>
-               
+
               @forelse(@$order as $data)
               @php
                             $product = App\Models\Product::whereId($data->product_id)->first();
                             @endphp
                       <tr>
-                        <td> 
-                            <span class="">{{ __($data->trx) }}</span> 
+                        <td>
+                            <span class="">{{ __($data->trx) }}</span>
                             <div class="d-flex align-items-center">
                                 <span class="@if($data->status == 'deliver') text-bg-success @else text-bg-danger @endif p-1 rounded-circle"></span>
                                 <p class="mb-0 ms-2">{{$data->status}}</p>
                             </div>
                         </td>
-                        <td> 
+                        <td>
                          {{$product->name}}<br>
                          QTY: {{$data->quantity}}
                         </td>
-                        <td> 
+                        <td>
                          Name: {{$data->user->fullname}}
                          <br>
                          Email: {{$data->user->email}}
@@ -128,13 +128,13 @@
 
                           <td class="text-center">
                               {{ showDateTime($data->created_at) }}<br>{{ diffForHumans($data->created_at) }}
-                          </td> 
-                          <td class="text-center"> 
-                              <strong>{{ showAmount($data->price) }} {{ __($general->cur_text) }}</strong>                                        
-                          </td> 
+                          </td>
+                          <td class="text-center">
+                              <strong>{{ showAmount($data->price) }} {{ __($general->cur_text) }}</strong>
+                          </td>
                           <td>
                             @if($data->status == 'pending')
-                            <div class="d-flex align-items-center"> 
+                            <div class="d-flex align-items-center">
 
                                 <div class="btn-group mb-2">
                                     <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -145,7 +145,7 @@
                                       <li><a class="dropdown-item" href="{{route('user.storefront.order.status',$data->trx.'?status=deliver')}}">Mark As Delivered</a></li>
                                       <li>
                                         <a class="dropdown-item" href="{{route('user.storefront.order.status',$data->trx.'?status=decline')}}">Mark As Declined</a>
-                                      </li> 
+                                      </li>
                                     </ul>
                                   </div>
                               </div>
@@ -163,7 +163,7 @@
                 <th>@lang('TRX')</th>
                 <th>@lang('Payer')</th>
                 <th class="text-center">@lang('Date')</th>
-                <th class="text-center">@lang('Amount')</th>  
+                <th class="text-center">@lang('Amount')</th>
               </tr>
             </tfoot>
           </table>
@@ -188,7 +188,7 @@
 
                     <!--begin::Step 2-->
                     <div data-kt-stepper-element="scontent">
-                        
+
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -204,8 +204,8 @@
                                 </div>
                                 <!--end::Notice-->
                             </div>
-                            <!--end::Heading--> 
-                            
+                            <!--end::Heading-->
+
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
                                 <!--begin::Label-->
@@ -215,7 +215,7 @@
                                 <input type="text" id="name" class="form-control form-control-lg form-control-solid  name @error('name') is-invalid @enderror" value="{{ $storefront->name}}" name="name" placeholder="Enter Name" />
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group--> 
+                            <!--end::Input group-->
 
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
@@ -227,11 +227,11 @@
                                     name="details" value="{{ old('details') }}" placeholder="Enter Storefont Details" >{{ $storefront->details}}</textarea>
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group-->  
+                            <!--end::Input group-->
 
                             <!--begin::Input group-->
-                            <div class="mb-10 fv-row"> 
-                                
+                            <div class="mb-10 fv-row">
+
                                 <div class="p-3 bg--white">
                                     <div class="">
                                         <img src="{{getImage(imagePath()['storefront_logo']['path'].'/'. $storefront->logo,imagePath()['storefront_logo']['size'])}}" width="100" alt="@lang('Image')" class="b-radius--10" >
@@ -245,7 +245,7 @@
                                 <input type="file" id="logo" class="form-control form-control-lg form-control-solid  logo @error('logo') is-invalid @enderror" name="logo" />
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group-->   
+                            <!--end::Input group-->
 
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
@@ -253,7 +253,7 @@
                                     <div class="">
                                         <img src="{{getImage(imagePath()['storefront_header']['path'].'/'. $storefront->header,imagePath()['storefront_header']['size'])}}" width="100" alt="@lang('Image')" class="b-radius--10" >
                                     </div>
-                                </div> 
+                                </div>
                                 <!--begin::Label-->
                                 <label class="form-label mb-3">@lang('Storefront Header Image')</label>
                                 <!--end::Label-->
@@ -266,11 +266,11 @@
                                 <div class="form-group">
                                     <label for="logo" class="control-label">Storefront Status:</label>
                                 <div class="form-check form-switch form-check-success">
-                                    <input type="checkbox" class="form-check-input" @if ($storefront->status) checked @endif name="status" id="status" /> 
-                                </div>   
-                                </div>  
+                                    <input type="checkbox" class="form-check-input" @if ($storefront->status) checked @endif name="status" id="status" />
+                                </div>
+                                </div>
                             </div>
-                            <!--end::Input group--> 
+                            <!--end::Input group-->
 
                         </div>
                         <!--end::Wrapper-->
@@ -279,13 +279,13 @@
 
 
 
-                     
+
                     <!--begin::Actions-->
                     <div class="d-flex flex-stack pt-15">
                         <!--begin::Wrapper-->
                         <div>
                             <button type="submit" class="btn btn-lg btn-primary" type="button" id="submit">@lang('Update')
-                               <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i> 
+                               <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i>
                             </button>
                         </div>
                         <!--end::Wrapper-->
@@ -319,4 +319,4 @@
 
         }
  </script>
-@endpush 
+@endpush

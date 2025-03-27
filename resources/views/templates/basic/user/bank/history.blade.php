@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 @push('style')
         <link rel="stylesheet" href="{{ asset('assets/assets/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
@@ -19,7 +19,7 @@
                                 <label>@lang('TRX')</label>
                                 <input class="form-control" name="search" type="text" value="{{ request()->search }}">
                             </div>
-                             
+
                             <div class="flex-grow-1">
                                 <label>@lang('Date')</label>
                                 <input class="datepicker-here form-control" name="date" data-range="true" data-multiple-dates-separator=" - " data-language="en" data-position='bottom right' type="text" value="{{ request()->date }}" placeholder="@lang('Start date - End date')" autocomplete="off">

@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 <!-- content @s -->
 <!--begin::Container-->
@@ -20,7 +20,7 @@
                     <i class="flag-icon flag-icon-ng me-1" title="us"></i> {{$general->cur_text}} <i
                       class="ti ti-chevron-down ms-1"></i>
                   </button>
-                   
+
                 </div>
               </div>
               <div class="card mt-4 mb-0 shadow-none">
@@ -85,7 +85,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center gap-3 pt-3">
-                
+
                 <div>
                   <h6 class="mb-0 fw-semibold">Received Today</h6>
                   <span class="fs-2 text-success">{{$general->cur_sym}}{{number_format($today,2)}}</span>
@@ -96,26 +96,26 @@
         </div>
       </div>
 
-      
+
 
     <div class="card">
         <!--begin::Card body-->
         <div class="card-body">
             <!--begin::Stepper-->
 
-            
-             
+
+
             <div class="stepper stepper-links d-flex flex-column pt-15" id="kt_create_account_stepper">
                 <section class="payment-method text-center">
 
-                    
-                    
+
+
                     <p class="mb-0 fs-2"></p>
 
                     <div class="container">
                         <h1 class="fw-semibold fs-s5">Scan QR Codes</h1>
-                    
-                    
+
+
                         <div class="section">
                             <div id="my-qr-reader">
                             </div>
@@ -139,16 +139,16 @@
     border: 1.5px solid #b2b2b2 !important;
     border-radius: 8px;
 }
- 
+
 #my-qr-reader img[alt="Info icon"] {
     display: none;
 }
- 
+
 #my-qr-reader img[alt="Camera based scan"] {
     width: 100px !important;
     height: 100px !important;
 }
- 
+
 button {
     padding: 10px 20px;
     border: 1px solid #b2b2b2;
@@ -162,16 +162,16 @@ button {
     background-color: #008000ad;
     transition: 0.3s background-color;
 }
- 
+
 button:hover {
     background-color: #008000;
 }
- 
+
 #html5-qrcode-anchor-scan-type-change {
     text-decoration: none !important;
     color: #1d9bf0;
 }
- 
+
 video {
     width: 100% !important;
     border: 1px solid #b2b2b2 !important;
@@ -195,15 +195,15 @@ src="https://unpkg.com/html5-qrcode">
         document.addEventListener("DOMContentLoaded", fn);
     }
 }
- 
+
 domReady(function () {
- 
+
     // If found you qr code
     function onScanSuccess(decodeText, decodeResult) {
         window.location.replace(decodeText, "_newtab");
         //alert("You Qr is : " + decodeText, decodeResult);
     }
- 
+
     let htmlscanner = new Html5QrcodeScanner(
         "my-qr-reader",
         { fps: 10, qrbos: 250 }

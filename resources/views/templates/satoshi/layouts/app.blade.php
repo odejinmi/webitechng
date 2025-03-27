@@ -1,8 +1,8 @@
-@extends($activeTemplate . 'layouts.master')
+@extends(checkTemplate() . 'layouts.master')
 @section('content')
-    @include($activeTemplate . 'partials.sidenav')
+    @include(checkTemplate() . 'partials.sidenav')
     <div class="flex-lg-fill overflow-x-auto ps-lg-1 vstack vh-lg-100 position-relative">
-        @include($activeTemplate . 'partials.topnav')
+        @include(checkTemplate() . 'partials.topnav')
     <div class="flex-fill overflow-y-lg-auto scrollbar bg-body rounded-top-4 rounded-top-start-lg-4 rounded-top-end-lg-0 border-top border-lg shadow-2">
         <main class="container-fluid px-3 py-5 p-lg-6 p-xxl-8">
             <div class="mb-6 mb-xl-10">
@@ -24,6 +24,6 @@
 
         </main>
     </div>
-    
+
     </div>
 @endsection

@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
  <!-- content @s
 -->
@@ -18,7 +18,7 @@
 
                     <!--begin::Step 2-->
                     <div data-kt-stepper-element="scontent">
-                        
+
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -27,18 +27,18 @@
                                 <h2 class="fw-bold text-dark">@lang('Create Savings Plan')</h2>
                                 <!--end::Title-->
 
-                                 
+
                             </div>
-                            <!--end::Heading--> 
-                            
+                            <!--end::Heading-->
+
 
                             <div class="mb-1 col-md-12">
                                 <div class="alert alert-warning" role="alert">
                                   <div class="alert-body"><strong>Note!</strong>Please note that your savings plan will be serviced from the fund from your deposit wallet..</div>
                                 </div>
-                            </div>   
+                            </div>
 
-                            
+
 
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
@@ -57,16 +57,16 @@
                                 </label>
                             </div>
                             <!--end::Input group-->
-                            
+
                                  <div class="mb-10 fv-row red box">
 
                                 <div class="alert alert-primary" role="alert">
                                   <div class="alert-body"><strong>Note!</strong> Choosing this plan implies that any amount entered in the amount field below will be charged from your deposit wallet at interval using the set recurrent cycle. You wont have access to this fund until the recurrent cycle is complete</div>
                                 </div>
                               </div>
-                    
+
                               <div class="mb-10 fv-row red box">
-                                  
+
                                   <label class="form-label" for="email">Recurrent Cycle</label>
                                   <select name="cycle" class="form-control">
                                   <option selected disabled>Select An Option</option>
@@ -75,25 +75,25 @@
                                 <option value="30">Monthly</option>
                                   </select>
                                 </div>
-                    
-                    
-                    
+
+
+
                                 <div class="mb-10 fv-row red box">
                                     <label class="form-label" for="Min">Recurrent Times</label>
                                   <input
                                     type="number"
                                     name="recurrent"
-                    
+
                                     class="form-control"
                                     placeholder="Enter the number of recurrent"
                                   />
                                 </div>
-                    
+
                                 <!--begin::Input group-->
                             <div class="mb-10 fv-row  red box">
                                 <!--begin::Label-->
                                 <label class="d-flex align-items-center form-label mb-3">
-                                    @lang('Select Amount') 
+                                    @lang('Select Amount')
                                     <span class="ms-1" data-bs-toggle="tooltip" title="Select a fixed amount">
                                         <i class="ti ti-alert-circle text-gray-500 fs-6">
                                             <span class="path1"></span>
@@ -160,7 +160,7 @@
                                 <!--end::Hint-->
                             </div>
                             <!--end::Input group-->
-                           
+
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row  red box">
                                 <!--begin::Label-->
@@ -170,34 +170,34 @@
                                 <input type="number" onkeyup="fixeamount(this)" id="amount" class="form-control form-control-lg form-control-solid  amount @error('ramount') is-invalid @enderror" value="{{ old('ramount') }}" name="ramount" placeholder="0.00" />
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group--> 
-                    
+                            <!--end::Input group-->
+
                               </div>
-                    
+
                               <div class="mb-10 fv-row green box">
-                    
+
                                <div class="demo-spacing-0">
                                 <div class="alert alert-primary" role="alert">
                                   <div class="alert-body"><strong>Note!</strong> Please note that you will not have access to any fund saved on this plan until it completes the targeted amount or the maturity date elapses..</div>
                                 </div>
                               </div>
                               <br>
-                    
-                    
+
+
                                 <div class="mb-1 form-password-toggle col-md-12">
                                 <br>
                                   <label class="form-label" for="Min">Enter Target Amount </label>
                                   <input
                                     type="number"
                                     name="tamount"
-                    
+
                                     class="form-control"
                                     placeholder="0.00"
                                   />
                                 </div>
 
-                                
-                               
+
+
                                 <div class="mb-1 form-password-toggle col-md-12">
                                     <br>
                                       <label class="form-label">Select A Reason </label>
@@ -212,91 +212,91 @@
                                         <label class="form-check-label" for="reason2">
                                             Appliances
                                         </label>
-                                      </div> 
+                                      </div>
                                       <div class="form-check mb-3">
                                         <input class="form-check-input" type="radio" name="reason" id="reason3" value="Business">
                                         <label class="form-check-label" for="reason3">
                                           Business
                                         </label>
-                                      </div> 
+                                      </div>
                                       <div class="form-check mb-3">
                                         <input class="form-check-input" type="radio" name="reason" id="reason4" value="Car">
                                         <label class="form-check-label" for="reason4">
                                           Car
                                         </label>
-                                      </div> 
+                                      </div>
                                       <div class="form-check mb-3">
                                         <input class="form-check-input" type="radio" name="reason" id="reason5" value="Education">
                                         <label class="form-check-label" for="reason5">
                                           Education
                                         </label>
-                                      </div> 
+                                      </div>
                                       <div class="form-check mb-3">
                                         <input class="form-check-input" type="radio" name="reason" id="reason6" value="Emergency">
                                         <label class="form-check-label" for="reason6">
                                           Emergency
                                         </label>
-                                      </div> 
-                                      
+                                      </div>
+
                                       <div class="form-check mb-3">
                                         <input class="form-check-input" type="radio" name="reason" id="reason7" value="Travel">
                                         <label class="form-check-label" for="reason7">
                                           Travel
                                         </label>
-                                      </div> 
-                                      
+                                      </div>
+
                                       <div class="form-check mb-3">
                                         <input class="form-check-input" type="radio" name="reason" id="reason8" value="Wedding">
                                         <label class="form-check-label" for="reason8">
                                           Wedding
                                         </label>
-                                      </div> 
-                                      
+                                      </div>
+
                                       <div class="form-check mb-3">
                                         <input class="form-check-input" type="radio" name="reason" id="reason9" value="Others">
                                         <label class="form-check-label" for="reason9">
                                           Others
                                         </label>
-                                      </div> 
-                                      
-                                      
-                                       
+                                      </div>
+
+
+
                                 </div>
-                    
+
                                 <div class="mb-1 form-password-toggle col-md-12">
                                 <br>
                                   <label class="form-label" for="Min">Enter Maturity Date </label>
                                   <input
                                     type="date"
                                     name="mature"
-                    
+
                                     class="form-control"
                                     placeholder="Enter Date"
                                   />
                                 </div>
-                    
-                     
+
+
 
                         </div>
                         <!--end::Wrapper-->
 
                         <div class="mb-10 fv-row blue box">
-                    
+
                           <div class="demo-spacing-0">
                            <div class="alert alert-primary" role="alert">
                              <div class="alert-body"><strong>Note!</strong> Please note that your specified amount will be fixed unti the maturity date with a return on investment.</div>
                            </div>
                          </div>
                          <br>
-               
-               
+
+
                            <div class="mb-1 form-password-toggle col-md-12">
                            <br>
                              <label class="form-label" for="Min">Enter Target Amount </label>
                              <input
                                type="number"
                                name="famount"
-               
+
                                class="form-control"
                                placeholder="0.00"
                              />
@@ -374,7 +374,7 @@
                             document.getElementById("value").innerHTML = ''
                             return;
                         }
-                        document.getElementById("value").innerHTML = 
+                        document.getElementById("value").innerHTML =
                         `<br><div class="alert alert-primary" role="alert">
                             <strong>The total value of this voucher will be : </strong> {{$general->cur_sym}} ${parseInt(total).toLocaleString()}<br>
                             Ensure you have enough balance to generate this voucher
@@ -388,7 +388,7 @@
                         <!--begin::Wrapper-->
                         <div>
                             <button type="submit" class="btn btn-lg btn-primary" type="button" id="submit">@lang('Proceed')
-                                <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i> 
+                                <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i>
                             </button>
                         </div>
                         <!--end::Wrapper-->
@@ -404,5 +404,5 @@
     <!--end::Card-->
 </div>
 <!--end::Container-->
- 
+
 @endsection

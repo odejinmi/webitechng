@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
     <!--begin::Content-->
@@ -63,10 +63,10 @@
                                     <!--end::User-->
 
                                     <!--begin::Actions-->
-                                    <div class="d-flex my-4"> 
+                                    <div class="d-flex my-4">
 
                                         <a href="{{ route('user.deposit.index') }}" class="btn btn-sm btn-primary me-3">@lang('Fund Wallet')</a>
- 
+
                                     </div>
                                     <!--end::Actions-->
                                 </div>
@@ -112,7 +112,7 @@
                                                 <div class="fw-semibold fs-6 text-gray-400">@lang('Referral Wallet')</div>
                                                 <!--end::Label-->
                                             </div>
-                                            <!--end::Stat--> 
+                                            <!--end::Stat-->
                                         </div>
                                         <!--end::Stats-->
                                     </div>
@@ -136,7 +136,7 @@
                             </div>
                             <!--end::Info-->
                         </div>
-                        <!--end::Details--> 
+                        <!--end::Details-->
                     </div>
                 </div>
                 <!--end::Navbar-->
@@ -239,7 +239,7 @@
 
                                             <!--begin::Col-->
                                             <div class="col-lg-6 fv-row">
-                                                <input type="text" 
+                                                <input type="text"
                                                     class="form-control form-control-lg form-control-solid"
                                                     placeholder="Last name" name="lastname" value="{{ $user->lastname }}" />
                                             </div>
@@ -347,7 +347,7 @@
                                 </div>
                                 <!--end::Input group-->
 
-                                 
+
 
                                 <!--begin::Input group-->
                                 <div class="row mb-6">
@@ -379,7 +379,7 @@
                                 </div>
                                 <!--end::Input group-->
 
-                                   
+
 
                                 <!--begin::Input group-->
                                 <div class="row mb-6">
@@ -417,7 +417,7 @@
                                     </div>
                                     <!--end::Col-->
                                 </div>
-                                <!--end::Input group--> 
+                                <!--end::Input group-->
 
 
                                  <!--begin::Input group-->
@@ -456,7 +456,7 @@
                                     </div>
                                     <!--end::Col-->
                                 </div>
-                                <!--end::Input group--> 
+                                <!--end::Input group-->
 
                             </div>
                             <!--end::Card body-->
@@ -650,12 +650,12 @@
                     </div>
                     <!--end::Content-->
                 </div>
-                <!--end::Sign-in Method--> 
+                <!--end::Sign-in Method-->
 
                 <!--begin::Deactivate Account-->
                 <div class="card  ">
 
-                  
+
                     <!--begin::Modal - Two-factor authentication-->
 <div class="modal fade" id="kt_modal_two_factor_authentication" tabindex="-1" aria-hidden="true">
     <!--begin::Modal header-->
@@ -678,7 +678,7 @@
             <!--begin::Modal body-->
             <div class="modal-body scroll-y pt-10 pb-15 px-lg-17">
                <div class="row">
-                
+
 
 <!--begin::Apps-->
 <div class="d-wnone" data-kt-element="apps">
@@ -701,26 +701,26 @@
         <!--end::QR code image-->
     </div>
     <!--end::Description-->
-   
 
-    
+
+
 <!--begin::Notice-->
 <div class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-10 p-6">
             <!--begin::Icon-->
         <i class="ti ti-alert-circle fs-2tx text-warning me-4"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>        <!--end::Icon-->
-    
+
     <!--begin::Wrapper-->
     <div class="d-flex flex-stack flex-grow-1 ">
                     <!--begin::Content-->
             <div class=" fw-semibold">
-                
+
                                     <div class="fs-6 text-gray-700 ">If you having trouble using the QR code, select manual entry on your app, and enter your username and the code: <div class="fw-bold text-dark pt-2">{{ $secret }}</div></div>
                             </div>
             <!--end::Content-->
-        
+
             </div>
-    <!--end::Wrapper-->  
-</div> 
+    <!--end::Wrapper-->
+</div>
 @endif
 @if (auth()->user()->ts)
     <!--begin::Form-->
@@ -750,7 +750,7 @@
             <button type="submit" data-kt-element="apps-submit" class="btn btn-primary">
                 <span class="indicator-label">
                    @lang('Submit')
-                </span> 
+                </span>
             </button>
         </div>
         <!--end::Actions-->
@@ -778,7 +778,7 @@
         <input type="text" name="code"  class="form-control form-control-lg form-control-solid" placeholder="Enter authentication code" name="code"/>
     </div>
     <!--end::Input group-->
-    
+
 
     <!--begin::Actions-->
     <div class="d-flex flex-center">
@@ -788,7 +788,7 @@
         <button type="submit" data-kt-element="apps-submit" class="btn btn-primary">
             <span class="indicator-label">
                @lang('Submit')
-            </span> 
+            </span>
         </button>
     </div>
     <!--end::Actions-->
@@ -798,7 +798,7 @@
 </div>
 <!--end::Options-->
                </div>
-            
+
             </div></div></div></div>
 
               <!--begin::Card header-->

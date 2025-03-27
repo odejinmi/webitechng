@@ -10,21 +10,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Color modes -->
-    <script src="{{ asset($activeTemplateTrue . 'front2/js/vendors/color-modes.js') }}"></script>
+    <script src="{{ asset(checkTemplate(true) . 'front2/js/vendors/color-modes.js') }}"></script>
 
     <!-- Libs CSS -->
-    <link href="{{ asset($activeTemplateTrue . 'front2/libs/simplebar/dist/simplebar.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset($activeTemplateTrue . 'front2/libs/bootstrap-icons/font/bootstrap-icons.min.css') }}"
+    <link href="{{ asset(checkTemplate(true) . 'front2/libs/simplebar/dist/simplebar.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset(checkTemplate(true) . 'front2/libs/bootstrap-icons/font/bootstrap-icons.min.css') }}"
         rel="stylesheet" />
 
     <!-- Scroll Cue -->
-    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'front2/libs/scrollcue/scrollCue.css') }}" />
+    <link rel="stylesheet" href="{{ asset(checkTemplate(true) . 'front2/libs/scrollcue/scrollCue.css') }}" />
 
     <!-- Box icons -->
-    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'front2/fonts/css/boxicons.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset(checkTemplate(true) . 'front2/fonts/css/boxicons.min.css') }}" />
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'front2/css/theme.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset(checkTemplate(true) . 'front2/css/theme.min.css') }}" />
 
     @stack('style-lib')
     @stack('style')
@@ -53,9 +53,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/') }}" role="button">Home</a>
                             </li>
-                             
+
                             @php
-                                $pages = App\Models\Page::where('tempname', $activeTemplate)
+                                $pages = App\Models\Page::where('tempname', checkTemplate(true))
                                     ->where('is_default', 0)
                                     ->get();
                                 //$pages = getContent('pages.element', null, false, true);
@@ -65,7 +65,7 @@
                                     <a class="nav-link" href="{{ route('pages', [$data->slug]) }}"
                                         role="button">{{ __($data->name) }}</a>
                                 </li>
-                            @endforeach 
+                            @endforeach
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('contact') }}" role="button">Contact</a>
                             </li>
@@ -148,7 +148,7 @@
                                  </li>
                                  <li class="mb-2">
                                     <a href="#" class="text-decoration-none text-reset">Finance</a>
-                                 </li> 
+                                 </li>
                               </ul>
                            </div>
                         </div>
@@ -176,7 +176,7 @@
                               </li>
                               <li class="mb-2">
                                  <a href="{{route('user.password.email')}}" class="text-decoration-none text-reset">Forgot Password</a>
-                              </li> 
+                              </li>
                            </ul>
                         </div>
                      </div>
@@ -203,7 +203,7 @@
                               </li>
                               <li class="mb-2">
                                  <a href="./changelog.html" class="text-decoration-none text-reset">Changelog</a>
-                              </li> 
+                              </li>
                            </ul>
                         </div>
                      </div>
@@ -283,24 +283,24 @@
          </svg>
       </div>
       <!-- Libs JS -->
-      <script src="{{ asset($activeTemplateTrue . 'front2/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
-      <script src="{{ asset($activeTemplateTrue . 'front2/libs/simplebar/dist/simplebar.min.js')}}"></script>
-      <script src="{{ asset($activeTemplateTrue . 'front2/libs/headhesive/dist/headhesive.min.js')}}"></script>
+      <script src="{{ asset(checkTemplate(true) . 'front2/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+      <script src="{{ asset(checkTemplate(true) . 'front2/libs/simplebar/dist/simplebar.min.js')}}"></script>
+      <script src="{{ asset(checkTemplate(true) . 'front2/libs/headhesive/dist/headhesive.min.js')}}"></script>
 
       <!-- Theme JS -->
-      <script src="{{ asset($activeTemplateTrue . 'front2/js/theme.min.js')}}"></script>
+      <script src="{{ asset(checkTemplate(true) . 'front2/js/theme.min.js')}}"></script>
 
-      <script src="{{ asset($activeTemplateTrue . 'front2/libs/jarallax/dist/jarallax.min.js')}}"></script>
-      <script src="{{ asset($activeTemplateTrue . 'front2/js/vendors/jarallax.js')}}"></script>
-      <script src="{{ asset($activeTemplateTrue . 'front2/libs/parallax-js/dist/parallax.min.js')}}"></script>
-      <script src="{{ asset($activeTemplateTrue . 'front2/js/vendors/parallax.js')}}"></script>
+      <script src="{{ asset(checkTemplate(true) . 'front2/libs/jarallax/dist/jarallax.min.js')}}"></script>
+      <script src="{{ asset(checkTemplate(true) . 'front2/js/vendors/jarallax.js')}}"></script>
+      <script src="{{ asset(checkTemplate(true) . 'front2/libs/parallax-js/dist/parallax.min.js')}}"></script>
+      <script src="{{ asset(checkTemplate(true) . 'front2/js/vendors/parallax.js')}}"></script>
       <!-- Swiper JS -->
-      <script src="{{ asset($activeTemplateTrue . 'front2/libs/swiper/swiper-bundle.min.js')}}"></script>
-      <script src="{{ asset($activeTemplateTrue . 'front2/js/vendors/swiper.js')}}"></script>
-      <script src="{{ asset($activeTemplateTrue . 'front2/libs/glightbox/dist/js/glightbox.min.js')}}"></script>
-      <script src="{{ asset($activeTemplateTrue . 'front2/js/vendors/glight.js')}}"></script>
-      <script src="{{ asset($activeTemplateTrue . 'front2/libs/scrollcue/scrollCue.min.js')}}"></script>
-      <script src="{{ asset($activeTemplateTrue . 'front2/js/vendors/scrollcue.js')}}"></script> 
+      <script src="{{ asset(checkTemplate(true) . 'front2/libs/swiper/swiper-bundle.min.js')}}"></script>
+      <script src="{{ asset(checkTemplate(true) . 'front2/js/vendors/swiper.js')}}"></script>
+      <script src="{{ asset(checkTemplate(true) . 'front2/libs/glightbox/dist/js/glightbox.min.js')}}"></script>
+      <script src="{{ asset(checkTemplate(true) . 'front2/js/vendors/glight.js')}}"></script>
+      <script src="{{ asset(checkTemplate(true) . 'front2/libs/scrollcue/scrollCue.min.js')}}"></script>
+      <script src="{{ asset(checkTemplate(true) . 'front2/js/vendors/scrollcue.js')}}"></script>
     @stack('script-lib')
     @stack('script')
     @include('partials.plugins')

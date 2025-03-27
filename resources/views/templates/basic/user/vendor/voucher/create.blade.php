@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
  <!-- content @s
 -->
@@ -18,7 +18,7 @@
 
                     <!--begin::Step 2-->
                     <div data-kt-stepper-element="scontent">
-                        
+
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -34,12 +34,12 @@
                                 </div>
                                 <!--end::Notice-->
                             </div>
-                            <!--end::Heading-->    
+                            <!--end::Heading-->
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
                                 <!--begin::Label-->
                                 <label class="d-flex align-items-center form-label mb-3">
-                                    @lang('Fixed Amount') 
+                                    @lang('Fixed Amount')
                                     <span class="ms-1" data-bs-toggle="tooltip" title="Select a fixed amount">
                                         <i class="ti ti-alert-circle text-gray-500 fs-6">
                                             <span class="path1"></span>
@@ -110,7 +110,7 @@
                                 <!--end::Hint-->
                             </div>
                             <!--end::Input group-->
-                           
+
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
                                 <!--begin::Label-->
@@ -120,7 +120,7 @@
                                 <input type="number" onkeyup="fixeamount(this)" id="amount" class="form-control form-control-lg form-control-solid  amount @error('amount') is-invalid @enderror" value="{{ old('amount') }}" name="amount" placeholder="0.00" />
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group--> 
+                            <!--end::Input group-->
 
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
@@ -135,7 +135,7 @@
                                     <small class="text-danger" id="value"></small>
                                 </label>
                             </div>
-                            <!--end::Input group-->  
+                            <!--end::Input group-->
 
                         </div>
                         <!--end::Wrapper-->
@@ -169,7 +169,7 @@
                             document.getElementById("value").innerHTML = ''
                             return;
                         }
-                        document.getElementById("value").innerHTML = 
+                        document.getElementById("value").innerHTML =
                         `<br><div class="alert alert-primary" role="alert">
                             <strong>The total value of this voucher will be : </strong> {{$general->cur_sym}} ${parseInt(total).toLocaleString()}<br>
                             Ensure you have enough balance to generate this voucher
@@ -183,7 +183,7 @@
                         <!--begin::Wrapper-->
                         <div>
                             <button type="submit" class="btn btn-lg btn-primary" type="button" id="submit">@lang('Proceed')
-                                <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i> 
+                                <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i>
                             </button>
                         </div>
                         <!--end::Wrapper-->
@@ -199,5 +199,5 @@
     <!--end::Card-->
 </div>
 <!--end::Container-->
- 
+
 @endsection

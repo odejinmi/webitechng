@@ -297,7 +297,7 @@
                                                                       }
                                                                   });
 
-                                                                  document.getElementById("categoeylist").innerHTML =`${categoryhtml}`
+                                                                  // document.getElementById("categoeylist").innerHTML =`${categoryhtml}`
                                                                   document.getElementById("planlist").innerHTML =
                                                                     `  <div class="row align-items-center g-3">
                                                               <div class="">
@@ -327,7 +327,7 @@
                                             </div>
                                         </div>
 
-                                                    <div id="categoeylist"></div>
+                                                    <!--<div id="categoeylist"></div>-->
                                                     <a id="planlist"></a>
 
 
@@ -418,4 +418,4 @@
     </script>
 <?php $__env->stopPush(); ?>
 
-<?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\DELL\PhpstormProjects\webitechng\resources\views/templates/satoshi/user/bills/internetsme/internet_buy_TECHHUB.blade.php ENDPATH**/ ?>
+<?php echo $__env->make(checkTemplate() . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\DELL\PhpstormProjects\webitechng\resources\views/templates/satoshi/user/bills/internetsme/internet_buy_TECHHUB.blade.php ENDPATH**/ ?>

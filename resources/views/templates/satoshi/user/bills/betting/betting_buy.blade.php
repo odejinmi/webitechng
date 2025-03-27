@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 @push('style')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -143,7 +143,7 @@
                 </div>
                 <div class="modal-body undefined">
                     <form class="vstack gap-8">
- 
+
                         <div class="bg-body-secondary rounded-3 p-4">
                             <div class="d-flex justify-content-between text-xs text-muted">
                                 <span class="fw-semibold">Wallet ID</span>
@@ -186,15 +186,15 @@
 
                                 </ul>
 
- 
+
                             </div>
                         </div>
 
 
                             <p id="customer"></p>
-                         
 
-                        <input id="customername" hidden> 
+
+                        <input id="customername" hidden>
                         @push('script')
                 <script>
                   function validateaccount() {
@@ -254,13 +254,13 @@
                             }
                         });
                         }
-                        // END GET DATA \\  
+                        // END GET DATA \\
                     }
 
                     </script>
                     @endpush
 
-                         
+
 
 
                         <div class="bg-body-secondary rounded-3 p-4">

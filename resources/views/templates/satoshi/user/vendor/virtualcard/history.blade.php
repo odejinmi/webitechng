@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     @push('style')
         <link rel="stylesheet" href="{{ asset('assets/assets/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
@@ -35,11 +35,11 @@
 
                                 @forelse(@$log as $item)
                                     <tr>
-                                        <td>{{ $item->pan }} 
+                                        <td>{{ $item->pan }}
                                         </td>
                                         <td class="break_line">{{ __($item->brand) }}<br>
                                             <small>{{ __($item->currency) }}</small>
-                                        </td> 
+                                        </td>
                                             <td>{{ $item->environment }}</td>
                                             <td>
                                                 @if ($item->status == 'active')

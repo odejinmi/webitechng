@@ -1,11 +1,11 @@
-@extends($activeTemplate.'layouts.frontend2')
+@extends(checkTemplate().'layouts.frontend2')
 @section('content')
-@include($activeTemplate . 'partials.breadcrumb2')
+@include(checkTemplate() . 'partials.breadcrumb2')
 
 <br><br>
     @if($sections != null)
         @foreach(json_decode($sections) as $sec)
-            @include($activeTemplate.'sections.'.$sec)
+            @include(checkTemplate().'sections.'.$sec)
         @endforeach
     @endif
     <br>

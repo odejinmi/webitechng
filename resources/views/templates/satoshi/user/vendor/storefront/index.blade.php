@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <!-- File export -->
     <div class="row">
@@ -31,8 +31,8 @@
                                         <!--begin::Action-->
                                         <a href="{{ route('user.storefront.create') }}" class="btn btn-primary er fs-6 px-8 py-4">
                                             <i class="ti ti-plus"></i>
-                                            @lang('Create Storefront') </a> 
-                                        
+                                            @lang('Create Storefront') </a>
+
                                         <!--end::Action-->
                                     </div>
                                 </div>

@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.store')
+@extends(checkTemplate() . 'layouts.store')
 @section('panel')
     <!-- content @s
         -->
@@ -49,7 +49,7 @@
                                                     <img src="{{getImage(imagePath()['storefront_product']['path'].'/'. $product->image_2,imagePath()['storefront_product']['size'])}}" alt=""
                                                         class="img-fluid">
                                                 </div>
-                                                 
+
                                             </div>
 
                                             <div id="sync2" class="owl-carousel owl-theme">
@@ -61,22 +61,22 @@
                                                     <img src="{{getImage(imagePath()['storefront_product']['path'].'/'. $product->image_2,imagePath()['storefront_product']['size'])}}" alt=""
                                                         class="img-fluid">
                                                 </div>
-                                                 
+
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="shop-content">
                                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                                    
+
                                                     <span class="fs-2">{{$product->name}}</span>
-                                                </div> 
+                                                </div>
                                                 <h4 class="fw-semibold mb-3"><del class="fs-5 text-muted"></del>{{$general->cur_sym}}{{number_format($product->amount,2)}} </h4>
                                                 <div class="d-flex align-items-center gap-8 pb-4 border-bottom">
-                                                    <ul class="list-unstyled d-flex align-items-center mb-0"> 
+                                                    <ul class="list-unstyled d-flex align-items-center mb-0">
                                                     <a href="javascript:void(0)">({{$orders}} Total Purchase)</a>
                                                 </div>
                                                 <div class="d-flex align-items-center gap-8 py-7">
-                                                    
+
                                                 </div>
                                                 <form   novalidate="novalidate" action="{{route('user.product.buy',$product->trx)}}" method="post"  enctype="multipart/form-data">
                                                 @csrf
@@ -97,7 +97,7 @@
                                                 </div>
                                                 <div class="d-sm-flex align-items-center gap-3 pt-8 mb-7">
                                                     <button type="submit"
-                                                        class="btn btn-sm btn-primary">Buy Now</button> 
+                                                        class="btn btn-sm btn-primary">Buy Now</button>
                                                 </div>
                                                 </form>
                                                 <p class="mb-0">Dispatched in {{$product->delivery}} days</p>

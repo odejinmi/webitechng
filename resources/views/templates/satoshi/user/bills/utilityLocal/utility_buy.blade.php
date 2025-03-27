@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 @push('style')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -142,7 +142,7 @@
                 </div>
                 <div class="modal-body undefined">
                     <form class="vstack gap-8">
- 
+
                         <div class="bg-body-secondary rounded-3 p-4">
                             <div class="d-flex justify-content-between text-xs text-muted">
                                 <span class="fw-semibold">Meter Number</span>
@@ -183,20 +183,20 @@
 
                                 </ul>
 
- 
+
                             </div>
                         </div>
                         <div id="customer"></div>
-                        
+
 
                         <div><label class="form-label">Select Meter Type</label>
-                            <div class="d-flex flex-wrap gap-1 gap-sm-2"> 
+                            <div class="d-flex flex-wrap gap-1 gap-sm-2">
                                 <div class="flex-fill"><input checked="checked" type="radio" onchange="setnumber('prepaid')" class="btn-check" name="options"
                                         id="option1"> <label class="btn btn-sm btn-neutral w-100"
                                         for="option1">Prepaid</label></div>
                                 <div class="flex-fill"><input onchange="setnumber('postpaid')" type="radio" class="btn-check" name="options"
                                         id="option2"> <label class="btn btn-sm btn-neutral w-100"
-                                        for="option2">Postpaid</label></div> 
+                                        for="option2">Postpaid</label></div>
                             </div>
                         </div>
 
@@ -208,7 +208,7 @@
                             document.getElementById("amount").disabled = false;
                             document.getElementById("password").disabled = false;
                             document.getElementById("metertype").value = metertype;
-                            } 
+                            }
                         </script>
                         @endpush
                         @push('script')
@@ -273,13 +273,13 @@
                             }
                         });
                         }
-                        // END GET DATA \\  
+                        // END GET DATA \\
                     }
 
                     </script>
                     @endpush
 
-                         
+
 
 
                         <div class="bg-body-secondary rounded-3 p-4">

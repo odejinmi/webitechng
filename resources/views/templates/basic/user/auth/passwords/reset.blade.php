@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.auth')
+@extends(checkTemplate() . 'layouts.auth')
 @section('content')
 <!--end::Authentication - Password Reset-->
 @php
@@ -46,7 +46,7 @@ $passwordContent = getContent('password.content', true);
                    <!--begin::Form-->
                    <form class="form w-100 verify-gcaptcha"  data-kt-redirect-url="{{route('user.home')}}"  class="form w-100" novalidate="novalidate" id="kt_password_reset_form" method="POST"
                    action="{{ route('user.password.update') }}">
-                   @csrf 
+                   @csrf
 
                    <input type="hidden" name="email" value="{{ $email }}">
                    <input type="hidden" name="token" value="{{ $token }}">
@@ -67,7 +67,7 @@ $passwordContent = getContent('password.content', true);
                            </div>
                            <!--end::Subtitle--->
                        </div>
-                       <!--begin::Heading-->  
+                       <!--begin::Heading-->
 
                        <!--begin::Input group--->
                        <div class="fv-row mb-8">
@@ -85,16 +85,16 @@ $passwordContent = getContent('password.content', true);
                                 </div>
                             @endif
                            <!--end::Password-->
-                       </div> 
+                       </div>
                        <br>
                        <div class="fv-row mb-8">
                         <!--begin::Password-->
                         <label class="form-label">Confirm New Password</label>
 
                         <input type="password" class="form-control bg-transparent" name="password_confirmation"
-                             placeholder="@lang('Confirm Password')" required> 
+                             placeholder="@lang('Confirm Password')" required>
                         <!--end::Password-->
-                    </div> 
+                    </div>
 
                        <!--begin::Submit button-->
                        <div class="d-grid mb-10">
@@ -103,16 +103,16 @@ $passwordContent = getContent('password.content', true);
                                <!--begin::Indicator label-->
                                <span class="indicator-label">
                                    @lang('Proceed')</span>
-                               <!--end::Indicator label--> 
+                               <!--end::Indicator label-->
                             </button>
                        </div>
                        <!--end::Submit button-->
- 
+
                    </form>
                    <!--end::Form-->
 
                 </div>
-                <!--end::Wrapper--> 
+                <!--end::Wrapper-->
             </div>
             <!--end::Content-->
         </div>
@@ -121,9 +121,9 @@ $passwordContent = getContent('password.content', true);
     <!--end::Body-->
 </div>
 <!--end::Authentication - Password Reset-->
- 
+
 @endsection
- 
+
 
 @if ($general->secure_password)
     @push('script-lib')

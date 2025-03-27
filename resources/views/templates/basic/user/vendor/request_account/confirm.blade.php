@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
  <!-- content @s
 -->
@@ -12,7 +12,7 @@
             <div class="stepper stepper-links d-flex flex-column pt-15" id="kt_create_account_stepper">
 
 
-                
+
                     <!--begin::Step 2-->
                     <div data-kt-stepper-element="scontent">
                         <div class="row justify-content-center gy-4">
@@ -78,7 +78,7 @@
 
 
 
-                     
+
             </div>
             <!--end::Stepper-->
         </div>
@@ -87,5 +87,5 @@
     <!--end::Card-->
 </div>
 <!--end::Container-->
- 
+
 @endsection

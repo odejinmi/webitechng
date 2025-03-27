@@ -1,29 +1,29 @@
-@extends($activeTemplate . 'layouts.frontend2')
+@extends(checkTemplate() . 'layouts.frontend2')
 @section('content')
-@include($activeTemplate . 'partials.breadcrumb2')
+@include(checkTemplate() . 'partials.breadcrumb2')
 <!--Image start-->
          <section class>
             <div class="container">
                <div class="row gy-4">
                   <div class="col-lg-4 col-md-4 col-12">
-                     <a href="{{ asset($activeTemplateTrue . 'front/images/offer-01.jpg')}}" class="glightbox rounded-3">
+                     <a href="{{ asset(checkTemplate(true) . 'front/images/offer-01.jpg')}}" class="glightbox rounded-3">
                         <div
                            class="rounded-3 card-lift"
-                           style="background-image: url({{ asset($activeTemplateTrue . 'front/images/offer-01.jpg')}}); background-repeat: no-repeat; height: 350px; background-size: cover"></div>
+                           style="background-image: url({{ asset(checkTemplate(true) . 'front/images/offer-01.jpg')}}); background-repeat: no-repeat; height: 350px; background-size: cover"></div>
                      </a>
                   </div>
                   <div class="col-lg-4 col-md-4 col-12">
-                     <a href="{{ asset($activeTemplateTrue . 'front/images/offer-02.jpg')}}" class="glightbox rounded-3">
+                     <a href="{{ asset(checkTemplate(true) . 'front/images/offer-02.jpg')}}" class="glightbox rounded-3">
                         <div
                            class="rounded-3 card-lift"
-                           style="background-image: url({{ asset($activeTemplateTrue . 'front/images/offer-02.jpg')}}); background-repeat: no-repeat; height: 350px; background-size: cover"></div>
+                           style="background-image: url({{ asset(checkTemplate(true) . 'front/images/offer-02.jpg')}}); background-repeat: no-repeat; height: 350px; background-size: cover"></div>
                      </a>
                   </div>
                   <div class="col-lg-4 col-md-4 col-12">
-                     <a href="{{ asset($activeTemplateTrue . 'front/images/offer-03.jpg')}}" class="glightbox rounded-3">
+                     <a href="{{ asset(checkTemplate(true) . 'front/images/offer-03.jpg')}}" class="glightbox rounded-3">
                         <div
                            class="rounded-3 card-lift"
-                           style="background-image: url({{ asset($activeTemplateTrue . 'front/images/offer-03.jpg')}}); background-repeat: no-repeat; height: 350px; background-size: cover"></div>
+                           style="background-image: url({{ asset(checkTemplate(true) . 'front/images/offer-03.jpg')}}); background-repeat: no-repeat; height: 350px; background-size: cover"></div>
                      </a>
                   </div>
                </div>
@@ -37,17 +37,17 @@
                <div class="row border-top border-bottom">
                   <div class="col-lg-4 col-md-4 col-12 border-end-md border-bottom border-bottom-md-0">
                      <div class="text-center p-5">
-                        <img src="{{ asset($activeTemplateTrue . 'front/images/btc.png')}}" alt="award" class />
+                        <img src="{{ asset(checkTemplate(true) . 'front/images/btc.png')}}" alt="award" class />
                      </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-12 border-end-md border-bottom border-bottom-md-0">
                      <div class="text-center p-5">
-                        <img src="{{ asset($activeTemplateTrue . 'front/images/ETH.png')}}" alt="award" class />
+                        <img src="{{ asset(checkTemplate(true) . 'front/images/ETH.png')}}" alt="award" class />
                      </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-12">
                      <div class="text-center p-5">
-                        <img src="{{ asset($activeTemplateTrue . 'front/images/usdt.png')}}" alt="award" class />
+                        <img src="{{ asset(checkTemplate(true) . 'front/images/usdt.png')}}" alt="award" class />
                      </div>
                   </div>
                </div>
@@ -68,7 +68,7 @@
                <div class="row d-flex align-items-center mb-md-9 mb-6">
                   <div class="col-lg-6 col-md-6 col-12">
                      <figure class="mb-4 mb-md-0">
-                        <img src="{{ asset($activeTemplateTrue . 'front/images/img-11.png')}}" alt="value" class="img-fluid rounded-3" />
+                        <img src="{{ asset(checkTemplate(true) . 'front/images/img-11.png')}}" alt="value" class="img-fluid rounded-3" />
                      </figure>
                   </div>
                   <div class="col-lg-5 offset-lg-1 col-md-6 col-12">
@@ -112,7 +112,7 @@
 
                   <div class="col-lg-6 offset-lg-1 col-md-6 col-12 order-md-2">
                      <figure class="mb-4">
-                        <img src="{{ asset($activeTemplateTrue . 'front/images/img-07.png')}}" alt="value" class="img-fluid rounded-3" />
+                        <img src="{{ asset(checkTemplate(true) . 'front/images/img-07.png')}}" alt="value" class="img-fluid rounded-3" />
                      </figure>
                   </div>
                </div>
@@ -120,7 +120,7 @@
                <div class="row d-flex align-items-center mb-md-9 mb-6">
                   <div class="col-lg-6 col-md-6 col-12">
                      <figure class="mb-4 mb-md-0">
-                        <img src="{{ asset($activeTemplateTrue . 'front/images/img-03.png')}}" alt="value" class="img-fluid rounded-3" />
+                        <img src="{{ asset(checkTemplate(true) . 'front/images/img-03.png')}}" alt="value" class="img-fluid rounded-3" />
                      </figure>
                   </div>
                   <div class="col-lg-5 offset-lg-1 col-md-6 col-12">
@@ -145,5 +145,5 @@
          <!--Our values end-->
 
          <!--Behind the block start-->
-          
+
 @endsection

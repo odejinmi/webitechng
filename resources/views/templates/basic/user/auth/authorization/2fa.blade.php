@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.auth')
+@extends(checkTemplate() . 'layouts.auth')
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-center">
@@ -8,7 +8,7 @@
                     <form action="{{ route('user.go2fa.verify') }}" method="POST" class="submit-form">
                         @csrf
 
-                        @include($activeTemplate . 'partials.verification_code')
+                        @include(checkTemplate() . 'partials.verification_code')
 
                         <div class="form--group">
                             <button type="submit" class="btn btn-primary submit-btn btn-block  btn-lg w-100">@lang('Submit')</button>

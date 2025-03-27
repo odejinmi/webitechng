@@ -1,8 +1,8 @@
-@extends($activeTemplate . 'layouts.auth')
+@extends(checkTemplate() . 'layouts.auth')
 @section('content')
     @php
         $policyPages = getContent('privacy_policy.element', null, false, true);
-        
+
         $registerContent = getContent('register.content', true);
     @endphp
     <!--begin::Authentication - Sign-UP -->
@@ -76,7 +76,7 @@
                             <input type="text" onkeyup="this.value = this.value.toLowerCase();" placeholder="Username (lowercase letters only)"name="username" value="{{ old('username') }}" required autocomplete="off" class="form-control bg-transparent" />
                             <!--end::Username-->
                         </div>
-                        
+
                          <!--begin::Input group--->
                         <div class="fv-row mb-8">
                              <input type="text"
@@ -85,12 +85,12 @@
                                     id="nin"
                                     placeholder="Enter Your NIN"
                                     maxlength="11"
-                                    pattern="\d{11}" 
+                                    pattern="\d{11}"
                                     title="Your NIN must be 11 digits"
                                     required />
                         </div>
-        
-        
+
+
                         <!--begin::Input group--->
                         <div class="fv-row mb-8">
                             <!--begin::Email-->

@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="row">
         <div class="col-12">
@@ -18,7 +18,7 @@
                       <div class="item rounded overflow-hidden">
                         <img src="{{getImage(imagePath()['event']['path'] .'/'.$event->image,imagePath()['event']['size'])}}" alt="" class="img-fluid">
                       </div>
-                       
+
                     </div>
 
                     <div id="sync2" class="owl-carousel owl-theme">
@@ -30,7 +30,7 @@
                       </div>
                       <div class="item rounded overflow-hidden">
                         <img src="{{getImage(imagePath()['event']['path'] .'/'.$event->image,imagePath()['event']['size'])}}" alt="" class="img-fluid">
-                      </div> 
+                      </div>
                     </div>
                   </div>
                   <div class="col-lg-6">
@@ -65,11 +65,11 @@
                               @foreach($tickets as $k => $v)
                               <li class="list-group-item d-flex align-items-center">
                                 <i class="ti ti-ticket fs-4 me-2 text-primary"></i>
-                                {{$v['name']}} 
+                                {{$v['name']}}
                                 <span class="badge bg-light-primary text-primary font-medium rounded-pill ms-auto"> {{$general->cur_sym}} {{@number_format($v['price'],2)}}</span>
                               </li>
                               @endforeach
-                               
+
                             </ul>
                           </div>
 
@@ -77,11 +77,11 @@
                           <a href="{{route('user.event.ticket.buy',encrypt($event->id))}}" class="btn d-block btn-primary">Buy Event Ticket</a>
                         </div>
                         </div>
-            
-                      </div> 
-                      
+
+                      </div>
+
                       @endif
-           
+
                     </div>
                   </div>
                 </div>
@@ -98,20 +98,20 @@
                       @lang('Description')
                     </button>
                   </li>
-                   
+
                 </ul>
                 <div class="tab-content pt-4" id="pills-tabContent">
                   <div class="tab-pane fade show active" id="pills-description" role="tabpanel"
                     aria-labelledby="pills-description-tab" tabindex="0">
                     <h5 class="fs-5 fw-semibold mb-7">
-                      
+
                     </h5>
                     <p class="mb-7">
                       {{__($event->description)}}
                     </p>
-                     
+
                   </div>
-                   
+
                 </div>
               </div>
             </div>
@@ -129,13 +129,13 @@
                       <h6 class="fw-semibold fs-4">{{$event->titile}}</h6>
                       <div class="d-flex align-items-center justify-content-between">
                         <h6 class="fw-semibold fs-4 mb-0">{{__(@$event->city->name)}} - {{__(@$event->location->name)}}</h6>
-                         
+
                       </div>
                     </div>
                   </div>
                 </div>
                 @endforeach
-                 
+
               </div>
             </div>
           </div>

@@ -1,11 +1,11 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('assets/assets/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css')}}">
 @endpush
             <div class="row">
-                <div class="col-12"> 
+                <div class="col-12">
                   <!-- ---------------------
                               start File export
                           ---------------- -->
@@ -28,34 +28,34 @@
                                 <th>@lang('Name')</th>
                                 <th>@lang('Description')</th>
                                 <th class="text-center">@lang('Initiated')</th>
-                                <th class="text-center">@lang('Code')</th> 
+                                <th class="text-center">@lang('Code')</th>
                                 <th class="text-center">@lang('Status')</th>
                                 <th class="text-center">@lang('')</th>
                             </tr>
                             <!-- end row -->
                           </thead>
                           <tbody>
-                             
+
                             @forelse(@$log as $store)
                                     <tr>
-                                      <td> 
-                                        <span class="">{{ __($store->name) }}</span> 
+                                      <td>
+                                        <span class="">{{ __($store->name) }}</span>
                                       </td>
-                                      <td> 
+                                      <td>
                                           <a>
-                                              <span class="text-primary">{{ __($store->details) }}</span> 
+                                              <span class="text-primary">{{ __($store->details) }}</span>
                                           </a>
                                       </td>
 
                                         <td class="text-center">
                                             {{ showDateTime($store->created_at) }}<br>{{ diffForHumans($store->created_at) }}
-                                        </td> 
-                                        <td class="text-center"> 
-                                            <strong>{{ ($store->trx) }} </strong>                                        
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>{{ ($store->trx) }} </strong>
                                         </td>
                                         <td class="text-center">
                                            <label class='badge text-white @if($store->status == 1) bg-success @else  bg-danger @endif'> @if($store->status == 1) Active @elseif($store->status == 2) Pending Approval @else Inactive @endif</label>
-                                        </td> 
+                                        </td>
                                         <td>
                                           <a href="{{route('user.storefront.edit',$store->trx)}}" class="btn btn-sm btn-primary">Manage</a>
                                         </td>
@@ -71,7 +71,7 @@
                               <th>@lang('Name')</th>
                               <th>@lang('Description')</th>
                               <th class="text-center">@lang('Initiated')</th>
-                              <th class="text-center">@lang('Amount')</th> 
+                              <th class="text-center">@lang('Amount')</th>
                               <th class="text-center">@lang('Status')</th>
                               <th class="text-center">@lang('')</th>
                             </tr>
@@ -88,10 +88,10 @@
                   <!-- ---------------------
                               end File export
                           ---------------- -->
-  
+
 @endsection
 
-@push('breadcrumb-plugins') 
+@push('breadcrumb-plugins')
     <x-search-form placeholder="Search by Trx" />
 @endpush
 @push('script')
@@ -104,5 +104,5 @@
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js')}}"></script>
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js')}}"></script>
 <script src="{{ asset('assets/assets/dist/js/datatable/datatable-advanced.init.js')}}"></script>
- 
+
 @endpush

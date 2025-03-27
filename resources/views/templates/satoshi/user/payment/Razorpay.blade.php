@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 
 @section('panel')
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-6 justify-content-center">
@@ -31,14 +31,14 @@
                 </ul>
                 <div class="mt-7 mb-2 d-flex justify-content-between align-items-center"><span
                             class="text-sm fw-semibold">{{ $deposit->gateway->alias }}!</span>
-          
+
                     <form action="{{ $data->url }}" method="{{ $data->method }}" class="text-center">
                         @csrf
                         <input type="hidden" custom="{{ $data->custom }}" name="hidden">
                         <script src="{{ $data->checkout_js }}"
                             @foreach ($data->val as $key => $value)
                                 data-{{ $key }}="{{ $value }}" @endforeach>
-                        </script>  
+                        </script>
                 </div>
             </div>
         </div>
@@ -46,8 +46,8 @@
     </div>
 </div>
 
- 
- 
+
+
 @endsection
 
 

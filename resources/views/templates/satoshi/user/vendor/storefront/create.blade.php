@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
  <!-- content @s
 -->
@@ -18,7 +18,7 @@
 
                     <!--begin::Step 2-->
                     <div data-kt-stepper-element="scontent">
-                        
+
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -34,8 +34,8 @@
                                 </div>
                                 <!--end::Notice-->
                             </div>
-                            <!--end::Heading--> 
-                            
+                            <!--end::Heading-->
+
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
                                 <!--begin::Label-->
@@ -45,7 +45,7 @@
                                 <input type="text" id="name" class="form-control form-control-lg form-control-solid  name @error('name') is-invalid @enderror" value="{{ old('name') }}" name="name" placeholder="Enter Name" />
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group--> 
+                            <!--end::Input group-->
 
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
@@ -57,7 +57,7 @@
                                     name="details" value="{{ old('details') }}" placeholder="Enter Storefont Details" ></textarea>
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group-->  
+                            <!--end::Input group-->
 
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
@@ -68,7 +68,7 @@
                                 <input type="file" id="logo" class="form-control form-control-lg form-control-solid  logo @error('logo') is-invalid @enderror" name="logo" />
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group-->   
+                            <!--end::Input group-->
 
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
@@ -79,7 +79,7 @@
                                 <input type="file"  class="form-control form-control-lg form-control-solid  @error('header') is-invalid @enderror" name="header" />
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group--> 
+                            <!--end::Input group-->
 
                         </div>
                         <!--end::Wrapper-->
@@ -97,7 +97,7 @@
                         <!--begin::Wrapper-->
                         <div>
                             <button type="submit" class="btn btn-lg btn-primary" type="button" id="submit">@lang('Create')
-                               <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i> 
+                               <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i>
                             </button>
                         </div>
                         <!--end::Wrapper-->
@@ -113,5 +113,5 @@
     <!--end::Card-->
 </div>
 <!--end::Container-->
- 
+
 @endsection

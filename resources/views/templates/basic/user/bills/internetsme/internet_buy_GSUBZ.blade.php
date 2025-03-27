@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="row">
         <div class="col-12">
@@ -251,8 +251,8 @@
                                                 <script>
 
                                               function selectwallet(wallet) {
-                                                        localStorage.setItem('wallet', wallet); 
-                                                    } 
+                                                        localStorage.setItem('wallet', wallet);
+                                                    }
                                                 </script>
                                                 @endpush
                                             </div>
@@ -298,9 +298,9 @@
                                                 data-countrycurrency="NGN"
                                                 data-isoName="NG"
                                                 data-countrycontinent="Africa"
-                                                data-network="{{$networks}}" 
+                                                data-network="{{$networks}}"
                                                 value="Nigeria"
-                                                data-icon="currency-flag currency-flag-ng me-1">Nigeria</option> 
+                                                data-icon="currency-flag currency-flag-ng me-1">Nigeria</option>
                                             </select> <!--end::Input-->
                                         </div>
                                         <!--end::Input group-->
@@ -321,54 +321,54 @@
 
                                                     // Show page loading
                                                     KTApp.showPageLoading();
-                                                    document.getElementById('providers').innerHTML = ''; 
-                                                    var network = $("#youSendCurrency option:selected").attr('data-network'); 
+                                                    document.getElementById('providers').innerHTML = '';
+                                                    var network = $("#youSendCurrency option:selected").attr('data-network');
                                                     document.getElementById("amountlist").innerHTML = ``;
 
                                                     networks = JSON.parse(network);
-                                                                let html = ''; 
-                                                                networks.map(plan => {    
-                                                                    let htmlSegment = 
+                                                                let html = '';
+                                                                networks.map(plan => {
+                                                                    let htmlSegment =
                                                                     `<label class="d-flex flex-stack cursor-pointer mb-5" for="${plan['networkid']}" >
                                                                         <span class="d-flex align-items-center me-2">
                                                                             <span class="symbol symbol-50px me-6">
                                                                                 <span class="symbol-label bg-light-primary">
                                                                                     <i class="ti ti-image fs-2x text-warning"><img src="{{url('/')}}/assets/images/provider/${plan['logo']}" width="30" class="path1"/></i>
                                                                                 </span>
-                                                                                
-                                                                            </span> 
+
+                                                                            </span>
                                                                             <span class="d-flex flex-column">
                                                                                 <span class="fw-bold fs-6">${plan['name']}</span>
                                                                                 <span class="fs-7 text-muted">SME Data & Gifting</span>
                                                                             </span>
                                                                         </span>
-                            
+
                                                                         <span class="form-check form-check-custom form-check-solid">
                                                                             <input class="form-check-input" type="radio" onchange="networkprovider('${plan['networkid']}','${plan['logo']}','${plan['name']}','${plan['networkid']}')"
                                                                                 name="operator" id="${plan['networkid']}" value="${plan['networkid']}" />
                                                                         </span>
                                                                     </label>
                                                                     `;
-                                                                    html += htmlSegment;  
-                                                                }); 
+                                                                    html += htmlSegment;
+                                                                });
 
                                                                 document.getElementById('providers').innerHTML =
                                                                     ` <div class="mb-0"> <label class="d-flex align-items-center form-label mb-5">
                                                                         @lang('Select Operator Plan')
                                                                         <span class="ms-1"  data-bs-toggle="tooltip" title="Please select network service provider" >
-                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>        
+                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>
                                                                         </label> ${html} </div>
                                                                     `;
 
- 
+
 
                                                             KTApp.hidePageLoading();
                                                             loadingEl.remove();
-                                                        } 
-                                                    // END GET DATA \\ 
+                                                        }
+                                                    // END GET DATA \\
                                             </script>
                                             <script>
-                                                function networkprovider(operatorId,image,name,networkid) { 
+                                                function networkprovider(operatorId,image,name,networkid) {
                                                           document.getElementById("networkprovider").innerHTML = name;
                                                           document.getElementById("networkid").value = networkid;
                                                                   const loadingEl = document.createElement("div");
@@ -383,9 +383,9 @@
                                                                   `;
                                                                   KTApp.showPageLoading();
                                                                   var raw = JSON.stringify({
-                                                                  _token: "{{ csrf_token() }}", 
+                                                                  _token: "{{ csrf_token() }}",
                                                                   });
-  
+
                                                                   var requestOptions = {
                                                                   method: 'POST',
                                                                   headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -393,14 +393,14 @@
                                                                   };
                                                                   fetch("{{ route('user.internet_sme.operatorsInternetdetailsGSUBZ') }}", requestOptions)
                                                                   .then(response => response.text())
-                                                                  .then(result => 
+                                                                  .then(result =>
                                                                   {
                                                                       let html = '';
                                                                       KTApp.hidePageLoading();
-                                                                      loadingEl.remove(); 
-                                                                      const plans = JSON.parse(result); 
-                                                                      plans.map(plan => {    
-                                                                        
+                                                                      loadingEl.remove();
+                                                                      const plans = JSON.parse(result);
+                                                                      plans.map(plan => {
+
                                                                       if(plan['network'] == name)
                                                                       {
                                                                       let htmlSegment = `
@@ -410,13 +410,13 @@
                                                                                   <span class="symbol-label bg-light-primary">
                                                                                       <i class="ti ti-image fs-2x text-warning"><img src="{{url('/')}}/assets/images/provider/${image}" width="30" class="path1"/></i>
                                                                                   </span>
-                                                                              </span> 
+                                                                              </span>
                                                                               <span class="d-flex flex-column">
                                                                                   <span class="fw-bold fs-6">${plan['displayName']} <small>(SME)</small></span>
                                                                                   <span class="fs-7 text-muted">${plan['price']}<small>NGN</small></span>
                                                                               </span>
                                                                           </span>
-                              
+
                                                                           <span class="form-check form-check-custom form-check-solid">
                                                                               <input class="form-check-input" onchange="setamount(this)" type="radio"
                                                                                   name="operator" id="${plan['value']}" value="${plan['displayName']}|${plan['price']}|${plan['value']}|${name}|${plan['type']}" />
@@ -425,22 +425,22 @@
                                                                           `;
                                                                           html += htmlSegment;
                                                                         }
-                                                                        }); 
+                                                                        });
                                                                       document.getElementById("amountlist").innerHTML = ` <div class="mb-0"> <label class="d-flex align-items-center form-label mb-5">
                                                                           @lang('Select Internet Plan')
                                                                           <span class="ms-1"  data-bs-toggle="tooltip" title="Please select network service provider" >
-                                                                          <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>        
-                                                                          </label> ${html} </div>`;                                     
-                                                                        
+                                                                          <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>
+                                                                          </label> ${html} </div>`;
+
                                                                   })
-                                                                  .catch(error => 
+                                                                  .catch(error =>
                                                                   {
                                                                    console.log(error);
                                                                   }
-                                                                  
-                                                                  ); 
-                                                                 
-                                                              } 
+
+                                                                  );
+
+                                                              }
                                                           // END GET OPERATORS
                                               </script>
                                         @endpush
@@ -450,7 +450,7 @@
                                         <div class="mb-0 fv-row">
 
                                             <!--begin::Options-->
-                                            <div id="providers"></div> 
+                                            <div id="providers"></div>
                                             <input id="data_plan" name="data_plan" hidden>
                                             <input id="data_type" name="data_type" hidden>
                                             <input id="networkid" name="networkid" hidden>
@@ -497,34 +497,34 @@
 
 
                                         <!--begin::Input group-->
-                                        <div class="mb-10 fv-row"> 
+                                        <div class="mb-10 fv-row">
                                             <!--begin::Fixed Amount-->
                                             <div id="amountlist"></div>
-                                            <!--end::Fixed Amount-->  
+                                            <!--end::Fixed Amount-->
                                         </div>
                                         <!--end::Input group-->
 
 
                                         <!--begin::Input group-->
                                         <div class="fv-row mb-10">
-                                           
+
 
                                             <!--begin::Input-->
                                             @push('script')
                                                 <script>
-                                                    function setamount(input) { 
-                                                        document.getElementById("amount").value = input.value;  
-                                                        document.getElementById("networkname").value = input.value.split('|')[3];  
+                                                    function setamount(input) {
+                                                        document.getElementById("amount").value = input.value;
+                                                        document.getElementById("networkname").value = input.value.split('|')[3];
                                                         document.getElementById("dataplan").innerHTML = input.value.split('|')[0];
                                                         document.getElementById("data_plan").value = input.value.split('|')[2];
                                                         document.getElementById("data_type").value = input.value.split('|')[4];
-                                                        document.getElementById("totalamount").innerHTML = input.value.split('|')[1]+'{{$general->cur_text}}'; 
+                                                        document.getElementById("totalamount").innerHTML = input.value.split('|')[1]+'{{$general->cur_text}}';
                                                     }
                                                 </script>
                                             @endpush
                                               <input name="amount" hidden  id="amount" type="text" class="form-control form-control-lg form-control-solid" />
-                                               
-                                           
+
+
                                             <!--end::Input-->
                                         </div>
                                         <!--end::Input group-->
@@ -553,18 +553,18 @@
                                             <!--end::Notice-->
                                         </div>
                                         <!--end::Heading-->
- 
+
 
                                         <!--begin::Input group-->
                                         <div class="fv-row mb-10">
 
 
-                                        <!--begin::Documents--> 
+                                        <!--begin::Documents-->
                                                   <!--begin::Table-->
                                                   <table
                                                       class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
                                                       <tbody class="fw-semibold text-gray-600">
-                                                          
+
                                                           <tr>
                                                               <td class="text-muted">
                                                                   <div class="d-flex align-items-center">
@@ -609,26 +609,26 @@
                                                             </td>
                                                             <td class="fw-bold text-end" id="dataplan"></td>
                                                         </tr>
-                                                           
+
                                                           <tr>
                                                               <td class="text-muted">
                                                                   <div class="d-flex align-items-center">
                                                                       <i class="ti ti-building-bank fs-2 me-2"><span
                                                                               class="path1"></span><span
-                                                                              class="path2"></span></i> @lang('Total') 
+                                                                              class="path2"></span></i> @lang('Total')
                                                                   </div>
                                                               </td>
                                                               <td class="fw-bold text-end" id="totalamount"></td>
                                                           </tr>
                                                           <tr></tr>
                                                       </tbody>
-                                                  </table> 
-                                                  
+                                                  </table>
+
                                                   <br><br><br>
-                                      
-                                            
+
+
                                             <label class="fs-6 fw-semibold mb-2">
-                                                @lang('Enter Transaction Password') 
+                                                @lang('Enter Transaction Password')
                                                 <span class="ms-1" data-bs-toggle="tooltip"
                                                     title="Please enter your transaction password to authenticate the wallet debit">
                                                     <i class="ti ti-alert-circle text-gray-500 fs-6"><span
@@ -654,10 +654,10 @@
                                                       aria-hidden="true"></span>
                                                     <span class="visually-hidden">Loading...</span>
                                                     </button>`);
- 
+
                                                 var raw = JSON.stringify({
-                                                  _token: "{{ csrf_token() }}", 
-                                                  password : e.value, 
+                                                  _token: "{{ csrf_token() }}",
+                                                  password : e.value,
                                                 });
 
                                                 var requestOptions = {
@@ -667,7 +667,7 @@
                                                 };
                                                 fetch("{{ route('user.trxpass') }}", requestOptions)
                                                   .then(response => response.text())
-                                                  .then(result => 
+                                                  .then(result =>
                                                   {
                                                     resp = JSON.parse(result);
                                                     if(resp.ok != true)
@@ -681,11 +681,11 @@
                                                     $("#passmessage").html(`<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`);
                                                   }
                                                   )
-                                                  .catch(error => 
+                                                  .catch(error =>
                                                   {
 
                                                   }
-                                                  ); 
+                                                  );
                                                   // END GET DATA \\
                                                }
                                         </script>
@@ -713,7 +713,7 @@
                                                <center>  <a href="{{ route('user.internet_sme.history') }}" class="btn btn-primary d-block">@lang('View Order')</a> </center>
                                               </div>
                                             </section>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <!--end::Wrapper-->
                                 </div>
@@ -771,7 +771,7 @@
     @endpush
     @push('script')
     <script>
-        
+
     </script>
         <script>
             "use strict";
@@ -780,15 +780,15 @@
                 return {
                     init: function() {
                         (e = document.querySelector("#kt_modal_create_account")) && new bootstrap.Modal(e), (t =
-                            document.querySelector("#kt_create_account_stepper")) && (i = t.querySelector("#kt_create_account_form"), 
-                                o = t.querySelector('[data-kt-stepper-action="submit"]'), 
+                            document.querySelector("#kt_create_account_stepper")) && (i = t.querySelector("#kt_create_account_form"),
+                                o = t.querySelector('[data-kt-stepper-action="submit"]'),
                                 a = t.querySelector('[data-kt-stepper-action="next"]'), (r = new KTStepper(t)).on("kt.stepper.changed",
                                 (function(e) {
                                     4 === r.getCurrentStepIndex() ? (o.classList.remove("d-none"), o.classList
                                             .add("d-inline-block"), a.classList.add("d-none")) : 5 === r
-                                        .getCurrentStepIndex() ? (o.classList.add("d-none"), 
-                                            a.classList.add("d-none")) : (o.classList.remove("d-inline-block"), 
-                                            o.classList.remove("d-none"), 
+                                        .getCurrentStepIndex() ? (o.classList.add("d-none"),
+                                            a.classList.add("d-none")) : (o.classList.remove("d-inline-block"),
+                                            o.classList.remove("d-none"),
                                             a.classList.remove("d-none"))
                                 })), r.on("kt.stepper.next", (function(e) {
                                 console.log("stepper.next");
@@ -908,15 +908,15 @@
                                             {
                                               $("#passmessage").html(``);
                                               var raw = JSON.stringify({
-                                                  _token: "{{ csrf_token() }}", 
-                                                  password : document.getElementById('password').value, 
-                                                  networkname : document.getElementById('networkname').value, 
-                                                  amount : document.getElementById('amount').value, 
-                                                  phone : document.getElementById('phone').value,  
-                                                  networkid : document.getElementById('networkid').value, 
-                                                  data_plan : document.getElementById('data_plan').value,  
-                                                  data_type : document.getElementById('data_type').value,  
-                                                  wallet :localStorage.getItem('wallet'), 
+                                                  _token: "{{ csrf_token() }}",
+                                                  password : document.getElementById('password').value,
+                                                  networkname : document.getElementById('networkname').value,
+                                                  amount : document.getElementById('amount').value,
+                                                  phone : document.getElementById('phone').value,
+                                                  networkid : document.getElementById('networkid').value,
+                                                  data_plan : document.getElementById('data_plan').value,
+                                                  data_type : document.getElementById('data_type').value,
+                                                  wallet :localStorage.getItem('wallet'),
                                                 });
 
                                                 var requestOptions = {
@@ -926,7 +926,7 @@
                                                 };
                                                 fetch("{{ route('user.buy.internet_sme_gsubz') }}", requestOptions)
                                                   .then(response => response.text())
-                                                  .then(result => 
+                                                  .then(result =>
                                                   {
                                                     resp = JSON.parse(result);
                                                     if(resp.ok == false)
@@ -944,11 +944,11 @@
                                                    $("#passmessage").html(`<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`);
                                                   }
                                                   )
-                                                  .catch(error => 
+                                                  .catch(error =>
                                                   {
-                                                    
+
                                                   }
-                                                  ); 
+                                                  );
                                             }
                                             // END BUY INTERNET \\
                                            // o.removeAttribute("data-kt-indicator"),
@@ -971,9 +971,9 @@
             }();
             KTUtil.onDOMContentLoaded((function() {
                 KTCreateAccount.init()
-            })); 
+            }));
         </script>
         <script>
-            
+
         </script>
     @endpush

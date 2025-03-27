@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 
 @section('panel')
     <!-- content @s
@@ -40,7 +40,7 @@
                                     <div class="mb-10 fv-row">
                                         <!--begin::Label-->
                                         <label class="d-flex align-items-center form-label mb-3">
-                                            @lang('Fixed Amount') 
+                                            @lang('Fixed Amount')
                                             <span class="ms-1" data-bs-toggle="tooltip"
                                                 title="Select a fixed amount">
                                                 <i class="ti ti-alert-circle text-gray-500 fs-6"><span
@@ -153,7 +153,7 @@
                                                     <!--begin::Icon-->
                                                     <span class="symbol symbol-50px me-6">
                                                         <span class="symbol-label">
-                                                            <img width="40" src="{{getImage(imagePath()['gateway']['path'].'/'. $data->method->image,imagePath()['gateway']['size'])}}" alt="" class="img-fluid ms-auto"> 
+                                                            <img width="40" src="{{getImage(imagePath()['gateway']['path'].'/'. $data->method->image,imagePath()['gateway']['size'])}}" alt="" class="img-fluid ms-auto">
                                                         </span>
                                                     </span>
                                                     <!--end::Icon-->
@@ -176,7 +176,7 @@
                                             <!--end::Option-->
                                             @empty
                                             {!!emptyData()!!}
-                                            @endforelse 
+                                            @endforelse
                                         </div>
                                         <!--end::Options-->
                                     </div>
@@ -251,7 +251,7 @@
                 </li>
             </ul>
         </div>
-         
+
         <div class="buysell-field form-action text-center">
             <div class="mt-3">
                 <a class="btn btn-primary"  onclick="document.getElementById('submitnow').click()" >@lang('Confirm Deposit')</a>

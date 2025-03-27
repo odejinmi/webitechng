@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
 @push('style')
@@ -7,7 +7,7 @@
 
     <div class="header-nav">
         <x-search-form placeholder="Loan No.| Plan" btn="btn-primary" />
-        
+
     </div>
     <br>
     <div class="table-responsive">
@@ -173,10 +173,10 @@
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js')}}"></script>
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js')}}"></script>
 <script src="{{ asset('assets/assets/dist/js/datatable/datatable-advanced.init.js')}}"></script>
- 
+
 @endpush
 
-@push('breadcrumb-plugins')  
+@push('breadcrumb-plugins')
 
     <div class="col-12 order-lg-3 order-4">
         <div class="d-flex nav-buttons flex-align gap-md-3 gap-2">

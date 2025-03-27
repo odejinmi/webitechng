@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
  <!-- content @s
 -->
@@ -18,7 +18,7 @@
 
                     <!--begin::Step 2-->
                     <div data-kt-stepper-element="scontent">
-                        
+
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -34,7 +34,7 @@
                                 </div>
                                 <!--end::Notice-->
                             </div>
-                            <!--end::Heading--> 
+                            <!--end::Heading-->
 
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
@@ -60,9 +60,9 @@
                                 <!--end::Label-->
 
                                 <!--begin::Input group-->
-                                <div class="d-flex flex-wrap flex-stack">                      
+                                <div class="d-flex flex-wrap flex-stack">
                                     <input  type="text" name="bvn" maxlength="11" class="form-control form-control-solid"/>
-                                </div>                
+                                </div>
                                 <!--begin::Input group-->
                             </div>
                             <!--end::Section-->
@@ -75,14 +75,14 @@
                                 <!--end::Label-->
 
                                 <!--begin::Input group-->
-                                <div class="d-flex flex-wrap flex-stack">                      
+                                <div class="d-flex flex-wrap flex-stack">
                                     <input  type="text" name="code_1" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-40px w-40px fs-2qx text-center border-primary border-hover mx-1 my-2" value=""/>
                                     <input  type="text" name="code_2" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-40px w-40px fs-2qx text-center border-primary border-hover mx-1 my-2" value=""/>
-                                    <input  type="text" name="code_3" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-40px w-40px fs-2qx text-center border-primary border-hover mx-1 my-2" value=""/> 
-                                    <input  type="text" name="code_4" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-40px w-40px fs-2qx text-center border-primary border-hover mx-1 my-2" value=""/> 
-                                    <input  type="text" name="code_5" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-40px w-40px fs-2qx text-center border-primary border-hover mx-1 my-2" value=""/>                     
-                                    <input  type="text" name="code_6" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-40px w-40px fs-2qx text-center border-primary border-hover mx-1 my-2" value=""/> 
-                                </div>                
+                                    <input  type="text" name="code_3" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-40px w-40px fs-2qx text-center border-primary border-hover mx-1 my-2" value=""/>
+                                    <input  type="text" name="code_4" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-40px w-40px fs-2qx text-center border-primary border-hover mx-1 my-2" value=""/>
+                                    <input  type="text" name="code_5" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-40px w-40px fs-2qx text-center border-primary border-hover mx-1 my-2" value=""/>
+                                    <input  type="text" name="code_6" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-40px w-40px fs-2qx text-center border-primary border-hover mx-1 my-2" value=""/>
+                                </div>
                                 <!--begin::Input group-->
                             </div>
                             <!--end::Section-->
@@ -96,12 +96,12 @@
 
                     <!--begin::Actions-->
                     <div class="d-flex flex-stack pt-15">
- 
+
                         <!--begin::Wrapper-->
                         <div>
 
                             <button type="submit" class="btn btn-lg btn-primary" type="button" id="submit">@lang('Proceed')
-                                
+
                                 <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i> </button>
                         </div>
                         <!--end::Wrapper-->
@@ -153,7 +153,7 @@
             </li>
         </ul>
     </div>
-     
+
     <div class="buysell-field form-action text-center">
         <div class="mt-3">
             <a class="btn btn-primary"  onclick="document.getElementById('submitnow').click()" >@lang('Confirm Payout')</a>

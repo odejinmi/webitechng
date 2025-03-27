@@ -1,6 +1,6 @@
-@extends($activeTemplate . 'layouts.frontend')
+@extends(checkTemplate() . 'layouts.frontend')
 @section('content')
-@include($activeTemplate . 'partials.breadcrumb')
+@include(checkTemplate() . 'partials.breadcrumb')
 
 
 			<!-- CARDS-3
@@ -17,10 +17,10 @@
 									<div class="card-3 bg-white radius-06 text-center">
 
 										<!-- Icon -->
-										<div class="coin-icon"><img src="{{ asset($activeTemplateTrue . 'front/images/btc.png')}}"
+										<div class="coin-icon"><img src="{{ asset(checkTemplate(True) . 'front/images/btc.png')}}"
 										class="img-fluid" alt=""></div>
 
-										<!-- Text --> 
+										<!-- Text -->
 										<h6 class="h3-xs">BITCOIN</h3>
 
 									</div>
@@ -34,10 +34,10 @@
 									<div class="card-3 bg-white radius-06 text-center">
 
 										<!-- Icon -->
-										<div class="coin-icon"><img src="{{ asset($activeTemplateTrue . 'front/images/ETH.png')}}"
+										<div class="coin-icon"><img src="{{ asset(checkTemplate(True) . 'front/images/ETH.png')}}"
 										class="img-fluid" alt=""></div>
 
-										<!-- Text --> 
+										<!-- Text -->
 										<h6 class="h3-xs">ETHEREUM</h3>
 
 									</div>
@@ -51,10 +51,10 @@
 									<div class="card-3 bg-white radius-06 text-center">
 
 										<!-- Icon -->
-										<div class="coin-icon"><img src="{{ asset($activeTemplateTrue . 'front/images/ltc.png')}}"
+										<div class="coin-icon"><img src="{{ asset(checkTemplate(True) . 'front/images/ltc.png')}}"
 										class="img-fluid" alt=""></div>
 
-										<!-- Text --> 
+										<!-- Text -->
 										<h6 class="h3-xs">LITECOIN</h3>
 
 									</div>
@@ -68,16 +68,16 @@
 									<div class="card-3 bg-white radius-06 text-center">
 
 										<!-- Icon -->
-										<div class="coin-icon"><img src="{{ asset($activeTemplateTrue . 'front/images/usdt.png')}}"
+										<div class="coin-icon"><img src="{{ asset(checkTemplate(True) . 'front/images/usdt.png')}}"
 										class="img-fluid" alt=""></div>
 
-										<!-- Text --> 
+										<!-- Text -->
 										<h6 class="h6-xs">TETHER USDT</h6>
 
 									</div>
 								</a>
-							</div>	<!-- END CARD-1 --> 
-							 
+							</div>	<!-- END CARD-1 -->
+
 
 
 							<!-- CARD-6 -->
@@ -86,26 +86,26 @@
 									<div class="card-3 bg-white radius-06 text-center">
 
 										<!-- Icon -->
-										<div class="coin-icon"><img src="{{ asset($activeTemplateTrue . 'front/images/doge.png')}}"
+										<div class="coin-icon"><img src="{{ asset(checkTemplate(True) . 'front/images/doge.png')}}"
 										class="img-fluid" alt=""></div>
 
-										<!-- Text --> 
+										<!-- Text -->
 										<h6 class="h3-xs">DODGE COIN</h3>
 
 									</div>
 								</a>
 							</div>	<!-- END CARD-1 -->
-							
+
 							<!-- CARD-6 -->
 							<div class="col-sm-6 col-lg-4 col-xl-2">
 								<a href="#">
 									<div class="card-3 bg-white radius-06 text-center">
 
 										<!-- Icon -->
-										<div class="coin-icon"><img src="{{ asset($activeTemplateTrue . 'front/images/bnb.png')}}"
+										<div class="coin-icon"><img src="{{ asset(checkTemplate(True) . 'front/images/bnb.png')}}"
 										class="img-fluid" alt=""></div>
 
-										<!-- Text --> 
+										<!-- Text -->
 										<h6 class="h3-xs">BINANCE COIN</h3>
 
 									</div>
@@ -113,10 +113,10 @@
 							</div>	<!-- END CARD-1 -->
 
 
-						</div>  <!-- End row --> 	
+						</div>  <!-- End row -->
 					</div>	<!-- END CARDS-3 WRAPPER -->
-				</div>	   <!-- End container --> 	
-			</section>	<!-- End CARDS-3 --> 
+				</div>	   <!-- End container -->
+			</section>	<!-- End CARDS-3 -->
 
 
 
@@ -135,34 +135,34 @@
 
 
                                 <h5 class="h5-sm">WELCOME</h5>
-								<!-- Text -->			
-								<p class="p-md"> To the ultimate digital asset exchange platform. Our solutions are built on blockchain technology to meet and exceed the expectations of new and existing clients. 
+								<!-- Text -->
+								<p class="p-md"> To the ultimate digital asset exchange platform. Our solutions are built on blockchain technology to meet and exceed the expectations of new and existing clients.
                                                 At {{$general->site_name}}, you enjoy optimum value for your money when you buy, sell or store Bitcoin, Ethereum, Ripple coin, Dogecoin, Litecoin and other cryptocurrencies.
-												We are fast, simple, safe and secure so you got nothing to worry about. 
+												We are fast, simple, safe and secure so you got nothing to worry about.
 
 								</p>
 
 								<!-- Small Title -->
 								<h5 class="h5-sm">HOW TO PLACE A BUY OR SELL ORDER</h5>
 
-								<!-- List -->	
+								<!-- List -->
 								<ul class="simple-list">
 
 									<li class="list-item">
-										<p class="p-md">Click on the BUY or SELL button on the HOME dashboard  
+										<p class="p-md">Click on the BUY or SELL button on the HOME dashboard
 										</p>
 									</li>
 
 									<li class="list-item">
-										<p class="p-md">Select the preferred crypto asset you intend to buy or sell 
+										<p class="p-md">Select the preferred crypto asset you intend to buy or sell
 										</p>
 									</li>
-									
+
 									<li class="list-item">
 										<p class="p-md">Type in the amount and input your crypto wallet address and click confirm
 										</p>
 									</li>
-									
+
 									<li class="list-item">
 										<p class="p-md">To sell, scan the QR code displayed after you click on the CONFIRM button
 										</p>
@@ -178,17 +178,17 @@
 					<!-- SERVICE IMAGES -->
 					<div class="row d-flex align-items-center">
 
-						<!-- IMAGE #1 -->	
-						<div class="col-md-8">								
+						<!-- IMAGE #1 -->
+						<div class="col-md-8">
 							<div class="project-image">
-								<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/service-img-1.jpg')}}" alt="service-image" />			
-							</div>	
+								<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/service-img-1.jpg')}}" alt="service-image" />
+							</div>
 						</div>
 
-						<!-- IMAGE #2 -->	
-						<div class="col-md-4">	
+						<!-- IMAGE #2 -->
+						<div class="col-md-4">
 							<div class="project-image">
-								<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/service-img-2.jpg')}}" alt="pservice-image" />			
+								<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/service-img-2.jpg')}}" alt="pservice-image" />
 							</div>
 						</div>
 
@@ -203,19 +203,19 @@
 								<!-- Small Title -->
 								<h5 class="h5-sm">WHY THOUSANDS OF PEOPLE TRUST {{$general->site_name}} CRYPTO</h5>
 
-								<!-- List -->	
+								<!-- List -->
 								<ul class="simple-list">
 
 									<li class="list-item">
 										<p class="p-md">{{$general->site_name}} makes it easy for you to buy and sell digital assets. Convenience is the watch word
 										</p>
 									</li>
-									
+
 									<li class="list-item">
-										<p class="p-md">You can count on us when it come to security. Built with advanced technology, our Bank-Level Encryption from end-to-end keeps your digital assets safe when buying, selling or storing. 
+										<p class="p-md">You can count on us when it come to security. Built with advanced technology, our Bank-Level Encryption from end-to-end keeps your digital assets safe when buying, selling or storing.
 										</p>
 									</li>
-									
+
 									<li class="list-item">
 										<p class="p-md">We are Fast. Our {{$general->site_name}} solutions provides near-instant BUY and SELL orders for newbies and seasoned traders.
 										</p>
@@ -226,7 +226,7 @@
 										</p>
 									</li>
 
-								</ul>	<!-- End List -->	
+								</ul>	<!-- End List -->
 
 							</div>
 						</div>
@@ -251,7 +251,7 @@
 						<div class="col-md-4">
 							<a href="pricing.html">
 								<div id="pb-1-1" class="pbox-1 radius-06 wow fadeInUp" data-wow-delay="0.4s">
-									<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/offer-01.jpg')}}" alt="promo-image" />
+									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/offer-01.jpg')}}" alt="promo-image" />
 								</div>
 							</a>
 						</div>
@@ -261,7 +261,7 @@
 						<div class="col-md-4">
 							<a href="pricing.html">
 								<div id="pb-1-2" class="pbox-1 radius-06 wow fadeInUp" data-wow-delay="0.6s">
-									<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/offer-02.jpg')}}" alt="promo-image" />
+									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/offer-02.jpg')}}" alt="promo-image" />
 								</div>
 							</a>
 						</div>
@@ -271,13 +271,13 @@
 						<div class="col-md-4">
 							<a href="pricing.html">
 								<div id="pb-1-3" class="pbox-1 radius-06 wow fadeInUp" data-wow-delay="0.8s">
-									<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/offer-03.jpg')}}" alt="promo-image" />
+									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/offer-03.jpg')}}" alt="promo-image" />
 								</div>
 							</a>
 						</div>
 
-					</div>    <!-- End row -->		
-				</div>	   <!-- End container -->	
+					</div>    <!-- End row -->
+				</div>	   <!-- End container -->
 			</div>	<!-- END PROMO-3 -->
 
 
@@ -289,21 +289,21 @@
 			 	<div class="container">
 
 
-			 		<!-- TEXT BLOCK -->	
+			 		<!-- TEXT BLOCK -->
 			 		<div class="row">
 			 			<div class="col-md-11 col-lg-8 col-xl-7">
-			 				<div class="txt-block">	
+			 				<div class="txt-block">
 
-					 			<!-- Title -->	
+					 			<!-- Title -->
 								<h3 class="h3-sm">WE ARE COMMITTED TO SERVE YOU BETTER</h3>
 
 								<!-- Text -->
-								<p class="p-md grey-color">We are committed to providing reliable and trustworthy solutions and professional customer care services any day and any time. 
-								</p>		
-								
+								<p class="p-md grey-color">We are committed to providing reliable and trustworthy solutions and professional customer care services any day and any time.
+								</p>
+
 					 		</div>
-					 	</div>	
-			 		</div>	
+					 	</div>
+			 		</div>
 
 
 			 		<!-- IMAGE BLOCK -->
@@ -312,18 +312,18 @@
 							<div class="img-block rel text-center">
 
 								<!-- Image -->
-								<img class="img-fluid" src="{{ asset($activeTemplateTrue . 'front/images/collage-cars.png')}}" alt="content-image">
+								<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/collage-cars.png')}}" alt="content-image">
 
 								<!-- Text Block -->
 								<div class="content-12-txt bg-01 white-color">
 
-									<!-- Title -->	
-									<h4 class="h4-sm">Join the {{$general->site_name}} family today</h4>	
+									<!-- Title -->
+									<h4 class="h4-sm">Join the {{$general->site_name}} family today</h4>
 
 									<!-- Text -->
 									<p class="p-md">Download {{$general->site_name}} Crypto Mobile application and take advantage of the COIN LOCK feature. Input your preferred Btc amount in USD to lock!
 
-									</p>	
+									</p>
 
 								</div>
 
@@ -362,8 +362,8 @@
 
 							</div>
 						</div>
-						
-						
+
+
 
 
 						<!-- CALL TO ACTION BUTTON -->
@@ -374,15 +374,15 @@
 									<a href="mailto:yourdomain@mail.com" class="btn btn-md btn-theme tra-white-hover">SUBSCRIBE NOW</a>
 								</div>
 							</div>
-						</div>	
-						
+						</div>
+
 
 
 
 					</div>    <!-- End row -->
-				</div>	   <!-- End container -->	
+				</div>	   <!-- End container -->
 			</section>	<!-- END CALL TO ACTION-6 -->
-			
+
 
 
 @endsection

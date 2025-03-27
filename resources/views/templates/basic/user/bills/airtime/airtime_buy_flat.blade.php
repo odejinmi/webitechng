@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="row">
         <div class="col-12">
@@ -185,13 +185,13 @@
                                                                                 <span class="symbol-label bg-light-primary">
                                                                                     <i class="ti ti-image fs-2x text-warning"><img src="${plan['logoUrls'][0]}" width="30" class="path1"/></i>
                                                                                 </span>
-                                                                            </span> 
+                                                                            </span>
                                                                             <span class="d-flex flex-column">
                                                                                 <span class="fw-bold fs-6">${plan['name']}</span>
                                                                                 <span class="fs-7 text-muted">${plan['country']['name']}</span>
                                                                             </span>
                                                                         </span>
-                            
+
                                                                         <span class="form-check form-check-custom form-check-solid">
                                                                             <input class="form-check-input" type="radio"
                                                                                 name="operator" id="${plan['operatorId']}" value="${plan['operatorId']}" />

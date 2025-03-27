@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.' . $layout)
+@extends(checkTemplate() . 'layouts.' . $layout)
 
 @if ($layout == 'frontend')
     @section('content')
@@ -21,7 +21,7 @@
                                         <div class="crancy-chatbox__explore">
                                             <div class="crancy-chatbox__explore-head">
                                                 <div class="crancy-chatbox__author">
-                                                    
+
                                                     <div class="crancy-chatbox__heading">
                                                         <h4 class="crancy-chatbox__heading--title">
                                                             [@lang('Ticket ID:')#{{ $myTicket->ticket }}]
@@ -34,7 +34,7 @@
                                                 <div class="crancy-chatbox__toggle">
                                                     @if ($myTicket->status != Status::TICKET_CLOSE && $myTicket->user)
                                                         <a href="{{ route('ticket.close', $myTicket->id) }}"><img
-                                                                src="{{ asset($activeTemplateTrue . 'dashboard/img/close-icon.svg') }}" /></a>
+                                                                src="{{ asset(checkTemplate(true) . 'dashboard/img/close-icon.svg') }}" /></a>
                                                     @endif
                                                 </div>
                                             </div>
@@ -49,7 +49,7 @@
                                                                 <!-- Single Incoming -->
                                                                 <li>
                                                                     <div class="crancy-chatbox__chat">
-                                                                         
+
                                                                         <div class="crancy-chatbox__main-content">
                                                                             <div class="crancy-chatbox__incoming-chat">
                                                                                 <p class="crancy-chatbox__incoming-text">
@@ -112,7 +112,7 @@
                                                                                 class="crancy-chatbox__time crancy-chatbox__time-two">
                                                                                 {{ diffForHumans($message->created_at) }}
                                                                             </p>
-                                                                        </div> 
+                                                                        </div>
                                                                     </div>
                                                                 </li>
                                                                 <!-- End Single Incoming -->
@@ -139,14 +139,14 @@
                                                                         <div
                                                                             class="crancy-chatbox__button-inline__single crancy-chatbox__button-inline__link">
                                                                             <a href="#"><img
-                                                                                    src="{{ asset($activeTemplateTrue . 'dashboard/img/photo-icon.svg') }}" /></a>
+                                                                                    src="{{ asset(checkTemplate(true) . 'dashboard/img/photo-icon.svg') }}" /></a>
                                                                         </div>
                                                                     </div>
                                                                     <div class="crancy-chatbox__submit">
                                                                         <button class="btn btn-primary"
                                                                             type="submit">
                                                                             <img
-                                                                                src="{{ asset($activeTemplateTrue . 'dashboard/img/send-icon.svg') }}" />Send
+                                                                                src="{{ asset(checkTemplate(true) . 'dashboard/img/send-icon.svg') }}" />Send
                                                                         </button>
                                                                     </div>
                                                                 </div>

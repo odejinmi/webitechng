@@ -1,6 +1,6 @@
-@extends($activeTemplate . 'layouts.frontend')
+@extends(checkTemplate() . 'layouts.frontend')
 @section('content')
-@include($activeTemplate . 'partials.breadcrumb')
+@include(checkTemplate() . 'partials.breadcrumb')
 
 <section>
     <div class="container">
@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="row justify-content-center g-lg-4 g-md-2 g-4">
             @foreach($coins as $data)
             @php
@@ -50,7 +50,7 @@
                                     @lang('Sell Rate'): {{number_format($data->sell_rate,2)}}{{$general->cur_text}}
                                 </li>
                             </ul>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                                     Sell Rate: {{number_format($type->sell_rate,2)}}{{$general->cur_text}}
                                 </li>
                             </ul>
-                        </div> 
+                        </div>
                     </div>
                     @empty
                     <div class="alert alert-danger">

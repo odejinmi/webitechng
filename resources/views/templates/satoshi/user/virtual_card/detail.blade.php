@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <!-- File export -->
 <div class="row">
@@ -17,10 +17,10 @@
                                 <span>
                                     ${{ number_format($cardDetails['balance'] ?? 0, 2) }}
                                 </span>
-                            </div>   
+                            </div>
                          <span style="font-size: 23px;">
                             {{ isset($cardDetails['card_number']) ? chunk_split($cardDetails['card_number'], 4, '  ') : 'N/A' }}
-                        </span> 
+                        </span>
                             <div class="d-flex flex-row justify-content-between">
                                 <div class="d-flex flex-column">
                                     <div class="d-flex flex-row">
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div class="card">
-                            
+
                             <div class="body d-flex flex-column">
                                 <div class="d-flex flex-row">
                                     <div>
@@ -56,8 +56,8 @@
 
                             </div>
                             <div class="footer">
-                                
-                                
+
+
                             </div>
                         </div>
                            @if(session('success'))
@@ -91,7 +91,7 @@
                                                     Rate #{{ $general->virtualcard_usd_rate }} = $1
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="col-sm-3">
                                                 <button type="submit" class="btn btn-primary" style="margin-top:20px">Add Funds</button>
                                             </div>

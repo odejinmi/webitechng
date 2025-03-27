@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 <div class="row">
     <!-- Weekly Stats -->
@@ -11,7 +11,7 @@
 
           <div class="position-relative">
             <div class="d-flex align-items-center justify-content-between mb-7">
- 
+
 
               <div class="d-flex">
                 <div class="p-6 bg-light-primary rounded me-6 d-flex align-items-center justify-content-center">
@@ -97,7 +97,7 @@
     <div class="col-lg-8 d-flex align-items-strech">
         <div class="card w-100">
           <div class="card-body">
-            
+
             <div class="d-sm-flex d-block align-items-center justify-content-between mb-7">
               <div class="mb-3 mb-sm-0">
                 <h5 class="card-title fw-semibold">{{$withdraw->method->name}}</h5>
@@ -157,7 +157,7 @@
                 @endif
 
                 <button type="submit" class="btn w-100 btn-block btn-primary mt-3" id="btn-confirm">@lang('Confirm')</button></li>
- 
+
             </form>
           </div>
         </div>
@@ -166,15 +166,15 @@
 
 </div>
 
- 
+
 @endsection
 
 
 @push('script-lib')
-<script src="{{asset($activeTemplateTrue.'/js/bootstrap-fileinput.js')}}"></script>
+<script src="{{asset(checkTemplate(True).'/js/bootstrap-fileinput.js')}}"></script>
 @endpush
 @push('style-lib')
-<link rel="stylesheet" href="{{asset($activeTemplateTrue.'/css/bootstrap-fileinput.css')}}">
+<link rel="stylesheet" href="{{asset(checkTemplate(True).'/css/bootstrap-fileinput.css')}}">
 @endpush
 
 @push('script')

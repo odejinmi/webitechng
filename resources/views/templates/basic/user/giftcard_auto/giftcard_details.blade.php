@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     @push('style')
 
@@ -34,7 +34,7 @@
                 bottom: -10px;
                 left: -10px;
             }
- 
+
         </style>
     @endpush
     <!-- File export -->
@@ -78,14 +78,14 @@
         @push('breadcrumb-plugins')
         @endpush
         @push('script')
-            @include($activeTemplate . 'partials.loader')
-           
+            @include(checkTemplate() . 'partials.loader')
+
             <script>
                 $(document).ready(function() {
 
 
                     if("{{$card->details}}" != null && "{{$card->transaction_id}}" != null)
-                    { 
+                    {
                             redeemcode();
                     }
                     else
@@ -141,7 +141,7 @@
 
                 function redeemcode() {
                     let url = `{{ route('user.giftcard.redeem', $card->deposit_code) }}`;
-                    document.getElementById('mylist').innerHTML = `  
+                    document.getElementById('mylist').innerHTML = `
                     <div class="main-page">
                         <div class="loader">
                             <div class="spin-blend"></div>

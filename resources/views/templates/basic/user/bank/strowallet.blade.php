@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <!-- content @s
         -->
@@ -249,7 +249,7 @@
                                             <input type="text" id="pin1" name="code_1"
                                                 class="form-control form-control-solid"
                                                 placeholder="****" />
-                                             
+
                                         </div>
                                         <!--begin::Input group-->
                                     </div>
@@ -333,7 +333,7 @@
                         .then(response => response.text())
                         .then(result => {
                             const reply = JSON.parse(result);
-                            if (reply.ok != true) 
+                            if (reply.ok != true)
                             {
                                 document.getElementById("submit").disabled = true;
                             }
@@ -347,7 +347,7 @@
                                 `<div class="alert alert-${reply.status} d-flex align-items-center p-5">
                                 <i class="ti ti-alert-circle fs-2hx text-${reply.status} me-4"><span class="path1"></span><span class="path2"></span></i>
                                 <div class="d-flex flex-column">
-                                    <h4 class="mb-1 text-dark"></h4> 
+                                    <h4 class="mb-1 text-dark"></h4>
                                     <span>${reply.message}</span>
                                 </div>
                                 </div>`
@@ -411,20 +411,20 @@
             fetch("{{ route('user.bank.transfer.strowallet') }}", requestOptions)
                 .then(response => response.text())
                 .then(result => {
-                    const reply = JSON.parse(result); 
+                    const reply = JSON.parse(result);
                     document.getElementById("submit").disabled = false;
                     $("#beneficiary").html(
                         `<div class="alert alert-${reply.status} d-flex align-items-center p-5">
                         <i class="ti ti-alert-circle fs-2hx text-${reply.status} me-4"><span class="path1"></span><span class="path2"></span></i>
                         <div class="d-flex flex-column">
-                            <h4 class="mb-1 text-dark"></h4> 
+                            <h4 class="mb-1 text-dark"></h4>
                             <span>${reply.message}</span>
                         </div>
                         </div>`
                     );
                     KTApp.hidePageLoading();
                     loadingEl.remove();
-                    if (reply.ok != true) 
+                    if (reply.ok != true)
                     {
                         /*
                         setTimeout(function(){

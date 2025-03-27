@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="row">
         <div class="col-12">
@@ -251,8 +251,8 @@
                                                 <script>
 
                                               function selectwallet(wallet) {
-                                                        localStorage.setItem('wallet', wallet); 
-                                                    } 
+                                                        localStorage.setItem('wallet', wallet);
+                                                    }
                                                 </script>
                                                 @endpush
                                             </div>
@@ -294,7 +294,7 @@
                                                         <span class="symbol-label bg-light-primary">
                                                             <i class="ti ti-image fs-2x text-warning"><img src="{{ $data['providerLogoUrl'] }}" width="30" class="path1"/></i>
                                                         </span>
-                                                    </span> 
+                                                    </span>
                                                     <span class="d-flex flex-column">
                                                         <span class="fw-bold fs-6">{{ strToUpper($data['provider']) }}</span>
                                                         <span class="fs-7 text-muted">{{$general->cur_sym}} {{ @number_format($data['minAmount']['amount'],2) }} - {{$general->cur_sym}}{{ @number_format($data['maxAmount']['amount'],2) }}</span>
@@ -304,17 +304,17 @@
                                                     <input class="form-check-input" type="radio" name="provider" id="{{ strToUpper($data['provider']) }}"  onchange="networkprovider('{{ strToUpper($data['provider']) }}')" value="{{ strToUpper($data['provider']) }}" />
                                                 </span>
                                             </label>
-                                            @endforeach 
+                                            @endforeach
                                         </div>
                                         <!--end::Input group-->
-                                        @push('script') 
+                                        @push('script')
                                             <script>
-                                              function networkprovider(provider) { 
+                                              function networkprovider(provider) {
                                                         document.getElementById("companyId").value = provider;
                                                         document.getElementById("bettingprovider").innerHTML = provider;
                                                         document.getElementById("serviceprovider").innerHTML = provider;
 
-                                                    } 
+                                                    }
                                             </script>
                                         @endpush
 
@@ -323,8 +323,8 @@
                                         <div class="mb-0 fv-row">
 
                                             <!--begin::Options-->
-                                            <div id="providers"></div> 
-                                            <input id="companyId" name="servprov" hidden> 
+                                            <div id="providers"></div>
+                                            <input id="companyId" name="servprov" hidden>
                                             <!--end::Options-->
                                         </div>
                                         <!--end::Input group-->
@@ -374,21 +374,21 @@
 
                                             <!--begin::Input-->
                                             <input id="amount" name="amount"  onkeyup="setamount(this)" class="form-control form-control-lg form-control-solid"/>
-                                            <!--end::Input--> 
+                                            <!--end::Input-->
                                         </div>
                                         <!--end::Input group-->
                                         @push('script')
                                         <script>
 
-                                        function setamount(amount){  
+                                        function setamount(amount){
                                         var fee = "{{env('BETTINGCHARGE')}}";
                                         document.getElementById("totalrequest").innerHTML = '{{$general->cur_sym}}' + amount.value;
                                         document.getElementById("totalfee").innerHTML = '{{$general->cur_sym}}' + fee;
                                         document.getElementById("totalamount").innerHTML = '{{$general->cur_sym}}' + (parseInt(fee)+parseInt(amount.value));
                                         }
                                         </script>
-                                        <script> 
-                                            function verifywallet(pickup){ 
+                                        <script>
+                                            function verifywallet(pickup){
                                             if(pickup.value.length > 4)
                                             {
                                             // START GET DATA \\
@@ -408,7 +408,7 @@
                                                         url: "{{ route('user.betting.wallet.verify') }}",
                                                         type: 'GET',
                                                         async: true,
-                                                        data: 
+                                                        data:
                                                         {
                                                             _token: _token,
                                                             number: pickup.value,
@@ -431,23 +431,23 @@
                                                     document.getElementById("beneficiaryname").innerHTML = data.content;
                                                     $("#loader").html('');
                                                 }
-                            
+
                                                 }
                                             });
-                                // END GET DATA \\ 
-                                
+                                // END GET DATA \\
+
                                             }
                                   }
                                 </script>
                                 @endpush
 
                                         <!--begin::Input group-->
-                                        <div class="mb-10 fv-row"> 
+                                        <div class="mb-10 fv-row">
                                             <!--begin::Fixed Amount-->
                                             <div id="amountlist"></div>
-                                            <!--end::Fixed Amount-->  
+                                            <!--end::Fixed Amount-->
                                         </div>
-                                        <!--end::Input group--> 
+                                        <!--end::Input group-->
 
                                     </div>
                                     <!--end::Wrapper-->
@@ -473,13 +473,13 @@
                                             <!--end::Notice-->
                                         </div>
                                         <!--end::Heading-->
- 
+
 
                                         <!--begin::Input group-->
                                         <div class="fv-row mb-10">
 
 
-                                        <!--begin::Documents--> 
+                                        <!--begin::Documents-->
                                                   <!--begin::Table-->
                                                   <table
                                                       class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
@@ -532,14 +532,14 @@
                                                               <td class="fw-bold text-end"><a href="#"
                                                                       class="text-gray-600 text-hover-primary" id="beneficiaryname"></a>
                                                               </td>
-                                                          </tr> 
+                                                          </tr>
 
                                                           <tr>
                                                             <td class="text-muted">
                                                                 <div class="d-flex align-items-center">
                                                                     <i class="ti ti-percentage fs-2 me-2"><span
                                                                             class="path1"></span><span
-                                                                            class="path2"></span></i> @lang('Total Fee') 
+                                                                            class="path2"></span></i> @lang('Total Fee')
                                                                 </div>
                                                             </td>
                                                             <td class="fw-bold text-end" ><a id="totalfee"></a></td>
@@ -550,7 +550,7 @@
                                                                 <div class="d-flex align-items-center">
                                                                     <i class="ti ti-pig-money fs-2 me-2"><span
                                                                             class="path1"></span><span
-                                                                            class="path2"></span></i> @lang('Amount') 
+                                                                            class="path2"></span></i> @lang('Amount')
                                                                 </div>
                                                             </td>
                                                             <td class="fw-bold text-end" ><a id="totalrequest"></a></td>
@@ -561,20 +561,20 @@
                                                                 <div class="d-flex align-items-center">
                                                                     <i class="ti ti-building-bank fs-2 me-2"><span
                                                                             class="path1"></span><span
-                                                                            class="path2"></span></i> @lang('Total') 
+                                                                            class="path2"></span></i> @lang('Total')
                                                                 </div>
                                                             </td>
                                                             <td class="fw-bold text-end" ><a id="totalamount"></a></td>
                                                         </tr>
                                                           <tr></tr>
                                                       </tbody>
-                                                  </table> 
-                                                  
+                                                  </table>
+
                                                   <br><br><br>
-                                      
-                                            
+
+
                                             <label class="fs-6 fw-semibold mb-2">
-                                                @lang('Enter Transaction Password') 
+                                                @lang('Enter Transaction Password')
                                                 <span class="ms-1" data-bs-toggle="tooltip"
                                                     title="Please enter your transaction password to authenticate the wallet debit">
                                                     <i class="ti ti-alert-circle text-gray-500 fs-6"><span
@@ -604,10 +604,10 @@
                                                       aria-hidden="true"></span>
                                                     <span class="visually-hidden">Loading...</span>
                                                     </button>`);
- 
+
                                                 var raw = JSON.stringify({
-                                                  _token: "{{ csrf_token() }}", 
-                                                  password : e.value, 
+                                                  _token: "{{ csrf_token() }}",
+                                                  password : e.value,
                                                 });
 
                                                 var requestOptions = {
@@ -617,7 +617,7 @@
                                                 };
                                                 fetch("{{ route('user.trxpass') }}", requestOptions)
                                                   .then(response => response.text())
-                                                  .then(result => 
+                                                  .then(result =>
                                                   {
                                                     resp = JSON.parse(result);
                                                     if(resp.ok != true)
@@ -631,11 +631,11 @@
                                                     $("#passmessage").html(`<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`);
                                                   }
                                                   )
-                                                  .catch(error => 
+                                                  .catch(error =>
                                                   {
 
                                                   }
-                                                  ); 
+                                                  );
                                                   // END GET DATA \\
                                                }
                                         </script>
@@ -663,7 +663,7 @@
                                                <center>  <a href="{{ route('user.betting.history') }}" class="btn btn-primary d-block">@lang('View Order')</a> </center>
                                               </div>
                                             </section>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <!--end::Wrapper-->
                                 </div>
@@ -721,7 +721,7 @@
     @endpush
     @push('script')
     <script>
-        
+
     </script>
         <script>
             "use strict";
@@ -730,15 +730,15 @@
                 return {
                     init: function() {
                         (e = document.querySelector("#kt_modal_create_account")) && new bootstrap.Modal(e), (t =
-                            document.querySelector("#kt_create_account_stepper")) && (i = t.querySelector("#kt_create_account_form"), 
-                                o = t.querySelector('[data-kt-stepper-action="submit"]'), 
+                            document.querySelector("#kt_create_account_stepper")) && (i = t.querySelector("#kt_create_account_form"),
+                                o = t.querySelector('[data-kt-stepper-action="submit"]'),
                                 a = t.querySelector('[data-kt-stepper-action="next"]'), (r = new KTStepper(t)).on("kt.stepper.changed",
                                 (function(e) {
                                     4 === r.getCurrentStepIndex() ? (o.classList.remove("d-none"), o.classList
                                             .add("d-inline-block"), a.classList.add("d-none")) : 5 === r
-                                        .getCurrentStepIndex() ? (o.classList.add("d-none"), 
-                                            a.classList.add("d-none")) : (o.classList.remove("d-inline-block"), 
-                                            o.classList.remove("d-none"), 
+                                        .getCurrentStepIndex() ? (o.classList.add("d-none"),
+                                            a.classList.add("d-none")) : (o.classList.remove("d-inline-block"),
+                                            o.classList.remove("d-none"),
                                             a.classList.remove("d-none"))
                                 })), r.on("kt.stepper.next", (function(e) {
                                 console.log("stepper.next");
@@ -779,7 +779,7 @@
                                 }
                             })), s.push(FormValidation.formValidation(i, {
                                 fields: {
- 
+
                                     servprov: {
                                         validators: {
                                             notEmpty: {
@@ -797,8 +797,8 @@
                                                 message: "Please enter amount"
                                             }
                                         }
-                                    } 
-                                }, 
+                                    }
+                                },
                                 fields: {
                                     customername: {
                                         validators: {
@@ -846,13 +846,13 @@
                                             {
                                               $("#passmessage").html(``);
                                               var raw = JSON.stringify({
-                                                  _token: "{{ csrf_token() }}", 
-                                                  password : document.getElementById('password').value, 
-                                                  customerId : document.getElementById('merchant').value,  
-                                                  customerName : document.getElementById('customername').value, 
-                                                  companyId : document.getElementById('companyId').value,  
-                                                  amount : document.getElementById('amount').value,  
-                                                  wallet :localStorage.getItem('wallet'), 
+                                                  _token: "{{ csrf_token() }}",
+                                                  password : document.getElementById('password').value,
+                                                  customerId : document.getElementById('merchant').value,
+                                                  customerName : document.getElementById('customername').value,
+                                                  companyId : document.getElementById('companyId').value,
+                                                  amount : document.getElementById('amount').value,
+                                                  wallet :localStorage.getItem('wallet'),
                                                 });
 
                                                 var requestOptions = {
@@ -862,7 +862,7 @@
                                                 };
                                                 fetch("{{ route('user.fund.betting.wallet') }}", requestOptions)
                                                   .then(response => response.text())
-                                                  .then(result => 
+                                                  .then(result =>
                                                   {
                                                     resp = JSON.parse(result);
                                                     if(resp.ok == false)
@@ -880,11 +880,11 @@
                                                    $("#passmessage").html(`<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`);
                                                   }
                                                   )
-                                                  .catch(error => 
+                                                  .catch(error =>
                                                   {
-                                                    
+
                                                   }
-                                                  ); 
+                                                  );
                                             }
                                             // END BUY Utility \\
                                            // o.removeAttribute("data-kt-indicator"),
@@ -907,9 +907,9 @@
             }();
             KTUtil.onDOMContentLoaded((function() {
                 KTCreateAccount.init()
-            })); 
+            }));
         </script>
         <script>
-            
+
         </script>
     @endpush

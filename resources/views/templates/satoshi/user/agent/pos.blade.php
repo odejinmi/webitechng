@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="row g-3 g-xl-6">
         <div class="col-xxl-12">
@@ -28,7 +28,7 @@
                                         <div class="stretched-link text-limit text-sm text-heading fw-semibold"
                                             role="button" data-bs-toggle="offcanvas" data-bs-target="#cardDetailsOffcanvas{{$data->id}}"
                                             aria-controls="cardDetailsOffcanvas{{$data->id}}">Serial Number: {{$data->terminal_id ?? 'N/A'}}</div>
-                                        
+
                                     </div>
                                     <div class="d-none d-sm-block ms-auto text-end">
                                         <span class="badge bg-body-secondary @if($data->status == 1)text-success @else text-danger @endif"> @if($data->status == 1) Active @else Inactive @endif</span>
@@ -40,7 +40,7 @@
                             @endforelse
 
                         </div>
-                         
+
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body undefined">
-                    
+
 <form class="vstack gap-8" action="{{route('user.api.pos.request')}}" method="post" enctype="multipart/form-data">
               @csrf
                     <div class="alert alert-info">
@@ -74,7 +74,7 @@
                                     data-bs-toggle="dropdown" aria-expanded="false"><img src="{{ url('/') }}/assets/images/country/ngn.png"
                                         class="w-rem-6 h-rem-6 rounded-circle" alt="..."> <span>NGN</span> <i
                                         class="bi bi-chevron-down text-xs me-1"></i></button>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -82,14 +82,14 @@
                     <div><label class="form-label">Enter Delivery Address</label>
                         <div class="d-flex justify-content-between p-4 bg-body-tertiary border rounded">
                             <input type="text" name="address" class="form-control form-control-flush text-xl fw-bold w-rem-40"
-                                placeholder="12, Lekki Phase 1, Lagos, Nigeria"> 
+                                placeholder="12, Lekki Phase 1, Lagos, Nigeria">
                         </div>
                     </div>
 
-                    <div> 
+                    <div>
                         <div class="vstack gap-2">
-                             
-                             
+
+
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary w-100">Request</button>
                             </div>
@@ -140,7 +140,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="mb-4">Total Transactions</h5>

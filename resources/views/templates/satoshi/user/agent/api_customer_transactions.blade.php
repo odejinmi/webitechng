@@ -1,9 +1,9 @@
-@extends($activeTemplate . 'layouts.app')
-@section('panel') 
+@extends(checkTemplate() . 'layouts.app')
+@section('panel')
     <!-- File export -->
     <div class="row">
         <div class="col-12">
- 
+
             <div class="card responsive-filter-card mb-4">
                 <div class="card-body mb-4">
                     <form action="">
@@ -46,7 +46,7 @@
             <!-- ---------------------
                               start File export
                           ---------------- -->
-                          
+
                           <div class="row">
                             <div class="col-md-6">
                               <div class="card">
@@ -66,8 +66,8 @@
                                 </div>
                               </div>
                             </div>
-                            
-                            
+
+
                             <div class="col-md-6">
                               <div class="card">
                                 <div class="card-body">
@@ -87,7 +87,7 @@
                               </div>
                             </div>
                         </div>
-                            
+
             <div class="card">
                 <div class="card-body">
                     <div class="mb-2">
@@ -198,7 +198,7 @@
                           ---------------- -->
 
 
-@endsection 
+@endsection
 @push('script')
     <script>
         (function($) {

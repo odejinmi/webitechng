@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 <div class="d-flex gap-2 scrollable-x py-3 px-7 border-bottom">
                        <form action="">
@@ -43,14 +43,14 @@
                           </form>
                     </div>
 
-                    
+
                     <div class="table-responsive">
                         <table class="table table-hover table-striped table-sm table-nowrap">
                             <thead>
                                 <tr>
                                     <th scope="col">
                                         <div class="d-flex align-items-center gap-2 ps-1">
-                                            <div class="text-base"> 
+                                            <div class="text-base">
                                             </div><span>Remark</span>
                                         </div>
                                     </th>
@@ -67,11 +67,11 @@
                                  @forelse($transactions as $data)
                                 <tr>
                                     <td>
-                                        <div class="d-flex align-items-center gap-3 ps-1"> 
-                                            
+                                        <div class="d-flex align-items-center gap-3 ps-1">
+
                                             <div class="d-none d-xl-inline-flex icon icon-shape w-rem-8 h-rem-8 rounded-circle text-sm @if ($data->trx_type == '+') bg-success text-success @else  bg-danger text-danger @endif bg-opacity-25 ">
                                                 @if ($data->trx_type == '+') <i class="bi bi-download"></i> @else <i class="bi bi-upload"></i> @endif
-                                                
+
                                             </div>
                                             <div><span class="d-block text-heading fw-bold">{{ $data->remark }}</span></div>
                                         </div>
@@ -91,13 +91,13 @@
                                 @empty
                                 {!! emptyData() !!}
                                 @endforelse
-                                 
+
                             </tbody>
                         </table>
                     </div>
                     @if ($transactions->hasPages())
                     <div class="py-4 px-6">
-                        <div class="row align-items-center justify-content-between"> 
+                        <div class="row align-items-center justify-content-between">
                             <div class="col-md-auto">
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination pagination-spaced gap-1">
@@ -108,5 +108,5 @@
                         </div>
                     </div>
                     @endif
-                    
+
 @endsection

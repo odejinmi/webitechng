@@ -1,10 +1,10 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="row gy-4">
         <div class="col-xl-4">
             <div class="card">
                 <div class="card-body">
-                     
+
                     <ul class="list-group">
                         <li class="list-group-item d-flex align-items-center">
                             <span class="fw-bold">{{ $loan->loan_number }}</span>
@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="col-xl-8 card">
-            @include($activeTemplate . 'partials.installment_table')
+            @include(checkTemplate() . 'partials.installment_table')
         </div>
     </div>
 @endsection

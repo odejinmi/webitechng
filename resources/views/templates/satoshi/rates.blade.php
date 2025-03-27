@@ -1,10 +1,10 @@
-@extends($activeTemplate . 'layouts.frontend')
+@extends(checkTemplate() . 'layouts.frontend')
 @section('content')
-@include($activeTemplate . 'partials.breadcrumb')
+@include(checkTemplate() . 'partials.breadcrumb')
 
 <section>
     <div class="container">
-        
+
         <div class="row align-items-center justify-content-center mt-4">
             <div class="col-xl-7 col-lg-7 col-md-11 mb-3">
                 <div class="sec-heading text-center">
@@ -14,7 +14,7 @@
                   </div>
             </div>
         </div>
-        
+
         <div class="row justify-content-center g-lg-4 g-md-2 g-4">
             @foreach($coins as $data)
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
@@ -37,12 +37,12 @@
                                 <li class="py-2 font--medium"><i class="fa-regular  @if($data->sell_rate > 0) fa-circle-check text-primary @else  fa fa-x text-danger @endif me-2"></i>@lang('Sell Rate'): {{number_format($data->sell_rate,2)}}{{$general->cur_text}}</li>
                                 <li class="py-2 font--medium"><i class="fa-regular   @if($data->swap_rate > 0) fa-circle-check text-primary @else  fa fa-x text-danger @endif  me-2"></i>@lang('Swap Rate'): {{number_format($data->swap_rate,2)}}{{$general->cur_text}}</li>
                             </ul>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
             @endforeach
-             
+
         </div>
 
 
@@ -63,13 +63,13 @@
                     <div class="prcs-body bg-white py-4 px-lg-4 px-md-2 px-4 rounded-3">
                         <div class="prcs-list mb-3">
                             <ul class="p-0 m-0">
-                               
+
                                 <li class="py-2 font--medium"><i class="fa-regular fa-circle-check text-primary me-2"></i>Name: {{$type->name}}</li>
                                 <li class="py-2 font--medium"><i class="fa-regular fa-circle-check text-primary me-2"></i>Sell Rate: {{number_format($type->sell_rate,2)}}{{$general->cur_text}}</li>
                                 <li class="py-2 font--medium"><i class="fa-regular fa-circle-check text-primary me-2"></i>Buy Rate: {{number_format($type->buy_rate,2)}}{{$general->cur_text}}</li>
-                               
+
                             </ul>
-                        </div> 
+                        </div>
                     </div>
                     @empty
                     <div class="alert alert-danger">
@@ -79,10 +79,10 @@
                 </div>
             </div>
             @endforeach
-             
+
         </div>
-        
+
     </div>
 </section>
-  
+
 @endsection

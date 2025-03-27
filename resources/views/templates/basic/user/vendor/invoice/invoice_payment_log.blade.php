@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
 @push('style')
@@ -46,11 +46,11 @@
                 </div>
               </div>
             </div>
-            <!-- Column --> 
-            
- 
-    
-                <div class="col-12"> 
+            <!-- Column -->
+
+
+
+                <div class="col-12">
 
                   <!-- ---------------------
                               start File export
@@ -86,32 +86,32 @@
                                 <th>@lang('TRX')</th>
                                 <th>@lang('Payer')</th>
                                 <th class="text-center">@lang('Date')</th>
-                                <th class="text-center">@lang('Amount')</th>   
+                                <th class="text-center">@lang('Amount')</th>
                             </tr>
                             <!-- end row -->
                           </thead>
                           <tbody>
-                             
+
                             @forelse(@$log as $data)
                             @php
                             $deposit = App\Models\Deposit::whereTrx($data->trx)->first();
                             @endphp
                                     <tr>
-                                      <td> 
-                                          <span class="">{{ __($data->trx) }}</span> 
+                                      <td>
+                                          <span class="">{{ __($data->trx) }}</span>
                                       </td>
-                                      <td> 
+                                      <td>
                                         <span class="text-primary">@lang('Name'): {{ __(explode("|", $deposit->val_1)[0]) }} {{ __(explode("|", $deposit->val_1)[1]) }}</span> <br>
                                         <span class="text-primary">@lang('Email'): {{ __(explode("|", $deposit->val_1)[2]) }}</span> <br>
-                                        <span class="text-primary">@lang('Phone'): {{ __(explode("|", $deposit->val_1)[3]) }}</span> 
+                                        <span class="text-primary">@lang('Phone'): {{ __(explode("|", $deposit->val_1)[3]) }}</span>
                                       </td>
 
                                         <td class="text-center">
                                             {{ showDateTime($data->created_at) }}<br>{{ diffForHumans($data->created_at) }}
-                                        </td> 
-                                        <td class="text-center"> 
-                                            <strong>{{ showAmount($data->amount) }} {{ __($general->cur_text) }}</strong>                                        
-                                        </td> 
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>{{ showAmount($data->amount) }} {{ __($general->cur_text) }}</strong>
+                                        </td>
                                     </tr>
                                 @empty
                                     {!!emptyData()!!}
@@ -124,7 +124,7 @@
                               <th>@lang('TRX')</th>
                               <th>@lang('Payer')</th>
                               <th class="text-center">@lang('Date')</th>
-                              <th class="text-center">@lang('Amount')</th>  
+                              <th class="text-center">@lang('Amount')</th>
                             </tr>
                           </tfoot>
                         </table>
@@ -139,7 +139,7 @@
                   <!-- ---------------------
                               end File export
                           ---------------- -->
-  
+
 @endsection
 
 @push('breadcrumb-plugins')

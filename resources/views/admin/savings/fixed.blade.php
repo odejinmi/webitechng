@@ -29,14 +29,14 @@
                                 </h5>
                                 <p class="card-subtitle mb-0">{{ $fdr->plan->name }}</p>
                             </div>
-                            
+
                         </div>
                         <div class="row align-items-center">
                             <div class="col-md-8">
                                 <div id="chart"></div>
                             </div>
                             <div class="col-md-4">
-                                 
+
 
                                 <div class="d-flex align-items-baseline mb-4 pb-1">
                                     <span class="round-8 text-bg-success rounded-circle me-6"></span>
@@ -72,7 +72,7 @@
                                             <h6 class="fs-5 fw-semibold mb-0">
                                                 {{ showAmount($fdr->per_installment) }} {{ $general->cur_text }}
                                             </h6>
-                                         
+
                                         </div>
                                     </div>
 
@@ -82,7 +82,7 @@
                                     <p class="fs-3 mb-1"> Return Count:</p>
                                             <h6 class="fs-5 fw-semibold mb-0">{{ $fdr->installments->count() }} </h6>
                                         </div>
-                                    </div> 
+                                    </div>
 
                                     <div class="d-flex align-items-baseline mb-4 pb-1">
                                         <span class="round-8 text-bg-warning rounded-circle me-6"></span>
@@ -97,7 +97,7 @@
                                         </div>
                                     </div>
 
-                                     
+
                                 </div>
                             </div>
                         </div>
@@ -105,8 +105,8 @@
                         <div class="col-lg-12 col-12">
                           <div class="card card-company-table">
                               <div class="card-body p-0">
-                                @include($activeTemplate . 'partials.installment_table')
-  
+                                @include(checkTemplate() . 'partials.installment_table')
+
                               </div>
                           </div>
                       </div>
@@ -201,10 +201,9 @@
           theme: "dark",
         },
       };
-    
+
       var chart = new ApexCharts(document.querySelector("#chart"), chart);
       chart.render();
-    
+
         </script>
             @endpush
-    

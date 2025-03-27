@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div id="content" class="main-content">
         <div class="layout-px-spacing">
@@ -66,7 +66,7 @@
                                                                                 {{ Carbon\Carbon::parse($data->updated_at)->diffForHumans() }}
                                                                             </div>
                                                                         </td>
-                                                                        <td> 
+                                                                        <td>
                                                                             <a href="#tranxDetails{{ $data->id }}"
                                                                                 class="badge bg-primary"
                                                                                 data-bs-toggle="modal">View More <small>({{ $data->trx }})</small></a>
@@ -225,7 +225,7 @@
                                                                                                         wdith="70"
                                                                                                         alt="passport"></span>
                                                                                             </div>
-                                                                                        @endif 
+                                                                                        @endif
                                                                                     </div>
                                                                                 </div>
                                                                             </div>

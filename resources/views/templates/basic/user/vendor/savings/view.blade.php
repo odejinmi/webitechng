@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
     <div id="content" class="main-content">
@@ -29,19 +29,19 @@
                                         @endif
                                     </h5>
                                     @if ($saved->status != 0)
-                                        <badge class="badge bg-success text-white">Running & Active &nbsp;&nbsp;<i class="text-white fa fa-spinner fa-spin"></i></badge> 
+                                        <badge class="badge bg-success text-white">Running & Active &nbsp;&nbsp;<i class="text-white fa fa-spinner fa-spin"></i></badge>
                                     @else
-                                    <badge class="badge bg-danger text-white">Closed</badge> 
+                                    <badge class="badge bg-danger text-white">Closed</badge>
                                     @endif
                                 </div>
-                                
+
                             </div>
                             <div class="row align-items-center">
                                 <div class="col-md-8">
                                     <div id="chart"></div>
                                 </div>
                                 <div class="col-md-4">
-                                     
+
 
                                     <div class="d-flex align-items-baseline mb-4 pb-1">
                                         <span class="round-8 text-bg-success rounded-circle me-6"></span>
@@ -108,7 +108,7 @@
                                             </div>
                                         </div>
                                         @endif
-                                              
+
 
 
                                         <div class="d-flex align-items-baseline mb-4 pb-1">
@@ -131,9 +131,9 @@
                                         <div>
                                             @if ($saved->type == 2 && $saved->status != 0)
                                                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
-                                                    class="btn btn-primary  w-100">Fast Save</button> 
+                                                    class="btn btn-primary  w-100">Fast Save</button>
                                             @endif
-                                            @if ($saved->status != 0)  
+                                            @if ($saved->status != 0)
                                             <br><br>
                                                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineClose"
                                                 class="btn btn-danger  w-100">Close Savings Account</button>
@@ -249,7 +249,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="myModalLabel33">You are about to close this savings account. 
+                                <h4 class="modal-title" id="myModalLabel33">You are about to close this savings account.
                                     @if(\Carbon\Carbon::now() < $saved->mature)
                                     <br>
                                     <p class="text-danger">Please note you will lose {{env('CLOSE_SAVINGS')}}% of your total savings if you close before due date</p>
@@ -268,7 +268,7 @@
                                             <p class="fs-3 mb-1">
                                                 Total Saved
                                             </p>
-                                            <h6 class="fs-5 fw-semibold mb-0"> 
+                                            <h6 class="fs-5 fw-semibold mb-0">
                                                 {{ $general->cur_sym }}
                                                 {{ number_format($sum, 2) }}
                                             </h6>
@@ -299,7 +299,7 @@
                                                 What You Get
                                             </p>
                                             <h6 class="fs-5 fw-semibold mb-0">
-                                                
+
                                                 {{ $general->cur_sym }}
                                                 {{ number_format($sum - $commission, 2) }}
                                             </h6>

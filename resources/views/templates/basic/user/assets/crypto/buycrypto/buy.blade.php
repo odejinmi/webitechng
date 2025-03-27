@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="row">
         <div class="col-12">
@@ -336,14 +336,14 @@
                                                                                 <span class="symbol-label bg-light-primary">
                                                                                     <i class="ti ti-image fs-2x text-warning"><img src="{{ url('/') }}/assets/images/coins/${plan['image']}" width="30" class="path1"/></i>
                                                                                 </span>
-                                                                                
-                                                                            </span> 
+
+                                                                            </span>
                                                                             <span class="d-flex flex-column">
                                                                                 <span class="fw-bold fs-6">${plan['name']}</span>
                                                                                 <span class="fs-7 text-muted">${plan['symbol']}</span>
                                                                             </span>
                                                                         </span>
-                            
+
                                                                         <span class="form-check form-check-custom form-check-solid">
                                                                             <input class="form-check-input" type="radio" onchange="networkprovider('${plan['id']}','${plan['image']}','${plan['name']}','${plan['id']}')"
                                                                                 name="asset" id="${plan['id']}" value="${plan['id']}" />
@@ -357,13 +357,13 @@
                                                         ` <div class="mb-0"> <label class="d-flex align-items-center form-label mb-5">
                                                                         @lang('Select Asset Currency')
                                                                         <span class="ms-1"  data-bs-toggle="tooltip" title="Please select asset currency" >
-                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>        
+                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>
                                                                         </label> ${html} </div>
                                                                     `;
                                                     KTApp.hidePageLoading();
                                                     loadingEl.remove();
                                                 }
-                                                // END GET DATA \\ 
+                                                // END GET DATA \\
                                             </script>
                                             <script>
                                                 function networkprovider(operatorId, image, name, coin) {
@@ -408,7 +408,7 @@
                                                                     resp.ourrate + "{{$general->cur_text}}";
                                                                     document.getElementById("globalrate").innerHTML = "1" + resp.rate.fiat_symbol +
                                                                     "&nbsp;=&nbsp;" + resp.rate.crypto_amount + resp.rate.crypto_symbol;
-                                                               
+
                                                             }
 
                                                         })
@@ -717,7 +717,7 @@
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-body">
-                 
+
                     <form class="ps-3 pr-3" action="{{ route('user.crypto.buy.confirm.manual') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
@@ -742,7 +742,7 @@
             </div>
             <!-- /.modal-dialog -->
     @endsection
- 
+
     @push('script')
         <script></script>
         <script>
@@ -927,19 +927,19 @@
                                                         <div class="w-100">
                                                             <!--begin::Heading-->
                                                             <div class=" ">
-                                                                <!--begin::Title--> 
+                                                                <!--begin::Title-->
                                                                 <section class="text-center">
                                                                     <h5 class="fw-semibold fs-5 text-info">@lang('Payment received and transaction completed')</h5>
                                                                     <h5 class="fw-semibold fs-5text-danger ">@lang('PLEASE, DO NOT REFRESH YOUR BROWSER')</h5>
                                                                     <img src="{{ asset('assets/assets/dist/images/backgrounds/paymentcomplete.jpeg') }}" alt="" class="img-fluid mb-4"
                                                                         width="300">
-                                                                         
+
                                                                         <br>
                                                                         <h6 class="fw-semibold text-danger mb-7">@lang('Please click the view order button below to view the transaction log'): </h6>
                                                                         <div class="order-summary border rounded p-4 my-4">
                                                                             <div class="p-3">
                                                                             <h5 class="fs-5 fw-semibold mb-4">@lang('Payment Summary')</h5>
-                                                                           
+
                                                                             <div class="d-flex justify-content-between mb-4">
                                                                                 <p class="mb-0 fs-4"><b>Payment Value</b></p>
                                                                                 <h6 class="mb-0 fs-4 fw-semibold text-primary"><b>${resp.fiat}{{$general->cur_text}}</b></h6>
@@ -957,15 +957,15 @@
                                                                             <a href="{{route('user.crypto.buy.log')}}" class="btn btn-primary">
                                                                                 <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                                                                                 View Order
-                                                                            </a> 
-                                                                            </div> 
-                                                                            
+                                                                            </a>
+                                                                            </div>
+
                                                                         </div>
                                                                         <!--end::Input group-->
                                                                         </div>
 
                                                                 </section>
-                                                            </div> 
+                                                            </div>
                                                         </div>
                                                         <!--end::Wrapper-->
                                                         `;
@@ -981,7 +981,7 @@
                                                                         <section class="payment-method text-center">
                                                                             <h5 class="fw-semibold fs-5 text-info">@lang('Please make payment to the wallet address below')</h5>
                                                                             <h5 class="fw-semibold fs-5text-danger ">@lang('PLEASE, DO NOT REFRESH YOUR BROWSER')</h5>
-                                                                            
+
                                                                                 <div class="input-group rounded">
                                                                                     Account Details: ${resp.coin.account_details}
                                                                                 </div>
@@ -990,24 +990,24 @@
                                                                                 <div class="order-summary border rounded p-4 my-4">
                                                                                     <div class="p-3">
                                                                                     <h5 class="fs-5 fw-semibold mb-4">@lang('Payment Summary')</h5>
-                                                                                
+
                                                                                     <div class="d-flex justify-content-between mb-4">
                                                                                         <p class="mb-0 fs-4"><b>Amount</b></p>
                                                                                         <h6 class="mb-0 fs-4 fw-semibold text-primary"><b>${resp.fiat}{{$general->cur_text}}</b></h6>
-                                                                                    </div> 
+                                                                                    </div>
 
                                                                                     <button class="btn btn-primary confirmPayment" type="button" disabled onClick="confirmPayment()">
                                                                                         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                                                                                         Waiting For Payment...
                                                                                     </button>
                                                                                     <br><br>
-                                                                                 
+
                                                                                     <a href="javascript:void(0)" onClick="confirmPaymentManual('${resp.trx}')"  data-bs-toggle="modal" data-bs-target="#confirmPayment-modal" class="btn btn-primary">I Have Paid</a>
-                                                                                     
-                                                                                    </div> 
+
+                                                                                    </div>
                                                                                 </div>
                                                                         </section>
-                                                                    </div> 
+                                                                    </div>
                                                                 </div>
                                                                 <!--end::Wrapper-->
                                                                 `;
@@ -1088,12 +1088,12 @@
             SlimNotifierJs.notification('success', 'Copied', 'Wallet Address Copied Successfuly', 3000);
 
 
-        } 
+        }
         function confirmPaymentManual(entry) {
                 document.getElementById("trxnumber").value = entry;
             }
         </script>
-        
+
     @endpush
 
     @push('breadcrumb-plugins')

@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     @push('style')
         <link rel="stylesheet" href="{{ asset('assets/assets/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
@@ -11,7 +11,7 @@
             <div class="card-body">
               <h5 class="card-title fw-semibold">@lang('Card Status')</h5>
               <p class="card-subtitle mb-0">
-                
+
               </p>
               <div id="stats" class="my-4">
                 @if ($reply['data']['status'] == 'active')
@@ -36,7 +36,7 @@
                       <h6 class="mb-1 fs-4 fw-semibold">@lang('Card Pan')</h6>
                       <p class="fs-3 mb-0">{{$reply['data']['pan']}}</p>
                     </div>
-                  </div> 
+                  </div>
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between mb-7"
@@ -51,7 +51,7 @@
                         <h6 class="mb-1 fs-4 fw-semibold">@lang('Expiry Month')</h6>
                         <p class="fs-3 mb-0">{{$reply['data']['expiry_month']}}</p>
                     </div>
-                  </div> 
+                  </div>
                 </div>
                 <div
                 class="d-flex align-items-center justify-content-between mb-7"
@@ -66,7 +66,7 @@
                         <h6 class="mb-1 fs-4 fw-semibold">@lang('Expiry Year')</h6>
                         <p class="fs-3 mb-0">{{$reply['data']['expiry_year']}}</p>
                     </div>
-                  </div> 
+                  </div>
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between"
@@ -81,7 +81,7 @@
                         <h6 class="mb-1 fs-4 fw-semibold">@lang('Card CVV')</h6>
                         <p class="fs-3 mb-0">{{$reply['data']['cvv']}}</p>
                     </div>
-                  </div> 
+                  </div>
                 </div>
               </div>
               <hr>
@@ -102,9 +102,9 @@
             </div>
           </div>
         </div>
-        <!-- Top Performers --> 
+        <!-- Top Performers -->
       </div>
-             
+
 
       <div class="modal fade" id="pin-modal" tabindex="-1" aria-labelledby="exampleModalLabel1">
         <div class="modal-dialog" role="document">
@@ -121,16 +121,16 @@
                 <div class="mb-3">
                   <label for="recipient-name" class="control-label">Old Card Pin:</label>
                   <input type="password" name="old_pin" class="form-control" id="old_pin" />
-                </div> 
+                </div>
                 <div class="mb-3">
                   <label for="recipient-name" class="control-label">New Card Pin:</label>
                   <input type="number" name="new_pin" class="form-control" id="new_pin" />
-                </div> 
+                </div>
 
                 <div class="mb-3">
                     <label for="recipient-name" class="control-label">Account Transaction Password:</label>
                     <input type="password" name="password" class="form-control" id="password" />
-                  </div> 
+                  </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn bg-danger-subtle text-danger font-medium"
@@ -145,7 +145,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="modal fade" id="fund-modal" tabindex="-1" aria-labelledby="exampleModalLabel1">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -161,13 +161,13 @@
                 <div class="mb-3">
                   <label for="recipient-name" class="control-label">Amount <small>({{$reply['data']['currency']}})</small>:</label>
                   <input type="number" name="amount" class="form-control" placeholder="0.00{{$reply['data']['currency']}}" id="old_pin" />
-                </div> 
-                 
+                </div>
+
 
                 <div class="mb-3">
                     <label for="recipient-name" class="control-label">Account Transaction Password:</label>
                     <input type="password" name="password" class="form-control" id="password" />
-                  </div> 
+                  </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn bg-danger-subtle text-danger font-medium"

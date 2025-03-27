@@ -1,12 +1,12 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 <div class="tab-pane fsade" id="pills-followers" role="tabpanel" aria-labelledby="pills-followers-tab" tabindex="0">
     <div class="d-sm-flex align-items-center justify-content-between mt-3 mb-4">
       <h3 class="mb-3 mb-sm-0 fw-semibold d-flex align-items-center">@lang('Total Customers') <span class="badge text-bg-secondary fs-2 rounded-4 py-1 px-2 ms-2">{{count($customers)}}</span></h3>
     </div>
-     
+
   </div>
- 
+
    <!-- Transaction Log -->
    <div class="col-lg-12 d-flex align-items-strech">
     <div class="card w-100">
@@ -14,7 +14,7 @@
         <div class="d-sm-flex d-block align-items-center justify-content-between mb-7">
           <div class="mb-3 mb-sm-0">
             <h5 class="card-title fw-semibold">@lang('Customers Transaction')</h5>
-          </div> 
+          </div>
         </div>
         <div class="table-respon2sive">
           <table class="table align-middle text-nowrap mb-0">
@@ -33,26 +33,26 @@
             <tbody class="border-top">
                 @forelse($customers as $data)
                 <tr>
-                <td class="ps-0"> 
+                <td class="ps-0">
                       <h6 class="fw-semibold mb-1">{{$data->customer_id}}</h6>
                 </td>
-                <td class="ps-0"> 
+                <td class="ps-0">
                       <h6 class="fw-semibold mb-1">{{$data->email}}</h6>
                 </td>
-                <td class="ps-0"> 
+                <td class="ps-0">
                       <h6 class="fw-semibold mb-1">{{$data->phone}}</h6>
                 </td>
                 <td>
                   <p class="mb-0 fs-3">{{$data->account_name}}</p>
-                </td> 
+                </td>
                 <td>
                   <p class="mb-0 fs-3">{{$data->account_number}}</p>
-                </td> 
+                </td>
                 <td>
                   <p class="mb-0 fs-3">{{$data->bank_name}}</p>
-                </td> 
-                
-                <td class="ps-0"> 
+                </td>
+
+                <td class="ps-0">
                       <p class="fs-2 mb-0 text-muted">{{ ($data->created_at) }}</p>
                       <p class="fs-2 mb-0 text-muted">{{ diffForHumans($data->created_at) }}</p>
                 </td>
@@ -61,7 +61,7 @@
               @empty
               {!!emptyData()!!}
               @endforelse
-               
+
             </tbody>
           </table>
         </div>
@@ -70,16 +70,16 @@
                         {{ $customers->links() }}
                     </div>
         @endif
-             
+
       </div>
     </div>
   </div>
 
-              
-                
 
-    
+
+
+
 @endsection
-@push('breadcrumb-plugins') 
+@push('breadcrumb-plugins')
 
 @endpush

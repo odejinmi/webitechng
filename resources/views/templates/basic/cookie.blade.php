@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.frontend')
+@extends(checkTemplate() . 'layouts.frontend')
 @section('content')
     <section class="news-section news-details-section ptb-80">
         <div class="container">

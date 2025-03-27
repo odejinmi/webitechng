@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 <!-- content @s
 -->
@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
 
-                               
+
                                 <div class="form-group mb-3">
                                     <label class="d-block mb-2 sm-text">@lang('Details')</label>
                                     <textarea name="details" class="form-control form--control-textarea" rows="5" placeholder="@lang('Enter details')">{{ old('details') }}</textarea>
@@ -66,5 +66,5 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
 @endsection

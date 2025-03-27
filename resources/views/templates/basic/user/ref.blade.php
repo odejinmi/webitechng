@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 <div class="tab-pane fsade" id="pills-followers" role="tabpanel" aria-labelledby="pills-followers-tab" tabindex="0">
     <div class="d-sm-flex align-items-center justify-content-between mt-3 mb-4">
@@ -20,10 +20,10 @@
       @empty
       {!!emptyData2()!!}
       @endforelse
-       
+
     </div>
   </div>
- 
+
    <!-- Transaction Log -->
    <div class="col-lg-12 d-flex align-items-strech">
     <div class="card w-100">
@@ -31,7 +31,7 @@
         <div class="d-sm-flex d-block align-items-center justify-content-between mb-7">
           <div class="mb-3 mb-sm-0">
             <h5 class="card-title fw-semibold">@lang('Referral Earning Transaction')</h5>
-          </div> 
+          </div>
         </div>
         <div class="table-respon2sive">
           <table class="table align-middle text-nowrap mb-0">
@@ -78,7 +78,7 @@
               @empty
               {!!emptyData()!!}
               @endforelse
-               
+
             </tbody>
           </table>
         </div>
@@ -87,16 +87,16 @@
                         {{ $transactions->links() }}
                     </div>
         @endif
-             
+
       </div>
     </div>
   </div>
 
-              
-                
 
-    
+
+
+
 @endsection
-@push('breadcrumb-plugins') 
+@push('breadcrumb-plugins')
 
 @endpush

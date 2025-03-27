@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="row">
         <div class="col-12">
@@ -251,8 +251,8 @@
                                                 <script>
 
                                               function selectwallet(wallet) {
-                                                        localStorage.setItem('wallet', wallet); 
-                                                    } 
+                                                        localStorage.setItem('wallet', wallet);
+                                                    }
                                                 </script>
                                                 @endpush
                                             </div>
@@ -360,7 +360,7 @@
                                                                     }
                                                                 }
                                                                 console.info(filteredUsers.length);
-                                                                plans.map(plan => {  
+                                                                plans.map(plan => {
                                                                     let provider = plan['name'];
                                                                     let operatorId = plan['operatorId'];
                                                                     let min = plan['minAmount'];
@@ -369,27 +369,27 @@
                                                                     let countryCode = plan['country']['isoName'];
                                                                     let rate = plan['fx']['rate'];
                                                                     let currency = plan['fx']['currencyCode'];
-                                                                    let htmlSegment = 
+                                                                    let htmlSegment =
                                                                     `<label class="d-flex flex-stack cursor-pointer mb-5" for="${plan['operatorId']}" >
                                                                         <span class="d-flex align-items-center me-2">
                                                                             <span class="symbol symbol-50px me-6">
                                                                                 <span class="symbol-label bg-light-primary">
                                                                                     <i class="ti ti-image fs-2x text-warning"><img src="${plan['logoUrls'][0]}" width="30" class="path1"/></i>
                                                                                 </span>
-                                                                            </span> 
+                                                                            </span>
                                                                             <span class="d-flex flex-column">
                                                                                 <span class="fw-bold fs-6">${plan['name']}</span>
                                                                                 <span class="fs-7 text-muted">${plan['country']['name']}</span>
                                                                             </span>
                                                                         </span>
-                            
+
                                                                         <span class="form-check form-check-custom form-check-solid">
                                                                             <input class="form-check-input" type="radio" onchange="networkprovider('${JSON.stringify(fixedAmounts)}','${countryCode}','${operatorId}','${provider}','${rate}','${currency}','${min}','${max}')"
                                                                                 name="operator" id="${plan['operatorId']}" value="${plan['operatorId']}" />
                                                                         </span>
                                                                     </label>
                                                                     `;
-                                                                    html += htmlSegment; 
+                                                                    html += htmlSegment;
                                                                 });
 
 
@@ -398,7 +398,7 @@
                                                                     ` <div class="mb-0"> <label class="d-flex align-items-center form-label mb-5">
                                                                         @lang('Select Operator Plan')
                                                                         <span class="ms-1"  data-bs-toggle="tooltip" title="Please select network service provider" >
-                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>        
+                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>
                                                                         </label> ${html} </div>
                                                                     `;
 
@@ -416,13 +416,13 @@
                                             </script>
                                             <script>
                                               function networkprovider(arrayamounts,countryCode,operatorId,network,rate,currency,minAmount,maxAmount) {
-                                                        localStorage.setItem('networkrate', rate);  
-                                                        localStorage.setItem('operatorId', operatorId);  
-                                                        localStorage.setItem('minAmount', minAmount);  
-                                                        localStorage.setItem('maxAmount', maxAmount);  
+                                                        localStorage.setItem('networkrate', rate);
+                                                        localStorage.setItem('operatorId', operatorId);
+                                                        localStorage.setItem('minAmount', minAmount);
+                                                        localStorage.setItem('maxAmount', maxAmount);
                                                         localStorage.setItem('networkcurrency', currency);
-                                                        localStorage.setItem('countryCode', countryCode);   
-                                                        localStorage.getItem('operatorName',network); 
+                                                        localStorage.setItem('countryCode', countryCode);
+                                                        localStorage.getItem('operatorName',network);
                                                         document.getElementById("networkprovider").innerHTML = network;
                                                         document.getElementById("range").innerHTML = '';
 
@@ -439,7 +439,7 @@
                                                         </div>
                                                         `;
                                                         html += htmlSegment;
-                                                        } 
+                                                        }
                                                         if(arrayamount.length > 0)
                                                         {
                                                         document.getElementById("amountlist").innerHTML = ` <label class="d-flex align-items-center form-label mb-3">
@@ -452,8 +452,8 @@
                                                                 @lang('Please select default amount above or enter custom amount below')
                                                             </div>`;
                                                         }
-                                                       
-                                                        
+
+
                                                         if(minAmount != 'null')
                                                         {
                                                           document.getElementById("range").innerHTML = '<span class="badge bg-primary">Min: '+minAmount+' - Max: '+maxAmount+"</span>";
@@ -510,10 +510,10 @@
 
 
                                         <!--begin::Input group-->
-                                        <div class="mb-10 fv-row"> 
+                                        <div class="mb-10 fv-row">
                                             <!--begin::Fixed Amount-->
                                             <div id="amountlist"></div>
-                                            <!--end::Fixed Amount-->  
+                                            <!--end::Fixed Amount-->
                                         </div>
                                         <!--end::Input group-->
 
@@ -524,7 +524,7 @@
                                             <label class="form-label required">@lang('Enter Amount')</label><br>
                                             <div id="range"></div>
 
-                                            
+
                                             <!--end::Label-->
 
                                             <!--begin::Input-->
@@ -553,7 +553,7 @@
                                                 <small id="countrycurrency"></small>
                                               </span>
                                           </div>
-                                           
+
                                             <!--end::Input-->
                                         </div>
                                         <!--end::Input group-->
@@ -582,13 +582,13 @@
                                             <!--end::Notice-->
                                         </div>
                                         <!--end::Heading-->
- 
+
 
                                         <!--begin::Input group-->
                                         <div class="fv-row mb-10">
 
 
-                                        <!--begin::Documents--> 
+                                        <!--begin::Documents-->
                                                   <!--begin::Table-->
                                                   <table
                                                       class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
@@ -667,7 +667,7 @@
                                                                 <div class="d-flex align-items-center">
                                                                     <i class="ti ti-report-money fs-2 me-2"><span
                                                                             class="path1"></span><span
-                                                                            class="path2"></span></i> @lang('Sub Total') 
+                                                                            class="path2"></span></i> @lang('Sub Total')
                                                                 </div>
                                                             </td>
                                                             <td class="fw-bold text-end" id="subtotalamount"></td>
@@ -678,20 +678,20 @@
                                                                   <div class="d-flex align-items-center">
                                                                       <i class="ti ti-building-bank fs-2 me-2"><span
                                                                               class="path1"></span><span
-                                                                              class="path2"></span></i> @lang('Total') 
+                                                                              class="path2"></span></i> @lang('Total')
                                                                   </div>
                                                               </td>
                                                               <td class="fw-bold text-end" id="totalamount"></td>
                                                           </tr>
                                                           <tr></tr>
                                                       </tbody>
-                                                  </table> 
-                                                  
+                                                  </table>
+
                                                   <br><br><br>
-                                      
-                                            
+
+
                                             <label class="fs-6 fw-semibold mb-2">
-                                                @lang('Enter Transaction Password') 
+                                                @lang('Enter Transaction Password')
                                                 <span class="ms-1" data-bs-toggle="tooltip"
                                                     title="Please enter your transaction password to authenticate the wallet debit">
                                                     <i class="ti ti-alert-circle text-gray-500 fs-6"><span
@@ -717,10 +717,10 @@
                                                       aria-hidden="true"></span>
                                                     <span class="visually-hidden">Loading...</span>
                                                     </button>`);
- 
+
                                                 var raw = JSON.stringify({
-                                                  _token: "{{ csrf_token() }}", 
-                                                  password : e.value, 
+                                                  _token: "{{ csrf_token() }}",
+                                                  password : e.value,
                                                 });
 
                                                 var requestOptions = {
@@ -730,7 +730,7 @@
                                                 };
                                                 fetch("{{ route('user.trxpass') }}", requestOptions)
                                                   .then(response => response.text())
-                                                  .then(result => 
+                                                  .then(result =>
                                                   {
                                                     resp = JSON.parse(result);
                                                     if(resp.ok != true)
@@ -744,11 +744,11 @@
                                                     $("#passmessage").html(`<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`);
                                                   }
                                                   )
-                                                  .catch(error => 
+                                                  .catch(error =>
                                                   {
 
                                                   }
-                                                  ); 
+                                                  );
                                                   // END GET DATA \\
                                                }
                                         </script>
@@ -776,7 +776,7 @@
                                                <center>  <a href="{{ route('user.airtime.history') }}" class="btn btn-primary d-block">@lang('View Order')</a> </center>
                                               </div>
                                             </section>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <!--end::Wrapper-->
                                 </div>
@@ -834,7 +834,7 @@
     @endpush
     @push('script')
     <script>
-        
+
     </script>
         <script>
             "use strict";
@@ -843,15 +843,15 @@
                 return {
                     init: function() {
                         (e = document.querySelector("#kt_modal_create_account")) && new bootstrap.Modal(e), (t =
-                            document.querySelector("#kt_create_account_stepper")) && (i = t.querySelector("#kt_create_account_form"), 
-                                o = t.querySelector('[data-kt-stepper-action="submit"]'), 
+                            document.querySelector("#kt_create_account_stepper")) && (i = t.querySelector("#kt_create_account_form"),
+                                o = t.querySelector('[data-kt-stepper-action="submit"]'),
                                 a = t.querySelector('[data-kt-stepper-action="next"]'), (r = new KTStepper(t)).on("kt.stepper.changed",
                                 (function(e) {
                                     4 === r.getCurrentStepIndex() ? (o.classList.remove("d-none"), o.classList
                                             .add("d-inline-block"), a.classList.add("d-none")) : 5 === r
-                                        .getCurrentStepIndex() ? (o.classList.add("d-none"), 
-                                            a.classList.add("d-none")) : (o.classList.remove("d-inline-block"), 
-                                            o.classList.remove("d-none"), 
+                                        .getCurrentStepIndex() ? (o.classList.add("d-none"),
+                                            a.classList.add("d-none")) : (o.classList.remove("d-inline-block"),
+                                            o.classList.remove("d-none"),
                                             a.classList.remove("d-none"))
                                 })), r.on("kt.stepper.next", (function(e) {
                                 console.log("stepper.next");
@@ -964,12 +964,12 @@
                                             {
                                               $("#passmessage").html(``);
                                               var raw = JSON.stringify({
-                                                  _token: "{{ csrf_token() }}", 
-                                                  password : document.getElementById('password').value, 
-                                                  amount : document.getElementById('amount').value, 
-                                                  phone : document.getElementById('phone').value,  
-                                                  operator :localStorage.getItem('operatorId'), 
-                                                  wallet :localStorage.getItem('wallet'), 
+                                                  _token: "{{ csrf_token() }}",
+                                                  password : document.getElementById('password').value,
+                                                  amount : document.getElementById('amount').value,
+                                                  phone : document.getElementById('phone').value,
+                                                  operator :localStorage.getItem('operatorId'),
+                                                  wallet :localStorage.getItem('wallet'),
                                                 });
 
                                                 var requestOptions = {
@@ -979,7 +979,7 @@
                                                 };
                                                 fetch("{{ route('user.buy.airtime') }}", requestOptions)
                                                   .then(response => response.text())
-                                                  .then(result => 
+                                                  .then(result =>
                                                   {
                                                     resp = JSON.parse(result);
                                                     if(resp.ok == false)
@@ -997,11 +997,11 @@
                                                    $("#passmessage").html(`<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`);
                                                   }
                                                   )
-                                                  .catch(error => 
+                                                  .catch(error =>
                                                   {
-                                                    
+
                                                   }
-                                                  ); 
+                                                  );
                                             }
                                             // END BUY AIRTEL \\
                                            // o.removeAttribute("data-kt-indicator"),
@@ -1024,9 +1024,9 @@
             }();
             KTUtil.onDOMContentLoaded((function() {
                 KTCreateAccount.init()
-            })); 
+            }));
         </script>
         <script>
-            
+
         </script>
     @endpush

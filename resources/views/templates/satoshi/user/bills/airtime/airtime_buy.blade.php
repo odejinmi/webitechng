@@ -1,9 +1,9 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="vstacks">
         <div class="px-3s px-md-8s pt-8s">
 
-             
+
             <div class="row row-cols-xl-4 row-cols-md-2 g-6 mt-6">
                 <div class="col">
                     <div class="card bg-warning bg-opacity-10 border-warning border-opacity-40">
@@ -19,7 +19,7 @@
                                     <span class="badge bg-warning bg-opacity-25 text-warning">{{$general->cur_sym}}{{number_format($mtn,2)}}</span>
                                     <span class="badge badge-count bg-warning text-xs rounded-circle"><i
                                             class="bi bi-wallet"></i></span>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                                     <span class="badge bg-success bg-opacity-25 text-success">{{$general->cur_sym}}{{number_format($glo,2)}}</span>
                                     <span class="badge badge-count bg-success text-xs rounded-circle"><i
                                             class="bi bi-wallet"></i></span>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                                     <span class="badge bg-danger bg-opacity-25 text-danger">{{$general->cur_sym}}{{number_format($airtel,2)}}</span>
                                     <span class="badge badge-count bg-danger text-xs rounded-circle"><i
                                             class="bi bi-wallet"></i></span>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -77,26 +77,26 @@
                                     <span class="badge bg-dark bg-opacity-25 text-dark">{{$general->cur_sym}}{{number_format($etisalat,2)}}</span>
                                     <span class="badge badge-count bg-dark text-xs rounded-circle"><i
                                             class="bi bi-wallet"></i></span>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                 
+
             </div>
             <div class="row align-items-center g-6 mt-0 mb-6">
                       <form action="#">
                 <div class="col-sm-6">
                     <div class="d-flex gap-2">
                         <div class="input-group input-group-sm input-group-inline w-100 w-md-50">
-                           
+
                             <span class="input-group-text"><i class="bi bi-search me-2"></i> </span>
                             <input type="search" class="form-control ps-0" name="search" placeholder="Search by ID" aria-label="Search">
-                            
+
                         </div>
-                         
+
                     </div>
-                </div> 
+                </div>
 
                          </form>
             </div>
@@ -109,7 +109,7 @@
                             <th scope="col">Network</th>
                             <th class="w-md-32" scope="col">Amount</th>
                             <th class="w-md-32 d-none d-sm-table-cell" scope="col">Ref</th>
-                            <th class="w-md-32" scope="col">Beneficiary</th> 
+                            <th class="w-md-32" scope="col">Beneficiary</th>
                             <th class="w-md-20 d-none d-sm-table-cell"></th>
                         </tr>
                     </thead>
@@ -129,18 +129,18 @@
                             <td class="d-none d-sm-table-cell">
                                 <span class="text-success fw-semibold">{{ $data->trx }}</span>
                             </td>
-                            
+
                             <td class="d-non d-sm-table-cell">{{$data->val_1}}</td>
                             <td class="d-none d-xl-table-cell">
                                 <div class="w-rem-32">
                                     {{ showDate($data->created_at) }}
                                 </div>
-                            </td> 
+                            </td>
                         </tr>
                          @empty
                         {!! emptyData2() !!}
                         @endforelse
-                         
+
                     </tbody>
                 </table>
             </div>
@@ -153,15 +153,15 @@
                     <div class="col-md-auto">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination pagination-spaced gap-1">
-                               
+
                                 {{ $airtimelog->links() }}
-                              
+
                             </ul>
                         </nav>
                     </div>
                 </div>
             </div>
-            @endif 
+            @endif
         </div>
     </div>
 
@@ -175,9 +175,9 @@
                                 </div>
                                 <div class="modal-body undefined">
                                     <form class="vstack gap-8">
-                                       
-                                         
- 
+
+
+
 
                                         <div class="bg-body-secondary rounded-3 p-4">
                                             <div class="d-flex justify-content-between text-xs text-muted">
@@ -185,7 +185,7 @@
                                             <div class="d-flex justify-content-between gap-2 mt-4">
                                               <input type="tel" id="phone" class="form-control form-control-flush text-xl fw-bold w-rem-40" placeholder="080********">
                                                 <input id="networkid" value="mtn" hidden>
-                                                
+
                                                 <button class="btn btn-sm btn-neutral rounded-pill shadow-none flex-none d-flex align-items-center gap-2 p-2" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <a id="networkimage"><img src="{{ url('/') }}/assets/images/provider/mtn.png" class="w-rem-6 h-rem-6 rounded-circle" alt="..."></a>  <i class="bi bi-chevron-down text-xs me-1"></i>
                                                     </button>
@@ -198,7 +198,7 @@
                                                       @endforeach
                                                          @push('script')
                                                           <script>
-                                                            function verifynetwork(logo,networkid) 
+                                                            function verifynetwork(logo,networkid)
                                                             {
                                                               document.getElementById("networkimage").innerHTML = `<img src="{{ url('/') }}/assets/images/provider/${logo}" class="w-rem-6 h-rem-6 rounded-circle"/>`;
                                                               document.getElementById("networkid").value = networkid;
@@ -206,11 +206,11 @@
                                                             }
                                                           </script>
                                                           @endpush
-                                                         
+
                                                     </ul>
                                             </div>
                                         </div>
- 
+
                                         <div class="bg-body-secondary rounded-3 p-4">
                                             <div class="d-flex justify-content-between text-xs text-muted">
                                                 <span class="fw-semibold">Enter Amount</span> <span>Balance: {{number_format(Auth::user()->balance,2)}}</span></div>
@@ -244,7 +244,7 @@
 @endsection
 
 @push('breadcrumb')
-    <button type="button" class="btn btn-sm btn-neutral d-sm-inline-flex" data-bs-target="#topUpModal" data-bs-toggle="modal">Recharge</button> 
+    <button type="button" class="btn btn-sm btn-neutral d-sm-inline-flex" data-bs-target="#topUpModal" data-bs-toggle="modal">Recharge</button>
 @endpush
 @push('script')
     <script>
@@ -264,7 +264,7 @@
                 body: raw
             };
             document.getElementById("submit").disabled = true;
-             
+
             $(document).ready(function() {
                 //$.blockUI();
             });
@@ -283,10 +283,10 @@
                           style: {
                               background: "linear-gradient(to right, #00b09b, #96c93d)",
                           }
-                          }).showToast(); 
+                          }).showToast();
                         location.reload();
                     }
-                    if (resp.status == 'danger') 
+                    if (resp.status == 'danger')
                     {
                       Toastify({
                       text: `${resp.message}`,

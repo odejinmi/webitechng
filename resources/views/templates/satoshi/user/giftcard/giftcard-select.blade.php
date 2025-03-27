@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div id="content" class="main-content">
         <div class="layout-px-spacing">
@@ -49,7 +49,7 @@
                                                 enctype="multipart/form-data">
 
                                                 {{ csrf_field() }}
- 
+
                                                 <div class="buysell-field form-group">
                                                     <div class="form-label-group"><label class="form-label">Select Giftcard
                                                             Type</label></div>
@@ -71,7 +71,7 @@
 
                                                 <div class="dropdown buysell-cc-dropdown">
                                                     <a href="#" class="buysell-cc-choosen dropdown-indicato">
-                                                        <div class="coin-item coin-btc"> 
+                                                        <div class="coin-item coin-btc">
                                                             <div class="coin-info"><span class="coin-name"
                                                                     id="name">Please Select Card
                                                                     Type</span><br>
@@ -99,7 +99,7 @@
                                             </div>
                                             <div class="form-note-group"><span class="buysell-min form-note-alt"><a
                                                         id="exrate"></a></span><span
-                                                    class="buysell-rate form-note-alt"></span></div> 
+                                                    class="buysell-rate form-note-alt"></span></div>
                                             <br>
 
 
@@ -110,7 +110,7 @@
                                                     <option selected disabled>Select Option</option>
                                                     <option value="digital">Digital</option>
                                                     <option value="physical">Physical</option>
-                                                </select> 
+                                                </select>
                                                 <input name="typerate" hidden id="typerate">
                                                 <input name="typeid" hidden id="typeid">
                                                 <input name="typecurrency" hidden id="typecur">
@@ -132,7 +132,7 @@
                                                          </div>
                                                     </div>
                                                 </div>
- 
+
                                                 <div class="form-group mb-4">
                                                     <label class="form-label" for="default-067">Giftcard Back View
                                                         <small>(Physical)
@@ -142,7 +142,7 @@
                                                             <input type="file"
                                                                 @if (count($type) < 1) disabled @endif
                                                                 name='back' accept='image/*' class="form-control"
-                                                                id="customFile1"> 
+                                                                id="customFile1">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -201,7 +201,7 @@
 
             };
         </script>
-        <script>  
+        <script>
             $(document).ready(function(){
                 $("#digital").hide();
                 $("#physical").hide();
@@ -220,8 +220,8 @@
                 });
             });
         </script>
-            
- 
+
+
     @endpush
 
 
@@ -231,4 +231,4 @@
 
 @push('breadcrumb')
  <a class="btn bg-white text-primary" href="{{ route('user.sellcardlog') }}"> <i class="ti ti-printer"></i> @lang('Giftcard Log')</a>
-@endpush 
+@endpush

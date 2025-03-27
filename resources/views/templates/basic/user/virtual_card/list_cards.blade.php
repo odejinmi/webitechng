@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <!-- File export -->
 <div class="row">
@@ -60,11 +60,11 @@
                                         <td>
                                          <!--   <a href="{{url('/user/fund/card/'.$row->id)}}" class="btn btn-primary btn-sm btn-xs">Fund Card</a>-->
                                             <a href="{{url('/user/withdraw/card/'.$row->id)}}" class="btn btn-danger btn-sm btn-xs">Withdraw</a>
-                                           
+
                                                 <a href="{{url('/user/freez/card/'.$row->id)}}" class="btn btn-info btn-sm btn-xs">Freeze</a>
-                                            
+
                                                 <a href="{{url('/user/unfreez/card/'.$row->id)}}" class="btn btn-warning btn-sm btn-xs">UnFreeze</a>
-                                           
+
                                         </td>
                                     </tr>
                                     @empty

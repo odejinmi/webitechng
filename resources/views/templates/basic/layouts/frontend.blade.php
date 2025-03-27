@@ -14,28 +14,28 @@
         rel="stylesheet">
 
     <!-- BOOTSTRAP CSS -->
-    <link href="{{ asset($activeTemplateTrue . 'front/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset(checkTemplate(True) . 'front/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- FONT ICONS -->
-    <link href="{{ asset($activeTemplateTrue . 'front/css/flaticon.css') }}" rel="stylesheet">
-    <link href="{{ asset($activeTemplateTrue . 'front/css/purple-theme.css') }}" rel="stylesheet">
+    <link href="{{ asset(checkTemplate(True) . 'front/css/flaticon.css') }}" rel="stylesheet">
+    <link href="{{ asset(checkTemplate(True) . 'front/css/purple-theme.css') }}" rel="stylesheet">
 
     <!-- PLUGINS STYLESHEET -->
-    <link href="{{ asset($activeTemplateTrue . 'front/css/menu.css') }}" rel="stylesheet">
-    <link id="effect" href="{{ asset($activeTemplateTrue . 'front/css/dropdown-effects/fade-down.css') }}"
+    <link href="{{ asset(checkTemplate(True) . 'front/css/menu.css') }}" rel="stylesheet">
+    <link id="effect" href="{{ asset(checkTemplate(True) . 'front/css/dropdown-effects/fade-down.css') }}"
         media="all" rel="stylesheet">
-    <link href="{{ asset($activeTemplateTrue . 'front/css/magnific-popup.css') }}" rel="stylesheet">
-    <link href="{{ asset($activeTemplateTrue . 'front/css/owl.carousel.min.css') }}" rel="stylesheet">
-    <link href="{{ asset($activeTemplateTrue . 'front/css/flexslider.css') }}" rel="stylesheet">
-    <link href="{{ asset($activeTemplateTrue . 'front/css/slick.css') }}" rel="stylesheet">
-    <link href="{{ asset($activeTemplateTrue . 'front/css/slick-themes.css') }}" rel="stylesheet">
-    <link href="{{ asset($activeTemplateTrue . 'front/css/owl.theme.default.min.css') }}" rel="stylesheet">
+    <link href="{{ asset(checkTemplate(True) . 'front/css/magnific-popup.css') }}" rel="stylesheet">
+    <link href="{{ asset(checkTemplate(True) . 'front/css/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset(checkTemplate(True) . 'front/css/flexslider.css') }}" rel="stylesheet">
+    <link href="{{ asset(checkTemplate(True) . 'front/css/slick.css') }}" rel="stylesheet">
+    <link href="{{ asset(checkTemplate(True) . 'front/css/slick-themes.css') }}" rel="stylesheet">
+    <link href="{{ asset(checkTemplate(True) . 'front/css/owl.theme.default.min.css') }}" rel="stylesheet">
 
     <!-- ON SCROLL ANIMATION -->
-    <link href="{{ asset($activeTemplateTrue . 'front/css/animate.css') }}" rel="stylesheet">
+    <link href="{{ asset(checkTemplate(True) . 'front/css/animate.css') }}" rel="stylesheet">
 
     <!-- RESPONSIVE CSS -->
-    <link href="{{ asset($activeTemplateTrue . 'front/css/responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset(checkTemplate(True) . 'front/css/responsive.css') }}" rel="stylesheet">
     @stack('style-lib')
     @stack('style')
 
@@ -57,15 +57,15 @@
 
 
 
-        @include($activeTemplate . 'partials.header')
+        @include(checkTemplate() . 'partials.header')
         <!-- header-section end -->
         @yield('content')
 
-        
+
 
         <!-- footer-section start -->
-        @include($activeTemplate . 'partials.footer')
- 
+        @include(checkTemplate() . 'partials.footer')
+
 
 
 <!--Start of Tawk.to Script-->
@@ -83,26 +83,26 @@
     <!--End of Tawk.to Script-->
         <!-- EXTERNAL SCRIPTS
   ============================================= -->
-        <script src="{{ asset($activeTemplateTrue . 'front/js/jquery-3.5.1.min.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/modernizr.custom.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/jquery.easing.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/jquery.appear.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/jquery.scrollto.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/menu.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/materialize.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/slick.min.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/imagesloaded.pkgd.min.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/isotope.pkgd.min.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/jquery.flexslider.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/owl.carousel.min.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/jquery.magnific-popup.min.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/jquery.validate.min.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/jquery.ajaxchimp.min.js') }}"></script>
-        <script src="{{ asset($activeTemplateTrue . 'front/js/wow.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/jquery-3.5.1.min.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/modernizr.custom.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/jquery.easing.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/jquery.appear.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/jquery.scrollto.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/menu.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/materialize.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/slick.min.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/imagesloaded.pkgd.min.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/isotope.pkgd.min.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/jquery.flexslider.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/owl.carousel.min.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/jquery.magnific-popup.min.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/jquery.ajaxchimp.min.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/wow.js') }}"></script>
 
         <!-- Custom Script -->
-        <script src="{{ asset($activeTemplateTrue . 'front/js/custom.js') }}"></script>
+        <script src="{{ asset(checkTemplate(True) . 'front/js/custom.js') }}"></script>
 
         <!-- Google Analytics: Change UA-XXXXX-X to be your site's ID. Go to http://www.google.com/analytics/ for more information. -->
         <!--

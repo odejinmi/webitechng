@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="row g-3 g-xl-6">
         <div class="col-xl-4 col-sm-4">
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-xl-4 col-sm-4">
             <div class="card">
                 <div class="card-body pb-5">
@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        
+
         <div class="col-xl-4 col-sm-4">
             <div class="card">
                 <div class="card-body pb-5">
@@ -96,9 +96,9 @@
                     <div class="input-group input-group-sm input-group-inline w-100 w-md-50">
                         <span class="input-group-text"><i class="bi bi-search me-2"></i> </span><input type="search"
                             class="form-control ps-0" placeholder="Search all assets" aria-label="Search">
-                    </div> 
+                    </div>
                 </div>
-            </div> 
+            </div>
         </div>
         <div class="vstack gap-3">
             @forelse($log as $data)
@@ -121,7 +121,7 @@
                                 @elseif($data->to == 'GBP')
                                 <img class="avatar avatar-lg border border-2 border-body rounded-circle" width="30" src="{{url('/')}}/assets/images/country/gbp.webp" alt="">
                                 @endif
-                                 
+
                             </div>
                             <div class="">
                                 <h6>{{ __(@strToUpper($data->from)) }}/{{ __(@strToUpper($data->to)) }}</h6>
@@ -145,7 +145,7 @@
                             <div class="col-6 col-sm-auto col-xl-auto">
                                 <span class="d-block text-xs text-muted">Date</span>
                                 <span class="d-block text-heading text-sm fw-bold">{{ showDate($data->created_at) }}</span>
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
                     <h1 class="modal-title h4" id="depositLiquidityModalLabel">Swap Currency</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body undefined"> 
+                <div class="modal-body undefined">
                          <form  class="vstack gap-6" method="post" id="otpform" action="">
                          @csrf
                         <div class="vstack gap-1">
@@ -183,7 +183,7 @@
                                 <div class="d-flex justify-content-between gap-2 mt-4"><input type="tel"
                                         class="form-control form-control-flush text-xl fw-bold flex-fill" name="amount" onkeyup="shownext()" id="amount"
                                         placeholder="0.00">
-                                        
+
                                          <button class="btn btn-sm btn-neutral rounded-pill shadow-none flex-none d-flex align-items-center gap-2 p-2" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <a id="fromimage"><img src="{{url('/')}}/assets/images/country/ngn.png" class="w-rem-6 h-rem-6 rounded-circle" alt="..."></a>  <i class="bi bi-chevron-down text-xs me-1"></i>
                                                     </button>
@@ -197,16 +197,16 @@
                                                         </li>
                                                         <li onclick="from(`GBP`,`{{number_format(Auth::user()->gbp_balance,2)}}`,`gbp.png`)"><a class="dropdown-item d-flex align-items-center gap-2"
                                                                 href="#"><img src="{{url('/')}}/assets/images/country/gbp.png" class="w-rem-6 h-rem-6 rounded-circle" alt="...">
-                                                                <span>GBP</span></a></li> 
+                                                                <span>GBP</span></a></li>
                                                     </ul>
-                                                 
+
                                 </div>
                                 <input name="from" id="from" value="ngn"  hidden>
                                 <input name="to" id="to" value="ngn" hidden>
                             </div>
                             @push('script')
                                 <script>
-                                    function from(from,balance,logo) { 
+                                    function from(from,balance,logo) {
                                     document.getElementById('fromimage').innerHTML =`<img src="{{url('/')}}/assets/images/country/${logo}" class="w-rem-6 h-rem-6 rounded-circle" alt=".."/>`;
                                     document.getElementById('balance').innerHTML = `Balance: ${balance} ${from}`,
                                     document.getElementById('from').value = from;
@@ -240,12 +240,12 @@
                                                         </li>
                                                         <li onclick="to(`GBP`,`{{number_format(Auth::user()->gbp_balance,2)}}`,`gbp.png`)"><a class="dropdown-item d-flex align-items-center gap-2"
                                                                 href="#"><img src="{{url('/')}}/assets/images/country/gbp.png" class="w-rem-6 h-rem-6 rounded-circle" alt="...">
-                                                                <span>GBP</span></a></li> 
+                                                                <span>GBP</span></a></li>
                                                     </ul>
                                 </div>
                                 @push('script')
                                 <script>
-                                    function to(from,balance,logo) { 
+                                    function to(from,balance,logo) {
                                     document.getElementById('toimage').innerHTML =`<img src="{{url('/')}}/assets/images/country/${logo}" class="w-rem-6 h-rem-6 rounded-circle" alt=".."/>`;
                                     document.getElementById('tobalance').innerHTML = `Balance: ${balance} ${from}`,
                                     document.getElementById('to').value = from;
@@ -278,7 +278,7 @@
                                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                             },
                                             body: raw
-                                        }; 
+                                        };
                                         $("#toamount").html(``);
                                         fetch("{{ route('user.currencygetrate') }}", requestOptions).then(response => response.text()).then(
                                             result => {

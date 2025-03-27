@@ -1,7 +1,7 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <!-- crancy Dashboard -->
-    
+
 <div class="vstack gap-3 gap-xl-6 mt-8">
         <div class="row row-cols-sm-2 row-cols-md-6 g-3">
             <div class="col">
@@ -34,7 +34,7 @@
         </div>
 
         <div class="card-details">
-                     
+
                 <div class="card border-0 gradient-bottom-right start-purple middle-yellow end-cyan">
                                             <div class="position-relative p-6 overlap-10">
                                                 <div class="row justify-content-between align-items-center">
@@ -99,13 +99,13 @@
                                                             <span class="d-block h6">{{ @$bankdetails->bank_name ?? null }}</span></div>
                                                     </div>
 
- 
+
                                                     @endif
                                                 @endif
                                             </div>
                                         </div>
- 
-       
+
+
         <div class="row row-cols-md-2 g-6">
              <form  class="" novalidate="novalidate" action="{{ route('user.deposit.insert') }}" method="post">
             @csrf
@@ -114,7 +114,7 @@
                     <div class="card-body p-0 p-xxl-6">
                         <div class="d-flex gap-8 justify-content-center mb-5"><a href="#"
                                 class="text-lg fw-bold text-heading">Wallet Funding</a></div>
-                        <div class="vstack gap-2"> 
+                        <div class="vstack gap-2">
 
                             <div class="bg-body-secondary rounded-3 p-4">
                                 <div class="d-flex justify-content-between text-xs text-muted">
@@ -134,7 +134,7 @@
                             <div>
                                 <h6 class="progress-text mb-1 d-block"></h6>
                             </div>
- 
+
 
                             <div class="bg-body-secondary rounded-3 p-4">
                                 <div class="d-flex justify-content-between text-xs text-muted">
@@ -152,7 +152,7 @@
                             </div>
 
 
-                             
+
                             <input type="hidden" name="currency" class="edit-currency form-control">
                             <input type="hidden" name="method_code" class="edit-currency form-control">
                             <button type="submit" id="submit"
@@ -192,8 +192,8 @@
                                                 @if ($trx->status == 2)
                                                     <span class="badge bg-warning">@lang('Pending')</span>
                                                 @elseif($trx->status == 1)
-                                                    <span class="badge bg-success">@lang('Completed')</span> 
-                                                    
+                                                    <span class="badge bg-success">@lang('Completed')</span>
+
                                                 @elseif($trx->status == 0)
                                                     <span class="badge bg-dark">@lang('Initiated')</span>
                                                 </button>
@@ -244,7 +244,7 @@
                                                     <div class="crancy-wc__heading crancy-flex__column-center text-center">
                                                         <h3 class="crancy-login-popup__title"> Details</h3>
                                                         <p>
-                                                        
+
                                                 {{ $data->admin_feedback }}
                                                         </p>
                                                              @php
@@ -257,11 +257,11 @@
                                                     <span class="badge bg-warning">@lang('Pending')</span>
                                                 @elseif($data->status == 1)
                                                     <span class="badge bg-success">@lang('Completed')</span>
-                                                   
-                                                    
+
+
                                                 @elseif($data->status == 3)
-                                                    <span class="badge bg-danger">@lang('Rejected')</span> 
-                                                @endif 
+                                                    <span class="badge bg-danger">@lang('Rejected')</span>
+                                                @endif
                                                         <!-- Search Form -->
                                                         <div
                                                             class="crancy-header__form crancy-header__form__currency mg-top-20">
@@ -286,25 +286,25 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     </div>
-    
-    
+
+
 @stop
 @push('script')
 <script>
     function generatenuban() {
-        // START GET DATA \\  
+        // START GET DATA \\
         document.getElementById("fundbutton").disabled = true;
         $("#responsemessage").html(`<br>
             <span class="spinner-border text-primary" role="status"></span>
             <span class="text-gray-800 fs-6 fw-semibold mt-5">Generating...</span>
         `);
         // Show page loading
-        var _token = $("input[name='_token']").val(); 
+        var _token = $("input[name='_token']").val();
         var raw = JSON.stringify({
-            _token: "{{ csrf_token() }}", 
+            _token: "{{ csrf_token() }}",
         });
 
         var requestOptions = {
@@ -318,10 +318,10 @@
             .then(response => response.text())
             .then(result => {
                 resp = JSON.parse(result);
-                document.getElementById("fundbutton").disabled = false; 
+                document.getElementById("fundbutton").disabled = false;
                 $("#responsemessage").html(
                     `<div class="alert alert-${resp.status}" role="alert"><strong>Hello - </strong> ${resp.message}</div>`
-                    ); 
+                    );
                 if(resp.status == 'success')
                 {
                     location.reload();
@@ -384,12 +384,12 @@
                 if (personObject.id) {
                     $('input[name=currency]').val(personObject.currency);
                     $('input[name=method_code]').val(personObject.method_code);
-                     
-                }  
+
+                }
 
             }
-            
-            
+
+
         $(document).ready(function() {
 
             $(document).on('input', 'input[name="amount"]', function() {
@@ -402,8 +402,8 @@
                     $(this).val(amount);
                 }
             });
- 
+
         });
     </script>
-     
+
 @endpush

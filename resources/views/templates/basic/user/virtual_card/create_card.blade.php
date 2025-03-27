@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
    <!-- Transaction Log -->
  <div class="col-lg-12 d-flex align-items-strech">
@@ -21,12 +21,12 @@
         <div class="card">
           <div class="card-body p-4">
             <form action="{{ route('user.create.card.add') }}" method="post" enctype="multipart/form-data">
-              @csrf 
+              @csrf
               @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
-              @endif                   
+              @endif
               <div class="row">
                 <!-- Card Holder Name Field -->
                 <div class="col-sm-6">
@@ -36,7 +36,7 @@
                   </div>
                 </div>
               </div>
-              
+
               <div class="row">
                 <!-- Amount in USD Field -->
                 <div class="col-sm-6">
@@ -46,8 +46,8 @@
                   </div>
                 </div>
               </div>
-              
-             
+
+
               <!-- Total Charge Display -->
               <div class="col-sm-6">
               <div class="mb-4">
@@ -68,7 +68,7 @@
 </div>
 @endsection
 
-@push('breadcrumb-plugins') 
+@push('breadcrumb-plugins')
 @endpush
 
 @push('script')

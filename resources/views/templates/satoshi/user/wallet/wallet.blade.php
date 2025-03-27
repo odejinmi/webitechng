@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
       <!-- crancy Dashboard -->
       <section class="crancy-adashboard crancy-show">
@@ -17,7 +17,7 @@
                       <div class="crancy-sidebar__heading">
                         <h4 class="crancy-sidebar__title">My Wallet</h4>
                         <a href="#" class="crancy-sidebar__toggles"
-                          ><img src="{{ asset($activeTemplateTrue . 'dashboard/img/inline-toggle.svg')}}"
+                          ><img src="{{ asset(checkTemplate(true) . 'dashboard/img/inline-toggle.svg')}}"
                         /></a>
                       </div>
 
@@ -25,7 +25,7 @@
                       <div
                         class="crancy-wallet-card crancy-bg-cover"
                         style="
-                          background-image: url('{{ asset($activeTemplateTrue . 'dashboard/img/wallet-card-shape.svg')}}');
+                          background-image: url('{{ asset(checkTemplate(true) . 'dashboard/img/wallet-card-shape.svg')}}');
                         "
                       >
                         <div class="crancy-wallet-card__inner">
@@ -38,7 +38,7 @@
                             </div>
                           </div>
                           <div class="crancy-wallet-card__right">
-                            <img src="{{ asset($activeTemplateTrue . 'dashboard/img/wallet-card-statics.svg')}}" />
+                            <img src="{{ asset(checkTemplate(true) . 'dashboard/img/wallet-card-statics.svg')}}" />
                             <span
                               class="crancy-progress-card__percent crancy-color1"
                             >
@@ -124,9 +124,9 @@
                   >
                     <!-- crancy Single Sidebar -->
                     <div class="crancy-sidebar__single">
-                      <form class="crancy-wallet-form" action="#"> 
+                      <form class="crancy-wallet-form" action="#">
 
-                       
+
                         <div class="crancy-wallet-form__amount mg-top-15">
                             <span class="crancy-wallet-form__amount-label"
                               >Wallet Address</span
@@ -138,7 +138,7 @@
                               </div>
                             </div>
                         </div>
-                          
+
                         <div class="mt-1" id="walletalert"></div>
                          <!-- Amount Inside -->
                          <div class="crancy-wallet-form__amount mg-top-15">
@@ -146,7 +146,7 @@
                               >Enter amount</span
                             >
                             <div class="crancy-wallet-form__amount-group">
-                              <input onkeyup="exchange()" type="int" disabled id="amount" placeholder="$0.00" /> 
+                              <input onkeyup="exchange()" type="int" disabled id="amount" placeholder="$0.00" />
                               <div class="crancy-wallet-form__amount-author">
                                 <a href="#" id="getrateloader"></a>
                               </div>
@@ -164,7 +164,7 @@
                         </button>
                       </form>
 
-                       
+
                     </div>
                     <!-- End crancy Single Sidebar -->
                   </div>
@@ -181,7 +181,7 @@
                       <!-- Charts One -->
                       <div class="charts-main charts-home-one mg-top-30">
                         <!-- Top Heading -->
-                        
+
                         <div class="charts-main__one">
                           <div class="tab-content" id="nav-tabContent">
                             <div
@@ -249,13 +249,13 @@
                           </form>
                         </div>
                       </div>
-                       
+
                       <div class="crancy-customer-filter__single">
                         <a
                           href="#"
                           class="crancy-customer-filter__single--button"
                         >
-                          <img src="{{ asset($activeTemplateTrue . 'dashboard/img/download-icon2.svg')}}" />Download
+                          <img src="{{ asset(checkTemplate(true) . 'dashboard/img/download-icon2.svg')}}" />Download
                         </a>
                       </div>
                     </div>
@@ -270,7 +270,7 @@
                         <tr>
                           <th class="crancy-table__column-1 crancy-table__h1">
                             <div class="crancy-wc__checkbox">
-                               
+
                               <span>TRX ID</span>
                             </div>
                           </th>
@@ -297,7 +297,7 @@
                                     >
                                       <div class="crancy-table__customer">
                                         <div class="crancy-wc__checkbox">
-                                          
+
                                           <label
                                             for="checkbox"
                                             class="crancy-table__customer-img"
@@ -328,10 +328,10 @@
                                     >
                                     <div class="crancy-table__status @if($trx->type == 'receive') crancy-table__status--paid @else crancy-table__status--unpaid @endif">
                                     {{$trx->type}}
-                                    </div> 
+                                    </div>
                                     </td>
                                     <td>
-                                        <a href="#"  data-bs-toggle="modal" data-bs-target="#popup_modal_{{$trx->id}}" class="crancy-sidebar__toggles"><img src="{{ asset($activeTemplateTrue . 'dashboard/img/inline-toggle.svg') }}" /></a>
+                                        <a href="#"  data-bs-toggle="modal" data-bs-target="#popup_modal_{{$trx->id}}" class="crancy-sidebar__toggles"><img src="{{ asset(checkTemplate(true) . 'dashboard/img/inline-toggle.svg') }}" /></a>
                                     </td>
                                     <!-- Add Currency Popup  -->
                                     <div
@@ -393,7 +393,7 @@
                   Please find your transaction details below
                 </p>
               </div>
-               
+
               <div class="row">
                 <div class="col-lg-12 col-12 mg-top-30">
                     <div
@@ -526,7 +526,7 @@
                   </div>
                   <!-- End Single Group -->
                 </div>
-                 
+
               </div>
               @if($trx->explore_url)
               <a href="{{$trx->explore_url}}"
@@ -541,7 +541,7 @@
       </div>
     </div>
 
-                                     
+
                                   </tr>
                                    @empty
                                    {!! emptyData2() !!}
@@ -625,7 +625,7 @@
                   class="crancy-header__form crancy-header__form__currency mg-top-20"
                 >
                   <form class="crancy-header__form-inner" action="#">
-                     
+
                     <input type="text"id="walletaddress" value="{{ $wallet->address }}" readonly
                     class="form-control" placeholder="Right Side"
                     aria-describedby="basic-addon2">
@@ -705,11 +705,11 @@
                   Please enter an amount to swap below
                 </p>
               </div>
-               
+
               <div class="row">
-                 
+
                 <div class="col-lg-12 col-12 mg-top-30">
-                 
+
                   <div
                     class="crancy-wallet-form__amount crancy-wallet-form__amount--v2 mg-top-15"
                   >
@@ -719,9 +719,9 @@
                     <div class="crancy-wallet-form__amount-group">
                       <input type="number" value="" onkeyup="swap()" placeholder="0.00USD" id="swapamount" />
                       <div class="crancy-wallet-form__country">
-                        <img src="{{ asset($activeTemplateTrue . 'dashboard/img/country-4.png')}}" />
+                        <img src="{{ asset(checkTemplate(true) . 'dashboard/img/country-4.png')}}" />
                       </div>
-                    </div> 
+                    </div>
                   </div>
                   <div id="getswaprate"></div>
 
@@ -732,16 +732,16 @@
                     >Enter OTP</span
                   >
                   <div class="crancy-wallet-form__amount-group">
-                    <input type="int" maxlength="4" value="" id="swappin" placeholder="****" /> 
-                  </div> 
+                    <input type="int" maxlength="4" value="" id="swappin" placeholder="****" />
+                  </div>
                 </div>
-                  
+
                 </div>
               </div>
               <button class="mt-3 ntfmax-wc__btn ntfmax-wc__btn--login" disabled onclick="swapcoin()" id="swapbutton" type="button">
                 Continue<span id="submittingswap"><i class="fa-solid fa-arrow-right"></i></span>
             </button>
-              
+
             </div>
           </div>
         </div>
@@ -822,7 +822,7 @@
               </div>
               <!-- End Search Form -->
             </div>
-  
+
             <button class="ntfmax-wc__btn ntfmax-wc__btn--login" onclick="sendcoin()" id="submitbutton" type="button">
               Continue<span id="submitting"><i class="fa-solid fa-arrow-right"></i></span>
           </button>
@@ -832,7 +832,7 @@
     </div>
   </div>
   <!-- End Add Currency Popup  -->
-     
+
 @endsection
 
 
@@ -897,7 +897,7 @@
             .then(result => {
                 resp = JSON.parse(result);
                 if (resp.ok == true) {
-                    document.getElementById("amount").disabled = false; 
+                    document.getElementById("amount").disabled = false;
                     $("#getwallet").html(`<i class="text-success fa fa-check"></i>`);
                 }
                 else
@@ -1045,14 +1045,14 @@
                     `<i class="fa-solid fa-arrow-right"></i>`
                 );
                 document.getElementById("swapbutton").disabled = false;
-                if (resp.ok != true) 
+                if (resp.ok != true)
                         {
                             toastr.error(resp.message, 'OOPS');
                         }
                         if (resp.ok != false) {
                             toastr.success(resp.message, 'Successful');
                             location.reload();
-                        } 
+                        }
 
             })
             .catch(error => {
@@ -1092,17 +1092,17 @@
             .then(result => {
                 resp = JSON.parse(result);
                 document.getElementById("submit").disabled = false;
-                        if (resp.ok != true) 
+                        if (resp.ok != true)
                         {
                             toastr.error(resp.message, 'OOPS');
                         }
                         if (resp.ok != false) {
                             toastr.success(resp.message, 'Successful');
                             location.reload();
-                        } 
+                        }
                         document.getElementById("submitbutton").disabled = false;
                         document.getElementById("submitting").innerHTML = '<i class="fa-solid fa-arrow-right"></i>';
-               
+
             })
             .catch(error => {
 

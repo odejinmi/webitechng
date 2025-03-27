@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="row">
       @foreach($coins as $data)
@@ -7,7 +7,7 @@
           <div class="card-body p-4">
             <div class="d-flex align-items-center">
               <h6 class="mb-0 ms-3">{{$data->symbol}}</h6>
-              <div class="ms-auto text-primary d-flex align-items-center"> 
+              <div class="ms-auto text-primary d-flex align-items-center">
                 <span class="fs-2 fw-bold" id="{{$data->symbol}}percent"><i class="fa fa-spinner fa-spin"></i></span>
               </div>
             </div>
@@ -30,14 +30,14 @@
 <script>
     const priceElement = document.querySelectorAll(".price")
     const percentElement = document.querySelectorAll(".percent")
-    
+
     let btcBalance = document.querySelector("#btc-balance")
     let ethBalance = document.querySelector("#eth-balance")
     let bchBalance = document.querySelector("#bch-balance")
     let ltcBalance = document.querySelector("#ltc-balance")
     let usdcBalance = document.querySelector("#usdc-balance")
     let xrpBalance = document.querySelector("#xrp-balance")
-    
+
     const coins = async () => {
         await fetch('https://data.messari.io/api/v1/assets')
         .then(data => data.json())
@@ -48,7 +48,7 @@
                 var newBalance
                 switch (coin.symbol) {
                     case "BTC":
-                        document.getElementById("BTC").innerHTML = `$${coinPrice.toFixed(0) } ` 
+                        document.getElementById("BTC").innerHTML = `$${coinPrice.toFixed(0) } `
                         //newBalance = Number(btcBalance.innerHTML) / Number(coinPrice)
                          //btcBalance.innerHTML = newBalance.toFixed(4)
                         if(coinPercent < 0){
@@ -60,7 +60,7 @@
                         document.getElementById("BTCpercent").innerHTML = `${coinPercent.toFixed(2)}%`
                         break;
                     case "ETH":
-                         document.getElementById("ETH").innerHTML = `$${coinPrice.toFixed(0) } ` 
+                         document.getElementById("ETH").innerHTML = `$${coinPrice.toFixed(0) } `
                         //newBalance = Number(btcBalance.innerHTML) / Number(coinPrice)
                          //btcBalance.innerHTML = newBalance.toFixed(4)
                         if(coinPercent < 0){
@@ -70,13 +70,13 @@
                             document.getElementById("ETHpercent").style.color = "green"
                         }
                         document.getElementById("ETHpercent").innerHTML = `${coinPercent.toFixed(2)}%`
-                        
+
                     break;
-    
+
                     case "USDT":
                         document.getElementById("USDTERC20").innerHTML = `$${coinPrice.toFixed(0) } `
-                        document.getElementById("TCN").innerHTML = `$${coinPrice.toFixed(0) } ` 
-     
+                        document.getElementById("TCN").innerHTML = `$${coinPrice.toFixed(0) } `
+
                         //newBalance = Number(btcBalance.innerHTML) / Number(coinPrice)
                          //btcBalance.innerHTML = newBalance.toFixed(4)
                         if(coinPercent < 0){
@@ -89,11 +89,11 @@
                         }
                         document.getElementById("USDTERC20percent").innerHTML = `${coinPercent.toFixed(2)}%`
                         document.getElementById("TCNpercent").innerHTML = `${coinPercent.toFixed(2)}%`
-                        
+
                     break;
-    
+
                     case "BCH":
-                         document.getElementById("BCH").innerHTML = `$${coinPrice.toFixed(0) } ` 
+                         document.getElementById("BCH").innerHTML = `$${coinPrice.toFixed(0) } `
                         //newBalance = Number(btcBalance.innerHTML) / Number(coinPrice)
                          //btcBalance.innerHTML = newBalance.toFixed(4)
                         if(coinPercent < 0){
@@ -103,11 +103,11 @@
                             document.getElementById("BCHpercent").style.color = "green"
                         }
                         document.getElementById("BCHpercent").innerHTML = `${coinPercent.toFixed(2)}%`
-                        
+
                     break;
-    
+
                     case "LTC":
-                         document.getElementById("LTC").innerHTML = `$${coinPrice.toFixed(0) } ` 
+                         document.getElementById("LTC").innerHTML = `$${coinPrice.toFixed(0) } `
                         //newBalance = Number(btcBalance.innerHTML) / Number(coinPrice)
                          //btcBalance.innerHTML = newBalance.toFixed(4)
                         if(coinPercent < 0){
@@ -118,9 +118,9 @@
                         }
                         document.getElementById("LTCpercent").innerHTML = `${coinPercent.toFixed(2)}%`
                     break;
-    
+
                     case "BNB":
-                         document.getElementById("BNB").innerHTML = `$${coinPrice.toFixed(0) } ` 
+                         document.getElementById("BNB").innerHTML = `$${coinPrice.toFixed(0) } `
                         //newBalance = Number(btcBalance.innerHTML) / Number(coinPrice)
                          //btcBalance.innerHTML = newBalance.toFixed(4)
                         if(coinPercent < 0){
@@ -130,11 +130,11 @@
                             document.getElementById("BNBpercent").style.color = "green"
                         }
                         document.getElementById("BNBpercent").innerHTML = `${coinPercent.toFixed(2)}%`
-                        
+
                     break;
-    
+
                     case "XRP":
-                         document.getElementById("DASH").innerHTML = `$${coinPrice.toFixed(0) } ` 
+                         document.getElementById("DASH").innerHTML = `$${coinPrice.toFixed(0) } `
                         //newBalance = Number(btcBalance.innerHTML) / Number(coinPrice)
                          //btcBalance.innerHTML = newBalance.toFixed(4)
                         if(coinPercent < 0){
@@ -144,11 +144,11 @@
                             document.getElementById("DASHpercent").style.color = "green"
                         }
                         document.getElementById("DASHpercent").innerHTML = `${coinPercent.toFixed(2)}%`
-                        
+
                     break;
-    
+
                     case "DOGE":
-                         document.getElementById("DOGE").innerHTML = `$${coinPrice.toFixed(0) } ` 
+                         document.getElementById("DOGE").innerHTML = `$${coinPrice.toFixed(0) } `
                         //newBalance = Number(btcBalance.innerHTML) / Number(coinPrice)
                          //btcBalance.innerHTML = newBalance.toFixed(4)
                         if(coinPercent < 0){
@@ -158,17 +158,17 @@
                             document.getElementById("DOGEpercent").style.color = "green"
                         }
                         document.getElementById("DOGEpercent").innerHTML = `${coinPercent.toFixed(2)}%`
-                        
+
                     break;
-                    
-    
+
+
                     default:
                         break;
                 }
             })
         })
     }
-    
+
     coins()
 </script>
 @endpush

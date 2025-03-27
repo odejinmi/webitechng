@@ -1,7 +1,7 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 <div class="row">
-    <div class="col-12"> 
+    <div class="col-12">
 
       <!-- ---------------------
                   start File export

@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <!-- File export -->
     <div class="row">
@@ -31,10 +31,10 @@
                                         <!--begin::Action-->
 
                                         <a href="{{ route('user.buygift') }}" class="btn btn-primary er fs-6 px-8 py-4">
-                                            @lang('Buy Giftcard') </a> 
+                                            @lang('Buy Giftcard') </a>
                                         <a href="{{ route('user.sellgift') }}" class="btn btn-danger er fs-6 px-8 py-4">
                                                 @lang('Sell Giftcard') </a>
-                                        <br> <br> 
+                                        <br> <br>
                                         <!--end::Action-->
                                     </div>
                                 </div>
@@ -61,4 +61,4 @@
     @endsection
 
     @push('breadcrumb-plugins')
-    @endpush 
+    @endpush

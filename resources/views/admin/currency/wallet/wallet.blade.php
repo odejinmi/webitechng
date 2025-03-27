@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <!-- End Row -->
     <!--begin::Content-->
@@ -70,7 +70,7 @@
                                 <!--begin::Links-->
                                 <div class="text-center mb-1">
                                     <!--begin::Link-->
-                                   
+
                                     <!--begin::Link-->
                                     <a class="btn btn-sm btn-dark mb-1"
                                         href="{{ route('user.crypto.wallet.trx', $wallet->address) }}">
@@ -278,7 +278,7 @@
 
 
 
-      
+
 
 
 

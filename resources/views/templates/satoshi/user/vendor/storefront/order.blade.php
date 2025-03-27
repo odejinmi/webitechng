@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
 @push('style')
@@ -65,18 +65,18 @@
                 </div>
               </div>
             </div>
-            <!-- Column --> 
-            
- 
-    
-                <div class="col-12"> 
+            <!-- Column -->
+
+
+
+                <div class="col-12">
 
                   <!-- ---------------------
                               start File export
                           ---------------- -->
                   <div class="card">
                     <div class="card-body">
-                        
+
                       <div class="mb-2">
                         <h5 class="mb-0">{{$pageTitle}}</h5>
                       </div>
@@ -94,31 +94,31 @@
                                 <th>@lang('TRX')</th>
                                 <th>@lang('Product')</th>
                                 <th class="text-center">@lang('Date')</th>
-                                <th class="text-center">@lang('Amount')</th>   
+                                <th class="text-center">@lang('Amount')</th>
                             </tr>
                             <!-- end row -->
                           </thead>
                           <tbody>
-                             
+
                             @forelse(@$order as $data)
                             @php
                             $product = App\Models\Product::whereId($data->product_id)->first();
                             @endphp
                                     <tr>
-                                      <td> 
-                                          <span class="">{{ __($data->trx) }}</span> 
+                                      <td>
+                                          <span class="">{{ __($data->trx) }}</span>
                                       </td>
-                                      <td> 
+                                      <td>
                                        {{$product->name}}<br>
                                        <small>{{$data->quantity}} QTY</small>
                                       </td>
 
                                         <td class="text-center">
                                             {{ showDateTime($data->created_at) }}<br>{{ diffForHumans($data->created_at) }}
-                                        </td> 
-                                        <td class="text-center"> 
-                                            <strong>{{ showAmount($data->price) }} {{ __($general->cur_text) }}</strong>                                        
-                                        </td> 
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>{{ showAmount($data->price) }} {{ __($general->cur_text) }}</strong>
+                                        </td>
                                     </tr>
                                 @empty
                                     {!!emptyData()!!}
@@ -131,7 +131,7 @@
                               <th>@lang('TRX')</th>
                               <th>@lang('Payer')</th>
                               <th class="text-center">@lang('Date')</th>
-                              <th class="text-center">@lang('Amount')</th>  
+                              <th class="text-center">@lang('Amount')</th>
                             </tr>
                           </tfoot>
                         </table>
@@ -146,7 +146,7 @@
                   <!-- ---------------------
                               end File export
                           ---------------- -->
-  
+
 @endsection
 
 @push('breadcrumb-plugins')
@@ -161,5 +161,5 @@
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js')}}"></script>
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js')}}"></script>
 <script src="{{ asset('assets/assets/dist/js/datatable/datatable-advanced.init.js')}}"></script>
-  
+
 @endpush

@@ -1,5 +1,5 @@
-@extends($activeTemplate . 'layouts.app')
-@section('panel') 
+@extends(checkTemplate() . 'layouts.app')
+@section('panel')
 
 <div class="vstack gap-3 gap-xl-6 mt-8">
         <div class="row row-cols-sm-2 row-cols-md-6 g-3">
@@ -28,8 +28,8 @@
             </div>
 
         </div>
- 
-       
+
+
         <div class="row row-cols-md-2 g-6">
              <form  class="crancy-wallet-form" novalidate="novalidate" action="{{ route('user.withdraw.money') }}" method="post">
             @csrf
@@ -38,7 +38,7 @@
                     <div class="card-body p-0 p-xxl-6">
                         <div class="d-flex gap-8 justify-content-center mb-5"><a href="#"
                                 class="text-lg fw-bold text-heading">Request Payout</a></div>
-                        <div class="vstack gap-2"> 
+                        <div class="vstack gap-2">
 
                             <div class="bg-body-secondary rounded-3 p-4">
                                 <div class="d-flex justify-content-between text-xs text-muted">
@@ -58,7 +58,7 @@
                             <div>
                                 <h6 class="progress-text mb-1 d-block"></h6>
                             </div>
- 
+
 
                             <div class="bg-body-secondary rounded-3 p-4">
                                 <div class="d-flex justify-content-between text-xs text-muted">
@@ -76,7 +76,7 @@
                             </div>
 
 
-                             
+
                             <button type="submit" id="submit"
                                 class="btn btn-lg btn-dark w-100">Request Payout</button>
                         </div>
@@ -114,8 +114,8 @@
                                                     @if ($data->status == 2)
                                                     <span class="badge bg-warning">@lang('Pending')</span>
                                                 @elseif($data->status == 1)
-                                                    <span class="badge bg-success">@lang('Completed')</span> 
-                                                    
+                                                    <span class="badge bg-success">@lang('Completed')</span>
+
                                                 @elseif($data->status == 3)
                                                     <span class="badge bg-danger">@lang('Rejected')</span>
                                                 </button>
@@ -163,7 +163,7 @@
                                                     <div class="crancy-wc__heading crancy-flex__column-center text-center">
                                                         <h3 class="crancy-login-popup__title"> Details</h3>
                                                         <p>
-                                                        
+
                                                 {{ $data->admin_feedback }}
                                                         </p>
                                                              @php
@@ -176,11 +176,11 @@
                                                     <span class="badge bg-warning">@lang('Pending')</span>
                                                 @elseif($data->status == 1)
                                                     <span class="badge bg-success">@lang('Completed')</span>
-                                                   
-                                                    
+
+
                                                 @elseif($data->status == 3)
-                                                    <span class="badge bg-danger">@lang('Rejected')</span> 
-                                                @endif 
+                                                    <span class="badge bg-danger">@lang('Rejected')</span>
+                                                @endif
                                                         <!-- Search Form -->
                                                         <div
                                                             class="crancy-header__form crancy-header__form__currency mg-top-20">
@@ -203,12 +203,12 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     </div>
-    
+
 @endsection
- 
-@push('script') 
+
+@push('script')
 
 @endpush

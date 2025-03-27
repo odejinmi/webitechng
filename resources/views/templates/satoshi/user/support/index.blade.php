@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <!-- crancy Dashboard -->
     <section class="crancy-adashboard crancy-show">
@@ -60,11 +60,11 @@
                                                                     id="inputAttachments" autocomplete="off" />
                                                                 <label class="crancy-image-video-upload__label"
                                                                     for="inputAttachments">
-                                                                    <img id="blah" width="50" src="{{ asset($activeTemplateTrue . 'dashboard/img/upload-file2.svg') }}" />
+                                                                    <img id="blah" width="50" src="{{ asset(checkTemplate(true) . 'dashboard/img/upload-file2.svg') }}" />
                                                                     <h4 class="crancy-image-video-upload__title">
                                                                         <span class="crancy-primary-color">Select a file to
                                                                             upload
-                                                                        </span> 
+                                                                        </span>
                                                                     </h4>
                                                                 </label>
                                                             </div>
@@ -115,7 +115,7 @@
                                                                     Recent Support
                                                                 </h4>
                                                                 <a href="#" class="crancy-sidebar__toggles"><img
-                                                                        src="{{ asset($activeTemplateTrue . 'dashboard/img/toggle-icon.svg') }}" /></a>
+                                                                        src="{{ asset(checkTemplate(true) . 'dashboard/img/toggle-icon.svg') }}" /></a>
                                                             </div>
                                                             <div class="tab-pane fade show active" id="notify-one"
                                                                 role="tabpanel">
@@ -129,7 +129,7 @@
                                                                                 <div
                                                                                     class="crancy-paymentm__icon crancy-paymentm__icon--notify ntfmax__bgc--1">
                                                                                     <img
-                                                                                        src="{{ asset($activeTemplateTrue . 'dashboard/img/anotify1.svg') }}" />
+                                                                                        src="{{ asset(checkTemplate(true) . 'dashboard/img/anotify1.svg') }}" />
                                                                                 </div>
                                                                                 <div class="crancy-paymentm__content">
                                                                                     <h4
@@ -146,7 +146,7 @@
                                                                             <div class="crancy-toggle-arrow">
                                                                                 <a
                                                                                     href="{{ route('ticket.view', $support->ticket) }}"><img
-                                                                                        src="{{ asset($activeTemplateTrue . 'dashboard/img/toggle-icon-4.svg') }}" /></a>
+                                                                                        src="{{ asset(checkTemplate(true) . 'dashboard/img/toggle-icon-4.svg') }}" /></a>
                                                                             </div>
                                                                         </li>
                                                                     @empty

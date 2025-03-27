@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
  <!-- content @s
 -->
@@ -18,7 +18,7 @@
 
                     <!--begin::Step 2-->
                     <div data-kt-stepper-element="scontent">
-                        
+
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -34,12 +34,12 @@
                                 </div>
                                 <!--end::Notice-->
                             </div>
-                            <!--end::Heading-->    
+                            <!--end::Heading-->
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
                                 <!--begin::Label-->
                                 <label class="d-flex align-items-center form-label mb-3">
-                                    @lang('Fixed Amount') 
+                                    @lang('Fixed Amount')
                                     <span class="ms-1" data-bs-toggle="tooltip" title="Select a fixed amount">
                                         <i class="ti ti-alert-circle text-gray-500 fs-6">
                                             <span class="path1"></span>
@@ -127,7 +127,7 @@
                                 <input type="number" id="amount"  value="{{$invoice->amount}}" class="form-control form-control-lg form-control-solid  amount @error('amount') is-invalid @enderror" value="{{ old('amount') }}" name="amount" placeholder="0.00" />
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group--> 
+                            <!--end::Input group-->
 
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
@@ -139,14 +139,14 @@
                                     name="purpose" value="{{$invoice->purpose}}"  placeholder="Purpose of invoice" />
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group--> 
+                            <!--end::Input group-->
 
                              <!--begin::Input group-->
                              <div class="mb-10 fv-row">
                                 <!--begin::Label-->
-                                <label class="form-label mb-3">@lang('Status ')</label> 
+                                <label class="form-label mb-3">@lang('Status ')</label>
                                 <div class="form-check form-switch form-check-custom form-check-solid">
-                                    
+
                                     <input @if($invoice->status == 1) checked @endif class="form-check-input" type="checkbox" name="status" id="status"/>
                                     <label class="form-check-label" for="status">
                                         <small class="text-danger">Toggle on switch to make invoice active</small>
@@ -164,12 +164,12 @@
 
                     <!--begin::Actions-->
                     <div class="d-flex flex-stack pt-15">
- 
+
                         <!--begin::Wrapper-->
                         <div>
 
                             <button type="submit" class="btn btn-lg btn-primary" type="button" id="submit">@lang('Update Invoice')
-                                
+
                                 <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i> </button>
                         </div>
                         <!--end::Wrapper-->
@@ -221,7 +221,7 @@
             </li>
         </ul>
     </div>
-     
+
     <div class="buysell-field form-action text-center">
         <div class="mt-3">
             <a class="btn btn-primary"  onclick="document.getElementById('submitnow').click()" >@lang('Confirm Payout')</a>

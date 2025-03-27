@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.frontend')
+@extends(checkTemplate() . 'layouts.frontend')
 
 @section('content')
 <section>
@@ -6,15 +6,15 @@
         <form  class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" action="" method="post">
         @csrf
         <div class="row justify-content-center">
-        
-            
+
+
             <div class="col-xl-6 col-lg-6">
                 <div class="gray-simple rounded-2 py-3 px-3">
-                    
+
                     <div class="square--80 circle bg-light-success text-success d-flex mb-4 mx-auto">
                         <i class="fa-solid fa-qrcode fs-1"></i>
                     </div>
-                    
+
                     <div class="card-wrap text-center mb-4">
                         <h1 class="fs-2">{{$pageTitle}}</h1>
                         <p class="font--medium mb-0">Customer Name: {{$user->fullname}}</p>
@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="row g-4 pb-4 pb-md-5 mb-3 mb-md-1">
-                         
+
                         <div class="col-sm-12">
                             <label class="form-label fs-base">Email or Username</label>
                             <div class="position-relative"><i class="fa-regular fa-envelope position-absolute top-50 start-0 translate-middle-y ms-3"></i>
@@ -45,10 +45,10 @@
                                 <input class="form-control form-control-lg ps-5" name="pin" type="tel" placeholder="****">
                             </div>
                         </div>
-                         
+
                     </div>
-                    
-                    
+
+
                     <div class="d-nonse d-lg-block ">
                         <div class="form-check mb-4">
                             <input class="form-check-input" required type="radio" name="agree" type="checkbox" checked="" id="save-info">
@@ -56,14 +56,14 @@
                         </div>
                         <button class="btn btn-lg btn-primary px-xl-5" type="submit">Make Payment</button>
                     </div>
-                    
+
                 </div>
             </div>
-            
-             
-        </div> 
+
+
+        </div>
     </form>
-            
+
     </div>
 </section>
 @endsection

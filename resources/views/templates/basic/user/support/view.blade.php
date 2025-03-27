@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.' . $layout)
+@extends(checkTemplate() . 'layouts.' . $layout)
 
 @if ($layout == 'frontend')
     @section('content')
@@ -26,14 +26,14 @@
                                     <!--begin::Info-->
                                     <div class="mb-0 lh-1">
                                         @php echo $myTicket->statusBadge; @endphp
-                                    </div> 
+                                    </div>
                                     <!--end::Info-->
                                 </div>
                                 <!--end::User-->
                             </div>
-                            <!--end::Title--> 
+                            <!--end::Title-->
 
-                                <!--begin::Menu--> 
+                                <!--begin::Menu-->
                                 @if ($myTicket->status != Status::TICKET_CLOSE && $myTicket->user)
                                     <button data-question="@lang('Are you sure to close this ticket?')" data-action="{{ route('ticket.close', $myTicket->id) }}" class="confirmationBtn btn btn-sm btn-icon btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                         <i class="ti ti-trash fs-2"></i>                </button>
@@ -100,7 +100,7 @@
                                         <div class="d-flex align-items-center mb-2">
                                             <!--begin::Details-->
                                             <div class="me-3">
-                                                <span class="text-muted fs-7 mb-1">{{ diffForHumans($message->created_at) }}</span> 
+                                                <span class="text-muted fs-7 mb-1">{{ diffForHumans($message->created_at) }}</span>
                                             </div>
                                             <!--end::Details-->
 
@@ -134,7 +134,7 @@
                                 @endforelse
 
                                 <!--begin::Message(in)-->
-                                 
+
                             </div>
                             <!--end::Messages-->
                             @if ($myTicket->status != Status::TICKET_CLOSE && $myTicket->user)
@@ -145,7 +145,7 @@
                             <div class="card-footer pt-4" id="kt_drawer_chat_messenger_footer">
                                 <!--begin::Input-->
                                 <textarea class="form-control form-control-flush mb-3" rows="1" data-kt-element="input"  name="message" placeholder="Type a message">
-                                    
+
                                 </textarea>
                                 <!--end::Input-->
 
@@ -157,9 +157,9 @@
                                     <!--begin::Actions-->
                                     <div class="d-flex align-items-center me-2">
                                         <button class="addFile btn btn-sm btn-icon btn-active-light-primary me-1" type="button" data-bs-toggle="tooltip" title="Upload File">
-                                            <i class="ti ti-upload fs-3"></i>                    
+                                            <i class="ti ti-upload fs-3"></i>
                                         </button>
-                                            
+
                                     </div>
                                     <!--end::Actions-->
 

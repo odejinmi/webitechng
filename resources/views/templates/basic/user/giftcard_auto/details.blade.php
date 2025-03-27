@@ -1,10 +1,10 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 
 @section('panel')
     @push('style')
         <link id="themeColors" rel="stylesheet" href="{{ asset('assets/assets/dist/css/product.min.css') }}" />
     @endpush
-    @include($activeTemplate . 'partials.breadcrumb')
+    @include(checkTemplate() . 'partials.breadcrumb')
 
     <section class="py-24" data-aos="fade-up">
         <div class="container">
@@ -103,8 +103,8 @@
 @endsection
 
 @push('script')
-    @include($activeTemplate . 'partials.loader')
-     
+    @include(checkTemplate() . 'partials.loader')
+
     <script>
         $(document).ready(function() {
             fetch_data();
@@ -164,7 +164,7 @@
                     amount.map(card => {
                         let htmlSegment =
                             `
-                            
+
                   <label onclick="setamount(${result.productId}, ${card})" class="btn btn-sm btn-light-primary text-primary font-medium" style="margin-right: 10px;">
                     <div class="form-check">
                       <input type="radio" id="customRadio${card}" name="customRadio" class="form-check-input" />
@@ -210,7 +210,7 @@
         }
 
         function relatedproducts(brand) {
-            let loader = `  
+            let loader = `
             <div class="main-page">
                 <div class="loader">
                     <div class="spin-blend"></div>
@@ -239,9 +239,9 @@
                     return response.json();
                 })
                 .then((data) => {
-                    if (!data.data) 
+                    if (!data.data)
                     {
-                    document.getElementById("mylist").innerHTML = 
+                    document.getElementById("mylist").innerHTML =
                     `{!! emptyData() !!}`;
                     return;
                     }
@@ -249,7 +249,7 @@
                     let html = '';
 
                     resultTRX.map(card => {
-                        let htmlSegment = 
+                        let htmlSegment =
                         `<div class="col-sm-6 col-xl-3 col-6">
                           <div class="card hover-img overflow-hidden rounded-2">
                             <div class="position-relative">

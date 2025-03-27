@@ -1,11 +1,11 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
-    @include($activeTemplate . 'partials.settings')
- 
+    @include(checkTemplate() . 'partials.settings')
+
 
     <div class="" id="id4" role="tabpanel">
 
-        <div class="crancy-paymentm crancy__item-group"> 
+        <div class="crancy-paymentm crancy__item-group">
             <div class="d-wnone" data-kt-element="apps">
                 <!--begin::Heading-->
                 <h3 class="text-dark fw-bold mb-7">

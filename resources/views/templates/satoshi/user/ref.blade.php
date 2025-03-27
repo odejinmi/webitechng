@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 <!-- crancy Dashboard -->
 <section class="crancy-adashboard crancy-show">
@@ -52,7 +52,7 @@
                       </form>
                     </div>
                   </div>
-                  <!-- End Single Search --> 
+                  <!-- End Single Search -->
                 </div>
 
                 <div class="row">
@@ -60,7 +60,7 @@
                   <div class="col-xxl-3 col-lg-4 col-md-6 col-12">
                     <!-- Single User -->
                     <div class="crancy-single-user mg-top-30">
-                     
+
                       <div class="crancy-single-user__head">
                         <img src="{{ getImage(getFilePath('userProfile') . '/' . $data->image, getFileSize('userProfile')) }}" />
                         <h4 class="crancy-single-user__title">
@@ -85,11 +85,11 @@
                   @empty
                   {!!emptyData2()!!}
                   @endforelse
-                   
+
                 </div>
-                 
+
               </div>
-               
+
             </div>
           </div>
           <!-- End Dashboard Inner -->
@@ -101,9 +101,9 @@
 <!-- End crancy Dashboard -->
 
 
-    
+
 @endsection
-@push('script') 
+@push('script')
 <script>
   function myFunction() {
             var copyText = document.getElementById("referralURL");
@@ -113,6 +113,6 @@
             toastr.info('Ref link copied', 'Hello');
 
 
-        } 
+        }
 </script>
 @endpush

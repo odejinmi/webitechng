@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-6 justify-content-center">
     <div class="col">
@@ -30,7 +30,7 @@
                 </ul>
                 <div class="mt-7 mb-2 d-flex justify-content-between align-items-center"><span
                             class="text-sm fw-semibold">{{ $deposit->gateway->alias }}!</span>
-                    
+
                     <form role="form" id="payment-form" method="{{ $data->method }}"
                                     action="{{ $data->url }}">
                                     @csrf
@@ -71,15 +71,15 @@
 
                                 </form>
 
-                            
+
                 </div>
             </div>
         </div>
 
     </div>
 </div>
- 
-                                 
+
+
 @endsection
 
 @push('script')

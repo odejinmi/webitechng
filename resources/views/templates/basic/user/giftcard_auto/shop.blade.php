@@ -1,4 +1,4 @@
-@extends($activeTemplate.'layouts.app')
+@extends(checkTemplate().'layouts.app')
 
 @section('panel')
 
@@ -17,7 +17,7 @@
           overflow-y: auto;
           height: 1000px;"
           >
-            
+
             <ul class="list-group pt-2 border-bottom rounded-0">
               <h6 class="my-3 mx-4 fw-semibold">@lang('Sort Country')</h6>
               <div class="pb-4 px-4">
@@ -26,10 +26,10 @@
                   <input value="{{$data->isoName}}" data-iso="{{$data->isoName}}" onchange="fetch_data(10,1)" class="form-check-input p-2" type="radio" name="country" id="flexRadioDefault{{$key}}" checked>
                   <label class="form-check-label" for="flexRadioDefault{{$key}}">{{$data->name}}</label>
                 </div>
-                @endforeach 
-              </div> 
+                @endforeach
+              </div>
             </ul>
-             
+
             <div class="p-4">
               <a href="" class="btn btn-primary w-100">@lang('Reset Filters')</a>
             </div>
@@ -42,23 +42,23 @@
                   @foreach($country as $data)
                   <option data-iso="{{$data->isoName}}">{{$data->name}}</option>
                   @endforeach
-                </select> 
+                </select>
               </div>
               <h5 class="fs-5 fw-semibold mb-0 d-none d-lg-block" id="total_products">@lang('Products')</h5>
               <form class="position-relative">
                 <input type="text" class="form-control search-chat py-2 ps-5" id="brandname" onkeyup="fetch_data(10,1)" placeholder="Search Product">
                 <i class="ti ti-search position-absolute top-50 start-0 translate-middle-y fs-6 text-dark ms-3"></i>
               </form>
-            </div>  
+            </div>
             <div id="mylist"></div>
-               
-                <div id="page_container"> </div>  
+
+                <div id="page_container"> </div>
                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                   
-                </div> 
-            
+
+                </div>
+
           </div>
-           
+
         </div>
       </div>
     </div>
@@ -67,8 +67,8 @@
 
 @endsection
 
-@push('script') 
-@include($activeTemplate . 'partials.loader')
+@push('script')
+@include(checkTemplate() . 'partials.loader')
 <script>
 
 var total_records = 10000;
@@ -85,24 +85,24 @@ $(document).ready(function(){
 
 function createpagination(pagenum){
 		$("#page_container").html("");
-		
+
 		if(pagenum == 1){
 			$("#page_container").append("<button class='btn btn-light-secondary btn-sm text-secondary font-medium disabled active'><<</button>");
 		}else{
 			$("#page_container").append("<button class='btn btn-light-secondary btn-sm text-secondary font-medium' onclick='makecall("+(pagenum-1)+")'>>></button>");
 		}
-		
+
 		var i=0;
 		for(i=0; i <= 10; i++){
 			if(pagenum == (pagenum+i)){
 				$("#page_container").append("<button class='btn btn-light-secondary btn-sm text-secondary font-medium' onclick='makecall("+(pagenum-1)+")'>"+(pagenum+i)+"</button>");
 			}else{
 				if((pagenum+i)<=total_pages){
-            $("#page_container").append("<button class='btn btn-light-secondary btn-sm text-secondary font-medium' onclick='makecall("+(pagenum-1)+")'>"+(pagenum+i)+"</button>");					
+            $("#page_container").append("<button class='btn btn-light-secondary btn-sm text-secondary font-medium' onclick='makecall("+(pagenum-1)+")'>"+(pagenum+i)+"</button>");
 				}
 			}
 		}
-		
+
 		if(pagenum == total_pages){
 			$("#page_container").append("<button class='btn btn-light-secondary btn-sm text-secondary font-medium disabled active'><<</button>");
 		}else{
@@ -111,7 +111,7 @@ function createpagination(pagenum){
 }
 
 function fetch_data(perpage, pagenum){
-	
+
     var search = document.getElementById('brandname').value;
     var iso = $("#country option:selected").attr('data-iso');
     var ele = document.getElementsByName('country');
@@ -152,9 +152,9 @@ function fetch_data(perpage, pagenum){
     .then((data) => {
     if(!data.data)
     {
-    document.getElementById("mylist").innerHTML = `{!!emptyData2()!!}`; 
-    return; 
-    } 
+    document.getElementById("mylist").innerHTML = `{!!emptyData2()!!}`;
+    return;
+    }
 
     let resultTRX = data.data.content;
     var perpage = 10;
@@ -171,9 +171,9 @@ function fetch_data(perpage, pagenum){
         var pagenum = 1;
         createpagination(pagenum);
     });
- 
+
 	let html = '';
-    
+
     resultTRX.map(card => {
         let htmlSegment = `
         <div class="col-sm-6 col-xl-4">
@@ -193,7 +193,7 @@ function fetch_data(perpage, pagenum){
 
                 `;
 	html += htmlSegment;
-		
+
     });
 
     var total_records = data.data.totalPages;
@@ -219,4 +219,4 @@ function makecall(pagenum){
 }
 
 </script>
-@endpush 
+@endpush

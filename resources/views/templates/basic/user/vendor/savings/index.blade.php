@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <!-- File export -->
     <div class="row">
@@ -31,7 +31,7 @@
                                         <!--begin::Action-->
                                         <a href="{{ route('user.savings.start') }}" class="btn btn-primary er fs-6 px-8 py-4">
                                             @lang('Start Savings') </a>
-                                         
+
                                     </div>
                                 </div>
                                 <!--end::Content-->
@@ -69,13 +69,13 @@
                     </a>
                   </div>
 
-                  <form action="{{route('user.voucher.redeem')}}" method="post" class="ps-3 pr-3"> 
-                    @csrf 
+                  <form action="{{route('user.voucher.redeem')}}" method="post" class="ps-3 pr-3">
+                    @csrf
                     <div class="mb-3">
                       <label for="password1">Voucher Code</label>
                       <input class="form-control" type="password" required="" name="code" id="code"
                         placeholder="**********" />
-                    </div> 
+                    </div>
                     <div class="mb-3 text-center">
                       <button class="btn btn-rounded bg-info-subtle text-info font-medium" type="submit">
                         Redeem Voucher

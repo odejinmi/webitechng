@@ -1,7 +1,7 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
- 
- 
+
+
    <!-- Transaction Log -->
    <div class="col-lg-12 d-flex align-items-strech">
     <div class="card w-100">
@@ -9,7 +9,7 @@
         <div class="d-sm-flex d-block align-items-center justify-content-between mb-7">
           <div class="mb-3 mb-sm-0">
             <h5 class="card-title fw-semibold">@lang('API Key')</h5>
-          </div> 
+          </div>
         </div>
         <div class="col-lg-9">
           <div class="card">
@@ -37,28 +37,28 @@
                   }
                 </script>
                 @endpush
-              </div> 
-               
+              </div>
+
               <hr>
               <div class="alert alert-primary" role="alert">
-                <strong>Note - </strong> @lang('Please note, do not share your API Keys with anyone, we will not request for it, should you have any reason to doubt your API key, please feel free to generate 
+                <strong>Note - </strong> @lang('Please note, do not share your API Keys with anyone, we will not request for it, should you have any reason to doubt your API key, please feel free to generate
                 new API keys using the button below')
               </div>
-              
+
               <div class="d-flex align-items-center gap-3">
                 <a class="btn btn-primary" href="{{route('user.api.key.generate')}}">Generate New Key</a>
               </div>
             </div>
           </div>
-          
+
         </div>
-         
+
       </div>
     </div>
   </div>
 
-              
-          
+
+
    <!-- Transaction Log -->
    <div class="col-lg-12 d-flex align-items-strech">
     <div class="card w-100">
@@ -66,7 +66,7 @@
         <div class="d-sm-flex d-block align-items-center justify-content-between mb-7">
           <div class="mb-3 mb-sm-0">
             <h5 class="card-title fw-semibold">@lang('Webhook Settings')</h5>
-          </div> 
+          </div>
         </div>
         <div class="col-lg-9">
           <div class="card">
@@ -98,7 +98,7 @@
                     <div class="d-flex">
                         <button id="kt_pin_submit" type="submit"
                             class="btn btn-primary  me-2 px-6">@lang('Update Settings')</button>
-                        
+
                     </div>
                 </form>
                 <!--end::Form-->
@@ -106,14 +106,14 @@
             <!--end::Edit-->
             </div>
           </div>
-          
+
         </div>
-         
+
       </div>
     </div>
-  </div>      
+  </div>
 
-       
+
    <!-- Transaction Log -->
    <div class="col-lg-12 d-flex align-items-strech">
     <div class="card w-100">
@@ -121,14 +121,14 @@
         <div class="d-sm-flex d-block align-items-center justify-content-between mb-7">
           <div class="mb-3 mb-sm-0">
             <h5 class="card-title fw-semibold">@lang('Sample Webhook Notification Response')</h5>
-          </div> 
+          </div>
         </div>
         <div class="col-lg-9">
           <div class="card">
             <div class="card-body p-4">
               <div id="kt_signin_email_edit" class="flex-row-fluid">
                 <!--begin::Form-->
-                 
+
                     <div class="row mb-6 align-left">
                         <code>
                           <pre>
@@ -145,21 +145,21 @@
                         </pre>
                         </code>
                     </div>
-                     
+
                 <!--end::Form-->
             </div>
             <!--end::Edit-->
             </div>
           </div>
-          
+
         </div>
-         
+
       </div>
     </div>
-  </div>     
+  </div>
 
-    
+
 @endsection
-@push('breadcrumb-plugins') 
+@push('breadcrumb-plugins')
 
 @endpush

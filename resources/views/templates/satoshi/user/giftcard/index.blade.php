@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <!-- File export -->
     <div class="row">
@@ -13,7 +13,7 @@
 
                         <!--begin::Notice-->
                         <div class="notice d-flex bg-light-warning rounded border-warning border border-dashed  p-6">
-                            <!--begin::Icon--> 
+                            <!--begin::Icon-->
 
                             <!--begin::Wrapper-->
                             <div class="d-flex flex-stack flex-grow-1 ">
@@ -28,12 +28,12 @@
                                         <br> <br></center>
 
                                         <!--begin::Action-->
- 
+
                                          <a href="{{ route('user.buygift') }}" class="btn btn-primary er fs-6 px-8 py-4">
-                                            @lang('Buy Giftcard') </a> 
+                                            @lang('Buy Giftcard') </a>
                                         <a href="{{ route('user.sellgift') }}" class="btn btn-danger er fs-6 px-8 py-4">
                                                 @lang('Sell Giftcard') </a>
-                                        <br> <br> 
+                                        <br> <br>
                                         <!--end::Action-->
                                     </div>
                                 </div>
@@ -61,4 +61,4 @@
 
 @push('breadcrumb')
  <a class="btn bg-white text-primary" href="{{ route('user.sellcardlog') }}"> <i class="ti ti-printer"></i> @lang('Giftcard Log')</a>
-@endpush 
+@endpush

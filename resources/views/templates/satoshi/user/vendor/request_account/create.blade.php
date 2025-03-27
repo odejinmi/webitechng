@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
  <!-- content @s
 -->
@@ -18,7 +18,7 @@
 
                     <!--begin::Step 2-->
                     <div data-kt-stepper-element="scontent">
-                        
+
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -34,12 +34,12 @@
                                 </div>
                                 <!--end::Notice-->
                             </div>
-                            <!--end::Heading-->    
+                            <!--end::Heading-->
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
                                 <!--begin::Label-->
                                 <label class="d-flex align-items-center form-label mb-3">
-                                    @lang('Fixed Amount') 
+                                    @lang('Fixed Amount')
                                     <span class="ms-1" data-bs-toggle="tooltip" title="Select a fixed amount">
                                         <i class="ti ti-alert-circle text-gray-500 fs-6">
                                             <span class="path1"></span>
@@ -118,14 +118,14 @@
                                 }
                             </script>
                             <script>
-                                function submitform() { 
-                                    var amount = document.getElementById('amount').value; 
+                                function submitform() {
+                                    var amount = document.getElementById('amount').value;
                                     if(amount < 1)
                                     {
                                         SlimNotifierJs.notification(`error`, `error`,`Please specify amount first`, 3000);
                                         return;
-                                    } 
-                                    var account = document.getElementById('account'); 
+                                    }
+                                    var account = document.getElementById('account');
                                     if(account == '')
                                     {
                                         return;
@@ -144,10 +144,10 @@
                                     document.getElementById("worth").innerHTML = `<span class="badge bg-info text-white"  >Value: ${currency} ${worth}</span><br>`;
                                     document.getElementById("rate").innerHTML = `<span class="badge bg-dark text-white"  >Rate 1${currency} = ${USDollar.format(rate)}{{$general->cur_text}}</span><br>`;
                                     document.getElementById("get").innerHTML = `<span class="badge bg-success text-white" >What You Get: ${USDollar.format(get)} {{$general->cur_text}} </span>`;
-                                                   
+
                                 }
-                                
-                            </script> 
+
+                            </script>
                             @endpush
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
@@ -157,12 +157,12 @@
                                 <!--begin::Input-->
                                 <input type="number" onkeyup="submitform()" id="amount" class="form-control form-control-lg form-control-solid  amount @error('amount') is-invalid @enderror" value="{{ old('amount') }}" name="amount" placeholder="0.00" />
                                 <!--end::Input-->
-                                <span class="badge text-white" id="commision"></span> 
+                                <span class="badge text-white" id="commision"></span>
                                 <span class="badge text-white" id="worth"></span>
                                 <span class="badge text-white" id="rate"></span>
                                 <span class="badge text-white" id="get"></span>
                             </div>
-                            <!--end::Input group--> 
+                            <!--end::Input group-->
 
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
@@ -175,9 +175,9 @@
                                     @foreach($accounts as $data)
                                     <option data-fee="{{$data->fee}}" data-rate="{{$data->rate}}" data-currency="{{$data->currency}}"  value="{{$data->id}}">{{$data->name}}</option>
                                     @endforeach
-                                </select> 
+                                </select>
                             </div>
-                            <!--end::Input group-->  
+                            <!--end::Input group-->
 
                         </div>
                         <!--end::Wrapper-->
@@ -188,12 +188,12 @@
 
                     <!--begin::Actions-->
                     <div class="d-flex flex-stack pt-15">
- 
+
                         <!--begin::Wrapper-->
                         <div>
 
                             <button type="submit" class="btn btn-lg btn-primary" type="button" id="submit">@lang('Proceed')
-                                
+
                                 <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i> </button>
                         </div>
                         <!--end::Wrapper-->
@@ -209,5 +209,5 @@
     <!--end::Card-->
 </div>
 <!--end::Container-->
- 
+
 @endsection

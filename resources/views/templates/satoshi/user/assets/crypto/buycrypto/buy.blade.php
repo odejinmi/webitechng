@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="row">
         <div class="col-12">
@@ -9,7 +9,7 @@
                     <!--begin::Stepper-->
                     <div class="stepper stepper-pills stepper-column d-flex flex-column flex-xl-row flex-row-fluid gap-10"
                         >
-                      
+
 
                         <!--begin::Content-->
                         <div class="card d-flex flex-row-fluid flex-center" id="invoicedetails">
@@ -151,7 +151,7 @@
                                             <script>
                                                 function populate() {
                                                     // START GET DATA \\
-                                                  
+
                                                     document.getElementById('providers').innerHTML = '';
                                                     var currencies = $("#youSendCurrency option:selected").attr('data-currencies');
                                                     document.getElementById("amountlist").innerHTML = ``;
@@ -166,14 +166,14 @@
                                                                                 <span class="symbol-label bg-light-primary">
                                                                                     <i class="ti ti-image fs-2x text-warning"><img src="{{ url('/') }}/assets/images/coins/${plan['image']}" width="30" class="path1"/></i>
                                                                                 </span>
-                                                                                
-                                                                            </span> 
+
+                                                                            </span>
                                                                             <span class="d-flex flex-column">
                                                                                 <span class="fw-bold fs-6">${plan['name']}</span>
                                                                                 <span class="fs-7 text-muted">${plan['symbol']}</span>
                                                                             </span>
                                                                         </span>
-                            
+
                                                                         <span class="form-check form-check-custom form-check-solid">
                                                                             <input class="form-check-input" type="radio" onchange="networkprovider('${plan['id']}','${plan['image']}','${plan['name']}','${plan['id']}')"
                                                                                 name="asset" id="${plan['id']}" value="${plan['id']}" />
@@ -187,19 +187,19 @@
                                                         ` <div class="mb-0"> <label class="d-flex align-items-center form-label mb-5">
                                                                         @lang('Select Asset Currency')
                                                                         <span class="ms-1"  data-bs-toggle="tooltip" title="Please select asset currency" >
-                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>        
+                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>
                                                                         </label> ${html} </div>
                                                                     `;
-                                                   
+
                                                 }
-                                                // END GET DATA \\ 
+                                                // END GET DATA \\
                                             </script>
                                             <script>
                                                 function networkprovider(operatorId, image, name, coin) {
                                                     document.getElementById("networkprovider").innerHTML = name;
                                                     document.getElementById("coin").value = null;
                                                     document.getElementById("ourrate").innerHTML = null;
-                                                    
+
                                                     var raw = JSON.stringify({
                                                         _token: "{{ csrf_token() }}",
                                                         coin: operatorId,
@@ -425,7 +425,7 @@
                                                 function verifypassword(e) {
 
                                                     var password = e.value;
-                                                   
+
                                                     $("#passmessage").html(`<button class="btn btn-primary" type="button" disabled>
                                                     <span
                                                       class="spinner-border spinner-border-sm"
@@ -472,14 +472,14 @@
                                     <!--end::Wrapper-->
                                 </div>
                                 <!--end::Step 4-->
- 
+
                                 <!--begin::Actions-->
                                 <div class="d-flex flex-stack pt-10">
-                                    
+
 
                                     <!--begin::Wrapper-->
                                     <div>
-                                         
+
 
                                         <button type="button" id="submit"  onclick="submitform()" class="btn btn-lg btn-primary">
                                             Continue
@@ -576,14 +576,14 @@
                         resp = JSON.parse(
                             result);
                         if (resp.ok == false) {
-                            
+
                         }
                         if (resp.ok == true) {
 
                             // SlimNotifierJs.notification(resp.status, resp.status, resp.message, 3000);
-                            
-                              
-                             
+
+
+
                                 document.getElementById("invoicedetails").innerHTML = `
                                                             <!--begin::Wrapper-->
                                                                 <div class="w-100">
@@ -594,7 +594,7 @@
                                                                         <section class="payment-method text-center">
                                                                             <h5 class="fw-semibold fs-5 text-info">@lang('Please make payment to the wallet address below')</h5>
                                                                             <h5 class="fw-semibold fs-5text-danger ">@lang('PLEASE, DO NOT REFRESH YOUR BROWSER')</h5>
-                                                                            
+
                                                                                 <div class="input-group rounded">
                                                                                     Account Details: ${resp.coin.account_details}
                                                                                 </div>
@@ -603,28 +603,28 @@
                                                                                 <div class="order-summary border rounded p-4 my-4">
                                                                                     <div class="p-3">
                                                                                     <h5 class="fs-5 fw-semibold mb-4">@lang('Payment Summary')</h5>
-                                                                                
+
                                                                                     <div class="d-flex justify-content-between mb-4">
                                                                                         <p class="mb-0 fs-4"><b>Amount</b></p>
                                                                                         <h6 class="mb-0 fs-4 fw-semibold text-primary"><b>${resp.fiat}{{ $general->cur_text }}</b></h6>
-                                                                                    </div> 
+                                                                                    </div>
 
                                                                                     <button class="btn btn-primary confirmPayment" type="button" disabled onClick="confirmPayment()">
                                                                                         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                                                                                         Waiting For Payment...
                                                                                     </button>
                                                                                     <br><br>
-                                                                                 
+
                                                                                     <a href="javascript:void(0)" onClick="confirmPaymentManual('${resp.trx}')"  data-bs-toggle="modal" data-bs-target="#confirmPayment-modal" class="btn btn-primary">I Have Paid</a>
-                                                                                     
-                                                                                    </div> 
+
+                                                                                    </div>
                                                                                 </div>
                                                                         </section>
-                                                                    </div> 
+                                                                    </div>
                                                                 </div>
                                                                 <!--end::Wrapper-->
                                                                 `;
-                            
+
                          }
                         SlimNotifierJs
                             .notification(resp

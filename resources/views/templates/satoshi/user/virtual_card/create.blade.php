@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
    <!-- Transaction Log -->
  <div class="col-lg-12 d-flex align-items-strech">
@@ -7,7 +7,7 @@
       <div class="d-sm-flex d-block align-items-center justify-content-between mb-7">
         <div class="mb-3 mb-sm-0">
           <h5 class="card-title fw-semibold">@lang('Create Customer')</h5>
-        </div> 
+        </div>
         @if(!empty($customer))
           <div class="mb-3 mb-sm-0">
             <a href="{{url('/user/create/card')}}" class="btn btn-primary">Create New Card</a>
@@ -55,7 +55,7 @@
                   <div class="alert alert-success">
                       {{ session('success') }}
                   </div>
-                @endif    -->                      
+                @endif    -->
                 <div class="row">
                     <div class="col-sm-6">
                       <label for="house_number" class="form-label fw-semibold">@lang('House Number')</label>
@@ -66,7 +66,7 @@
                           <input type="text" class="form-control" name="phone_number">
                       </div>
                   </div>
-                  <div class="row">                              
+                  <div class="row">
                     <div class="col-sm-6">
                       <label for="date_of_birth" class="form-label fw-semibold">@lang('Date of Birth YYYY-MM-DD')</label>
                       <input type="text" class="form-control" name="date_of_birth">
@@ -75,7 +75,7 @@
                       <label for="idImage" class="form-label fw-semibold">@lang('Id Image')*</label>
                       <input type="text" class="form-control" name="idImage" value="{{ asset('assets/images/kyc') }}/{{ auth()->user()->username }}/front_kyc_image.png" readonly>
 
-                    </div> 
+                    </div>
                     <div class="col-sm-6">
                         <label for="line" class="form-label fw-semibold">@lang('Address')*</label>
                         <input type="text" class="form-control" name="line">
@@ -85,7 +85,7 @@
                      <div class="col-sm-6">
                         <label for="userPhoto" class="form-label fw-semibold">@lang('User Photo')</label>
                          <input type="text" class="form-control" name="idImage" value="{{ asset('assets/images/kyc') }}/{{ auth()->user()->username }}/back_kyc_image.png" readonly>
-                    </div> 
+                    </div>
                   </div>
                   <div class="row">
                     <div class="col-lg-6">
@@ -107,5 +107,5 @@
   </div>
 </div>
 @endsection
-@push('breadcrumb-plugins') 
+@push('breadcrumb-plugins')
 @endpush

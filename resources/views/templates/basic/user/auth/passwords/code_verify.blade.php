@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.auth')
+@extends(checkTemplate() . 'layouts.auth')
 @section('content')
 @php
 $passwordContent = getContent('password.content', true);
@@ -44,7 +44,7 @@ $passwordContent = getContent('password.content', true);
                     <!--begin::Form-->
                     <form class="form w-100 verify-gcaptcha"  data-kt-redirect-url="{{route('user.home')}}"  class="form w-100" novalidate="novalidate" id="kt_password_reset_form" method="POST"
                     action="{{ route('user.password.verify.code') }}">
-                    @csrf 
+                    @csrf
                      <!--begin::Icon-->
                     <div class="text-center mb-10">
                         <img alt="Logo" class="mh-125px" src="{{ asset('assets/thirdparty/media/svg/misc/smartphone-2.svg')}}"/>
@@ -64,15 +64,15 @@ $passwordContent = getContent('password.content', true);
                             </div>
                             <!--end::Subtitle--->
                         </div>
-                        <!--begin::Heading-->   
-                        <input type="hidden" name="email" value="{{ $email }}"> 
+                        <!--begin::Heading-->
+                        <input type="hidden" name="email" value="{{ $email }}">
                         <!--begin::Section-->
-                        <div class="mb-10"> 
+                        <div class="mb-10">
 
                         <!--begin::Input group-->
-                        <div class="d-flex flex-wrap flex-stack">                      
+                        <div class="d-flex flex-wrap flex-stack">
                             <input type="text" name="code" maxlength="6" class="form-control bg-transparent text-center mx-1 my-2" value=""/>
-                        </div>                
+                        </div>
                         <!--begin::Input group-->
     </div>
     <!--end::Section-->
@@ -84,15 +84,15 @@ $passwordContent = getContent('password.content', true);
                                 <!--begin::Indicator label-->
                                 <span class="indicator-label">
                                     @lang('Proceed')</span>
-                                <!--end::Indicator label--> 
+                                <!--end::Indicator label-->
                              </button>
                         </div>
-                        <!--end::Submit button--> 
+                        <!--end::Submit button-->
                     </form>
                     <!--end::Form-->
 
                 </div>
-                <!--end::Wrapper--> 
+                <!--end::Wrapper-->
             </div>
             <!--end::Content-->
         </div>
@@ -101,9 +101,9 @@ $passwordContent = getContent('password.content', true);
     <!--end::Body-->
 </div>
 <!--end::Authentication - Sign-in-->
- 
+
 @endsection
 
 @push('style')
-    
+
 @endpush

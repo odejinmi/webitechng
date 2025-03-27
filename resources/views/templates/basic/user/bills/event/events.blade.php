@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
     <div class="row">
         <div class="col-12">
@@ -33,7 +33,7 @@
                         <h6 class="fw-semibold fs-4">{{__($event->title)}}</h6>
                         <div class="d-flex align-items-center justify-content-between">
                           <h6 class="fw-semibold fs-4 mb-0">{{__(@$event->city->name)}} - {{__(@$event->location->name)}}</h6>
-                           
+
                         </div>
                       </div>
                     </div>
@@ -41,13 +41,13 @@
                   @empty
                   {!!emptyData2()!!}
                   @endforelse
-                   
+
                 </div>
               </div>
 
 
- 
+
     @endsection
 
     @push('breadcrumb-plugins')
-    @endpush 
+    @endpush

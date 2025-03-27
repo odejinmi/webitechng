@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends(checkTemplate() . 'layouts.app')
 @section('panel')
 
 @push('style')
@@ -6,7 +6,7 @@
 @endpush
             <!-- File export -->
             <div class="row">
-                <div class="col-12"> 
+                <div class="col-12">
 
                   <!-- ---------------------
                               start File export
@@ -36,12 +36,12 @@
                             <!-- end row -->
                           </thead>
                           <tbody>
-                             
+
                             @forelse(@$log as $deposit)
                                     <tr>
                                         <td>
-                                            <span class="fw-bold"> 
-                                              
+                                            <span class="fw-bold">
+
                                               <span
                                                     class="text-primary">{{ __($deposit->product_name) }}</span>
                                             </span>
@@ -54,8 +54,8 @@
                                         </td>
                                         <td class="text-center">
                                           {{ __($deposit->val_1) }}
-                                            
-                                        </td> 
+
+                                        </td>
                                         <td class="text-center">
                                            <small>{{ __($general->cur_text) }} {{ showAmount($deposit->payment / $deposit->quantity) }}</small>
                                             <br>
@@ -63,7 +63,7 @@
                                         </td>
                                         <td class="text-center">
                                            <label class='badge @if($deposit->status == 'SUCCESSFUL') bg-success  @elseif($deposit->status == 'PENDING') bg-warning  @else  bg-danger @endif'> @php echo $deposit->status @endphp</label>
-                                        </td> 
+                                        </td>
                                     </tr>
                                 @empty
                                     {!!emptyData2()!!}
@@ -92,7 +92,7 @@
                   <!-- ---------------------
                               end File export
                           ---------------- -->
-  
+
 @endsection
 
 @push('breadcrumb-plugins')
@@ -108,5 +108,5 @@
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js')}}"></script>
 <script src="{{ asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js')}}"></script>
 <script src="{{ asset('assets/assets/dist/js/datatable/datatable-advanced.init.js')}}"></script>
- 
+
 @endpush
