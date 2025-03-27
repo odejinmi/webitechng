@@ -1,0 +1,59 @@
+[
+    {
+        "id": "bet9ja",
+        "title": "Bet9ja",
+        "providerLogoUrl": "https://files.opayweb.com/images/api/icon/betting/Bet9ja3x.png"
+
+    },
+    {
+        "id": "bangbet",
+        "providerLogoUrl": "https://files.opayweb.com/images/api/icon/betting/Bangbet-new3x.png",
+        "title": "BangBet"
+    },
+    {
+        "id": "betking",
+        "providerLogoUrl": "https://files.opayweb.com/images/api/icon/betting/betking02.png",
+        "title": "BetKing"
+    },
+    {
+        "id": "betway",
+        "providerLogoUrl": "https://files.opayweb.com/images/api/icon/betting/betway3x.png",
+        "title": "BetWay"
+    },
+    {
+        "id": "merrybet",
+        "providerLogoUrl": "https://files.opayweb.com/images/api/icon/betting/Merrybet3x.png",
+        "title": "MerryBet"
+    },
+    {
+        "id": "mylottohub",
+        "providerLogoUrl": "https://files.opayweb.com/images/api/icon/betting/mylottohub3x.png",
+        "title": "MyLotto Hub"
+    },
+    {
+        "id": "naijabet",
+        "providerLogoUrl": "https://files.opayweb.com/images/api/icon/betting/Naijabet3x.png",
+        "title": "Naija Bet"
+    },
+    {
+        "id": "nairabet",
+        "providerLogoUrl": "https://files.opayweb.com/images/api/icon/betting/Nairabet3x.png",
+        "title": "Naira Bet"
+    },
+    {
+        "id": "onexbet",
+        "providerLogoUrl": "https://files.opayweb.com/images/api/icon/betting/1xbet3x.png",
+        "title": "One X Bet"
+    },
+    {
+        "id": "paripesa",
+        "providerLogoUrl": "https://files.opayweb.com/images/api/icon/betting/Paripesa.png",
+        "title": "Paripesa"
+    },
+    {
+        "id": "supabet",
+        "providerLogoUrl": "https://files.opayweb.com/images/api/icon/betting/supabet3x.png",
+        "title": "SupaBet"
+    }
+    
+]

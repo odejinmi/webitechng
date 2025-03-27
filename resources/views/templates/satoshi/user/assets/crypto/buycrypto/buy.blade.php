@@ -1,0 +1,693 @@
+@extends($activeTemplate . 'layouts.app')
+@section('panel')
+    <div class="row">
+        <div class="col-12">
+            <!--begin::Post-->
+            <div class="post d-flex flex-column-fluid" id="kt_post">
+                <!--begin::Container-->
+                <div id="kt_content_container" class=" container-xxl ">
+                    <!--begin::Stepper-->
+                    <div class="stepper stepper-pills stepper-column d-flex flex-column flex-xl-row flex-row-fluid gap-10"
+                        >
+                      
+
+                        <!--begin::Content-->
+                        <div class="card d-flex flex-row-fluid flex-center" id="invoicedetails">
+                            <!--begin::Form-->
+                            <form class="card-body py-20 w-100 mw-xl-700px px-9" novalidate="novalidate"
+                                id="kt_create_account_form">
+                                <!--begin::Step 1-->
+                                <div class="current" data-kt-stepper-element="content">
+                                    <!--begin::Wrapper-->
+                                    <div class="w-100">
+                                        <!--begin::Heading-->
+                                        <div class="pb-10 pb-lg-15">
+                                            <!--begin::Title-->
+                                            <h2 class="fw-bold d-flex align-items-center text-dark">
+                                                @lang('Select Wallet')
+
+
+                                                <span class="ms-1" data-bs-toggle="tooltip"
+                                                    title="Payment is processed based on your selected account type">
+                                                    <i class="ti ti-alert-circle text-gray-500 fs-6"><span
+                                                            class="path1"></span><span class="path2"></span><span
+                                                            class="path3"></span></i></span>
+                                            </h2>
+                                            <!--end::Title-->
+
+                                            <!--begin::Notice-->
+                                            <div class="text-muted fw-semibold fs-6">
+                                                @lang('If you need more info, please check out ')'
+                                                <a href="#" class="link-primary fw-bold">@lang('Help Page')</a>.
+                                            </div>
+                                            <!--end::Notice-->
+                                        </div>
+                                        <!--end::Heading-->
+
+                                        <!--begin::Input group-->
+                                        <div class="fv-row">
+                                            <!--begin::Row-->
+                                            <div class="row">
+                                                <!--begin::Col-->
+                                                <div class="col-lg-6">
+                                                    <!--begin::Option-->
+                                                    <input type="radio" class="btn-check" name="account_type"
+                                                        onchange="selectwallet('main')" id="mainwallet" />
+                                                    <label
+                                                        class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center mb-10"
+                                                        for="mainwallet">
+                                                        <i class="ti ti-wallet fs-3x me-5"><span class="path1"></span><span
+                                                                class="path2"></span><span class="path3"></span><span
+                                                                class="path4"></span><span class="path5"></span></i>
+                                                        <!--begin::Info-->
+                                                        <span class="d-block fw-semibold text-start">
+                                                            <span class="text-dark fw-bold d-block fs-4 mb-2">
+                                                                @lang('Main Wallet')
+                                                            </span>
+                                                            <span
+                                                                class="text-muted fw-semibold fs-6">{{ $general->cur_sym }}{{ showAmount(Auth::user()->balance) }}</span>
+                                                        </span>
+                                                        <!--end::Info-->
+                                                    </label>
+                                                    <!--end::Option-->
+                                                </div>
+                                                <!--end::Col-->
+
+                                                <!--begin::Col-->
+                                                <div class="col-lg-6">
+                                                    <!--begin::Option-->
+                                                    <input type="radio" class="btn-check" name="account_type"
+                                                        onchange="selectwallet('ref')" id="refwallet" />
+                                                    <label
+                                                        class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center"
+                                                        for="refwallet">
+                                                        <i class="ti ti-wallet fs-3x me-5"><span
+                                                                class="path1"></span><span class="path2"></span></i>
+                                                        <!--begin::Info-->
+                                                        <span class="d-block fw-semibold text-start">
+                                                            <span
+                                                                class="text-dark fw-bold d-block fs-4 mb-2">@lang('Referral Wallet')</span>
+                                                            <span
+                                                                class="text-muted fw-semibold fs-6">{{ $general->cur_sym }}{{ showAmount(Auth::user()->ref_balance) }}</span>
+                                                        </span>
+                                                        <!--end::Info-->
+                                                    </label>
+                                                    <!--end::Option-->
+                                                </div>
+                                                <!--end::Col-->
+                                                @push('script')
+                                                    <script>
+                                                        function selectwallet(wallet) {
+                                                            localStorage.setItem('wallet', wallet);
+                                                        }
+                                                    </script>
+                                                @endpush
+                                            </div>
+                                            <!--end::Row-->
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+                                    <!--end::Wrapper-->
+                                </div>
+                                <!--end::Step 1-->
+
+                                <!--begin::Step 2-->
+                                <div data-kt-stepper-element="content">
+                                    <!--begin::Wrapper-->
+                                    <div class="w-100">
+                                        <!--begin::Heading-->
+                                        <div class="pb-10 pb-lg-15">
+                                            <!--begin::Title-->
+                                            <h2 class="fw-bold text-dark">@lang('Trade Currency')</h2>
+                                            <!--end::Title-->
+
+                                            <!--begin::Notice-->
+                                            <div class="text-muted fw-semibold fs-6">
+                                                @lang('Please select base currency and trade currency below and click on the continue button to proceed to the next page').
+                                            </div>
+                                            <!--end::Notice-->
+                                        </div>
+                                        <!--end::Heading-->
+
+                                        <!--begin::Input group-->
+                                        <div class="mb-10 fv-row">
+                                            <!--begin::Label-->
+                                            <label class="form-label mb-3">@lang('Select Base Currency')</label>
+                                            <!--end::Label-->
+
+                                            <!--begin::Input-->
+                                            <select name="country" class="form-select form-select-solid"
+                                                data-control="select2" id="youSendCurrency" data-hide-search="false"
+                                                onchange="populate()" data-placeholder="@lang('Select Base Currency')">
+                                                <option selected disableds>@lang('Select a base currency')...</option>
+                                                <option data-callingCode="USD" data-countrycurrency="USD"
+                                                    data-isoName="USD" data-countrycontinent="USD"
+                                                    data-currencies="{{ $currencies }}" value="USD"
+                                                    data-icon="currency-flag currency-flag-usd me-1">USD</option>
+                                            </select> <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+                                        @push('script')
+                                            <script>
+                                                function populate() {
+                                                    // START GET DATA \\
+                                                  
+                                                    document.getElementById('providers').innerHTML = '';
+                                                    var currencies = $("#youSendCurrency option:selected").attr('data-currencies');
+                                                    document.getElementById("amountlist").innerHTML = ``;
+
+                                                    assets = JSON.parse(currencies);
+                                                    let html = '';
+                                                    assets.map(plan => {
+                                                        let htmlSegment =
+                                                            `<label class="d-flex flex-stack cursor-pointer mb-5" for="${plan['id']}" >
+                                                                        <span class="d-flex align-items-center me-2">
+                                                                            <span class="symbol symbol-50px me-6">
+                                                                                <span class="symbol-label bg-light-primary">
+                                                                                    <i class="ti ti-image fs-2x text-warning"><img src="{{ url('/') }}/assets/images/coins/${plan['image']}" width="30" class="path1"/></i>
+                                                                                </span>
+                                                                                
+                                                                            </span> 
+                                                                            <span class="d-flex flex-column">
+                                                                                <span class="fw-bold fs-6">${plan['name']}</span>
+                                                                                <span class="fs-7 text-muted">${plan['symbol']}</span>
+                                                                            </span>
+                                                                        </span>
+                            
+                                                                        <span class="form-check form-check-custom form-check-solid">
+                                                                            <input class="form-check-input" type="radio" onchange="networkprovider('${plan['id']}','${plan['image']}','${plan['name']}','${plan['id']}')"
+                                                                                name="asset" id="${plan['id']}" value="${plan['id']}" />
+                                                                        </span>
+                                                                    </label>
+                                                                    `;
+                                                        html += htmlSegment;
+                                                    });
+
+                                                    document.getElementById('providers').innerHTML =
+                                                        ` <div class="mb-0"> <label class="d-flex align-items-center form-label mb-5">
+                                                                        @lang('Select Asset Currency')
+                                                                        <span class="ms-1"  data-bs-toggle="tooltip" title="Please select asset currency" >
+                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>        
+                                                                        </label> ${html} </div>
+                                                                    `;
+                                                   
+                                                }
+                                                // END GET DATA \\ 
+                                            </script>
+                                            <script>
+                                                function networkprovider(operatorId, image, name, coin) {
+                                                    document.getElementById("networkprovider").innerHTML = name;
+                                                    document.getElementById("coin").value = null;
+                                                    document.getElementById("ourrate").innerHTML = null;
+                                                    
+                                                    var raw = JSON.stringify({
+                                                        _token: "{{ csrf_token() }}",
+                                                        coin: operatorId,
+                                                        amount: 1,
+                                                    });
+
+                                                    var requestOptions = {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                        },
+                                                        body: raw
+                                                    };
+                                                    fetch("{{ route('user.crypto.buy.coin.details') }}", requestOptions)
+                                                        .then(response => response.text())
+                                                        .then(result => {
+                                                            let html = '';
+                                                             const resp = JSON.parse(result);
+                                                            if (resp.ok != false) {
+                                                                document.getElementById("coin").value = coin;
+                                                                document.getElementById("ourrate").innerHTML = "1USD&nbsp;=&nbsp;" +
+                                                                    resp.ourrate + "{{ $general->cur_text }}";
+                                                                document.getElementById("globalrate").innerHTML = "1" + resp.rate.fiat_symbol +
+                                                                    "&nbsp;=&nbsp;" + resp.rate.crypto_amount + resp.rate.crypto_symbol;
+
+                                                            }
+
+                                                        })
+                                                        .catch(error => {
+                                                                console.log(error);
+                                                            }
+
+                                                        );
+                                                }
+                                                // END GET OPERATORS
+                                            </script>
+                                        @endpush
+
+
+                                        <!--begin::Input group-->
+                                        <div class="mb-0 fv-row">
+
+                                            <!--begin::Options-->
+                                            <div id="providers"></div>
+                                            <input id="coin" hidden>
+                                            <!--end::Options-->
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+                                    <!--end::Wrapper-->
+                                </div>
+                                <!--end::Step 2-->
+
+                                <!--begin::Step 3-->
+                                <div data-kt-stepper-element="content">
+                                    <!--begin::Wrapper-->
+                                    <div class="w-100">
+                                        <!--begin::Heading-->
+                                        <div class="pb-10 pb-lg-12">
+                                            <!--begin::Title-->
+                                            <h2 class="fw-bold text-dark">@lang('Trade Amount')</h2>
+                                            <!--end::Title-->
+
+                                            <!--begin::Notice-->
+                                            <div class="text-muted fw-semibold fs-6">
+                                                @lang('Please enter trade amount below')</a>.
+                                            </div>
+                                            <!--end::Notice-->
+                                        </div>
+                                        <!--end::Heading-->
+
+                                        <!--begin::Input group-->
+                                        <div class="fv-row mb-10">
+                                            <!--begin::Label-->
+                                            <label class="form-label required">@lang('Enter Amount')</label>
+                                            <!--end::Label-->
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">USD</span>
+                                                <input name="amount" id="amount"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    value="" />
+                                            </div>
+                                        </div>
+                                        <!--end::Input group-->
+
+
+
+                                        <!--begin::Input group-->
+                                        <div class="mb-10 fv-row">
+                                            <!--begin::Fixed Amount-->
+                                            <div id="amountlist"></div>
+                                            <!--end::Fixed Amount-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                    </div>
+                                    <!--end::Wrapper-->
+
+                                </div>
+                                <!--end::Step 3-->
+
+                                <!--begin::Step 4-->
+                                <div data-kt-stepper-element="content">
+                                    <!--begin::Wrapper-->
+                                    <div class="w-100">
+                                        <!--begin::Heading-->
+                                        <div class="pb-10 pb-lg-15">
+                                            <!--begin::Title-->
+                                            <h2 class="fw-bold text-dark">@lang('Preview Transaction')</h2>
+                                            <!--end::Title-->
+
+                                            <!--begin::Notice-->
+                                            <div class="text-muted fw-semibold fs-6">
+                                                @lang('If you need more info, please check out ')
+                                                <a href="#" class="text-primary fw-bold">@lang('Help Page')</a>.
+                                            </div>
+                                            <!--end::Notice-->
+                                        </div>
+                                        <!--end::Heading-->
+
+
+                                        <!--begin::Input group-->
+                                        <div class="fv-row mb-10">
+
+
+                                            <!--begin::Documents-->
+                                            <!--begin::Table-->
+                                            <table
+                                                class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
+                                                <tbody class="fw-semibold text-gray-600">
+
+                                                    <tr>
+                                                        <td class="text-muted">
+                                                            <div class="d-flex align-items-center">
+                                                                <i class="ti ti-wifi fs-2 me-2"><span
+                                                                        class="path1"></span><span
+                                                                        class="path2"></span><span
+                                                                        class="path3"></span><span
+                                                                        class="path4"></span><span
+                                                                        class="path5"></span></i> @lang('Asset')
+
+
+                                                                <span class="ms-1" data-bs-toggle="tooltip"
+                                                                    title="This is the selected asset to buy.">
+                                                                    <i class="ti ti-alert-circle  text-gray-500 fs-6"><span
+                                                                            class="path1"></span><span
+                                                                            class="path2"></span><span
+                                                                            class="path3"></span></i></span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="fw-bold text-end"><a href="#"
+                                                                class="text-gray-600 text-hover-primary"
+                                                                id="networkprovider"></a>
+                                                        </td>
+                                                    </tr>
+                                                    @if ($general->crypto_auto == 1)
+                                                        <tr>
+                                                            <td class="text-muted">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="ti ti-globe fs-2 me-2"><span
+                                                                            class="path1"></span><span
+                                                                            class="path2"></span></i> @lang('Global Price')
+
+
+                                                                    <span class="ms-1" data-bs-toggle="tooltip"
+                                                                        title="This is the global price of your asset">
+                                                                        <i class="ti ti-alert-circle  text-gray-500 fs-6"><span
+                                                                                class="path1"></span><span
+                                                                                class="path2"></span><span
+                                                                                class="path3"></span></i></span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="fw-bold text-end" id="">
+                                                                <a href="#" class="text-gray-600 text-hover-primary"
+                                                                    id="globalrate"></a>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+
+                                                    <tr>
+                                                        <td class="text-muted">
+                                                            <div class="d-flex align-items-center">
+                                                                <i class="ti ti-exchange fs-2 me-2"><span
+                                                                        class="path1"></span><span
+                                                                        class="path2"></span></i> @lang('Our Rate')
+
+                                                                <span class="ms-1" data-bs-toggle="tooltip"
+                                                                    title="This is the rate at which we buy your asset">
+                                                                    <i class="ti ti-alert-circle  text-gray-500 fs-6"><span
+                                                                            class="path1"></span><span
+                                                                            class="path2"></span><span
+                                                                            class="path3"></span></i></span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="fw-bold text-end" id="ourrate"></td>
+                                                    </tr>
+                                                    <tr></tr>
+                                                </tbody>
+                                            </table>
+
+                                            <br><br><br>
+
+
+                                            <label class="fs-6 fw-semibold mb-2">
+                                                @lang('Enter Transaction Password')
+                                                <span class="ms-1" data-bs-toggle="tooltip"
+                                                    title="Please enter your transaction password to authenticate the wallet debit">
+                                                    <i class="ti ti-alert-circle text-gray-500 fs-6"><span
+                                                            class="path1"></span><span class="path2"></span><span
+                                                            class="path3"></span></i></span> </label>
+                                            <!--End::Label-->
+
+                                            <!--begin::Input-->
+                                            <input type="password" onkeyup="verifypassword(this)" id="password"
+                                                class="form-control form-control-lg form-control-solid" name="password"
+                                                placeholder="" value="" autocomplete="off" />
+                                            <!--end::Input-->
+                                            <div id="passmessage"></div>
+                                        </div>
+                                        <!--end::Input group-->
+                                        @push('script')
+                                            <script>
+                                                function verifypassword(e) {
+
+                                                    var password = e.value;
+                                                   
+                                                    $("#passmessage").html(`<button class="btn btn-primary" type="button" disabled>
+                                                    <span
+                                                      class="spinner-border spinner-border-sm"
+                                                      role="status"
+                                                      aria-hidden="true"></span>
+                                                    <span class="visually-hidden">Loading...</span>
+                                                    </button>`);
+
+                                                    var raw = JSON.stringify({
+                                                        _token: "{{ csrf_token() }}",
+                                                        password: e.value,
+                                                    });
+
+                                                    var requestOptions = {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                        },
+                                                        body: raw
+                                                    };
+                                                    fetch("{{ route('user.trxpass') }}", requestOptions)
+                                                        .then(response => response.text())
+                                                        .then(result => {
+                                                            resp = JSON.parse(result);
+                                                            if (resp.ok != true) {
+                                                                document.getElementById("submit").disabled = true;
+                                                            }
+                                                            if (resp.ok != false) {
+                                                                document.getElementById("submit").disabled = false;
+                                                            }
+                                                            $("#passmessage").html(
+                                                                `<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`
+                                                            );
+                                                        })
+                                                        .catch(error => {
+
+                                                        });
+                                                    // END GET DATA \\
+                                                }
+                                            </script>
+                                        @endpush
+
+                                    </div>
+                                    <!--end::Wrapper-->
+                                </div>
+                                <!--end::Step 4-->
+ 
+                                <!--begin::Actions-->
+                                <div class="d-flex flex-stack pt-10">
+                                    
+
+                                    <!--begin::Wrapper-->
+                                    <div>
+                                         
+
+                                        <button type="button" id="submit"  onclick="submitform()" class="btn btn-lg btn-primary">
+                                            Continue
+                                            <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span
+                                                    class="path2"></span></i> </button>
+                                    </div>
+                                    <!--end::Wrapper-->
+                                </div>
+                                <!--end::Actions-->
+                            </form>
+                            <!--end::Form-->
+                        </div>
+                        <!--end::Content-->
+                    </div>
+                    <!--end::Stepper-->
+                </div>
+                <!--end::Container-->
+
+            </div>
+        </div>
+
+
+        <div id="confirmPayment-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+
+                        <form class="ps-3 pr-3" action="{{ route('user.crypto.buy.confirm.manual') }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="trxhash">Enter Wallet Address</label>
+                                <input class="form-control" type="text" name="walletaddress" id="walletaddress"
+                                    required="" placeholder="Please Enter Wallet Address" />
+                            </div>
+                            <input id="trxnumber" name="trx" hidden>
+                            <div class="mb-3">
+                                <label for="proof">Proof Of Payment</label>
+                                <input class="form-control" type="file" name="proof" id="proof"
+                                    required="" />
+                            </div>
+
+                            <div class="mb-3 text-center">
+                                <button class="btn btn-light-info text-info font-medium" type="submit">
+                                    Complete Payment
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-dialog -->
+    @endsection
+
+    @push('script')
+        <script></script>
+        <script>
+            "use strict";
+
+            function submitform() {
+                $("#passmessage").html(``);
+                var raw = JSON.stringify({
+                    _token: "{{ csrf_token() }}",
+                    password: document
+                        .getElementById(
+                            'password')
+                        .value,
+                    amount: document
+                        .getElementById(
+                            'amount').value,
+                    coin: document
+                        .getElementById(
+                            'coin').value,
+                    wallet: localStorage
+                        .getItem('wallet'),
+                });
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $(
+                            'meta[name="csrf-token"]'
+                        ).attr(
+                            'content')
+                    },
+                    body: raw
+                };
+                fetch("{{ route('user.crypto.buy.coin') }}",
+                        requestOptions)
+                    .then(response => response
+                        .text())
+                    .then(result => {
+                        resp = JSON.parse(
+                            result);
+                        if (resp.ok == false) {
+                            
+                        }
+                        if (resp.ok == true) {
+
+                            // SlimNotifierJs.notification(resp.status, resp.status, resp.message, 3000);
+                            
+                              
+                             
+                                document.getElementById("invoicedetails").innerHTML = `
+                                                            <!--begin::Wrapper-->
+                                                                <div class="w-100">
+                                                                    <!--begin::Heading-->
+                                                                    <div class="pb-8 pb-lg-10">
+                                                                        <!--begin::Title-->
+                                                                        <div id="finaldiv"></div>
+                                                                        <section class="payment-method text-center">
+                                                                            <h5 class="fw-semibold fs-5 text-info">@lang('Please make payment to the wallet address below')</h5>
+                                                                            <h5 class="fw-semibold fs-5text-danger ">@lang('PLEASE, DO NOT REFRESH YOUR BROWSER')</h5>
+                                                                            
+                                                                                <div class="input-group rounded">
+                                                                                    Account Details: ${resp.coin.account_details}
+                                                                                </div>
+                                                                                <br>
+                                                                                <h6 class="fw-semibold text-danger mb-7">@lang('Please make your payment to the account details above to complete payment. We will not be liable to any loss arising from sending fund to any other account other than the one shown on this page. Please click on the i have paid button to complete your payment process once payment has been made'): </h6>
+                                                                                <div class="order-summary border rounded p-4 my-4">
+                                                                                    <div class="p-3">
+                                                                                    <h5 class="fs-5 fw-semibold mb-4">@lang('Payment Summary')</h5>
+                                                                                
+                                                                                    <div class="d-flex justify-content-between mb-4">
+                                                                                        <p class="mb-0 fs-4"><b>Amount</b></p>
+                                                                                        <h6 class="mb-0 fs-4 fw-semibold text-primary"><b>${resp.fiat}{{ $general->cur_text }}</b></h6>
+                                                                                    </div> 
+
+                                                                                    <button class="btn btn-primary confirmPayment" type="button" disabled onClick="confirmPayment()">
+                                                                                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                                                                        Waiting For Payment...
+                                                                                    </button>
+                                                                                    <br><br>
+                                                                                 
+                                                                                    <a href="javascript:void(0)" onClick="confirmPaymentManual('${resp.trx}')"  data-bs-toggle="modal" data-bs-target="#confirmPayment-modal" class="btn btn-primary">I Have Paid</a>
+                                                                                     
+                                                                                    </div> 
+                                                                                </div>
+                                                                        </section>
+                                                                    </div> 
+                                                                </div>
+                                                                <!--end::Wrapper-->
+                                                                `;
+                            
+                         }
+                        SlimNotifierJs
+                            .notification(resp
+                                .status, resp
+                                .status, resp
+                                .message, 3000);
+                        //$("#passmessage").html(`<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`);
+                    })
+                    .catch(error => {
+
+                    });
+            }
+            // END BUY ASSET \\
+        </script>
+        <script>
+            function confirmPayment(entry) {
+                id = entry.split('|')[0]
+                coin = entry.split('|')[1]
+                var raw = JSON.stringify({
+                    _token: "{{ csrf_token() }}",
+                    invoice: id,
+                    coin: coin,
+                });
+                var requestOptions = {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    body: raw
+                };
+                fetch("{{ route('user.crypto.sell.confirm') }}", requestOptions)
+                    .then(response => response.text())
+                    .then(result => {
+                        const resp = JSON.parse(result);
+                        SlimNotifierJs.notification(resp.status, resp.status, resp.message, 3000);
+                        if (resp.ok != false) {
+                            window.location.href = "{{ route('user.crypto.sell.log') }}";
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+            // END GET INVOICE
+        </script>
+        <script>
+            function CopyWalletAddress() {
+                var copyText = document.getElementById("WalletAddress");
+                copyText.select();
+                copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+                document.execCommand("copy");
+                SlimNotifierJs.notification('success', 'Copied', 'Wallet Address Copied Successfuly', 3000);
+
+
+            }
+
+            function confirmPaymentManual(entry) {
+                document.getElementById("trxnumber").value = entry;
+            }
+        </script>
+    @endpush
+
+    @push('breadcrumb')
+        <a class="btn btn-sm btn-primary" href="{{ route('user.crypto.buy.log') }}"> <i class="ti ti-printer"></i>
+            @lang('Trade Log')</a>
+    @endpush

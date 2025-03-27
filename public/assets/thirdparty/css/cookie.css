@@ -1,0 +1,24 @@
+
+.ckWrap{position:fixed;right:0;left:0;bottom:-600px;z-index:50;border:1px solid #777;width:100%;padding:20px;background:rgba(255, 255, 255, 0.8);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-radius:30px 30px 0 0;box-shadow:0 -10px 25px -5px rgba(0,0,0,.1);align-items:center;justify-content:center;text-align:center;animation:ckUp 2.5s forwards;animation-delay:1s;-webkit-animation:ckUp 2.5s forwards;-webkit-animation-delay:1s}
+.ckWrap.acptd{animation:ckDn 2.5s backwards;animation-delay:.3s;-webkit-animation:ckDn 2.5s backwards;-webkit-animation-delay:.3s}
+.ckWrap.hidden{display:none}
+.ckWrap .ckCont svg{width:50px;height:50px;fill:#08102b;stroke:#08102b;stroke-width:.8}
+.ckCont h2{margin:0;color:#08102b;font-size:1.5rem;font-weight:800;font-family:inherit}
+.ckCont p{margin:10px 0;line-height:1.7em;color:#08102b;font-size:0.9rem;font-weight:400;font-family:inherit}
+.ckWrap .btn{display:inline-flex;align-items:center;margin:0;padding:10px 15px;outline:0;border:0;border-radius:2px;line-height:20px;color:#fefefe;background-color:#482dff;font-size:13px;font-family:inherit;text-decoration:none;white-space:nowrap;overflow:hidden;max-width:100%;cursor:pointer;transition:all 0.3s ease}
+.ckWrap .btn:hover{opacity:.8;transform:scale(0.97)}
+.ckWrap .btn.outl{color:#08102b;margin-left:8px;background-color:transparent;border:1px solid #767676}
+.ckWrap .btn.outl:hover{border-color:#482dff}
+@media screen and (min-width:768px){.ckWrap{max-width:450px;border-radius:10px;left:auto;right:30px;bottom:-500px;box-shadow:0 5px 35px rgba(0,0,0,.1);animation:ckdeskUp 2.5s forwards;animation-delay:1s;-webkit-animation:ckdeskUp 2.5s forwards;-webkit-animation-delay:1s}.ckWrap.acptd{animation:ckdeskDn 2.5s backwards;animation-delay:.3s;-webkit-animation:ckdeskDn 2.5s backwards;-webkit-animation-delay:0.3s}}
+@-webkit-keyframes ckUp{100%{bottom:0}}
+@keyframes ckUp{100%{bottom:0}}
+@-webkit-keyframes ckdeskUp{100%{bottom:30px}}
+@keyframes ckdeskUp{100%{bottom:30px}}
+@-webkit-keyframes ckDn{0%{bottom:0}100%{bottom:-600px}}
+@keyframes ckDn{0%{bottom:0}100%{bottom:-600px}}
+@-webkit-keyframes ckdeskDn{0%{bottom:30px}100%{bottom:-600px}}
+@keyframes ckdeskDn{0%{bottom:30px}100%{bottom:-600px}}
+.darkMode .ckWrap{background:rgba(50, 50, 50, 0.8)}
+.darkMode .ckWrap .ckCont svg{fill:#fefefe;stroke:#fefefe}
+.darkMode .ckCont h2, .darkMode .ckCont p, .darkMode .btn.outl{color:#fefefe} 
+Code 3 

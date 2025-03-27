@@ -1,0 +1,1 @@
+[01-May-2024 07:46:13 Africa/Libreville] PHP Fatal error:  Cannot redeclare App\Http\Controllers\ApiController::cryptoWallets() in /home/ltecyxtc/public_html/core/app/Http/Controllers/ApiController.php on line 541
