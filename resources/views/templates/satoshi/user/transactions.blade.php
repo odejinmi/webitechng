@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
 <div class="d-flex gap-2 scrollable-x py-3 px-7 border-bottom">
                        <form action="">

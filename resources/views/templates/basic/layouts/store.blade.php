@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.master')
+@extends($activeTemplate . 'layouts.master')
 
 @section('content')
     <!-- page-wrapper start -->

@@ -51,6 +51,7 @@ class LoginController extends Controller
         $pageTitle = "Login";
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.auth.login', $data,compact('pageTitle'));
     }

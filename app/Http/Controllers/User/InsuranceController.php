@@ -96,6 +96,7 @@ class InsuranceController extends Controller
         $log = Order::whereUserId($user->id)->whereType('cabletv')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.insurance.index', $data, compact('pageTitle', 'log'));
     }
@@ -120,6 +121,7 @@ class InsuranceController extends Controller
         $providers = json_decode($providers,true);
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.insurance.insurance_buy', $data, compact('pageTitle','providers'));
     }
@@ -523,6 +525,7 @@ class InsuranceController extends Controller
         $log = Order::whereUserId($user->id)->whereType('insurance')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.insurance.insurance_log', $data, compact('pageTitle', 'log'));
     }

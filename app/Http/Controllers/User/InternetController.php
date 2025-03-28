@@ -205,6 +205,7 @@ class InternetController extends Controller
         $log = Order::whereUserId($user->id)->whereType('internet')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.internet.index', $data, compact('pageTitle', 'log'));
     }
@@ -215,6 +216,7 @@ class InternetController extends Controller
         $countries = $this->getCountries();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.internet.internet_buy', $data, compact('pageTitle','countries'));
     }
@@ -404,6 +406,7 @@ class InternetController extends Controller
         $log = Order::whereUserId($user->id)->whereType('internet')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.internet.internet_log', $data, compact('pageTitle', 'log'));
     }

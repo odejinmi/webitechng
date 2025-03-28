@@ -26,6 +26,7 @@ class PaymentController extends Controller
         $pageTitle = 'Deposit Methods';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.payment.deposit', $data, compact('gatewayCurrency', 'pageTitle'));
     }
@@ -123,6 +124,7 @@ class PaymentController extends Controller
         $pageTitle = 'Payment Confirm';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. $data->view, $data, compact('data', 'pageTitle', 'deposit'));
     }

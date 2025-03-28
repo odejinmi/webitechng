@@ -1,7 +1,7 @@
-@extends(checkTemplate() . 'layouts.frontend')
+@extends($activeTemplate . 'layouts.frontend')
 @section('content')
 
-@include(checkTemplate() . 'partials.breadcrumb')
+@include($activeTemplate . 'partials.breadcrumb')
 
 <!-- Start Career Section -->
 <section id="career" class="bg-lightgrey wide-60 contacts-section division">

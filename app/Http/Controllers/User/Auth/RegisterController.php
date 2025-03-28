@@ -59,6 +59,7 @@ class RegisterController extends Controller
         $countries  = json_decode(file_get_contents(resource_path('views/partials/country.json')));
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.auth.register', $data,compact('reference','pageTitle', 'mobileCode', 'countries'));
     }

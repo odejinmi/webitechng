@@ -31,6 +31,7 @@ class VoucherController extends Controller
         $user = auth()->user();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.voucher.index', $data, compact('pageTitle', 'user'));
     }
@@ -41,6 +42,7 @@ class VoucherController extends Controller
         $user = auth()->user();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.voucher.create', $data, compact('pageTitle'));
     }
@@ -101,6 +103,7 @@ class VoucherController extends Controller
         $log = Voucher::whereUserId($user->id)->orWhere('beneficiary_id',$user->id)->searchable(['code'])->with('beneficiary')->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.voucher.log', $data, compact('pageTitle', 'log'));
     }

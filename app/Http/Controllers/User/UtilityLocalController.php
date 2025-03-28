@@ -35,6 +35,7 @@ class UtilityLocalController extends Controller
         $user = auth()->user();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.utilityLocal.index', $data, compact('pageTitle'));
     }
@@ -92,6 +93,7 @@ class UtilityLocalController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.utilityLocal.utility_buy', $data, compact('pageTitle','networks'));
     }
@@ -360,6 +362,7 @@ class UtilityLocalController extends Controller
         $log = Order::whereUserId($user->id)->whereType('utility')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.utilityLocal.utility_log', $data, compact('pageTitle', 'log'));
     }

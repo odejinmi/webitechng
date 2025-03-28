@@ -36,6 +36,7 @@ class SavingsController extends Controller
         $user = auth()->user();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.savings.index', $data, compact('pageTitle', 'user'));
     }
@@ -48,6 +49,7 @@ class SavingsController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.savings.request', $data, compact(
             'pageTitle',
@@ -204,6 +206,7 @@ class SavingsController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.savings.log', $data, compact('pageTitle','saved','emptyMessage'));
     }
@@ -287,6 +290,7 @@ class SavingsController extends Controller
         $data['count'] = SavingPay::where('user_id', $user->id)->whereSavingId($id)->count();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate.'user.vendor.savings.view',$data, compact('pageTitle','saved','pay','sum'));
     }

@@ -1,6 +1,6 @@
-@extends(checkTemplate() . 'layouts.frontend')
+@extends($activeTemplate . 'layouts.frontend')
 @section('content')
-@include(checkTemplate() . 'partials.breadcrumb')
+@include($activeTemplate . 'partials.breadcrumb')
 <div class="row justify-content-center gy-4">
     <div class="col-lg-8">
         <div class="card custom--card">

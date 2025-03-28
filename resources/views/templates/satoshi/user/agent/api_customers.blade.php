@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
 <div class="tab-pane fsade" id="pills-followers" role="tabpanel" aria-labelledby="pills-followers-tab" tabindex="0">
     <div class="d-sm-flex align-items-center justify-content-between mt-3 mb-4">

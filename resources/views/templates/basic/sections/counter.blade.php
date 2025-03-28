@@ -5,7 +5,7 @@
 <!-- ============================ Our Counters Start ================================== -->
 <section class="bg position-relative">
     <div class="position-absolute top-0 start-0 me-4 mt-3 z-0 opcity-25">
-        <img src="{{ asset(checkTemplate(True) . 'img/shape-1-soft-light.svg')}}" alt="img" width="250">
+        <img src="{{asset( $activeTemplateTrue . 'img/shape-1-soft-light.svg')}}" alt="img" width="250">
     </div>
     <div class="container">
 

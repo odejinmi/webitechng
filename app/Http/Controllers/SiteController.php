@@ -34,6 +34,7 @@ class SiteController extends Controller
         $country = session()->get('country');
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'home', $data,compact('pageTitle', 'sections','country'));
     }
@@ -45,6 +46,7 @@ class SiteController extends Controller
 		$giftcards = Giftcard::whereStatus(1)->with('types')->get();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'rates', $data,compact('pageTitle', 'coins','giftcards'));
 	}
@@ -56,6 +58,7 @@ class SiteController extends Controller
         $sections  = $page->secs;
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'pages', $data,compact('pageTitle', 'sections'));
     }
@@ -65,6 +68,7 @@ class SiteController extends Controller
         $pageTitle = $slug;
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. $slug, $data,compact('pageTitle'));
     }
@@ -95,6 +99,7 @@ class SiteController extends Controller
         $pageTitle = "Contact";
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'contact', $data,compact('pageTitle'));
     }
@@ -105,6 +110,7 @@ class SiteController extends Controller
         $pageTitle = strToUpper($id);
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. $id, $data,compact('pageTitle'));
     }
@@ -159,6 +165,7 @@ class SiteController extends Controller
         $pageTitle = $policy->data_values->title;
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'policy', $data,compact('policy', 'pageTitle'));
     }
@@ -182,6 +189,7 @@ class SiteController extends Controller
         $pageTitle    = $blog->data_values->title;
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'blog_details', $data,compact('blog', 'pageTitle', 'recent_blogs'));
     }
@@ -198,6 +206,7 @@ class SiteController extends Controller
         $pageTitle = 'API Documentation';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'api_documentation',$data, compact('pageTitle'));
     }
@@ -207,6 +216,7 @@ class SiteController extends Controller
         $pageTitle   = "Track Giftcard";
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'track', $data,compact('pageTitle'));
     }
@@ -242,6 +252,7 @@ class SiteController extends Controller
         $blogElements         = Frontend::where('data_keys', 'blog.element')->latest('id')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'blog', $data,compact('pageTitle', 'blogElements'));
     }
@@ -252,6 +263,7 @@ class SiteController extends Controller
         $cookie    = Frontend::where('data_keys', 'cookie.data')->first();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'cookie', $data,compact('pageTitle', 'cookie'));
     }
@@ -299,6 +311,7 @@ class SiteController extends Controller
         $maintenance = Frontend::where('data_keys', 'maintenance.data')->first();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'maintenance', $data,compact('pageTitle', 'maintenance'));
     }

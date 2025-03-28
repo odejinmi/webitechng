@@ -162,6 +162,7 @@ class AirtimeController extends Controller
         $log = Order::whereUserId($user->id)->whereType('airtime')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.airtime.index', $data,compact('pageTitle', 'log'));
     }
@@ -201,6 +202,7 @@ class AirtimeController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.airtime.airtime_buy', $data, compact('pageTitle','countries'));
     }
@@ -403,6 +405,8 @@ class AirtimeController extends Controller
         $general   = gs();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+
         return view($activeTemplate. 'user.bills.airtime.airtime_buy_local', $data, compact('pageTitle','countries','networks'));
      }
 
@@ -732,7 +736,9 @@ class AirtimeController extends Controller
         $log = Order::whereUserId($user->id)->whereType('airtime')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
-        return view($activeTemplate . 'user.bills.airtime.airtime_log', $data, compact('pageTitle', 'log'));
+        $data['activeTemplateTrue'] = checkTemplate(true);
+
+        return view($activeTemplate. 'user.bills.airtime.airtime_log', $data, compact('pageTitle', 'log'));
     }
 
     public function to_cash(Request $request)
@@ -742,7 +748,9 @@ class AirtimeController extends Controller
         $log = Order::whereUserId($user->id)->whereType('airtime2cash')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
-        return view($activeTemplate . 'user.bills.airtime2cash.index', $data, compact('pageTitle', 'log'));
+        $data['activeTemplateTrue'] = checkTemplate(true);
+
+        return view($activeTemplate. 'user.bills.airtime2cash.index', $data, compact('pageTitle', 'log'));
     }
 
     public function to_cash_request(Request $request)
@@ -751,7 +759,9 @@ class AirtimeController extends Controller
         $user = auth()->user();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
-        return view($activeTemplate . 'user.bills.airtime2cash.create', $data, compact('pageTitle'));
+        $data['activeTemplateTrue'] = checkTemplate(true);
+
+        return view($activeTemplate. 'user.bills.airtime2cash.create', $data, compact('pageTitle'));
     }
 
     public function to_cash_request_fee()
@@ -840,7 +850,9 @@ class AirtimeController extends Controller
         $log = Order::whereUserId($user->id)->whereType('airtime2cash')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
-        return view($activeTemplate . 'user.bills.airtime2cash.history', $data, compact('pageTitle', 'log'));
+        $data['activeTemplateTrue'] = checkTemplate(true);
+
+        return view($activeTemplate. 'user.bills.airtime2cash.history', $data, compact('pageTitle', 'log'));
     }
 
 

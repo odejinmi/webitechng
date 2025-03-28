@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
     <div class="row gy-4">
         <div class="col-xl-4">
@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="col-xl-8 card">
-            @include(checkTemplate() . 'partials.installment_table')
+            @include($activeTemplate . 'partials.installment_table')
         </div>
     </div>
 @endsection

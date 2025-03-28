@@ -33,6 +33,7 @@ class CryptoController extends Controller
 		$coins = Cryptocurrency::whereStatus(1)->get();
 		$activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate.'user.assets.crypto.rates', $data,compact('pageTitle', 'user', 'coins'));
 	}
@@ -44,6 +45,7 @@ class CryptoController extends Controller
 		$coins = Cryptocurrency::whereStatus(1)->get();
 		$activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate.'user.wallet.index', $data,compact('pageTitle', 'user', 'coins'));
 	}
@@ -92,6 +94,7 @@ class CryptoController extends Controller
 		$trx = Cryptotrx::where('user_id', $user->id)->whereCoin_id($coin->id)->take(5)->latest()->get();
 		$activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate.'user.wallet.wallet',$data, compact('pageTitle', 'user', 'wallet', 'trx', 'coin'));
 	}
@@ -509,6 +512,7 @@ class CryptoController extends Controller
 		//return $response;
 		$activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate.'user.wallet.transactions', $data,compact('pageTitle', 'user', 'wallet', 'transactions', 'coin'));
 	}

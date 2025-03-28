@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
 <!-- crancy Dashboard -->
 <section class="crancy-adashboard crancy-show">

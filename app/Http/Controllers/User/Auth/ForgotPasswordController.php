@@ -34,6 +34,7 @@ class ForgotPasswordController extends Controller
         $pageTitle = "Account Recovery";
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.auth.passwords.email', $data,compact('pageTitle'));
     }
@@ -96,6 +97,7 @@ class ForgotPasswordController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.auth.passwords.code_verify', $data,compact('pageTitle', 'email'));
     }

@@ -16,11 +16,11 @@
 
     <!--  Stylesheet -->
     <?php echo $__env->yieldPushContent('style'); ?>
-    <link rel="stylesheet" type="text/css" href="<?php echo e(asset(checkTemplate(true) . 'agent/css/main.css')); ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo e(asset(checkTemplate(true) . 'agent/css/utility.css')); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo e(asset( $activeTemplateTrue . 'agent/css/main.css')); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo e(asset( $activeTemplateTrue . 'agent/css/utility.css')); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f=satoshi@900,700,500,300,401,400&display=swap">
-    <link rel="stylesheet" href="<?php echo e(asset(checkTemplate(true) . 'dashboard/css/toast.min.css')); ?>" />
+    <link rel="stylesheet" href="<?php echo e(asset( $activeTemplateTrue . 'dashboard/css/toast.min.css')); ?>" />
 </head>
 <body class="bg-body-tertiary">
   <div class="d-flex flex-column flex-lg-row h-lg-100 gap-1">
@@ -33,8 +33,8 @@
         <img src="https://webpixels.s3.eu-central-1.amazonaws.com/public/brand/dark-sm.svg" class="avatar avatar-xs">
           <a href="#" class="me-1 text-heading fw-bold text-xs ls-tight stretched-link" target="_blank">Built by Khaytech Digitalz</a>
       </div>
-    <script src="<?php echo e(asset(checkTemplate(true) . 'agent/js/main.js')); ?>"></script>
-    <script src="<?php echo e(asset(checkTemplate(true) . 'dashboard/js/toast.min.js')); ?>"></script>
+    <script src="<?php echo e(asset( $activeTemplateTrue . 'agent/js/main.js')); ?>"></script>
+    <script src="<?php echo e(asset( $activeTemplateTrue . 'dashboard/js/toast.min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/assets/dist/libs/jquery/dist/jquery.min.js')); ?>"></script>
 
 

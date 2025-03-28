@@ -91,6 +91,7 @@ class InternetSmeController extends Controller
         $log = Order::whereUserId($user->id)->whereType('smeinternet')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.internetsme.index', $data, compact('pageTitle', 'log'));
     }
@@ -127,6 +128,7 @@ class InternetSmeController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
         if(gs()->internetsme_provider == 'N3TDATA')
         {
             return view($activeTemplate. 'user.bills.internetsme.internet_buy_N3TDATA', $data, compact('pageTitle','countries','networks','plans'));
@@ -1016,6 +1018,7 @@ class InternetSmeController extends Controller
         $log = Order::whereUserId($user->id)->whereType('smedata')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.internetsme.internet_log', $data, compact('pageTitle', 'log'));
     }

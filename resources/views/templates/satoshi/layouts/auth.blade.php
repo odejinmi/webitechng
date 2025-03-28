@@ -12,11 +12,11 @@
 
     <!--  Stylesheet -->
 
-    <link rel="stylesheet" type="text/css" href="{{ asset(checkTemplate(true) . 'agent/css/main.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ asset(checkTemplate(true) . 'agent/css/utility.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset( $activeTemplateTrue . 'agent/css/main.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset( $activeTemplateTrue . 'agent/css/utility.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f=satoshi@900,700,500,300,401,400&display=swap">
-    <link rel="stylesheet" href="{{ asset(checkTemplate(true) . 'dashboard/css/toast.min.css')}}" />
+    <link rel="stylesheet" href="{{asset( $activeTemplateTrue . 'dashboard/css/toast.min.css')}}" />
 </head>
 <body>
 
@@ -28,8 +28,8 @@
         <img src="https://webpixels.s3.eu-central-1.amazonaws.com/public/brand/dark-sm.svg" class="avatar avatar-xs">
           <a href="#" class="me-1 text-heading fw-bold text-xs ls-tight stretched-link" target="_blank">Built by Khaytech Digitalz</a>
       </div>
-    <script src="{{ asset(checkTemplate(true) . 'agent/js/main.js')}}"></script>
-    <script src="{{ asset(checkTemplate(true) . 'dashboard/js/toast.min.js') }}"></script>
+    <script src="{{asset( $activeTemplateTrue . 'agent/js/main.js')}}"></script>
+    <script src="{{asset( $activeTemplateTrue . 'dashboard/js/toast.min.js') }}"></script>
     <script src="{{ asset('assets/assets/dist/libs/jquery/dist/jquery.min.js')}}"></script>
 
 

@@ -1,6 +1,6 @@
-    @extends(checkTemplate() . 'layouts.frontend2')
+    @extends($activeTemplate . 'layouts.frontend2')
     @section('content')
-        @include(checkTemplate() . 'partials.breadcrumb2')
+        @include($activeTemplate . 'partials.breadcrumb2')
         <!-- ====== start contact ====== -->
         @php
             $contactContent = getContent('contact.content', true);

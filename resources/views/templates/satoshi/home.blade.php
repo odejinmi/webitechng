@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.frontend')
+@extends($activeTemplate . 'layouts.frontend')
 @section('content')
 
 <section id="hero-3" class="bg-fixed hero-section division">
@@ -24,14 +24,14 @@
                         <!-- AppStore -->
                         <a href="#" class="store">
                             <img class="appstore-original"
-                                src="{{ asset(checkTemplate(true) . 'front/images/appstore.png') }}"
+                                src="{{asset( $activeTemplateTrue . 'front/images/appstore.png') }}"
                                 alt="appstore-badge" />
                         </a>
 
                         <!-- Google Play -->
                         <a href="#" class="store">
                             <img class="googleplay-original"
-                                src="{{ asset(checkTemplate(true) . 'front/images/googleplay.png') }}"
+                                src="{{asset( $activeTemplateTrue . 'front/images/googleplay.png') }}"
                                 alt="googleplay-badge" />
                         </a>
 
@@ -45,7 +45,7 @@
             <!-- HERO IMAGE -->
             <div class="col-md-5 col-lg-6 m-bottom">
                 <div class="hero-3-img text-center mb-40 wow fadeInLeft" data-wow-delay="0.6s">
-                    <img class="img-fluid" src="{{ asset(checkTemplate(true) . 'front/images/img-01.png') }}"
+                    <img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/img-01.png') }}"
                         alt="hero-image">
                 </div>
             </div>
@@ -66,7 +66,7 @@
 				     	<!-- SLIDE #1 -->
 				      	<li id="slide-1">
 					        <!-- Background Image -->
-				        	<img src="{{ asset(checkTemplate(true) . 'front/images/slider/cryptocurrency-mining-technology-gold-coins-bitcoin-symbol-financial-graph-hologram-golden-bitcoin_890077-3219.jpeg')}}" alt="slide-background">
+				        	<img src="{{asset( $activeTemplateTrue . 'front/images/slider/cryptocurrency-mining-technology-gold-coins-bitcoin-symbol-financial-graph-hologram-golden-bitcoin_890077-3219.jpeg')}}" alt="slide-background">
 							<!-- Image Caption -->
 		       				<div class="caption d-flex align-items-center center-align">
 		       					<div class="container">
@@ -95,7 +95,7 @@
 				      	<!-- SLIDE #2 -->
 				      	<li id="slide-2">
 				        	<!-- Background Image -->
-				        	<img src="{{ asset(checkTemplate(true) . 'front/images/slider/guft.jpeg')}}" alt="slide-background">
+				        	<img src="{{asset( $activeTemplateTrue . 'front/images/slider/guft.jpeg')}}" alt="slide-background">
 							<!-- Image Caption -->
 	        				<div class="caption d-flex align-items-center center-align">
 	        					<div class="container">
@@ -125,7 +125,7 @@
 				     	<!-- SLIDE #3 -->
 				      	<li id="slide-3">
 				      		<!-- Background Image -->
-				        	<img src="{{ asset(checkTemplate(true) . 'front/images/slider/amazon-prime-day-sale_1100041-5291.jpeg')}}" alt="slide-background">
+				        	<img src="{{asset( $activeTemplateTrue . 'front/images/slider/amazon-prime-day-sale_1100041-5291.jpeg')}}" alt="slide-background">
 				        	<!-- Image Caption -->
 		       			 	<div class="caption d-flex align-items-center center-align">
 		       			 		<div class="container">
@@ -170,7 +170,7 @@
                 <!-- IMAGE BLOCK -->
                 <div class="col-md-5 col-lg-6">
                     <div class="img-block left-column mb-40 wow fadeInRight" data-wow-delay="0.6s">
-                        <img class="img-fluid" src="{{ asset(checkTemplate(true) . 'front/images/frontapp2.png') }}"
+                        <img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/frontapp2.png') }}"
                             alt="content-image">
                     </div>
                 </div>
@@ -426,7 +426,7 @@
                     <!-- IMAGE BLOCK -->
                     <div class="col-md-5 col-lg-6 m-top">
                         <div class="img-block right-column mb-40 wow fadeInLeft" data-wow-delay="0.4s">
-                            <img class="img-fluid" src="{{ asset(checkTemplate(true) . 'front/images/img-03.png') }}"
+                            <img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/img-03.png') }}"
                                 alt="content-image">
                         </div>
                     </div>
@@ -444,7 +444,7 @@
                     <!-- IMAGE BLOCK -->
                     <div class="col-md-5 col-lg-6">
                         <div class="img-block left-column mb-40 wow fadeInRight" data-wow-delay="0.4s">
-                            <img class="img-fluid" src="{{ asset(checkTemplate(true) . 'front/images/frontapp3.png') }}"
+                            <img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/frontapp3.png') }}"
                                 alt="content-image">
                         </div>
                     </div>
@@ -599,7 +599,7 @@
                 <!-- IMAGE BLOCK -->
                 <div class="col-md-5 col-lg-6 m-top">
                     <div class="img-block right-column mb-40 wow fadeInLeft" data-wow-delay="0.6s">
-                        <img class="img-fluid" src="{{ asset(checkTemplate(true) . 'front/images/shield1.png') }}"
+                        <img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/shield1.png') }}"
                             alt="content-image">
                     </div>
                 </div>
@@ -610,12 +610,12 @@
     </section> <!-- END CONTENT-1 -->
 
 
-    @include(checkTemplate() . 'sections.counter')
+    @include($activeTemplate . 'sections.counter')
 
 
-    @include(checkTemplate() . 'sections.testimonial')
+    @include($activeTemplate . 'sections.testimonial')
 
-    @include(checkTemplate() . 'sections.subscribe')
+    @include($activeTemplate . 'sections.subscribe')
 
 
 
@@ -646,14 +646,14 @@
                             <!-- AppStore -->
                             <a href="#" class="store">
                                 <img class="appstore-original"
-                                    src="{{ asset(checkTemplate(true) . 'front/images/appstore.png') }}"
+                                    src="{{asset( $activeTemplateTrue . 'front/images/appstore.png') }}"
                                     alt="appstore-badge" />
                             </a>
 
                             <!-- Google Play -->
                             <a href="#" class="store">
                                 <img class="googleplay-original"
-                                    src="{{ asset(checkTemplate(true) . 'front/images/googleplay.png') }}"
+                                    src="{{asset( $activeTemplateTrue . 'front/images/googleplay.png') }}"
                                     alt="googleplay-badge" />
                             </a>
 

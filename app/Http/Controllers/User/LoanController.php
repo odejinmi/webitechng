@@ -38,7 +38,7 @@ class LoanController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
-
+        $data['activeTemplateTrue'] = checkTemplate(true);
         if (request()->download == 'pdf') {
             $loans = $loans->get();
             return downloadPDF($activeTemplate. 'pdf.loan_list', $data, compact('pageTitle', 'loans'));
@@ -54,6 +54,7 @@ class LoanController extends Controller
         $plans     = LoanPlan::active()->latest()->get();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.loan.plans', $data, compact('pageTitle', 'plans'));
     }
@@ -80,6 +81,7 @@ class LoanController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.loan.form', $data, compact('pageTitle', 'plan', 'amount','formData'));
     }
@@ -139,6 +141,7 @@ class LoanController extends Controller
         $pageTitle    = 'Loan Installments';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.loan.installments', $data, compact('pageTitle', 'installments', 'loan'));
     }

@@ -1,6 +1,6 @@
-@extends(checkTemplate() . 'layouts.frontend')
+@extends($activeTemplate . 'layouts.frontend')
 @section('content')
-@include(checkTemplate() . 'partials.breadcrumb')
+@include($activeTemplate . 'partials.breadcrumb')
 
 			<!-- CONTENT-4
 			============================================= -->
@@ -35,7 +35,7 @@
 							<!-- IMAGE BLOCK -->
 							<div class="col-md-5 col-lg-6 m-top">
 								<div class="img-block right-column mb-40 wow fadeInLeft" data-wow-delay="0.4s">
-									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/img-07.png')}}" alt="content-image">
+									<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/img-07.png')}}" alt="content-image">
 								</div>
 							</div>
 
@@ -52,7 +52,7 @@
 							<!-- IMAGE BLOCK -->
 							<div class="col-md-5 col-lg-6">
 								<div class="img-block left-column mb-40 wow fadeInRight" data-wow-delay="0.4s">
-									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/img-08.png')}}" alt="content-image">
+									<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/img-08.png')}}" alt="content-image">
 								</div>
 							</div>
 
@@ -141,7 +141,7 @@
 							<!-- IMAGE BLOCK -->
 							<div class="col-md-5 col-lg-6 m-top">
 								<div class="img-block right-column pc-25 mb-40 wow fadeInLeft" data-wow-delay="0.4s">
-									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/img-11.png')}}" alt="content-image">
+									<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/img-11.png')}}" alt="content-image">
 								</div>
 							</div>
 
@@ -158,7 +158,7 @@
 							<!-- IMAGE BLOCK -->
 							<div class="col-md-5 col-lg-6">
 								<div class="img-block left-column pc-25 mb-40 wow fadeInRight" data-wow-delay="0.4s">
-									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/img-03.png')}}" alt="content-image">
+									<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/img-03.png')}}" alt="content-image">
 								</div>
 							</div>
 
@@ -209,35 +209,35 @@
 								<!-- BRAND LOGO IMAGE -->
 								<div class="brand-logo">
 									<a href="#">
-										<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/brand-1.png')}}" alt="brand-logo" />
+										<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/brand-1.png')}}" alt="brand-logo" />
 									</a>
 								</div>
 
 								<!-- BRAND LOGO IMAGE -->
 								<div class="brand-logo">
 									<a href="#">
-										<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/brand-2.png')}}" alt="brand-logo" />
+										<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/brand-2.png')}}" alt="brand-logo" />
 									</a>
 								</div>
 
 								<!-- BRAND LOGO IMAGE -->
 								<div class="brand-logo">
 									<a href="#">
-										<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/brand-3.png')}}" alt="brand-logo" />
+										<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/brand-3.png')}}" alt="brand-logo" />
 									</a>
 								</div>
 
 								<!-- BRAND LOGO IMAGE -->
 								<div class="brand-logo">
 									<a href="#">
-										<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/brand-4.png')}}" alt="brand-logo" />
+										<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/brand-4.png')}}" alt="brand-logo" />
 									</a>
 								</div>
 
 								<!-- BRAND LOGO IMAGE -->
 								<div class="brand-logo">
 									<a href="#">
-										<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/brand-5.png')}}" alt="brand-logo" />
+										<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/brand-5.png')}}" alt="brand-logo" />
 									</a>
 								</div>
 

@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
 <form method="POST" action="{{ route('user.data.submit') }}" enctype="multipart/form-data">
     @csrf
@@ -16,7 +16,7 @@
                     <div class="crancy-product-card">
                       <h4 class="crancy-product-card__title">
                         User Information
-                        <a href="#"><img src="{{ asset(checkTemplate(true) . 'dashboard/img/alert-circle.svg')}}" /></a>
+                        <a href="#"><img src="{{asset( $activeTemplateTrue . 'dashboard/img/alert-circle.svg')}}" /></a>
                       </h4>
                       <div class="crancy__item-form--group mg-top-25">
                         <label
@@ -58,7 +58,7 @@
                     <div class="crancy-product-card">
                       <h4 class="crancy-product-card__title">
                         Product Image
-                        <a href="#"><img src="{{ asset(checkTemplate(true) . 'dashboard/img/alert-circle.svg')}}" /></a>
+                        <a href="#"><img src="{{asset( $activeTemplateTrue . 'dashboard/img/alert-circle.svg')}}" /></a>
                       </h4>
                       <p>
                         Select a suitable photo or drag and drop up to 1
@@ -86,7 +86,7 @@
                                 class="crancy-image-video-upload__label"
                                 for="input-img1"
                               >
-                                <img src="{{ asset(checkTemplate(true) . 'dashboard/img/upload-file.png')}}" />
+                                <img src="{{asset( $activeTemplateTrue . 'dashboard/img/upload-file.png')}}" />
                                 <h4
                                   class="crancy-image-video-upload__title"
                                 >
@@ -122,7 +122,7 @@
             <div class="crancy-product-card">
               <h4 class="crancy-product-card__title">
                 Detailed Address
-                <a href="#"><img src="{{ asset(checkTemplate(true) . 'dashboard/img/alert-circle.svg')}}" /></a>
+                <a href="#"><img src="{{asset( $activeTemplateTrue . 'dashboard/img/alert-circle.svg')}}" /></a>
               </h4>
 
 

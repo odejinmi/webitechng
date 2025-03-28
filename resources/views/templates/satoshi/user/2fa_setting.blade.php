@@ -1,6 +1,6 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
-    @include(checkTemplate() . 'partials.settings')
+    @include($activeTemplate . 'partials.settings')
 
 
     <div class="" id="id4" role="tabpanel">

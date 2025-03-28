@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-6 justify-content-center">
     <div class="col">

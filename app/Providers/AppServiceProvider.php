@@ -38,9 +38,9 @@ class AppServiceProvider extends ServiceProvider
         $activeTemplate                  = activeTemplate();
         $default = session()->get('default_template');
         $viewShare['general']            = $general;
-        $viewShare['activeTemplate']     = $activeTemplate;
+//        $viewShare['activeTemplate']     = $activeTemplate;
 
-        $viewShare['activeTemplateTrue'] = activeTemplate(true);
+//        $viewShare['activeTemplateTrue'] = activeTemplate(true);
         $viewShare['language']           = Language::all();
         $viewShare['pages']              = Page::where('tempname', $activeTemplate)->where('slug', "!=", 'home')->where('is_default', 0)->get();
         $viewShare['emptyMessage']       = 'Data not found';

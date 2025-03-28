@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
 
  <!-- content @s
@@ -15,7 +15,7 @@
 
                 <!--begin::Form-->
 
-                @include(checkTemplate() . 'partials.escrow_form')
+                @include($activeTemplate . 'partials.escrow_form')
 
                 <!--end::Form-->
             </div>

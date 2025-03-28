@@ -32,6 +32,7 @@ class RequestAccountController extends Controller
         $user = auth()->user();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.request_account.index', $data, compact('pageTitle', 'user'));
     }
@@ -42,6 +43,7 @@ class RequestAccountController extends Controller
         $accounts = RequestPaymentAccount::latest()->whereStatus(1)->get();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.request_account.create', $data, compact('pageTitle','accounts'));
     }
@@ -87,6 +89,7 @@ class RequestAccountController extends Controller
         $account = RequestPayment::latest()->whereUserId($user->id)->whereStatus(0)->whereTrx(decrypt($id))->with('account')->firstOrFail();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.request_account.confirm', $data, compact('pageTitle','account'));
     }
@@ -127,6 +130,7 @@ class RequestAccountController extends Controller
         $log = RequestPayment::latest()->whereUserId($user->id)->with('account')->paginate(10);
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.request_account.history', $data, compact('pageTitle','log'));
     }

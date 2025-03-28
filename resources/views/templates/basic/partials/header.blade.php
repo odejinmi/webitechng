@@ -48,7 +48,7 @@
                                     <a style="color:black;" href="{{ route('page', 'bills') }}">Bills Payment</a>
                                 </li>
                                 @php
-                                    $pages = App\Models\Page::where('tempname', checkTemplate())
+                                    $pages = App\Models\Page::where('tempname', $activeTemplate)
                                         ->where('is_default', 0)
                                         ->get();
                                     //$pages = getContent('pages.element', null, false, true);

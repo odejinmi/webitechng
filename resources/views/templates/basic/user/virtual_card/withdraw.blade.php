@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
    <!-- Transaction Log -->
  <div class="col-lg-12 d-flex align-items-strech">

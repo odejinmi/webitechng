@@ -32,6 +32,7 @@ class GiftcardController extends Controller
         $get['pageTitle'] = "Trade Giftcard";
        $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.giftcard.index', $data, $get);
     }
@@ -42,6 +43,7 @@ class GiftcardController extends Controller
         $get['currency'] = Giftcard::whereStatus(1)->orderBy('name','asc')->get();
        $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.giftcard.giftcard', $data,$get);
     }
@@ -52,6 +54,7 @@ class GiftcardController extends Controller
         $get['currency'] = Giftcard::whereStatus(1)->orderBy('name','asc')->get();
        $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.giftcard.giftcard', $data, $get);
     }
@@ -74,6 +77,7 @@ class GiftcardController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.giftcard.giftcard-select', $data, $get);
     }
@@ -208,6 +212,7 @@ class GiftcardController extends Controller
 
        $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.giftcard.giftcard-log', $data, $get);
     }
@@ -220,6 +225,7 @@ class GiftcardController extends Controller
 
        $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.giftcard.giftcard-log', $data, $get);
     }

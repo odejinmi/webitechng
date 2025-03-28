@@ -29,6 +29,7 @@ class QrController extends Controller
         $user = User::whereUsername(decrypt($id))->whereStatus(1)->firstOrFail();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'qr', $data, compact('pageTitle', 'user'));
     }

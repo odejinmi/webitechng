@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.' . $layout)
+@extends($activeTemplate . 'layouts.' . $layout)
 
 @if ($layout == 'frontend')
     @section('content')
@@ -34,7 +34,7 @@
                                                 <div class="crancy-chatbox__toggle">
                                                     @if ($myTicket->status != Status::TICKET_CLOSE && $myTicket->user)
                                                         <a href="{{ route('ticket.close', $myTicket->id) }}"><img
-                                                                src="{{ asset(checkTemplate(true) . 'dashboard/img/close-icon.svg') }}" /></a>
+                                                                src="{{asset( $activeTemplateTrue . 'dashboard/img/close-icon.svg') }}" /></a>
                                                     @endif
                                                 </div>
                                             </div>
@@ -139,14 +139,14 @@
                                                                         <div
                                                                             class="crancy-chatbox__button-inline__single crancy-chatbox__button-inline__link">
                                                                             <a href="#"><img
-                                                                                    src="{{ asset(checkTemplate(true) . 'dashboard/img/photo-icon.svg') }}" /></a>
+                                                                                    src="{{asset( $activeTemplateTrue . 'dashboard/img/photo-icon.svg') }}" /></a>
                                                                         </div>
                                                                     </div>
                                                                     <div class="crancy-chatbox__submit">
                                                                         <button class="btn btn-primary"
                                                                             type="submit">
                                                                             <img
-                                                                                src="{{ asset(checkTemplate(true) . 'dashboard/img/send-icon.svg') }}" />Send
+                                                                                src="{{asset( $activeTemplateTrue . 'dashboard/img/send-icon.svg') }}" />Send
                                                                         </button>
                                                                     </div>
                                                                 </div>

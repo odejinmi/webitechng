@@ -43,6 +43,7 @@ class ResetPasswordController extends Controller
         }
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.auth.passwords.reset', $data)->with(
             ['token' => $token, 'email' => $email, 'pageTitle' => 'Reset Password']

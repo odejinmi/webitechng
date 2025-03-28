@@ -1,7 +1,7 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
 
-    @include(checkTemplate() . 'partials.loan_plans')
+    @include($activeTemplate . 'partials.loan_plans')
 @endsection
 
 @push('breadcrumb-plugins')

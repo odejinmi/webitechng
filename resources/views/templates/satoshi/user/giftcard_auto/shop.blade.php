@@ -1,4 +1,4 @@
-@extends(checkTemplate().'layouts.app')
+@extends($activeTemplate.'layouts.app')
 
 @section('panel')
 
@@ -68,7 +68,7 @@
 @endsection
 
 @push('script')
-@include(checkTemplate() . 'partials.loader')
+@include($activeTemplate . 'partials.loader')
 <script>
 
 var total_records = 10000;

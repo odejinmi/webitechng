@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
 <form action="" method="post" enctype="multipart/form-data">
               @csrf
@@ -70,7 +70,7 @@
                         <div class="text-center">
                             <div class="text-2xl text-muted">
                               <img id="khaytech" width="35"
-                                src="{{ asset(checkTemplate(true) . 'dashboard/img/upload-file.png')}}" />
+                                src="{{asset( $activeTemplateTrue . 'dashboard/img/upload-file.png')}}" />
                             </div>
                             <div class="d-flex text-sm mt-3">
                                 <p class="fw-semibold">Upload a file or drag and drop</p>
@@ -96,7 +96,7 @@
                         <div class="text-center">
                             <div class="text-2xl text-muted">
                               <img id="khaytech2" width="35"
-                                src="{{ asset(checkTemplate(true) . 'dashboard/img/upload-file.png')}}" />
+                                src="{{asset( $activeTemplateTrue . 'dashboard/img/upload-file.png')}}" />
                             </div>
                             <div class="d-flex text-sm mt-3">
                                 <p class="fw-semibold">Upload a file or drag and drop</p>

@@ -19,6 +19,7 @@ class MilestoneController extends Controller {
         $restAmount  = $escrow->amount + $escrow->buyer_charge - $totalAmount;
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.escrow.milestones', $data, compact('pageTitle', 'escrow', 'milestones', 'restAmount'));
     }

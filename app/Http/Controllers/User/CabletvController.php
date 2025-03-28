@@ -143,6 +143,7 @@ class CabletvController extends Controller
         $log = Order::whereUserId($user->id)->whereType('cabletv')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.cabletv.index', $data,compact('pageTitle', 'log'));
     }
@@ -180,6 +181,7 @@ class CabletvController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.cabletv.cabletv_buy', $data, compact('pageTitle','networks'));
     }
@@ -557,6 +559,7 @@ class CabletvController extends Controller
         $log = Order::whereUserId($user->id)->whereType('cabletv')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.cabletv.cabletv_log', $data,compact('pageTitle', 'log'));
     }

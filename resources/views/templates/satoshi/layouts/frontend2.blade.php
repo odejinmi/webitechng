@@ -10,21 +10,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Color modes -->
-    <script src="{{ asset(checkTemplate(true) . 'front2/js/vendors/color-modes.js') }}"></script>
+    <script src="{{asset( $activeTemplateTrue . 'front2/js/vendors/color-modes.js') }}"></script>
 
     <!-- Libs CSS -->
-    <link href="{{ asset(checkTemplate(true) . 'front2/libs/simplebar/dist/simplebar.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset(checkTemplate(true) . 'front2/libs/bootstrap-icons/font/bootstrap-icons.min.css') }}"
+    <link href="{{asset( $activeTemplateTrue . 'front2/libs/simplebar/dist/simplebar.min.css') }}" rel="stylesheet" />
+    <link href="{{asset( $activeTemplateTrue . 'front2/libs/bootstrap-icons/font/bootstrap-icons.min.css') }}"
         rel="stylesheet" />
 
     <!-- Scroll Cue -->
-    <link rel="stylesheet" href="{{ asset(checkTemplate(true) . 'front2/libs/scrollcue/scrollCue.css') }}" />
+    <link rel="stylesheet" href="{{asset( $activeTemplateTrue . 'front2/libs/scrollcue/scrollCue.css') }}" />
 
     <!-- Box icons -->
-    <link rel="stylesheet" href="{{ asset(checkTemplate(true) . 'front2/fonts/css/boxicons.min.css') }}" />
+    <link rel="stylesheet" href="{{asset( $activeTemplateTrue . 'front2/fonts/css/boxicons.min.css') }}" />
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="{{ asset(checkTemplate(true) . 'front2/css/theme.min.css') }}" />
+    <link rel="stylesheet" href="{{asset( $activeTemplateTrue . 'front2/css/theme.min.css') }}" />
 
     @stack('style-lib')
     @stack('style')
@@ -283,24 +283,24 @@
          </svg>
       </div>
       <!-- Libs JS -->
-      <script src="{{ asset(checkTemplate(true) . 'front2/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
-      <script src="{{ asset(checkTemplate(true) . 'front2/libs/simplebar/dist/simplebar.min.js')}}"></script>
-      <script src="{{ asset(checkTemplate(true) . 'front2/libs/headhesive/dist/headhesive.min.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/libs/simplebar/dist/simplebar.min.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/libs/headhesive/dist/headhesive.min.js')}}"></script>
 
       <!-- Theme JS -->
-      <script src="{{ asset(checkTemplate(true) . 'front2/js/theme.min.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/js/theme.min.js')}}"></script>
 
-      <script src="{{ asset(checkTemplate(true) . 'front2/libs/jarallax/dist/jarallax.min.js')}}"></script>
-      <script src="{{ asset(checkTemplate(true) . 'front2/js/vendors/jarallax.js')}}"></script>
-      <script src="{{ asset(checkTemplate(true) . 'front2/libs/parallax-js/dist/parallax.min.js')}}"></script>
-      <script src="{{ asset(checkTemplate(true) . 'front2/js/vendors/parallax.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/libs/jarallax/dist/jarallax.min.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/js/vendors/jarallax.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/libs/parallax-js/dist/parallax.min.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/js/vendors/parallax.js')}}"></script>
       <!-- Swiper JS -->
-      <script src="{{ asset(checkTemplate(true) . 'front2/libs/swiper/swiper-bundle.min.js')}}"></script>
-      <script src="{{ asset(checkTemplate(true) . 'front2/js/vendors/swiper.js')}}"></script>
-      <script src="{{ asset(checkTemplate(true) . 'front2/libs/glightbox/dist/js/glightbox.min.js')}}"></script>
-      <script src="{{ asset(checkTemplate(true) . 'front2/js/vendors/glight.js')}}"></script>
-      <script src="{{ asset(checkTemplate(true) . 'front2/libs/scrollcue/scrollCue.min.js')}}"></script>
-      <script src="{{ asset(checkTemplate(true) . 'front2/js/vendors/scrollcue.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/libs/swiper/swiper-bundle.min.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/js/vendors/swiper.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/libs/glightbox/dist/js/glightbox.min.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/js/vendors/glight.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/libs/scrollcue/scrollCue.min.js')}}"></script>
+      <script src="{{asset( $activeTemplateTrue . 'front2/js/vendors/scrollcue.js')}}"></script>
     @stack('script-lib')
     @stack('script')
     @include('partials.plugins')

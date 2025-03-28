@@ -1,10 +1,10 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 
 @section('panel')
     @push('style')
         <link id="themeColors" rel="stylesheet" href="{{ asset('assets/assets/dist/css/product.min.css') }}" />
     @endpush
-    @include(checkTemplate() . 'partials.breadcrumb')
+    @include($activeTemplate . 'partials.breadcrumb')
 
     <section class="py-24" data-aos="fade-up">
         <div class="container">
@@ -103,7 +103,7 @@
 @endsection
 
 @push('script')
-    @include(checkTemplate() . 'partials.loader')
+    @include($activeTemplate . 'partials.loader')
 
     <script>
         $(document).ready(function() {

@@ -25,6 +25,7 @@ class ProfileController extends Controller
         $emptyMessage = 'Data Not Found';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate.'user.ref', $data, compact('transactions','pageTitle', 'user', 'ref', 'emptyMessage'));
     }
@@ -41,6 +42,7 @@ class ProfileController extends Controller
         $qrCodeUrl = $ga->getQRCodeGoogleUrl($user->username . '@' . $general->site_name, $secret);
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.profile_setting', $data, compact('countries','secret','qrCodeUrl','ga','pageTitle', 'user'));
     }
@@ -116,6 +118,7 @@ class ProfileController extends Controller
         $qrCodeUrl = $ga->getQRCodeGoogleUrl($user->username . '@' . $general->site_name, $secret);
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.2fa_setting', $data, compact('countries','secret','qrCodeUrl','ga','pageTitle', 'user'));
     }
@@ -131,6 +134,7 @@ class ProfileController extends Controller
         $qrCodeUrl = $ga->getQRCodeGoogleUrl($user->username . '@' . $general->site_name, $secret);
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.security_setting', $data, compact('countries','secret','qrCodeUrl','ga','pageTitle', 'user'));
     }

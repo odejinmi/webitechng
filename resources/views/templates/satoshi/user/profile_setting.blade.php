@@ -1,6 +1,6 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
-    @include(checkTemplate() . 'partials.settings')
+    @include($activeTemplate . 'partials.settings')
 <form action="" method="POST" class="form" enctype="multipart/form-data">
                             @csrf
                     <hr class="my-6">

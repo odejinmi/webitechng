@@ -35,6 +35,7 @@ class InvoiceController extends Controller
         })->with('method')->orderby('method_code')->get();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'invoice', $data, compact('pageTitle', 'invoice','gatewayCurrency'));
     }
@@ -122,6 +123,7 @@ class InvoiceController extends Controller
         $pageTitle = 'Payment Confirm';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.invoice.payment'.$data->view, $data, compact('data', 'pageTitle', 'deposit'));
     }
@@ -133,6 +135,7 @@ class InvoiceController extends Controller
         $user = auth()->user();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.invoice.index', $data,compact('pageTitle', 'user'));
     }
@@ -142,6 +145,7 @@ class InvoiceController extends Controller
         $pageTitle = 'Create New Invoice';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.invoice.create', $data,compact('pageTitle'));
     }
@@ -167,6 +171,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::whereUserId($user->id)->whereTrx($id)->firstOrFail();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.invoice.edit', $data,compact('pageTitle', 'invoice'));
     }
@@ -190,6 +195,7 @@ class InvoiceController extends Controller
         $log = Invoice::whereUserId($user->id)->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.invoice.invoice_log', $data, compact('pageTitle', 'log'));
     }
@@ -203,6 +209,7 @@ class InvoiceController extends Controller
         $invoicetotal = Transaction::whereUserId($user->id)->where('val_1',$id)->sum('amount');
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.invoice.invoice_payment_log', $data, compact('pageTitle', 'log', 'invoice','invoicetotal'));
     }

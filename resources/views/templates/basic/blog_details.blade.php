@@ -1,8 +1,8 @@
-@extends(checkTemplate() . 'layouts.frontend')
+@extends($activeTemplate . 'layouts.frontend')
 @section('content')
 <!--Contents-->
 <!-- ============================= Single Post Start ================================== -->
-@include(checkTemplate() . 'partials.breadcrumb')
+@include($activeTemplate . 'partials.breadcrumb')
 
 <section id="blog-listing-1" class="wide-60 blog-page-section division">
     <div class="container">

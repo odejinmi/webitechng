@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.store')
+@extends($activeTemplate . 'layouts.store')
 @section('panel')
     <!-- content @s
         -->

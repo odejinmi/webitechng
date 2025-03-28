@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="shortcut icon" type="image/png" href="{{ getImage(getFilePath('logoIcon') . '/favicon.png') }}">
     <link  id="themeColors"  rel="stylesheet" href="{{ asset('assets/assets/dist/css/style.min.css')}}" />
-    <link href="{{ asset(checkTemplate(True) . 'css/css.php') }}?color={{substr($general->base_color, 1)}}&secondColor={{substr($general->secondary_color, 1)}}" rel="stylesheet">
+    <link href="{{asset( $activeTemplateTrue . 'css/css.php') }}?color={{substr($general->base_color, 1)}}&secondColor={{substr($general->secondary_color, 1)}}" rel="stylesheet">
 
     <!-- Owl Carousel  -->
     <link rel="stylesheet" href="{{ asset('assets/assets/dist/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css')}}">

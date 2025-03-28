@@ -1,7 +1,7 @@
-@extends(checkTemplate() . 'layouts.frontend')
+@extends($activeTemplate . 'layouts.frontend')
 @section('content')
   <!--Contents-->
-  @include(checkTemplate() . 'partials.breadcrumb')
+  @include($activeTemplate . 'partials.breadcrumb')
 
   <main class="blog-page style-5">
 

@@ -1,6 +1,6 @@
-@extends(checkTemplate() . 'layouts.frontend')
+@extends($activeTemplate . 'layouts.frontend')
 @section('content')
-@include(checkTemplate() . 'partials.breadcrumb')
+@include($activeTemplate . 'partials.breadcrumb')
 
 
 			<!-- CARDS-3
@@ -17,7 +17,7 @@
 									<div class="card-3 bg-white radius-06 text-center">
 
 										<!-- Icon -->
-										<div class="coin-icon"><img src="{{ asset(checkTemplate(True) . 'front/images/btc.png')}}"
+										<div class="coin-icon"><img src="{{ asset($activeTemplateTrue . 'front/images/btc.png')}}"
 										class="img-fluid" alt=""></div>
 
 										<!-- Text -->
@@ -34,7 +34,7 @@
 									<div class="card-3 bg-white radius-06 text-center">
 
 										<!-- Icon -->
-										<div class="coin-icon"><img src="{{ asset(checkTemplate(True) . 'front/images/ETH.png')}}"
+										<div class="coin-icon"><img src="{{asset( $activeTemplateTrue . 'front/images/ETH.png')}}"
 										class="img-fluid" alt=""></div>
 
 										<!-- Text -->
@@ -51,7 +51,7 @@
 									<div class="card-3 bg-white radius-06 text-center">
 
 										<!-- Icon -->
-										<div class="coin-icon"><img src="{{ asset(checkTemplate(True) . 'front/images/ltc.png')}}"
+										<div class="coin-icon"><img src="{{asset( $activeTemplateTrue . 'front/images/ltc.png')}}"
 										class="img-fluid" alt=""></div>
 
 										<!-- Text -->
@@ -68,7 +68,7 @@
 									<div class="card-3 bg-white radius-06 text-center">
 
 										<!-- Icon -->
-										<div class="coin-icon"><img src="{{ asset(checkTemplate(True) . 'front/images/usdt.png')}}"
+										<div class="coin-icon"><img src="{{asset( $activeTemplateTrue . 'front/images/usdt.png')}}"
 										class="img-fluid" alt=""></div>
 
 										<!-- Text -->
@@ -86,7 +86,7 @@
 									<div class="card-3 bg-white radius-06 text-center">
 
 										<!-- Icon -->
-										<div class="coin-icon"><img src="{{ asset(checkTemplate(True) . 'front/images/doge.png')}}"
+										<div class="coin-icon"><img src="{{asset( $activeTemplateTrue . 'front/images/doge.png')}}"
 										class="img-fluid" alt=""></div>
 
 										<!-- Text -->
@@ -102,7 +102,7 @@
 									<div class="card-3 bg-white radius-06 text-center">
 
 										<!-- Icon -->
-										<div class="coin-icon"><img src="{{ asset(checkTemplate(True) . 'front/images/bnb.png')}}"
+										<div class="coin-icon"><img src="{{asset( $activeTemplateTrue . 'front/images/bnb.png')}}"
 										class="img-fluid" alt=""></div>
 
 										<!-- Text -->
@@ -181,14 +181,14 @@
 						<!-- IMAGE #1 -->
 						<div class="col-md-8">
 							<div class="project-image">
-								<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/service-img-1.jpg')}}" alt="service-image" />
+								<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/service-img-1.jpg')}}" alt="service-image" />
 							</div>
 						</div>
 
 						<!-- IMAGE #2 -->
 						<div class="col-md-4">
 							<div class="project-image">
-								<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/service-img-2.jpg')}}" alt="pservice-image" />
+								<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/service-img-2.jpg')}}" alt="pservice-image" />
 							</div>
 						</div>
 
@@ -251,7 +251,7 @@
 						<div class="col-md-4">
 							<a href="pricing.html">
 								<div id="pb-1-1" class="pbox-1 radius-06 wow fadeInUp" data-wow-delay="0.4s">
-									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/offer-01.jpg')}}" alt="promo-image" />
+									<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/offer-01.jpg')}}" alt="promo-image" />
 								</div>
 							</a>
 						</div>
@@ -261,7 +261,7 @@
 						<div class="col-md-4">
 							<a href="pricing.html">
 								<div id="pb-1-2" class="pbox-1 radius-06 wow fadeInUp" data-wow-delay="0.6s">
-									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/offer-02.jpg')}}" alt="promo-image" />
+									<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/offer-02.jpg')}}" alt="promo-image" />
 								</div>
 							</a>
 						</div>
@@ -271,7 +271,7 @@
 						<div class="col-md-4">
 							<a href="pricing.html">
 								<div id="pb-1-3" class="pbox-1 radius-06 wow fadeInUp" data-wow-delay="0.8s">
-									<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/offer-03.jpg')}}" alt="promo-image" />
+									<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/offer-03.jpg')}}" alt="promo-image" />
 								</div>
 							</a>
 						</div>
@@ -312,7 +312,7 @@
 							<div class="img-block rel text-center">
 
 								<!-- Image -->
-								<img class="img-fluid" src="{{ asset(checkTemplate(True) . 'front/images/collage-cars.png')}}" alt="content-image">
+								<img class="img-fluid" src="{{asset( $activeTemplateTrue . 'front/images/collage-cars.png')}}" alt="content-image">
 
 								<!-- Text Block -->
 								<div class="content-12-txt bg-01 white-color">

@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
 <div class="row">
     <!-- Weekly Stats -->
@@ -171,10 +171,10 @@
 
 
 @push('script-lib')
-<script src="{{asset(checkTemplate(True).'/js/bootstrap-fileinput.js')}}"></script>
+<script src="{{asset( $activeTemplateTrue.'/js/bootstrap-fileinput.js')}}"></script>
 @endpush
 @push('style-lib')
-<link rel="stylesheet" href="{{asset(checkTemplate(True).'/css/bootstrap-fileinput.css')}}">
+<link rel="stylesheet" href="{{asset( $activeTemplateTrue.'/css/bootstrap-fileinput.css')}}">
 @endpush
 
 @push('script')

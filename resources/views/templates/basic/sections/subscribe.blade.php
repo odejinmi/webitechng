@@ -6,10 +6,10 @@
 <!-- ============================ Call To Action ================================== -->
 <section class="bg-cover call-action-container bg-primary position-relative">
     <div class="position-absolute top-0 end-0 z-0">
-        <img src="{{ asset(checkTemplate(True) . 'img/alert-bg.png')}}" alt="SVG" width="300">
+        <img src="{{asset( $activeTemplateTrue . 'img/alert-bg.png')}}" alt="SVG" width="300">
     </div>
     <div class="position-absolute bottom-0 start-0 me-10 z-0">
-        <img src="{{ asset(checkTemplate(True) . 'img/circle.png')}}" alt="SVG" width="150">
+        <img src="{{asset( $activeTemplateTrue . 'img/circle.png')}}" alt="SVG" width="150">
     </div>
     <div class="container">
         <div class="row justify-content-center">

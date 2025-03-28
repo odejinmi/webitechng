@@ -35,6 +35,7 @@ class CartController extends Controller
         $products = Product::whereStoreId($storefront->id)->whereStatus(1)->paginate(10);
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate.'user.vendor.storefront.front_storefront', $data,compact('pageTitle', 'storefront','products'));
     }
@@ -48,6 +49,7 @@ class CartController extends Controller
         $orders = Order::whereProductId($product->id)->whereStatus(1)->sum('quantity');
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.storefront.front_product', $data,compact('pageTitle', 'product', 'storefront','orders'));
     }

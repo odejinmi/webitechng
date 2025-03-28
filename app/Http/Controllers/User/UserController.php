@@ -220,6 +220,7 @@ class UserController extends Controller
         $data['debit'] = Transaction::where('user_id', $user->id)->orderBy('id', 'desc')->whereTrxType('-')->take(10)->get();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.dashboard', $data, compact('pageTitle', 'widget'));
     }
@@ -235,6 +236,7 @@ class UserController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.assets.crypto.index', $data, compact('pageTitle'));
     }
@@ -259,6 +261,7 @@ class UserController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.api_key', $data, compact('pageTitle','key','user'));
     }
@@ -301,6 +304,7 @@ class UserController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.qr.index', $data ,compact('today','trx','pageTitle','url','payment','received'));
     }
@@ -310,6 +314,7 @@ class UserController extends Controller
         $pageTitle  = 'KYC Verification';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.kyc.index', $data, compact('pageTitle','user','pageTitle'));
     }
@@ -687,6 +692,7 @@ class UserController extends Controller
         $pageTitle       = 'P2P Transfer';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.p2p.create', $data, compact('pageTitle'));
     }
@@ -702,6 +708,7 @@ class UserController extends Controller
         $p2p = auth()->user()->p2p()->searchable(['trx'])->with('beneficiary')->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.p2p.history', $data,compact('pageTitle', 'p2p'));
     }
@@ -980,6 +987,7 @@ class UserController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate.'user.withdraw.methods', $data, compact('pageTitle','withdrawMethod'));
     }
@@ -1051,6 +1059,7 @@ class UserController extends Controller
         $pageTitle = 'Withdraw Preview';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.withdraw.preview', $data,compact('pageTitle','withdraw'));
     }
@@ -1194,6 +1203,7 @@ class UserController extends Controller
         $emptyMessage = "No Data Found!";
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate.'user.withdraw.log', $data,compact('pageTitle','withdraws', 'emptyMessage'));
     }
@@ -1209,6 +1219,7 @@ class UserController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.giftcard.giftcard_history', $data,compact('pageTitle', 'log'));
     }
@@ -1221,6 +1232,7 @@ class UserController extends Controller
         $card = Order::whereUserId($user->id)->whereTransactionId(decrypt($id))->firstOrFail();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.giftcard.giftcard_details', $data,compact('pageTitle', 'card'));
     }
@@ -1278,6 +1290,7 @@ class UserController extends Controller
         $deposits = auth()->user()->deposits()->searchable(['trx'])->with(['gateway'])->whereType('deposit')->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.deposit_history', $data,compact('pageTitle', 'deposits','gatewayCurrency'));
     }
@@ -1292,6 +1305,7 @@ class UserController extends Controller
         $pageTitle = '2FA Setting';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.twofactor', $data,compact('pageTitle', 'secret', 'qrCodeUrl'));
     }
@@ -1345,6 +1359,7 @@ class UserController extends Controller
         $transactions = Transaction::where('user_id', auth()->id())->searchable(['trx'])->filter(['trx_type', 'remark'])->orderBy('created_at', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.transactions', $data,compact('pageTitle', 'transactions', 'remarks'));
     }
@@ -1357,6 +1372,7 @@ class UserController extends Controller
         $data = Transaction::whereUserId($user->id)->whereTrx($id)->firstOrFail();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.receipt', $data,compact('pageTitle', 'data'));
     }
@@ -1383,6 +1399,7 @@ class UserController extends Controller
         $pageTitle = 'Update User Details';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.user_data', $data,compact('pageTitle', 'user'));
     }

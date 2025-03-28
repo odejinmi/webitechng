@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
     <div class="row g-3 g-xl-6">
         <div class="col-xxl-12">

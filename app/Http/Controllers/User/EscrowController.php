@@ -29,6 +29,7 @@ class EscrowController extends Controller {
         $pageTitle = 'My Escrow';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.escrow.welcome', $data,compact('pageTitle'));
     }
@@ -51,6 +52,7 @@ class EscrowController extends Controller {
         $escrows = $escrows->orderBy('id', 'desc')->with('category')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.escrow.index', $data,compact('pageTitle', 'escrows'));
     }
@@ -59,6 +61,7 @@ class EscrowController extends Controller {
         $pageTitle = "New Escrow - Step One";
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.escrow.step_one', $data, compact('pageTitle'));
     }
@@ -106,6 +109,7 @@ class EscrowController extends Controller {
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.escrow.step_two', $data,compact('pageTitle', 'escrowInfo'));
     }
@@ -230,6 +234,7 @@ class EscrowController extends Controller {
         $messages     = $conversation->messages;
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.escrow.details', $data,compact('pageTitle', 'escrow', 'conversation', 'messages'));
     }
@@ -285,6 +290,7 @@ class EscrowController extends Controller {
         $messages = Message::where('conversation_id', $conversation->id)->with('sender', 'admin')->get();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.escrow.message', $data,compact('messages', 'escrow'));
     }

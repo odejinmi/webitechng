@@ -31,6 +31,7 @@ class VCardController extends Controller
         $customer = VCardCustomers::where(['user_id'=>auth()->user()->id])->first();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.virtual_card.create', $data, compact('pageTitle','customer'));
     }
@@ -138,6 +139,7 @@ class VCardController extends Controller
         $pageTitle       = ' Card';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.virtual_card.create_card', $data, compact('pageTitle'));
     }
@@ -259,6 +261,7 @@ class VCardController extends Controller
         $vcards = VCard::where(['user_id'=>auth()->user()->id])->paginate(10);
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.virtual_card.list_cards', $data, compact('pageTitle','customer','vcards'));
     }
@@ -283,6 +286,7 @@ class VCardController extends Controller
         $cardDetails = (array)$cardDetails;
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.virtual_card.detail', $data, compact('pageTitle','customer','vcards','cardDetails','cardTransactions'));
     }
@@ -349,6 +353,7 @@ class VCardController extends Controller
         $vcards = VCard::where(['id'=>$id,'user_id'=>auth()->user()->id])->first();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.virtual_card.fund_card', $data, compact('pageTitle','vcards'));
     }
@@ -435,6 +440,7 @@ class VCardController extends Controller
         $vcards = VCard::where(['id'=>$id,'user_id'=>auth()->user()->id])->first();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.virtual_card.withdraw', $data, compact('pageTitle','vcards'));
     }

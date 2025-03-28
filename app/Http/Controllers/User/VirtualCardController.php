@@ -34,6 +34,7 @@ class VirtualCardController extends Controller
         $log = Order::whereUserId($user->id)->whereType('airtime')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.virtualcard.create', $data, compact('pageTitle', 'log'));
     }
@@ -288,6 +289,7 @@ class VirtualCardController extends Controller
         $log = VirtualCard::whereUserId($user->id)->searchable(['pan'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.virtualcard.history', $data, compact('pageTitle', 'log'));
     }
@@ -329,6 +331,7 @@ class VirtualCardController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.virtualcard.details', $data, compact('pageTitle', 'card','reply'));
     }

@@ -1,5 +1,5 @@
 <?php $__env->startSection('panel'); ?>
-    <?php echo $__env->make(checkTemplate() . 'partials.settings', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make($activeTemplate . 'partials.settings', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <form action="" method="POST" class="form" enctype="multipart/form-data">
                             <?php echo csrf_field(); ?>
                     <hr class="my-6">
@@ -172,4 +172,4 @@
     </script>
 <?php $__env->stopPush(); ?>
 
-<?php echo $__env->make(checkTemplate() . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\DELL\PhpstormProjects\webitechng\resources\views/templates/satoshi/user/profile_setting.blade.php ENDPATH**/ ?>
+<?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\DELL\PhpstormProjects\webitechng\resources\views/templates/satoshi/user/profile_setting.blade.php ENDPATH**/ ?>

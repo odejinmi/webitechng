@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
     <div class="vstack gap-3 gap-xl-6">
         <div class="row row-cols-xl-12 g-12 g-xl-6">
@@ -6,7 +6,7 @@
             <div class="col">
                 <div class="card bg-success bg-opacity-10 border-success border-opacity-40">
                     <div class="p-5">
-                        <div class="d-flex gap-3 mb-5"><img src="{{ asset(checkTemplate(true) . 'images/country/ngn.png')}}"
+                        <div class="d-flex gap-3 mb-5"><img src="{{asset( $activeTemplateTrue . 'images/country/ngn.png')}}"
                                 class="avatar" alt="...">
                             <div class=""><a class="d-inline-block text-sm text-heading fw-semibold" href="#">NGN
                                     Wallet

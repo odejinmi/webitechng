@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.auth')
+@extends($activeTemplate . 'layouts.auth')
 @section('content')
 
 <!--begin::Authentication - Signup Welcome Message -->

@@ -12,7 +12,7 @@
           <li class="breadcrumb-item active text-info font-medium" aria-current="page">
             {{ __($pageTitle) }}
           </li>
-                        {{ checkTemplate() }}
+                        {{ $activeTemplate }}
 
         <div style="display: flex; justify-content: flex-end; margin-left: auto; margin-right: 0;" class="d-flex flex-wrap justify-content-end gap-2 align-items-center breadcrumb-plsugins">
           @stack('breadcrumb-plugins')

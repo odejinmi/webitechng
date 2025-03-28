@@ -33,6 +33,7 @@ class GiftcardAutoController extends Controller
         $user = auth()->user();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.giftcard_auto.index', $data, compact('pageTitle'));
     }
@@ -44,6 +45,7 @@ class GiftcardAutoController extends Controller
         $user = auth()->user();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.giftcard_auto.index', $data, compact('pageTitle'));
     }
@@ -56,6 +58,7 @@ class GiftcardAutoController extends Controller
        // return $country;
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.giftcard_auto.shop', $data, compact('pageTitle','country'));
     }
@@ -64,6 +67,7 @@ class GiftcardAutoController extends Controller
         $pageTitle = 'Giftcard Details';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.giftcard_auto.details', $data, compact('pageTitle'));
     }
@@ -208,6 +212,7 @@ class GiftcardAutoController extends Controller
         $log = Order::whereUserId($user->id)->searchable(['deposit_code'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.giftcard_auto.giftcard_history', $data, compact('pageTitle', 'log'));
     }

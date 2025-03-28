@@ -1,7 +1,7 @@
-@extends(checkTemplate() . 'layouts.frontend')
+@extends($activeTemplate . 'layouts.frontend')
 @section('content')
 
-@include(checkTemplate() . 'partials.breadcrumb')
+@include($activeTemplate . 'partials.breadcrumb')
 
 <!-- ====== Product Update Section ====== -->
 <section id="product-update" class="bg-lightgrey wide-60 section-padding">

@@ -34,6 +34,7 @@ class BettingController extends Controller
         $user = auth()->user();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.betting.index', $data,compact('pageTitle'));
     }
@@ -50,6 +51,7 @@ class BettingController extends Controller
         $data['count'] = Order::whereUserId($user->id)->whereType('betting')->count();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.betting.betting_buy', $data, compact('pageTitle','networks'));
     }
@@ -265,6 +267,7 @@ class BettingController extends Controller
         $log = Order::whereUserId($user->id)->whereType('betting')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.betting.betting_log', $data,compact('pageTitle', 'log'));
     }

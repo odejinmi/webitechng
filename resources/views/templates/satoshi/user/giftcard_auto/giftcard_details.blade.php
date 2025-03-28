@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
     @push('style')
 
@@ -78,7 +78,7 @@
         @push('breadcrumb-plugins')
         @endpush
         @push('script')
-            @include(checkTemplate() . 'partials.loader')
+            @include($activeTemplate . 'partials.loader')
 
             <script>
                 $(document).ready(function() {

@@ -61,6 +61,7 @@ class AuthorizationController extends Controller
 
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.auth.authorization.' . $type, $data,compact('user', 'pageTitle'));
     }

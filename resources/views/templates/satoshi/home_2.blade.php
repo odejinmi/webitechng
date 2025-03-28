@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.frontend2')
+@extends($activeTemplate . 'layouts.frontend2')
 @section('content')
  <!--Hero start-->
          <section class="bg-primary-dark pt-9 right-slant-shape" data-cue="fadeIn">
@@ -22,7 +22,7 @@
                   <div class="offset-lg-1 col-lg-6 col-12">
                      <div class="position-relative z-1 pt-lg-9" data-cue="slideInRight">
                         <div class="position-relative">
-                           <img src="{{ asset(checkTemplate(true) . 'front/images/img-01.png') }}" alt="video" class="img-fluid rounded-3" width="837" />
+                           <img src="{{asset( $activeTemplateTrue . 'front/images/img-01.png') }}" alt="video" class="img-fluid rounded-3" width="837" />
                            <a
                               href="#"
                               class="play-btn glightbox position-absolute top-50 start-50 translate-middle icon-shape icon-xl rounded-circle text-primary">
@@ -58,7 +58,7 @@
                         <div class="card border-0 card-primary">
                            <div class="card-body p-5">
                               <div class="position-relative d-inline-block mb-5">
-                                 <img src="{{ asset(checkTemplate(true) . 'front2/images/landings/finance/feature-img-1.jpg')}}" alt="feature" class="avatar avatar-xl rounded-circle border-2 border border-white shadow-sm" />
+                                 <img src="{{asset( $activeTemplateTrue . 'front2/images/landings/finance/feature-img-1.jpg')}}" alt="feature" class="avatar avatar-xl rounded-circle border-2 border border-white shadow-sm" />
 
                                  <div class="position-absolute bottom-0 end-0">
                                     <div class="icon-md icon-shape rounded-circle bg-white me-n2 mb-n2 shadow-sm">
@@ -89,7 +89,7 @@
                         <div class="card border-0 card-primary">
                            <div class="card-body p-5">
                               <div class="position-relative d-inline-block mb-5">
-                                 <img src="{{ asset(checkTemplate(true) . 'front2/images/landings/finance/feature-img-2.jpg')}}" alt="feature" class="avatar avatar-xl rounded-circle border-2 border border-white shadow-sm" />
+                                 <img src="{{asset( $activeTemplateTrue . 'front2/images/landings/finance/feature-img-2.jpg')}}" alt="feature" class="avatar avatar-xl rounded-circle border-2 border border-white shadow-sm" />
 
                                  <div class="position-absolute bottom-0 end-0">
                                     <div class="icon-md icon-shape rounded-circle bg-white me-n2 mb-n2 shadow-sm">
@@ -120,7 +120,7 @@
                         <div class="card border-0 card-primary">
                            <div class="card-body p-5">
                               <div class="position-relative d-inline-block mb-5">
-                                 <img src="{{ asset(checkTemplate(true) . 'front2/images/landings/finance/feature-img-3.jpg')}}" alt="feature" class="avatar avatar-xl rounded-circle border-2 border border-white shadow-sm" />
+                                 <img src="{{asset( $activeTemplateTrue . 'front2/images/landings/finance/feature-img-3.jpg')}}" alt="feature" class="avatar avatar-xl rounded-circle border-2 border border-white shadow-sm" />
 
                                  <div class="position-absolute bottom-0 end-0">
                                     <div class="icon-md icon-shape rounded-circle bg-white me-n2 mb-n2 shadow-sm">
@@ -335,26 +335,26 @@
                      <div class="tab-content" id="v-pills-tabContent">
                         <div class="tab-pane fade show active" id="v-pills-small-business" role="tabpanel" aria-labelledby="v-pills-small-business-tab" tabindex="0">
                            <div class="position-relative scene" data-relative-input="true">
-                              <figure><img src="{{ asset(checkTemplate(true) . 'front2/images/landings/finance/mobile-hero-img-light.png') }}" alt="finance" class="img-fluid rounded-3" data-cue="fadeIn" /></figure>
+                              <figure><img src="{{asset( $activeTemplateTrue . 'front2/images/landings/finance/mobile-hero-img-light.png') }}" alt="finance" class="img-fluid rounded-3" data-cue="fadeIn" /></figure>
 
                               <div class="position-relative" data-depth="0.05">
-                                 <img src="{{ asset(checkTemplate(true) . 'front2/images/landings/finance/card.svg')}}" alt="" class="position-absolute bottom-0 end-0 px-4" />
+                                 <img src="{{asset( $activeTemplateTrue . 'front2/images/landings/finance/card.svg')}}" alt="" class="position-absolute bottom-0 end-0 px-4" />
                               </div>
                            </div>
                         </div>
                         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
                            <div class="position-relative scene" data-relative-input="true">
-                              <figure><img src="{{ asset(checkTemplate(true) . 'front2/images/landings/finance/finance-tab-2.jpg')}}" alt="finance" class="img-fluid rounded-3" data-cue="fadeIn" /></figure>
+                              <figure><img src="{{asset( $activeTemplateTrue . 'front2/images/landings/finance/finance-tab-2.jpg')}}" alt="finance" class="img-fluid rounded-3" data-cue="fadeIn" /></figure>
 
                               <div class="position-relative" data-depth="0.05">
-                                 <img src="{{ asset(checkTemplate(true) . 'front2/images/landings/finance/card.svg')}}" alt="" class="position-absolute bottom-0 start-0 px-4" />
+                                 <img src="{{asset( $activeTemplateTrue . 'front2/images/landings/finance/card.svg')}}" alt="" class="position-absolute bottom-0 start-0 px-4" />
                               </div>
                            </div>
                         </div>
 
                         <div class="tab-pane fade" id="v-pills-enterprises" role="tabpanel" aria-labelledby="v-pills-enterprises-tab" tabindex="0">
                            <div class="position-relative scene" data-relative-input="true">
-                              <figure><img src="{{ asset(checkTemplate(true) . 'front/images/img-03.png') }}" alt="finance" class="img-fluid rounded-3" /></figure>
+                              <figure><img src="{{asset( $activeTemplateTrue . 'front/images/img-03.png') }}" alt="finance" class="img-fluid rounded-3" /></figure>
 
                            </div>
                         </div>
@@ -492,7 +492,7 @@
 
          <!--Call to action start-->
          <section>
-            <div style="background-image: url({{ asset(checkTemplate(true) . 'front2/images/pattern/cta-pattern.png')}}"); background-position: center; background-repeat: no-repeat; background-size: cover" class="py-7 bg-primary-dark">
+            <div style="background-image: url({{asset( $activeTemplateTrue . 'front2/images/pattern/cta-pattern.png')}}"); background-position: center; background-repeat: no-repeat; background-size: cover" class="py-7 bg-primary-dark">
                <div class="container my-lg-7" data-cue="zoomIn">
                   <div class="row">
                      <div class="col-lg-8 offset-lg-2">

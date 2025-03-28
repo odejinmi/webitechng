@@ -21,6 +21,7 @@ class ApiController extends Controller
         $pageTitle = 'API Documentation';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.api.index', $data,compact('pageTitle'));
     }

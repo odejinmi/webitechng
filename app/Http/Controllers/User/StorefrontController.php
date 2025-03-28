@@ -36,6 +36,7 @@ class StorefrontController extends Controller
         $user = auth()->user();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.storefront.index', $data, compact('pageTitle', 'user'));
     }
@@ -45,6 +46,7 @@ class StorefrontController extends Controller
         $pageTitle = 'Create New Invoice';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.storefront.create', $data, compact('pageTitle'));
     }
@@ -120,6 +122,7 @@ class StorefrontController extends Controller
         $sales = Order::whereType('storefront')->whereStoreId($storefront->id)->whereVendorId($user->id)->whereStatus(1)->sum('price');
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.storefront.storefront_manage', $data, compact('pageTitle', 'storefront','products','sales','order'));
     }
@@ -168,6 +171,7 @@ class StorefrontController extends Controller
         $log = Storefront::whereUserId($user->id)->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.storefront.storefront_log', $data, compact('pageTitle', 'log'));
     }
@@ -180,6 +184,7 @@ class StorefrontController extends Controller
         $products = Product::where('store_id',$storefront->id)->searchable(['name'])->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.storefront.products', $data, compact('pageTitle', 'products', 'storefront'));
     }
@@ -370,6 +375,7 @@ class StorefrontController extends Controller
         $declined = Order::whereType('storefront')->whereUserId($user->id)->whereStatus('decline')->count();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.vendor.storefront.order', $data, compact('pageTitle', 'order','pending','approved','declined'));
     }

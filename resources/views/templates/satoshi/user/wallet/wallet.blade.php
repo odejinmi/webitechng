@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 @section('panel')
       <!-- crancy Dashboard -->
       <section class="crancy-adashboard crancy-show">
@@ -17,7 +17,7 @@
                       <div class="crancy-sidebar__heading">
                         <h4 class="crancy-sidebar__title">My Wallet</h4>
                         <a href="#" class="crancy-sidebar__toggles"
-                          ><img src="{{ asset(checkTemplate(true) . 'dashboard/img/inline-toggle.svg')}}"
+                          ><img src="{{asset( $activeTemplateTrue . 'dashboard/img/inline-toggle.svg')}}"
                         /></a>
                       </div>
 
@@ -25,7 +25,7 @@
                       <div
                         class="crancy-wallet-card crancy-bg-cover"
                         style="
-                          background-image: url('{{ asset(checkTemplate(true) . 'dashboard/img/wallet-card-shape.svg')}}');
+                          background-image: url('{{asset( $activeTemplateTrue . 'dashboard/img/wallet-card-shape.svg')}}');
                         "
                       >
                         <div class="crancy-wallet-card__inner">
@@ -38,7 +38,7 @@
                             </div>
                           </div>
                           <div class="crancy-wallet-card__right">
-                            <img src="{{ asset(checkTemplate(true) . 'dashboard/img/wallet-card-statics.svg')}}" />
+                            <img src="{{asset( $activeTemplateTrue . 'dashboard/img/wallet-card-statics.svg')}}" />
                             <span
                               class="crancy-progress-card__percent crancy-color1"
                             >
@@ -255,7 +255,7 @@
                           href="#"
                           class="crancy-customer-filter__single--button"
                         >
-                          <img src="{{ asset(checkTemplate(true) . 'dashboard/img/download-icon2.svg')}}" />Download
+                          <img src="{{asset( $activeTemplateTrue . 'dashboard/img/download-icon2.svg')}}" />Download
                         </a>
                       </div>
                     </div>
@@ -331,7 +331,7 @@
                                     </div>
                                     </td>
                                     <td>
-                                        <a href="#"  data-bs-toggle="modal" data-bs-target="#popup_modal_{{$trx->id}}" class="crancy-sidebar__toggles"><img src="{{ asset(checkTemplate(true) . 'dashboard/img/inline-toggle.svg') }}" /></a>
+                                        <a href="#"  data-bs-toggle="modal" data-bs-target="#popup_modal_{{$trx->id}}" class="crancy-sidebar__toggles"><img src="{{asset( $activeTemplateTrue . 'dashboard/img/inline-toggle.svg') }}" /></a>
                                     </td>
                                     <!-- Add Currency Popup  -->
                                     <div
@@ -719,7 +719,7 @@
                     <div class="crancy-wallet-form__amount-group">
                       <input type="number" value="" onkeyup="swap()" placeholder="0.00USD" id="swapamount" />
                       <div class="crancy-wallet-form__country">
-                        <img src="{{ asset(checkTemplate(true) . 'dashboard/img/country-4.png')}}" />
+                        <img src="{{asset( $activeTemplateTrue . 'dashboard/img/country-4.png')}}" />
                       </div>
                     </div>
                   </div>

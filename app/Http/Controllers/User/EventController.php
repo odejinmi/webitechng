@@ -37,6 +37,7 @@ class EventController extends Controller
         $user = auth()->user();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.event.index', $data, compact('pageTitle'));
     }
@@ -49,6 +50,7 @@ class EventController extends Controller
         $networks = json_decode(file_get_contents(resource_path('views/partials/betting.json')), true);
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.event.events', $data, compact('pageTitle','networks','events'));
     }
@@ -61,6 +63,7 @@ class EventController extends Controller
         $related =  Event::whereStatus(1)->whereCityId($event->city_id)->orWhere('event_type',$event->event_type)->take(3)->get();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.event.view', $data, compact('pageTitle','event','related','now'));
     }
@@ -77,6 +80,7 @@ class EventController extends Controller
         }
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.event.buy', $data, compact('pageTitle','event','now'));
     }
@@ -204,6 +208,7 @@ class EventController extends Controller
         }
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'partials.cart_items', $data, ['data' => $latest, 'subtotal' => $subtotal, 'emptyMessage'=>$emptyMessage, 'more'=>$more, 'coupon'=>$coupon]);
     }
@@ -362,6 +367,7 @@ class EventController extends Controller
         $log = Order::whereUserId($user->id)->whereType('event')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.bills.event.event_log', $data, compact('pageTitle', 'log'));
     }

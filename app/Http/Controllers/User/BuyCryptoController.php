@@ -38,6 +38,7 @@ class BuyCryptoController extends Controller
         $log = Order::whereUserId($user->id)->whereType('buy_crypto')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.assets.crypto.buycrypto.index', $data,compact('pageTitle', 'log'));
     }
@@ -50,6 +51,7 @@ class BuyCryptoController extends Controller
         $currencies = Cryptocurrency::whereStatus(1)->get();
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.assets.crypto.buycrypto.buy', $data,compact('pageTitle','currencies'));
     }
@@ -279,6 +281,7 @@ class BuyCryptoController extends Controller
         $log = Order::whereUserId($user->id)->whereType('buy_crypto')->searchable(['deposit_code'])->with('asset')->orderBy('id', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view($activeTemplate. 'user.assets.crypto.buycrypto.buy_log', $data,compact('pageTitle', 'log'));
     }

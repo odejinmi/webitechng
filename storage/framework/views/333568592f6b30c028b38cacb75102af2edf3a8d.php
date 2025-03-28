@@ -1,7 +1,7 @@
 <?php $__env->startSection('content'); ?>
-    <?php echo $__env->make(checkTemplate() . 'partials.sidenav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make($activeTemplate . 'partials.sidenav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <div class="flex-lg-fill overflow-x-auto ps-lg-1 vstack vh-lg-100 position-relative">
-        <?php echo $__env->make(checkTemplate() . 'partials.topnav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php echo $__env->make($activeTemplate . 'partials.topnav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <div class="flex-fill overflow-y-lg-auto scrollbar bg-body rounded-top-4 rounded-top-start-lg-4 rounded-top-end-lg-0 border-top border-lg shadow-2">
         <main class="container-fluid px-3 py-5 p-lg-6 p-xxl-8">
             <div class="mb-6 mb-xl-10">
@@ -27,4 +27,4 @@
     </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make(checkTemplate() . 'layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\DELL\PhpstormProjects\webitechng\resources\views/templates/satoshi/layouts/app.blade.php ENDPATH**/ ?>
+<?php echo $__env->make($activeTemplate . 'layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\DELL\PhpstormProjects\webitechng\resources\views/templates/satoshi/layouts/app.blade.php ENDPATH**/ ?>

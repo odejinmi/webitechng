@@ -29,6 +29,8 @@ class BankTransferController extends Controller
             $pageTitle = 'Bank Transfer';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+
         return view($activeTemplate.'user.bank.index', $data, compact('pageTitle'));
 	}
 
@@ -42,6 +44,7 @@ class BankTransferController extends Controller
             $banks = json_decode(file_get_contents(resource_path('views/partials/banks.json')), true);
 			$activeTemplate = checkTemplate();
             $data['activeTemplate'] = $activeTemplate;
+            $data['activeTemplateTrue'] = checkTemplate(true);
             return view($activeTemplate.'user.bank.monnify', $data, compact('pageTitle', 'banks'));
         }
 
@@ -51,6 +54,8 @@ class BankTransferController extends Controller
             $banks = json_decode(file_get_contents(resource_path('views/partials/bhqbanks.json')), true);
 			$activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+
         return view($activeTemplate.'user.bank.blochq', $data, compact('pageTitle', 'banks'));
         }
         */
@@ -84,8 +89,10 @@ class BankTransferController extends Controller
             return back()->withNotify($notify);
 		}
 		$banks = $reply['data']['bank_list'];
-		return $activeTemplate = checkTemplate();
+		$activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+
         return view($activeTemplate.'user.bank.strowallet', $data, compact('pageTitle', 'user', 'banks'));
 	}
 
@@ -587,7 +594,9 @@ class BankTransferController extends Controller
         $transactions = Transaction::where('user_id', auth()->id())->searchable(['trx'])->filter(['trx_type', 'remark'])->whereRemark('Bank Transfer')->orderBy('created_at', 'desc')->paginate(getPaginate());
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
-        return view($activeTemplate . 'user.bank.history', $data, compact('pageTitle', 'transactions', 'remarks'));
+        $data['activeTemplateTrue'] = checkTemplate(true);
+
+        return view($activeTemplate. 'user.bank.history', $data, compact('pageTitle', 'transactions', 'remarks'));
     }
 
 

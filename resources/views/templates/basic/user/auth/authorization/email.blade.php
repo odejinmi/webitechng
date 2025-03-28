@@ -1,4 +1,4 @@
-@extends(checkTemplate() . 'layouts.auth')
+@extends($activeTemplate . 'layouts.auth')
 @section('content')
 @php
 $passwordContent = getContent('emailauth.content', true);
