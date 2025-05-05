@@ -16,7 +16,10 @@ class GeneralSettingController extends Controller
     {
         $pageTitle = 'General Setting';
         $timezones = json_decode(file_get_contents(resource_path('views/admin/partials/timezone.json')));
-        return view('admin.setting.general', compact('pageTitle', 'timezones'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.setting.general', $data, compact('pageTitle', 'timezones'));
     }
 
     public function update(Request $request)
@@ -49,7 +52,10 @@ class GeneralSettingController extends Controller
     {
         $pageTitle = 'System Configuration';
         $general                  = GeneralSetting::first();
-        return view('admin.setting.configuration', compact('pageTitle','general'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.setting.configuration',$data, compact('pageTitle','general'));
     }
 
     public function systemConfigurationSubmit(Request $request)
@@ -119,7 +125,10 @@ class GeneralSettingController extends Controller
     public function logoIcon()
     {
         $pageTitle = 'Logo & Favicon';
-        return view('admin.setting.logo_icon', compact('pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.setting.logo_icon', $data, compact('pageTitle'));
     }
 
     public function logoIconUpdate(Request $request)
@@ -169,7 +178,10 @@ class GeneralSettingController extends Controller
         $pageTitle    = 'Custom CSS';
         $file         = checkTemplate(true) . 'css/custom.css';
         $file_content = @file_get_contents($file);
-        return view('admin.setting.custom_css', compact('pageTitle', 'file_content'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.setting.custom_css', $data, compact('pageTitle', 'file_content'));
     }
 
     public function customCssSubmit(Request $request)
@@ -189,7 +201,10 @@ class GeneralSettingController extends Controller
     {
         $pageTitle   = 'Maintenance Mode';
         $maintenance = Frontend::where('data_keys', 'maintenance.data')->firstOrFail();
-        return view('admin.setting.maintenance', compact('pageTitle', 'maintenance'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.setting.maintenance', $data, compact('pageTitle', 'maintenance'));
     }
 
     public function maintenanceModeSubmit(Request $request)
@@ -215,7 +230,10 @@ class GeneralSettingController extends Controller
     {
         $pageTitle = 'GDPR Cookie';
         $cookie    = Frontend::where('data_keys', 'cookie.data')->firstOrFail();
-        return view('admin.setting.cookie', compact('pageTitle', 'cookie'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.setting.cookie', $data, compact('pageTitle', 'cookie'));
     }
 
     public function cookieSubmit(Request $request)

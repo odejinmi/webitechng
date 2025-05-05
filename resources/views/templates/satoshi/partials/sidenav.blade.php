@@ -40,7 +40,7 @@
                         aria-controls="sidebar-dashboards"><i class="bi bi-house"></i>
                         <span>Dashboard</span>
                         <span class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
-                </li> 
+                </li>
             </ul>
 
 
@@ -49,8 +49,8 @@
             <ul class="navbar-nav">
                 <li><span class="nav-link text-xs fw-semibold text-uppercase text-muted ls-wide">Bills Payment</span>
                 </li>
-                
-                
+
+
                 <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill {{ Request::routeIs('user.airtime.tocash.request') ? 'active' : '' }}"
                         href="{{ route('user.airtime.tocash.request') }}"><i class="bi bi-phone-flip"></i> <span>Airtime To Cash</span>
                         </a>
@@ -71,70 +71,79 @@
                         href="{{route('user.fund.betting.wallet')}}"><i class="bi bi-balloon"></i> <span>Sport Betting</span>
                         </a>
                 </li>
-                 
+
                 <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill {{ Request::routeIs('user.buy.cabletv') ? 'active' : '' }}"
                         href="{{route('user.buy.cabletv')}}" ><i class="bi bi-tv"></i>
-                        <span>Cable TV</span> </a> 
+                        <span>Cable TV</span> </a>
                 </li>
-                 
-                 
+
+
             </ul>
 
             <hr class="navbar-divider my-5 opacity-70">
             <ul class="navbar-nav">
                 <li><span class="nav-link text-xs fw-semibold text-uppercase text-muted ls-wide">Digital Assets</span>
                 </li>
-                  
+
                 <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill {{ Request::routeIs('user.buygift') ? 'active' : '' }}"
                         href="{{ route('user.buygift') }}"><i class="bi bi-gift"></i> <span>Buy Giftcard</span>
                         </a>
                 </li>
-                <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill {{ Request::routeIs('user.tradegift') ? 'active' : '' }}"
+                <li class="nav-item my-1">
+                    <a class="nav-link d-flex align-items-center rounded-pill {{ Request::routeIs('user.tradegift') ? 'active' : '' }}"
                         href="{{ route('user.tradegift') }}"><i class="bi bi-credit-card"></i> <span>Sell Giftcard</span>
                         </a>
-                </li> 
-                  
-                <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill {{ Request::routeIs('user.crypto.trade.index') ? 'active' : '' }}"
+                </li>
+                @if ($general->crypto > 0)
+                    <li class="nav-item my-1">
+                        <a class="nav-link d-flex align-items-center rounded-pill {{ Request::routeIs('user.crypto.index') ? 'active' : '' }}"
+                           href="{{ route('user.crypto.index') }}" ><i class="bi bi-wallet"></i>
+                            <span>@lang('Crypto Wallet')</span>
+                        </a>
+                    </li>
+                @endif
+                <li class="nav-item my-1">
+                    <a class="nav-link d-flex align-items-center rounded-pill {{ Request::routeIs('user.crypto.trade.index') ? 'active' : '' }}"
                         href="{{ route('user.crypto.trade.index') }}"><i class="bi bi-wallet"></i> <span>Trade Crypto</span>
                         </a>
-                </li> 
-                 
-                 
+                </li>
+
+
             </ul>
 
              @if($general->virtualcard > 0 && Auth::user()->vendor == 1)
              <hr class="navbar-divider my-5 opacity-70">
             <ul class="navbar-nav">
-                
+
                 <li><span class="nav-link text-xs fw-semibold text-uppercase text-muted ls-wide">Virtual Card</span>
                 </li>
                  <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill {{ Request::routeIs('user.virtualcard.index') ? 'active' : '' }}"
                         href="{{ route('user.virtualcard.index') }}"><i class="bi bi-key"></i> <span>(Verve NGN)</span>
                          </a>
-                </li>  
+                </li>
                  <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill {{ Request::routeIs('user.list.card') ? 'active' : '' }}"
                         href="{{ route('user.list.card') }}"><i class="bi bi-key"></i> <span>(Visa USD)</span>
                          </a>
-                </li>                 
-            </ul> 
+                </li>
+            </ul>
             @endif
 
 
             @if(Auth::user()->api_access == 1 || Auth::user()->vendor == 1)
             <hr class="navbar-divider my-5 opacity-70">
             <ul class="navbar-nav">
-                
+
                 @if(Auth::user()->api_access == 1 || Auth::user()->vendor == 1)
                 <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill {{ Request::routeIs('user.api.key') ? 'active' : '' }}"
                         href="{{ route('user.api.key') }}"><i class="bi bi-key"></i> <span>API Key</span>
                          </a>
                 </li>
-                 
+
                 @endif
-                 
+
             </ul>
             @endif
- 
+
 
             <hr class="navbar-divider my-5 opacity-70">
             <ul class="navbar-nav">
@@ -151,7 +160,7 @@
                         <span>Wallet Transfer</span>
                         <span
                             class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
-                     
+
                 </li>
                 @endif
                 @if ($general->swap_fiat > 0)
@@ -161,16 +170,16 @@
                             Hot</span></a>
                 </li>
                 @endif
-                
+
                 <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill {{ Request::routeIs('user.transactions') ? 'active' : '' }}"
                         href="{{ route('user.transactions') }}" role="button"
                         aria-controls="sidebar-components"><i class="bi bi-cash-stack"></i>
                         <span>Transactions</span>
                         <span
                             class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
-                     
+
                 </li>
-            </ul> 
+            </ul>
             <div class="mt-auto"></div>
             <div class="card bg-dark border-0 mt-5 mb-3">
                 <div class="card-body">

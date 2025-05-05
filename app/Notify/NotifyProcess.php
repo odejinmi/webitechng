@@ -44,6 +44,7 @@ class NotifyProcess
      * @var object
      */
     public $user;
+    public $smstype;
 
 
     /**
@@ -164,7 +165,7 @@ class NotifyProcess
         $user = $this->user;
         $globalTemplate = $this->globalTemplate;
 
-       
+
 
         //finding the notification template
         $template = NotificationTemplate::where('act', $this->templateName)->where($this->statusField, 1)->first();

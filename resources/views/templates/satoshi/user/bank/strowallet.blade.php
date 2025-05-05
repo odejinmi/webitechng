@@ -366,6 +366,7 @@
                 narration: narration,
                 pin: otp,
                 sessionId: sessionId,
+                wallet: "main"
             });
             var requestOptions = {
                 method: 'POST',

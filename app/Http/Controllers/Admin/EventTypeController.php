@@ -8,13 +8,16 @@ use Illuminate\Http\Request;
 
 class EventTypeController extends Controller
 {
-    
+
      public function index()
     {
         $pageTitle = "Manage Event Type";
         $emptyMessage = "No data found";
         $event_type = EventType::latest()->paginate(getPaginate());
-        return view('admin.event.type', compact('pageTitle', 'emptyMessage', 'event_type'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.event.type', $data, compact('pageTitle', 'emptyMessage', 'event_type'));
     }
 
     public function store(Request $request)

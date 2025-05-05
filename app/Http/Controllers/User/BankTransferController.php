@@ -64,23 +64,26 @@ class BankTransferController extends Controller
 		$user = Auth::user();
 		$pageTitle = 'Bank Transfer';
 		$curl = curl_init();
-		curl_setopt_array($curl, array(
-		CURLOPT_URL => 'https://strowallet.com/api/banks/lists',
-		CURLOPT_RETURNTRANSFER => true,
-		CURLOPT_ENCODING => '',
-		CURLOPT_MAXREDIRS => 10,
-		CURLOPT_TIMEOUT => 0,
-		CURLOPT_FOLLOWLOCATION => true,
-		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-		CURLOPT_CUSTOMREQUEST => 'GET',
-		CURLOPT_POSTFIELDS =>'{
-				"public_key": "'.env('STROPAYKEY').'"
-		}',
-		CURLOPT_HTTPHEADER => array(
-			'Content-Type: application/json',
-		),
-		));
+        $publicKey = env('STROPAYKEY'); // Fetch API key from environment variables
+        $url = "https://strowallet.com/api/banks/lists?public_key=" . urlencode($publicKey); // Append public key as a query parameter
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+            ),
+        ));
 		$response = curl_exec($curl);
+        $error = curl_error($curl);
 		curl_close($curl);
 		$reply = json_decode($response, true);
 		if(!isset($reply['data']['bank_list']))
@@ -92,7 +95,17 @@ class BankTransferController extends Controller
 		$activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
         $data['activeTemplateTrue'] = checkTemplate(true);
-
+        $transactions = Transaction::where('user_id', auth()->id())->searchable(['trx'])->filter(['trx_type', 'remark'])->whereRemark('Bank Transfer')->orderBy('created_at', 'desc')->paginate(getPaginate());
+        $data["totaltransfer"] = Transaction::where('user_id', auth()->id())
+            ->whereRemark('Bank Transfer')
+            ->sum('amount');
+        $data["totaltransfercount"] = $transactions->count();
+        $data["transferlog"] = $transactions;
+        $data["yearTf"] = Transaction::where('user_id', auth()->id())
+            ->selectRaw('YEAR(created_at) as year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year'); // Get only the list of years
         return view($activeTemplate.'user.bank.strowallet', $data, compact('pageTitle', 'user', 'banks'));
 	}
 
@@ -103,29 +116,35 @@ class BankTransferController extends Controller
 		$json = file_get_contents('php://input');
 		$input = json_decode($json, true);
 		try{
-		$bankcode = $input['bankcode'];
-		$account = $input['account'];
-		$curl = curl_init();
-		curl_setopt_array($curl, array(
-		CURLOPT_URL => 'https://strowallet.com/api/banks/get-customer-name',
-		CURLOPT_RETURNTRANSFER => true,
-		CURLOPT_ENCODING => '',
-		CURLOPT_MAXREDIRS => 10,
-		CURLOPT_TIMEOUT => 0,
-		CURLOPT_FOLLOWLOCATION => true,
-		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-		CURLOPT_CUSTOMREQUEST => 'GET',
-		CURLOPT_POSTFIELDS =>'{
-				"public_key": "'.env('STROPAYKEY').'",
-				"bank_code":"'.$bankcode.'",
-				"account_number":"'.$account.'"
-		}',
-		CURLOPT_HTTPHEADER => array(
-			'Content-Type: application/json',
-		),
-		));
-		$response = curl_exec($curl);
-		curl_close($curl);
+            $bankcode = urlencode($input['bankcode']); // Encode for URL safety
+            $account = urlencode($input['account']);
+            $publicKey = urlencode(env('STROPAYKEY'));
+
+            // Construct GET URL with query parameters
+            $url = "https://strowallet.com/api/banks/get-customer-name?public_key={$publicKey}&bank_code={$bankcode}&account_number={$account}";
+
+            // cURL Request
+            $curl = curl_init();
+            curl_setopt_array($curl, [
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_SSL_VERIFYPEER => false, // Ignore SSL verification (not recommended for production)
+                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                ],
+            ]);
+
+            $response = curl_exec($curl);
+            $error = curl_error($curl);
+            curl_close($curl);
 		$reply = json_decode($response,true);
 			if(!isset($reply['data']['account_name']))
 			{
@@ -155,8 +174,8 @@ class BankTransferController extends Controller
 		$amount = $input['amount'];
 		$sessionId = $input['sessionId'];
 		$wallet = $input['wallet'];
-		$narration = $input['narration'];
-		$pin = $input['pin'];
+        $narration = !empty($input['narration']) ? $input['narration'] : 'transfer';
+        $pin = $input['pin'];
 		if (!Hash::check($pin, $user->trx_password))
 		{
 			return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Invalid transaction PIN'],400);
@@ -192,6 +211,8 @@ class BankTransferController extends Controller
 		CURLOPT_MAXREDIRS => 10,
 		CURLOPT_TIMEOUT => 0,
 		CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
 		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 		CURLOPT_CUSTOMREQUEST => 'POST',
 		CURLOPT_POSTFIELDS =>'{
@@ -207,7 +228,8 @@ class BankTransferController extends Controller
 		),
 		));
 		$response = curl_exec($curl);
-		curl_close($curl);
+        $error = curl_error($curl);
+        curl_close($curl);
 		$reply = json_decode($response,true);
 		//return $reply;
 			if(!isset($reply['success']))
@@ -300,6 +322,8 @@ class BankTransferController extends Controller
 			CURLOPT_MAXREDIRS => 10,
 			CURLOPT_TIMEOUT => 0,
 			CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => array(
@@ -371,6 +395,8 @@ class BankTransferController extends Controller
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
         CURLOPT_POSTFIELDS =>'{
@@ -455,6 +481,8 @@ class BankTransferController extends Controller
 			CURLOPT_MAXREDIRS => 10,
 			CURLOPT_TIMEOUT => 0,
 			CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => array(
@@ -521,6 +549,8 @@ class BankTransferController extends Controller
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
         CURLOPT_POSTFIELDS =>'{

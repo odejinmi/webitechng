@@ -38,7 +38,6 @@ class Sms extends NotifyProcess implements Notifiable
      */
     public function send()
     {
-        
         //get message from parent
         $message = $this->getMessage();
         if ($this->setting->sn && $message) {
@@ -46,6 +45,7 @@ class Sms extends NotifyProcess implements Notifiable
                 $gateway = $this->setting->sms_config->name;
                 if ($this->mobile && $this->setting->sn) {
                     $sendSms = new SmsGateway();
+                    $sendSms->smstype = $this->smstype;
                     $sendSms->to = $this->mobile;
                     $sendSms->from = $this->setting->sms_from;
                     $sendSms->message = strip_tags($message);

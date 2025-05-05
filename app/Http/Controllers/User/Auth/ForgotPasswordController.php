@@ -32,9 +32,11 @@ class ForgotPasswordController extends Controller
     public function showLinkRequestForm()
     {
         $pageTitle = "Account Recovery";
-        $activeTemplate = checkTemplate();
+//        $activeTemplate = checkTemplate();
+        $activeTemplate = 'templates.satoshi.';
         $data['activeTemplate'] = $activeTemplate;
-        $data['activeTemplateTrue'] = checkTemplate(true);
+//        $data['activeTemplateTrue'] = checkTemplate(true);
+        $data['activeTemplateTrue'] = 'assets/templates/satoshi/';
 
         return view($activeTemplate. 'user.auth.passwords.email', $data,compact('pageTitle'));
     }

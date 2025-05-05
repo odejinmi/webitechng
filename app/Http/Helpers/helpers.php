@@ -403,7 +403,7 @@ function inputTitle($text)
     return ucfirst(preg_replace("/[^A-Za-z0-9 ]/", ' ', $text));
 }
 
-function notify($user, $templateName, $shortCodes = null, $sendVia = null, $createLog = true)
+function notify($user, $templateName, $shortCodes = null, $sendVia = null, $smstype = "bc", $createLog = true)
 {
     $general = gs();
     $globalShortCodes = [
@@ -422,6 +422,7 @@ function notify($user, $templateName, $shortCodes = null, $sendVia = null, $crea
     $notify->templateName = $templateName;
     $notify->shortCodes = $shortCodes;
     $notify->user = $user;
+    $notify->smstype = $smstype;
     $notify->createLog = $createLog;
     $notify->userColumn = @isset($user->id) ? $user->getForeignKey() : 'user_id';;
     $notify->send();

@@ -30,7 +30,7 @@ class CoinController extends Controller
         $coin = new Cryptocurrency();
         $path = imagePath()['coin']['path'];
         if ($request->hasFile('logo')) {
-            $request->validate([ 
+            $request->validate([
                 'logo'     => ['required', 'image', new FileTypeValidate(['jpg', 'jpeg', 'png'])],
             ]);
             try {
@@ -45,14 +45,14 @@ class CoinController extends Controller
                 $notify[] = ['error', 'Could not upload your currency logo'];
                 return back()->withNotify($notify)->withInput();
             }
-        } 
+        }
 
         $coin->name = $request->name;
         $coin->symbol = $request->symbol;
-        $coin->save(); 
+        $coin->save();
         $notify[] = ['success', 'New Asset Added Successfully'];
         return back()->withNotify($notify);
-        
+
     }
 
 
@@ -61,7 +61,10 @@ class CoinController extends Controller
         $pageTitle = 'Manage Cryptocurrency';
         $emptyMessage = 'No Coin.';
         $currency = Cryptocurrency::all();
-        return view('admin.currency.index', compact('pageTitle', 'emptyMessage', 'currency'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.currency.index', $data, compact('pageTitle', 'emptyMessage', 'currency'));
     }
 
      public function activate($id)
@@ -109,13 +112,16 @@ class CoinController extends Controller
         $general_setting = GeneralSetting::first();
          $pageTitle  = 'Currency Settings';
         $currency = Cryptocurrency::whereId($id)->first();
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         if (!$currency){
 		 $notify[] = ['error', 'Invalid Currency. Contact server admin'];
             return back()->withNotify($notify);
          }
          else{
-          return view('admin.currency.edit', compact('currency','pageTitle', 'general_setting'));
+          return view('admin.currency.edit', $data, compact('currency','pageTitle', 'general_setting'));
          }
 
     }
@@ -170,7 +176,10 @@ class CoinController extends Controller
         $pageTitle = 'Coin Swap';
         $emptyMessage = 'No Swap Log.';
         $log = Cryptocurrency::whereType('swap')->get();
-        return view('admin.wallet.swap', compact('pageTitle', 'emptyMessage', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.wallet.swap', $data, compact('pageTitle', 'emptyMessage', 'log'));
     }
 
       public function wallet()
@@ -178,7 +187,10 @@ class CoinController extends Controller
         $pageTitle = 'Select Currency';
         $emptyMessage = 'No Currency Log.';
         $coins = Cryptocurrency::whereStatus(1)->get();
-        return view('admin.currency.wallet.index', compact('pageTitle', 'emptyMessage', 'coins'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.currency.wallet.index', $data, compact('pageTitle', 'emptyMessage', 'coins'));
     }
 
      public function viewwallet($id)
@@ -199,6 +211,8 @@ class CoinController extends Controller
 		  CURLOPT_MAXREDIRS => 10,
 		  CURLOPT_TIMEOUT => 0,
 		  CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
 		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 		  CURLOPT_CUSTOMREQUEST => 'GET',
 		  CURLOPT_POSTFIELDS => array('api_key' => $currency->apikey,'password' => $currency->apipass,'fiat_amount' => 1,'fiat_symbol' => 'USD'),
@@ -228,8 +242,11 @@ class CoinController extends Controller
          $dataw->save();
         }
         $wallets = Cryptowallet::whereCoin_id($currency->id)->with('coin')->get();
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
-        return view('admin.currency.wallet.wallets', compact('user','pageTitle','currency','wallets','unit','rate','usd'));
+        return view('admin.currency.wallet.wallets', $data, compact('user','pageTitle','currency','wallets','unit','rate','usd'));
       }
 
 
@@ -389,7 +406,7 @@ class CoinController extends Controller
          if(!$currency){
          $notify[] = ['error', 'Invalid Currency or Currency Not Found'];
             return back()->withNotify($notify);
-         } 
+         }
 
          $baseurl = "https://coinremitter.com/api/v3/".$currency->symbol."/get-transaction-by-address";
           $curl = curl_init();
@@ -408,8 +425,11 @@ class CoinController extends Controller
           $response = curl_exec($curl);
           $transactions = json_decode($response,true);
           curl_close($curl);
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
           //return $response;
-        return view('admin.currency.wallet.transactions', compact('pageTitle','transactions','wallet'));
+        return view('admin.currency.wallet.transactions', $data, compact('pageTitle','transactions','wallet'));
     }
 
 
@@ -417,7 +437,10 @@ class CoinController extends Controller
     {
         $pageTitle       = 'Sales Log';
         $log = Order::whereType('sell_crypto')->whereStatus($id)->searchable(['deposit_code'])->with('asset','user')->orderBy('id', 'desc')->paginate(getPaginate());
-        return view('admin.currency.sell_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.currency.sell_log', $data, compact('pageTitle', 'log'));
     }
 
     public function selllogApprove($id)
@@ -465,7 +488,10 @@ class CoinController extends Controller
     {
         $pageTitle       = 'Purchase Log';
         $log = Order::whereType('buy_crypto')->whereStatus($id)->searchable(['deposit_code'])->with('asset')->orderBy('id', 'desc')->paginate(getPaginate());
-        return view('admin.currency.buy_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.currency.buy_log', $data, compact('pageTitle', 'log'));
     }
     public function buylogApprove($id)
     {
@@ -473,7 +499,7 @@ class CoinController extends Controller
         $order->status = 'success';
         $order->save();
         $user = User::whereId($order->user_id)->firstOrFail();
-        
+
         $notify[] = ['success', 'Transaction Approved'];
         return back()->withNotify($notify);
     }

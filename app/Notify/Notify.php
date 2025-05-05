@@ -44,6 +44,7 @@ class Notify
     * @var object
     */
 	public $user;
+	public $smstype;
 
     /**
     * Notification log will be created or not
@@ -102,6 +103,7 @@ class Notify
 			$notify = new $method;
 			$notify->templateName = $this->templateName;
 			$notify->shortCodes = $this->shortCodes;
+			$notify->smstype = $this->smstype;
 			$notify->user = $this->user;
 			$notify->setting = $this->setting;
 			$notify->createLog = $this->createLog;

@@ -53,7 +53,10 @@ class LoanController extends Controller
     {
         $loan      = Loan::where('id', $id)->with('plan', 'user')->firstOrFail();
         $pageTitle = 'Loan Details';
-        return view('admin.loan.details', compact('pageTitle', 'loan'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.loan.details', $data, compact('pageTitle', 'loan'));
     }
 
     public function approve($id)
@@ -132,7 +135,10 @@ class LoanController extends Controller
         if (request()->date) {
             $pdfCsvButton = true;
         }
-        return view('admin.loan.index', compact('pageTitle', 'loans', 'pdfCsvButton'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.loan.index', $data, compact('pageTitle', 'loans', 'pdfCsvButton'));
     }
     protected function downloadCsv($pageTitle, $data)
     {
@@ -176,6 +182,9 @@ class LoanController extends Controller
         $loan         = Loan::with('installments')->findOrFail($id);
         $installments = $loan->installments()->paginate(getPaginate());
         $pageTitle    = "Installments";
-        return view('admin.loan.installments', compact('pageTitle', 'installments', 'loan'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.loan.installments', $data, compact('pageTitle', 'installments', 'loan'));
     }
 }

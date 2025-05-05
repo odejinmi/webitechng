@@ -25,6 +25,8 @@
                                     @lang('Text Magic')</option>
                                 <option value="bulksmsng" @if (@$general->sms_config->name == 'bulksmsng') selected @endif>
                                         @lang('Bulk SMS Nigeria')</option>
+                                <option value="kudisms" @if (@$general->sms_config->name == 'kudisms') selected @endif>
+                                        @lang('Kudi SMS')</option>
                                 <option value="custom" @if (@$general->sms_config->name == 'custom') selected @endif>@lang('Custom API')
                                 </option>
                             </select>
@@ -52,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row mt-4 d-none configForm" id="clickatell">
                             <div class="col-md-12">
                                 <h6 class="mb-2">@lang('Clickatell Configuration')</h6>
@@ -63,6 +65,55 @@
                                     <input type="text" class="form-control" placeholder="@lang('API Key')"
                                         name="clickatell_api_key"
                                         value="{{ @$general->sms_config->clickatell->api_key }}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4 d-none configForm" id="kudisms">
+                            <div class="col-md-12">
+                                <h6 class="mb-2">@lang('Kudi Sms Configuration')</h6>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label>@lang('API Key') </label>
+                                    <input type="text" class="form-control" placeholder="@lang('API Key')"
+                                        name="kudisms_api_key"
+                                        value="{{ @$general->sms_config->kudisms->api_key }}" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label>@lang('SMS Sender') </label>
+                                    <input type="text" class="form-control" placeholder="@lang('Sender')"
+                                           name="sender"
+                                           value="{{ @$general->sms_config->kudisms->sender }}" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label>@lang('App Name Code') </label>
+                                    <input type="text" class="form-control" placeholder="@lang('appnamecode')"
+                                           name="appnamecode"
+                                           value="{{ @$general->sms_config->kudisms->appnamecode }}" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label>@lang('Sms Template Code') </label>
+                                    <input type="text" class="form-control" placeholder="@lang('smstemplatecode')"
+                                           name="smstemplatecode"
+                                           value="{{ @$general->sms_config->kudisms->smstemplatecode }}" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label>@lang('Whatsapp Template Code') </label>
+                                    <input type="text" class="form-control" placeholder="@lang('whatsapptemplatecode')"
+                                           name="whatsapptemplatecode"
+                                           value="{{ @$general->sms_config->kudisms->whatsapptemplatecode }}" />
                                 </div>
                             </div>
                         </div>
@@ -316,18 +367,32 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">@lang('Test SMS Setup')</h5> 
+                    <h5 class="modal-title">@lang('Test SMS Setup')</h5>
                 </div>
                 <form action="{{ route('admin.setting.notification.sms.test') }}" method="POST">
                     @csrf
                     <input type="hidden" name="id">
                     <div class="modal-body">
-                        <div class="row">
+                        <div class="col-md-12">
                             <div class="col-md-12">
                                 <div class="form-group mb-3">
                                     <label>@lang('Sent to') </label>
                                     <input type="text" name="mobile" class="form-control"
                                         placeholder="@lang('Mobile')">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label>@lang('Sms type') </label>
+                                    <div class="radio mt-3">
+                                        <input id="demo-form-radio" class="magic-radio" value="bc"
+                                               type="radio" name="smstype" checked>
+                                        <label for="demo-form-radio">Broadcast SMS</label>
+
+                                        <input id="demo-form-radio-2" class="magic-radio" value="otp"
+                                               type="radio" name="smstype">
+                                        <label for="demo-form-radio-2">OTP SMS</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -392,6 +457,7 @@
                 $('.headerFields').append(html);
 
             })
+
             $(document).on('click', '.removeHeader', function() {
                 $(this).closest('.row').remove();
             })
@@ -413,6 +479,7 @@
                 $('.bodyFields').append(html);
 
             })
+
             $(document).on('click', '.removeBody', function() {
                 $(this).closest('.row').remove();
             })

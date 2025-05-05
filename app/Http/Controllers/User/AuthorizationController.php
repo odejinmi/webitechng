@@ -56,7 +56,7 @@ class AuthorizationController extends Controller
             $user->save();
             notify($user, $notifyTemplate, [
                 'code' => $user->ver_code
-            ], [$type]);
+            ], [$type],"otp");
         }
 
         $activeTemplate = checkTemplate();
@@ -90,7 +90,7 @@ class AuthorizationController extends Controller
 
         notify($user, $notifyTemplate, [
             'code' => $user->ver_code
-        ], [$type]);
+        ], [$type],"otp");
 
         $notify[] = ['success', 'Verification code sent successfully'];
         return back()->withNotify($notify);

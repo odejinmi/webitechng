@@ -9,8 +9,11 @@
 <div class="row g-0 justify-content-center gradient-bottom-right start-purple middle-indigo end-pink">
         <div
             class="col-md-6 col-lg-5 col-xl-5 position-fixed start-0 top-0 vh-100 overflow-y-hidden d-none d-lg-flex flex-lg-column">
-            <div class="p-12 py-xl-10 px-xl-20"><a class="d-block"
-                    href="#"><img src="{{asset( $activeTemplateTrue . 'agent/img/logos/logo-light.svg')}}" class="h-rem-10" alt="..."></a>
+            <div class="p-12 py-xl-10 px-xl-20">
+                <a class="d-block"
+                    href="#">
+                    <img src="{{ getImage(getFilePath('logoIcon') . '/logo.png') }}" class="h-rem-10" alt="...">
+                </a>
                 <div class="mt-16">
                     <h1 class="ls-tight fw-bolder display-6 text-white mb-5">{{ __(@$loginContent->data_values->heading) }}
                     </h1>

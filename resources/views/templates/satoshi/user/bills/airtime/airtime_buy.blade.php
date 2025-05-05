@@ -255,6 +255,7 @@
                 amount: document.getElementById('amount').value,
                 phone: document.getElementById('phone').value,
                 operator: document.getElementById('networkid').value,
+                wallet: "main",
             });
             var requestOptions = {
                 method: 'POST',

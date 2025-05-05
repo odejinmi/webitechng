@@ -17,7 +17,10 @@ class StaffController extends Controller
         $pageTitle = 'All Staff';
         $allStaff = Admin::with('role')->searchable(['username'])->paginate(getPaginate());
         $roles = Role::all();
-        return view('admin.staff.index', compact('pageTitle', 'allStaff', 'roles'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.staff.index', $data, compact('pageTitle', 'allStaff', 'roles'));
     }
 
     public function status($id)
@@ -29,7 +32,7 @@ class StaffController extends Controller
     {
 
         $this->validation($request, $id);
-        
+
         if ($id) {
             $staff   = Admin::where('id', '!=', 1)->findOrFail($id);
             $message = "Staff updated successfully";

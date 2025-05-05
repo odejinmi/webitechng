@@ -18,15 +18,21 @@ class WithdrawalController extends Controller
         $pageTitle = 'Pending Withdrawals';
         $withdrawals = Withdrawal::pending()->with(['user','method'])->orderBy('id','desc')->paginate(getPaginate());
         $emptyMessage = 'No withdrawal found';
-        return view('admin.withdraw.withdrawals', compact('pageTitle', 'withdrawals', 'emptyMessage'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.withdraw.withdrawals', $data, compact('pageTitle', 'withdrawals', 'emptyMessage'));
     }
-    
+
     public function approved()
     {
         $pageTitle = 'Approved Withdrawals';
         $withdrawals = Withdrawal::approved()->with(['user','method'])->orderBy('id','desc')->paginate(getPaginate());
         $emptyMessage = 'No withdrawal found';
-        return view('admin.withdraw.withdrawals', compact('pageTitle', 'withdrawals', 'emptyMessage'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.withdraw.withdrawals', $data, compact('pageTitle', 'withdrawals', 'emptyMessage'));
     }
 
     public function rejected()
@@ -34,7 +40,10 @@ class WithdrawalController extends Controller
         $pageTitle = 'Rejected Withdrawals';
         $withdrawals = Withdrawal::rejected()->with(['user','method'])->orderBy('id','desc')->paginate(getPaginate());
         $emptyMessage = 'No withdrawal found';
-        return view('admin.withdraw.withdrawals', compact('pageTitle', 'withdrawals', 'emptyMessage'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.withdraw.withdrawals', $data, compact('pageTitle', 'withdrawals', 'emptyMessage'));
     }
 
     public function log()
@@ -42,7 +51,10 @@ class WithdrawalController extends Controller
         $pageTitle = 'Withdrawals Log';
         $withdrawals = Withdrawal::where('status', '!=', 0)->with(['user','method'])->orderBy('id','desc')->paginate(getPaginate());
         $emptyMessage = 'No withdrawal history';
-        return view('admin.withdraw.withdrawals', compact('pageTitle', 'withdrawals', 'emptyMessage'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.withdraw.withdrawals', $data, compact('pageTitle', 'withdrawals', 'emptyMessage'));
     }
 
 
@@ -63,7 +75,10 @@ class WithdrawalController extends Controller
             $withdrawals = Withdrawal::where('status', '!=', 0)->with(['user','method'])->where('method_id',$method->id)->orderBy('id','desc')->paginate(getPaginate());
         }
         $emptyMessage = 'No withdrawal found';
-        return view('admin.withdraw.withdrawals', compact('pageTitle', 'withdrawals', 'emptyMessage','method'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.withdraw.withdrawals', $data, compact('pageTitle', 'withdrawals', 'emptyMessage','method'));
     }
 
 
@@ -94,8 +109,11 @@ class WithdrawalController extends Controller
 
         $withdrawals = $withdrawals->paginate(getPaginate());
         $pageTitle .= ' - ' . $search;
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
-        return view('admin.withdraw.withdrawals', compact('pageTitle', 'emptyMessage', 'search', 'scope', 'withdrawals'));
+        return view('admin.withdraw.withdrawals', $data, compact('pageTitle', 'emptyMessage', 'search', 'scope', 'withdrawals'));
     }
 
     public function dateSearch(Request $request,$scope){
@@ -142,7 +160,10 @@ class WithdrawalController extends Controller
         $pageTitle = 'Withdraw Log';
         $emptyMessage = 'No Withdrawals Found';
         $dateSearch = $search;
-        return view('admin.withdraw.withdrawals', compact('pageTitle', 'emptyMessage', 'dateSearch', 'withdrawals','scope'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.withdraw.withdrawals', $data, compact('pageTitle', 'emptyMessage', 'dateSearch', 'withdrawals','scope'));
 
 
     }
@@ -158,7 +179,10 @@ class WithdrawalController extends Controller
 
         $methodImage =  getImage(imagePath()['withdraw']['method']['path'].'/'. $withdrawal->method->image,'800x800');
 
-        return view('admin.withdraw.detail', compact('pageTitle', 'withdrawal','details','methodImage'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.withdraw.detail', $data, compact('pageTitle', 'withdrawal','details','methodImage'));
     }
 
     public function approve(Request $request)
@@ -186,7 +210,7 @@ class WithdrawalController extends Controller
            notify($withdraw->user, 'DEFAULT', [
                'subject' => 'Withdrawal Approved',
                'message' => 'Your pending withdrawal of '.showAmount($withdraw->amount).$general->cur_text.' with transaction number '.$withdraw->trx.'. has been approved and payment made.',
-           ], ['email'], false);
+           ], ['email'], "bc",false);
        // End Send Email
 
         $notify[] = ['success', 'Withdrawal marked as approved.'];
@@ -227,7 +251,7 @@ class WithdrawalController extends Controller
             $transaction->save();
 
 
-        
+
 
         notify($user, 'WITHDRAW_REJECT', [
             'method_name' => $withdraw->method->name,
@@ -247,7 +271,7 @@ class WithdrawalController extends Controller
            notify($withdraw->user, 'DEFAULT', [
                'subject' => 'Withdrawal Rejected',
                'message' => 'Your pending withdrawal of '.showAmount($withdraw->amount).$general->cur_text.' with transaction number '.$withdraw->trx.'. has been rejected.',
-           ], ['email'], false);
+           ], ['email'], "bc",false);
        // End Send Email
 
         $notify[] = ['success', 'Withdrawal has been rejected.'];

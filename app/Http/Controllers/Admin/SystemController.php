@@ -11,12 +11,18 @@ class SystemController extends Controller
         $laravelVersion = app()->version();
         $timeZone = config('app.timezone');
         $pageTitle = 'Application Information';
-        return view('admin.system.info',compact('pageTitle', 'laravelVersion','timeZone'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.system.info',$data, compact('pageTitle', 'laravelVersion','timeZone'));
     }
 
     public function optimize(){
         $pageTitle = 'Clear System Cache';
-        return view('admin.system.optimize',compact('pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.system.optimize',$data, compact('pageTitle'));
     }
 
     public function optimizeClear(){
@@ -29,6 +35,9 @@ class SystemController extends Controller
         $currentPHP = phpversion();
         $pageTitle = 'Server Information';
         $serverDetails = $_SERVER;
-        return view('admin.system.server',compact('pageTitle', 'currentPHP', 'serverDetails'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.system.server',$data, compact('pageTitle', 'currentPHP', 'serverDetails'));
     }
 }

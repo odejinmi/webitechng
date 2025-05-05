@@ -31,8 +31,11 @@ class SavingsController extends Controller
         $pageTitle = 'All Savings Plan';
         $saved = Savings::searchable(['reference'])->with('user')->paginate(10);
         $emptyMessage = "Data Not Found";
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
-        return view('admin.savings.log', compact('pageTitle','saved','emptyMessage'));
+        return view('admin.savings.log', $data, compact('pageTitle','saved','emptyMessage'));
     }
 
 
@@ -108,7 +111,10 @@ class SavingsController extends Controller
         $pay = SavingPay::whereSavingId($id)->get();
         $sum = SavingPay::whereSavingId($id)->sum('amount');
         $data['count'] = SavingPay::whereSavingId($id)->count();
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
         return view('admin.savings.view',$data, compact('pageTitle','saved','pay','sum'));
     }
- 
+
 }

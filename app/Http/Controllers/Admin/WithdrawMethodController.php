@@ -15,13 +15,19 @@ class WithdrawMethodController extends Controller
         $pageTitle = 'Withdrawal Methods';
         $emptyMessage = 'Withdrawal Methods not found.';
         $methods = WithdrawMethod::orderBy('status','desc')->orderBy('id')->get();
-        return view('admin.withdraw.index', compact('pageTitle', 'emptyMessage', 'methods'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.withdraw.index', $data, compact('pageTitle', 'emptyMessage', 'methods'));
     }
 
     public function create()
     {
         $pageTitle = 'New Withdrawal Method';
-        return view('admin.withdraw.create', compact('pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.withdraw.create', $data, compact('pageTitle'));
     }
 
     public function store(Request $request)
@@ -94,7 +100,10 @@ class WithdrawMethodController extends Controller
     {
         $pageTitle = 'Update Withdrawal Method';
         $method = WithdrawMethod::findOrFail($id);
-        return view('admin.withdraw.edit', compact('pageTitle', 'method'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.withdraw.edit', $data, compact('pageTitle', 'method'));
     }
 
     public function update(Request $request, $id)

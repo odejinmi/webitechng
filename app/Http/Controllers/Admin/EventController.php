@@ -14,7 +14,7 @@ use Carbon\Carbon;
 
 class EventController extends Controller
 {
-    
+
 
 
     public function index()
@@ -22,7 +22,10 @@ class EventController extends Controller
         $pageTitle = "All Events";
         $emptyMessage = "No data found";
         $events = Event::latest()->with('location', 'city', 'info')->paginate(getPaginate());
-        return view('admin.event.index', compact('pageTitle', 'emptyMessage', 'events'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.event.index', $data, compact('pageTitle', 'emptyMessage', 'events'));
     }
 
     public function create()
@@ -31,7 +34,10 @@ class EventController extends Controller
         $pageTitle = "Create Event";
         $cities = City::where('status', 1)->select('id', 'name')->with('location')->get();
         $eventTypes = EventType::where('status', 1)->select('name', 'id')->get();
-        return view('admin.event.create', compact('pageTitle', 'cities', 'eventTypes','timezones'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.event.create', $data, compact('pageTitle', 'cities', 'eventTypes','timezones'));
     }
 
     public function approved()
@@ -39,7 +45,10 @@ class EventController extends Controller
         $pageTitle = "Approved Events";
         $emptyMessage = "No data found";
         $events = Event::where('status', 1)->latest()->with('location', 'city', 'info')->paginate(getPaginate());
-        return view('admin.event.index', compact('pageTitle', 'emptyMessage', 'events'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.event.index', $data, compact('pageTitle', 'emptyMessage', 'events'));
     }
 
     public function pending()
@@ -47,7 +56,10 @@ class EventController extends Controller
         $pageTitle = "Pending Events";
         $emptyMessage = "No data found";
         $events = Event::where('status', 0)->latest()->with('location', 'city', 'info')->paginate(getPaginate());
-        return view('admin.event.index', compact('pageTitle', 'emptyMessage', 'events'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.event.index', $data, compact('pageTitle', 'emptyMessage', 'events'));
     }
 
     public function cancel()
@@ -55,7 +67,10 @@ class EventController extends Controller
         $pageTitle = "Canceled Events";
         $emptyMessage = "No data found";
         $events = Event::where('status', 2)->latest()->with('location', 'city', 'info')->paginate(getPaginate());
-        return view('admin.event.index', compact('pageTitle', 'emptyMessage', 'events'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.event.index', $data, compact('pageTitle', 'emptyMessage', 'events'));
     }
 
     public function search(Request $request)
@@ -64,10 +79,13 @@ class EventController extends Controller
         $emptyMessage = "No data found";
         $search = $request->search;
         $events = Event::where('title', 'like', "%$search%")->latest()->with('location', 'city', 'propertyInfo')->paginate(getPaginate());
-        return view('admin.event.index', compact('pageTitle', 'emptyMessage', 'events', 'search'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.event.index', $data, compact('pageTitle', 'emptyMessage', 'events', 'search'));
     }
 
-     
+
 
     public function approvedStatus(Request $request)
     {
@@ -91,7 +109,7 @@ class EventController extends Controller
         $event->save();
         $notify[] = ['success', 'Event has been banned'];
         return back()->withNotify($notify);
-         
+
     }
 
     public function featuredInclude(Request $request)
@@ -195,8 +213,8 @@ class EventController extends Controller
                 $arr['type'] = $request->type[$a];
                 $arr['limit'] = $request->limit[$a];
                 $arr['benefits'] = $request->benefits[$a];
-                $input_form[$arr['field_name']] = $arr; 
-               
+                $input_form[$arr['field_name']] = $arr;
+
             }
         }
         // return count($input_form);
@@ -216,7 +234,10 @@ class EventController extends Controller
         $eventTypes = EventType::where('status', 1)->select('name', 'id')->get();
         $event = Event::findOrFail($id);
         $timezones = json_decode(file_get_contents(resource_path('views/admin/partials/timezone.json')));
-        return view('admin.event.edit', compact('timezones','pageTitle', 'cities', 'pageTitle', 'cities', 'event', 'eventTypes'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.event.edit', $data, compact('timezones','pageTitle', 'cities', 'pageTitle', 'cities', 'event', 'eventTypes'));
     }
 
     public function update(Request $request, $id)
@@ -247,7 +268,7 @@ class EventController extends Controller
         $event->start_date = $request->sdate;
         $event->start_time = $request->stime;
         $event->end_date = $request->edate;
-        $event->end_time = $request->etime; 
+        $event->end_time = $request->etime;
         $path = imagePath()['event']['path'];
         $size = imagePath()['event']['size'];
         if ($request->hasFile('image')) {
@@ -274,8 +295,8 @@ class EventController extends Controller
                 $arr['type'] = $request->type[$a];
                 $arr['limit'] = $request->limit[$a];
                 $arr['benefits'] = $request->benefits[$a];
-                $input_form[$arr['field_name']] = $arr; 
-               
+                $input_form[$arr['field_name']] = $arr;
+
             }
         }
         // return count($input_form);
@@ -288,14 +309,17 @@ class EventController extends Controller
         return back()->withNotify($notify);
     }
 
-     
+
 
     public function SalesInfo($id)
     {
         $event = Event::findOrFail($id);
         $pageTitle = $event->title . ' Event Sales';
         $log = Order::whereType('event')->whereProductId($id)->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
-        return view('admin.event.sales', compact('pageTitle', 'event', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.event.sales',$data, compact('pageTitle', 'event', 'log'));
     }
 
     public function Tickets($id)
@@ -304,20 +328,23 @@ class EventController extends Controller
         $tickets = Ticket::where('trx_id', $id)->with('event','order')->searchable(['code'])->where('status', 1)->paginate(getPaginate());
         $emptyMessage = "No data found";
         $pageTitle = "Print Ticket";
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
         if(count($tickets) > 0)
         {
             $ticket = Ticket::where('trx_id', $id)->with('event','order')->where('status', 1)->first();
             $event = $ticket->event;
-            return view('admin.event.ticket',compact('pageTitle','tickets','emptyMessage','event','now'));
+            return view('admin.event.ticket',$data,compact('pageTitle','tickets','emptyMessage','event','now'));
         }
-         
+
         else
         {
             $notify[] = ['error', 'Sorry, No ticket found for this order'];
             return back()->withNotify($notify);
         }
 
-   
+
     }
 
 

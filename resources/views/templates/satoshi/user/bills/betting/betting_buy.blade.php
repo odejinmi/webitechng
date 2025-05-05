@@ -319,6 +319,7 @@
               customername: document.getElementById('customername').value,
               amount: document.getElementById('amount').value,
               company: document.getElementById('company').value,
+                wallet: "main"
             });
             var requestOptions = {
                 method: 'POST',

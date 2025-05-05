@@ -15,13 +15,19 @@ class ManualGatewayController extends Controller
     {
         $pageTitle = 'Manual Gateways';
         $gateways  = Gateway::manual()->orderBy('id', 'desc')->get();
-        return view('admin.gateways.manual.list', compact('pageTitle', 'gateways'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.gateways.manual.list', $data, compact('pageTitle', 'gateways'));
     }
 
     public function create()
     {
         $pageTitle = 'Edit Manual Gateway';
-        return view('admin.gateways.manual.create', compact('pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.gateways.manual.create', $data, compact('pageTitle'));
     }
 
     public function store(Request $request)
@@ -72,7 +78,10 @@ class ManualGatewayController extends Controller
         $pageTitle = 'New Manual Gateway';
         $method    = Gateway::manual()->with('singleCurrency')->where('alias', $alias)->firstOrFail();
         $form      = $method->form;
-        return view('admin.gateways.manual.edit', compact('pageTitle', 'method', 'form'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.gateways.manual.edit', $data, compact('pageTitle', 'method', 'form'));
     }
 
     public function update(Request $request, $code)

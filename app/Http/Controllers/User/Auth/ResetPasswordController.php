@@ -41,9 +41,11 @@ class ResetPasswordController extends Controller
             $notify[] = ['error', 'Invalid token'];
             return to_route('user.password.request')->withNotify($notify);
         }
-        $activeTemplate = checkTemplate();
+//        $activeTemplate = checkTemplate();
+        $activeTemplate = 'templates.satoshi.';
         $data['activeTemplate'] = $activeTemplate;
-        $data['activeTemplateTrue'] = checkTemplate(true);
+//        $data['activeTemplateTrue'] = checkTemplate(true);
+        $data['activeTemplateTrue'] = 'assets/templates/satoshi/';
 
         return view($activeTemplate. 'user.auth.passwords.reset', $data)->with(
             ['token' => $token, 'email' => $email, 'pageTitle' => 'Reset Password']

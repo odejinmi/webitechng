@@ -10,7 +10,10 @@ class CategoryController extends Controller {
     public function index(Request $request) {
         $pageTitle = 'All Categories';
         $categories = Category::latest()->searchable(['name'])->paginate(getPaginate());
-        return view('admin.category.index', compact('pageTitle', 'categories'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.category.index', $data,compact('pageTitle', 'categories'));
     }
 
     public function store(Request $request, $id = 0) {

@@ -14,7 +14,10 @@ class AutomaticGatewayController extends Controller
     {
         $pageTitle = 'Automatic Gateways';
         $gateways  = Gateway::automatic()->with('currencies')->get();
-        return view('admin.gateways.automatic.list', compact('pageTitle', 'gateways'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.gateways.automatic.list', $data,compact('pageTitle', 'gateways'));
     }
 
     public function edit($alias)
@@ -32,8 +35,11 @@ class AutomaticGatewayController extends Controller
             $globalParameters = json_decode($gateway->currencies->first()->gateway_parameter);
             $hasCurrencies    = true;
         }
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
-        return view('admin.gateways.automatic.edit', compact('pageTitle', 'gateway', 'supportedCurrencies', 'parameters', 'hasCurrencies', 'currencyIndex', 'globalParameters'));
+        return view('admin.gateways.automatic.edit', $data, compact('pageTitle', 'gateway', 'supportedCurrencies', 'parameters', 'hasCurrencies', 'currencyIndex', 'globalParameters'));
     }
 
     public function update(Request $request, $code)

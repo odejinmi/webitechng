@@ -15,7 +15,10 @@ class LanguageController extends Controller
     {
         $pageTitle = 'Language Manager';
         $languages = Language::orderBy('is_default', 'desc')->get();
-        return view('admin.language.lang', compact('pageTitle', 'languages'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.language.lang', $data, compact('pageTitle', 'languages'));
     }
 
     public function langStore(Request $request)
@@ -107,8 +110,11 @@ class LanguageController extends Controller
         }
 
         $json = json_decode($json);
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
-        return view('admin.language.edit_lang', compact('pageTitle', 'json', 'lang', 'list_lang'));
+        return view('admin.language.edit_lang',$data, compact('pageTitle', 'json', 'lang', 'list_lang'));
     }
 
     public function langImport(Request $request)

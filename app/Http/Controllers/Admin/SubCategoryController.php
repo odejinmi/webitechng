@@ -16,7 +16,10 @@ class SubCategoryController extends Controller
         $subCategories = SubCategory::with('category', 'card')->latest()->paginate(getPaginate());
         $categories = Category::where('status', 1)->latest()->get();
         $emptyMessage  = 'Data Not Found';
-        return view('admin.card.sub_category', compact('pageTitle', 'subCategories', 'emptyMessage', 'categories'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.card.sub_category', $data, compact('pageTitle', 'subCategories', 'emptyMessage', 'categories'));
     }
 
     public function add(Request $request){

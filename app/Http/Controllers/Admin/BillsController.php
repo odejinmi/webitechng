@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Constants\Status;
 use App\Http\Controllers\Controller;
 use App\Lib\GoogleAuthenticator;
-use App\Models\AirtimeCash; 
-use App\Models\Order; 
-use App\Models\GeneralSetting; 
+use App\Models\AirtimeCash;
+use App\Models\Order;
+use App\Models\GeneralSetting;
  use App\Models\AdminNotification;
 use App\Models\User;
 use App\Models\VirtualCard;
@@ -21,7 +21,7 @@ use Carbon\Carbon;
 class BillsController extends Controller
 {
 
- 
+
     public function __construct()
     {
 
@@ -31,7 +31,10 @@ class BillsController extends Controller
     {
         $pageTitle       = 'Airtime 2 Cash Settings';
         $log = AirtimeCash::orderBy('id', 'desc')->paginate(getPaginate());
-        return view('admin.bills.airtime2cash.settings', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.bills.airtime2cash.settings', $data, compact('pageTitle', 'log'));
     }
 
 
@@ -68,7 +71,10 @@ class BillsController extends Controller
         {
             $log = Order::whereType('airtime2cash')->searchable(['trx'])->whereStatus($id)->with('user')->orderBy('id', 'desc')->paginate(getPaginate());
         }
-        return view('admin.bills.airtime2cash.airtime_cash_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.bills.airtime2cash.airtime_cash_log', $data, compact('pageTitle', 'log'));
     }
 
     public function airtime2cash_approve($id)
@@ -101,7 +107,7 @@ class BillsController extends Controller
             notify($user, 'DEFAULT', [
                 'subject' => 'Airtime To Cash Approved',
                 'message' => 'You airtime to cash request valued at '.showAmount($order->price).$general->cur_text.' with transaction number '.$order->trx.'. has been approved. Please login to user dashboard to confirm payment.',
-            ], ['email'], false);
+            ], ['email'], "bc",false);
         // End Send Email
         $notify[] = ['success', 'Airtime Swap Approved Successfully'];
         return back()->withNotify($notify);
@@ -114,7 +120,7 @@ class BillsController extends Controller
         $user = User::whereId($order->user_id)->firstOrFail();
         $order->status = 2;
         $order->save();
- 
+
         //Start Send Mail
         $general = GeneralSetting::first();
         $user = [
@@ -125,13 +131,13 @@ class BillsController extends Controller
            notify($user, 'DEFAULT', [
                'subject' => 'Airtime To Cash Declined',
                'message' => 'You airtime to cash request with transaction number '.$order->trx.'. has been declined.',
-            ], ['email'], false);
+            ], ['email'], "bc",false);
        // End Send Email
         $notify[] = ['success', 'Airtime Swap Declined Successfully'];
         return back()->withNotify($notify);
     }
 
- 
+
     public function insurance(Request $request, $id = null)
     {
         $pageTitle       = 'Insurance Log';
@@ -142,9 +148,12 @@ class BillsController extends Controller
           $pageTitle       = $user->username.' Insurance Log';
           $log = Order::whereType('insurance')->whereUserId($id)->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         }
-        return view('admin.bills.insurance.insurance_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.bills.insurance.insurance_log', $data, compact('pageTitle', 'log'));
     }
-    
+
     public function airtime(Request $request, $id = null)
     {
         $pageTitle       = 'Airtime';
@@ -155,20 +164,26 @@ class BillsController extends Controller
           $pageTitle       = $user->username.' Airtime Log';
           $log = Order::whereType('airtime')->whereUserId($id)->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         }
-        return view('admin.bills.airtime.airtime_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.bills.airtime.airtime_log', $data, compact('pageTitle', 'log'));
     }
 
     public function internet(Request $request, $id = null)
     {
         $pageTitle       = 'Internet';
-        $log = Order::where('type','internet')->orWhere('type','smedata')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate()); 
+        $log = Order::where('type','internet')->orWhere('type','smedata')->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         if($id != null)
         {
           $user      = User::findOrFail($id);
           $pageTitle       = $user->username.' Internet Log';
           $log = Order::whereType('internet')->whereUserId($id)->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         }
-        return view('admin.bills.internet.internet_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.bills.internet.internet_log',$data, compact('pageTitle', 'log'));
     }
     public function cabletv(Request $request, $id = null)
     {
@@ -180,7 +195,10 @@ class BillsController extends Controller
           $pageTitle       = $user->username.' Cable TV Log';
           $log = Order::whereType('cabletv')->whereUserId($id)->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         }
-        return view('admin.bills.cabletv.cabletv_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.bills.cabletv.cabletv_log',$data, compact('pageTitle', 'log'));
     }
     public function utility(Request $request, $id = null)
     {
@@ -192,7 +210,10 @@ class BillsController extends Controller
           $pageTitle       = $user->username.' Utility Log';
           $log = Order::whereType('utility')->whereUserId($id)->searchable(['trx'])->orderBy('id', 'desc')->paginate(getPaginate());
         }
-        return view('admin.bills.utility.utility_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.bills.utility.utility_log', $data,compact('pageTitle', 'log'));
     }
 
     public function virtualcard(Request $request)
@@ -200,7 +221,10 @@ class BillsController extends Controller
         $pageTitle       = 'Card History';
         $user = auth()->user();
         $log = VirtualCard::searchable(['pan'])->orderBy('id', 'desc')->paginate(getPaginate());
-        return view('admin.bills.virtualcard.history', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.bills.virtualcard.history', $data,compact('pageTitle', 'log'));
     }
 
     public function virtualcardDetails($id)
@@ -217,10 +241,12 @@ class BillsController extends Controller
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "GET",
         CURLOPT_POSTFIELDS =>'',
-        
+
         CURLOPT_HTTPHEADER => array(
         'Authorization: Bearer '.env('VIRTUALCARDSK'),
         'Content-Type: application/json',
@@ -235,8 +261,11 @@ class BillsController extends Controller
             $notify[] = ['error', $reply['message']];
             return back()->withNotify($notify);
         }
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
-        return view('admin.bills.virtualcard.details', compact('pageTitle', 'card','reply'));
+        return view('admin.bills.virtualcard.details', $data,compact('pageTitle', 'card','reply'));
     }
 
     public function virtualcardDeactivate($id)
@@ -253,10 +282,12 @@ class BillsController extends Controller
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "PUT",
         CURLOPT_POSTFIELDS =>'',
-        
+
         CURLOPT_HTTPHEADER => array(
         'Authorization: Bearer '.env('VIRTUALCARDSK'),
         'Content-Type: application/json',
@@ -293,10 +324,12 @@ class BillsController extends Controller
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "PUT",
         CURLOPT_POSTFIELDS =>'',
-        
+
         CURLOPT_HTTPHEADER => array(
         'Authorization: Bearer '.env('VIRTUALCARDSK'),
         'Content-Type: application/json',
@@ -333,6 +366,8 @@ class BillsController extends Controller
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "PUT",
         CURLOPT_POSTFIELDS =>'
@@ -341,7 +376,7 @@ class BillsController extends Controller
           "reason": "lost"
         }
         ',
-        
+
         CURLOPT_HTTPHEADER => array(
         'Authorization: Bearer '.env('VIRTUALCARDSK'),
         'Content-Type: application/json',
@@ -373,7 +408,7 @@ class BillsController extends Controller
         ]);
 
         $card = VirtualCard::whereCardId($id)->orderBy('id', 'desc')->firstOrFail();
- 
+
         $url = 'https://api.blochq.io/v1/cards/change-pin/'.$id;
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -383,6 +418,8 @@ class BillsController extends Controller
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "PUT",
         CURLOPT_POSTFIELDS =>'
@@ -391,7 +428,7 @@ class BillsController extends Controller
             "new_pin": "'.$request->new_pin.'"
           }
         ',
-        
+
         CURLOPT_HTTPHEADER => array(
         'Authorization: Bearer '.env('VIRTUALCARDSK'),
         'Content-Type: application/json',
@@ -411,7 +448,7 @@ class BillsController extends Controller
         $card->save();
         $notify[] = ['success', $reply['message']];
         return back()->withNotify($notify);
-     
+
 
     }
 
@@ -422,10 +459,10 @@ class BillsController extends Controller
         ]);
         $general = gs();
 
-         
+
         $card = VirtualCard::whereCardId($id)->orderBy('id', 'desc')->firstOrFail();
         $amount = $request->amount;
-         
+
         $url = 'https://api.blochq.io/v1/cards/fund/'.$id;
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -435,6 +472,8 @@ class BillsController extends Controller
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
         CURLOPT_POSTFIELDS =>'
@@ -443,7 +482,7 @@ class BillsController extends Controller
             "from_account_id": "'.env('VIRTUALCARD_ACCOUNTID').'",
             "currency": "'.$card->currency.'"
         }',
-        
+
         CURLOPT_HTTPHEADER => array(
         'Authorization: Bearer '.env('VIRTUALCARDSK'),
         'Content-Type: application/json',
@@ -463,11 +502,6 @@ class BillsController extends Controller
         $user->save();
         $notify[] = ['success', $reply['message']];
         return back()->withNotify($notify);
-        
 
     }
-
-  
-    
-    
 }

@@ -14,7 +14,10 @@ class NotificationController extends Controller
     public function global()
     {
         $pageTitle = 'Global Template for Notification';
-        return view('admin.notification.global_template', compact('pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.notification.global_template', $data, compact('pageTitle'));
     }
 
     public function globalUpdate(Request $request)
@@ -41,14 +44,20 @@ class NotificationController extends Controller
     {
         $pageTitle = 'Notification Templates';
         $templates = NotificationTemplate::orderBy('name')->get();
-        return view('admin.notification.templates', compact('pageTitle', 'templates'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.notification.templates', $data, compact('pageTitle', 'templates'));
     }
 
     public function templateEdit($id)
     {
         $template  = NotificationTemplate::findOrFail($id);
         $pageTitle = $template->name;
-        return view('admin.notification.edit', compact('pageTitle', 'template'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.notification.edit', $data, compact('pageTitle', 'template'));
     }
 
     public function templateUpdate(Request $request, $id)
@@ -73,7 +82,10 @@ class NotificationController extends Controller
     public function emailSetting()
     {
         $pageTitle = 'Email Notification Settings';
-        return view('admin.notification.email_setting', compact('pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.notification.email_setting', $data, compact('pageTitle'));
     }
 
     public function emailSettingUpdate(Request $request)
@@ -162,13 +174,16 @@ class NotificationController extends Controller
     public function smsSetting()
     {
         $pageTitle = 'SMS Notification Settings';
-        return view('admin.notification.sms_setting', compact('pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.notification.sms_setting', $data, compact('pageTitle'));
     }
 
     public function smsSettingUpdate(Request $request)
     {
         $request->validate([
-            'sms_method'             => 'required|in:clickatell,infobip,messageBird,nexmo,smsBroadcast,twilio,textMagic,bulksmsng,custom',
+            'sms_method'             => 'required|in:clickatell,infobip,messageBird,nexmo,smsBroadcast,twilio,textMagic,bulksmsng,kudisms,custom',
             'clickatell_api_key'     => 'required_if:sms_method,clickatell',
             'message_bird_api_key'   => 'required_if:sms_method,messageBird',
             'nexmo_api_key'          => 'required_if:sms_method,nexmo',
@@ -192,6 +207,13 @@ class NotificationController extends Controller
             'name'          => $request->sms_method,
             'clickatell'    => [
                 'api_key' => $request->clickatell_api_key,
+            ],
+            'kudisms'    => [
+                'api_key' => $request->kudisms_api_key,
+                'sender' => $request->sender,
+                'appnamecode' => $request->appnamecode,
+                'smstemplatecode' => $request->smstemplatecode,
+                'whatsapptemplatecode' => $request->whatsapptemplatecode,
             ],
             'infobip'       => [
                 'username' => $request->infobip_username,
@@ -249,8 +271,13 @@ class NotificationController extends Controller
         if ($general->sn == 1) {
             $sendSms               = new Sms;
             $sendSms->mobile       = $request->mobile;
+            $sendSms->smstype       = $request->smstype;
             $sendSms->receiverName = ' ';
-            $sendSms->message      = 'Your sms notification setting is configured successfully for ' . $general->site_name;
+            if ($sendSms->smstype == "bc") {
+                $sendSms->message = 'Your sms notification setting is configured successfully for ' . $general->site_name;
+            }else {
+                $sendSms->message = '12345';
+            }
             $sendSms->subject      = ' ';
             $sendSms->send();
         } else {

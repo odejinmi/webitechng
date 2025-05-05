@@ -15,35 +15,50 @@ class DepositController extends Controller
     {
         $pageTitle = 'Pending Deposits';
         $deposits  = $this->depositData('pending');
-        return view('admin.deposit.log', compact('pageTitle', 'deposits'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.deposit.log', $data, compact('pageTitle', 'deposits'));
     }
 
     public function approved()
     {
         $pageTitle = 'Approved Deposits';
         $deposits  = $this->depositData('approved');
-        return view('admin.deposit.log', compact('pageTitle', 'deposits'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.deposit.log', $data, compact('pageTitle', 'deposits'));
     }
 
     public function successful()
     {
         $pageTitle = 'Successful Deposits';
         $deposits  = $this->depositData('successful');
-        return view('admin.deposit.log', compact('pageTitle', 'deposits'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.deposit.log', $data, compact('pageTitle', 'deposits'));
     }
 
     public function rejected()
     {
         $pageTitle = 'Rejected Deposits';
         $deposits  = $this->depositData('rejected');
-        return view('admin.deposit.log', compact('pageTitle', 'deposits'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.deposit.log', $data, compact('pageTitle', 'deposits'));
     }
 
     public function initiated()
     {
         $pageTitle = 'Initiated Deposits';
         $deposits  = $this->depositData('initiated');
-        return view('admin.deposit.log', compact('pageTitle', 'deposits'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.deposit.log', $data, compact('pageTitle', 'deposits'));
     }
 
     public function deposit()
@@ -56,7 +71,10 @@ class DepositController extends Controller
         $pending     = $summery['pending'];
         $rejected    = $summery['rejected'];
         $initiated   = $summery['initiated'];
-        return view('admin.deposit.log', compact('pageTitle', 'deposits', 'successful', 'pending', 'rejected', 'initiated'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.deposit.log', $data, compact('pageTitle', 'deposits', 'successful', 'pending', 'rejected', 'initiated'));
     }
 
     protected function depositData($scope = null, $summery = false)
@@ -110,7 +128,10 @@ class DepositController extends Controller
         $deposit   = Deposit::where('id', $id)->orWhere('trx',$id)->with(['user', 'gateway'])->firstOrFail();
         $pageTitle = $deposit->user->username . ' requested ' . showAmount($deposit->amount) . ' ' . $general->cur_text;
         $details   = ($deposit->detail != null) ? json_encode($deposit->detail) : null;
-        return view('admin.deposit.detail', compact('pageTitle', 'deposit', 'details'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.deposit.detail', $data, compact('pageTitle', 'deposit', 'details'));
     }
 
     public function approve($id)

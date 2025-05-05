@@ -50,7 +50,10 @@ class LoginController extends Controller
 
         \Cache::flush();
         $pageTitle = "Admin Login";
-        return view('admin.auth.login', compact('pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.auth.login', $data, compact('pageTitle'));
     }
 
     /**

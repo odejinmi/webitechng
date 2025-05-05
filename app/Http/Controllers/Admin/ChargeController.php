@@ -11,7 +11,10 @@ class ChargeController extends Controller {
     public function index() {
         $pageTitle    = 'Escrow Charges';
         $charges      = EscrowCharge::all();
-        return view('admin.escrow.charges', compact('pageTitle', 'charges'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.escrow.charges', $data,compact('pageTitle', 'charges'));
     }
 
     public function globalCharge(Request $request) {

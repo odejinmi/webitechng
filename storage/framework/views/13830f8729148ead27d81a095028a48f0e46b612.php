@@ -84,4 +84,4 @@
 <?php endif; ?>
 <?php $__env->stopPush(); ?>
 
-<?php echo $__env->make(checkTemplate() . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\DELL\PhpstormProjects\webitechng\resources\views/templates/satoshi/user/giftcard/giftcard.blade.php ENDPATH**/ ?>
+<?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\DELL\PhpstormProjects\webitechng\resources\views/templates/satoshi/user/giftcard/giftcard.blade.php ENDPATH**/ ?>

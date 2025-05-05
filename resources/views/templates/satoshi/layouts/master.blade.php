@@ -30,8 +30,8 @@
 </body>
     <!--  Scripts -->
      <div class="d-flex align-items-center gap-2 position-fixed bottom-0 end-0 mb-6 me-6 px-2 py-2 rounded-pill shadow-4 bg-white z-2">
-        <img src="https://webpixels.s3.eu-central-1.amazonaws.com/public/brand/dark-sm.svg" class="avatar avatar-xs">
-          <a href="#" class="me-1 text-heading fw-bold text-xs ls-tight stretched-link" target="_blank">Built by Khaytech Digitalz</a>
+        <img src="{{ getImage(getFilePath('logoIcon') . '/logo.png') }}" class="avatar avatar-xs">
+          <a href="#" class="me-1 text-heading fw-bold text-xs ls-tight stretched-link" target="_blank">Powered By LtechNg</a>
       </div>
     <script src="{{asset( $activeTemplateTrue . 'agent/js/main.js')}}"></script>
     <script src="{{asset( $activeTemplateTrue . 'dashboard/js/toast.min.js') }}"></script>

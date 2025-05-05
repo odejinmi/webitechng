@@ -12,19 +12,28 @@ class LoanPlanController extends Controller {
     public function index() {
         $pageTitle = 'All Loan Plans';
         $plans     = LoanPlan::active()->latest()->paginate(getPaginate());
-        return view('admin.plans.loan.index', compact('pageTitle', 'plans'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.plans.loan.index', $data, compact('pageTitle', 'plans'));
     }
 
     public function create() {
         $pageTitle = 'Add New Plan';
-        return view('admin.plans.loan.form', compact('pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.plans.loan.form', $data, compact('pageTitle'));
     }
 
     public function edit($id) {
         $pageTitle = 'Edit Plan';
         $plan      = LoanPlan::findOrFail($id);
         $form      = @$plan->form;
-        return view('admin.plans.loan.form', compact('pageTitle', 'plan', 'form'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.plans.loan.form', $data, compact('pageTitle', 'plan', 'form'));
     }
 
     public function store(Request $request, $id = 0) {

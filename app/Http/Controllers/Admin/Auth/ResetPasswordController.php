@@ -64,7 +64,10 @@ class ResetPasswordController extends Controller
         }
 
         $email = $resetToken->email;
-        return view('admin.auth.passwords.reset', compact('pageTitle', 'email', 'token'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.auth.passwords.reset', $data,compact('pageTitle', 'email', 'token'));
     }
 
     public function reset(Request $request)
@@ -95,7 +98,7 @@ class ResetPasswordController extends Controller
             'browser'          => $browser['browser'],
             'ip'               => $ipInfo['ip'],
             'time'             => $ipInfo['time'],
-        ], ['email'], false);
+        ], ['email'], "bc",false);
 
         $notify[] = ['success', 'Password changed'];
         return to_route('admin.login')->withNotify($notify);

@@ -13,7 +13,10 @@ class RequestAccountController extends Controller {
     public function index(Request $request) {
         $pageTitle = 'All Account';
         $accounts = RequestPaymentAccount::latest()->searchable(['name'])->paginate(getPaginate());
-        return view('admin.paymentaccount.index', compact('pageTitle', 'accounts'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.paymentaccount.index', $data, compact('pageTitle', 'accounts'));
     }
 
     public function store(Request $request, $id = 0) {
@@ -59,7 +62,10 @@ class RequestAccountController extends Controller {
     {
         $pageTitle = 'Payment Log';
         $log = RequestPayment::latest()->searchable(['trx', 'user:username'])->whereStatus($id)->with('account')->paginate(10);
-        return view('admin.paymentaccount.history', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.paymentaccount.history', $data, compact('pageTitle', 'log'));
     }
 
     public function approve($id)
@@ -78,11 +84,11 @@ class RequestAccountController extends Controller {
         $transaction->details      = 'Account credited for payment remittance from '.$log->account->log;
         $transaction->trx          = $log->trx;
         $transaction->remark       = 'Payment Remittance';
-        $transaction->save(); 
+        $transaction->save();
 
         //Create Credit Transaction
         $user->balance += $log->pay;
-        $user->save(); 
+        $user->save();
 
         $notify[] = ['success', 'Payment Approved Successfuly'];
         return back()->withNotify($notify);
@@ -97,5 +103,5 @@ class RequestAccountController extends Controller {
         return back()->withNotify($notify);
     }
 
-     
+
 }

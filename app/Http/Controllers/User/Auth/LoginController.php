@@ -49,9 +49,11 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         $pageTitle = "Login";
-        $activeTemplate = checkTemplate();
+//        $activeTemplate = checkTemplate();
+        $activeTemplate = 'templates.satoshi.';
         $data['activeTemplate'] = $activeTemplate;
-        $data['activeTemplateTrue'] = checkTemplate(true);
+//        $data['activeTemplateTrue'] = checkTemplate(true);
+        $data['activeTemplateTrue'] = 'assets/templates/satoshi/';
 
         return view($activeTemplate. 'user.auth.login', $data,compact('pageTitle'));
     }

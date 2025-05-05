@@ -12,13 +12,19 @@ class RolesController extends Controller {
     public function index() {
         $roles = Role::all();
         $pageTitle = "All Roles";
-        return view('admin.roles.index', compact('roles', 'pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.roles.index', $data, compact('roles', 'pageTitle'));
     }
 
     public function add() {
         $pageTitle = "Add New Role";
         $permissionGroups = Permission::all()->groupBy('group');
-        return view('admin.roles.add', compact('pageTitle', 'permissionGroups'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.roles.add', $data, compact('pageTitle', 'permissionGroups'));
     }
 
     public function edit($id) {
@@ -26,7 +32,10 @@ class RolesController extends Controller {
         $role = Role::with('permissions')->findOrFail($id);
         $permissions = $role->permissions->pluck('pivot.permission_id');
         $permissionGroups = Permission::all()->groupBy('group');
-        return view('admin.roles.add', compact('pageTitle', 'permissionGroups', 'role', 'permissions'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.roles.add', $data, compact('pageTitle', 'permissionGroups', 'role', 'permissions'));
     }
 
     public function save(Request $request, $id = 0) {

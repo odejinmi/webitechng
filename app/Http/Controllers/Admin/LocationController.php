@@ -15,7 +15,10 @@ class LocationController extends Controller
         $emptyMessage = "No data found";
         $locations = Location::latest()->with('city')->paginate(getPaginate());
         $citys = City::where('status', 1)->select('id', 'name')->get();
-        return view('admin.location.index', compact('locations', 'pageTitle', 'emptyMessage', 'citys'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.location.index', $data, compact('locations', 'pageTitle', 'emptyMessage', 'citys'));
     }
 
     public function store(Request $request)

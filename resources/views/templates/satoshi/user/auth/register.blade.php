@@ -9,7 +9,7 @@
         <div
             class="col-md-6 col-lg-5 col-xl-5 position-fixed start-0 top-0 vh-100 overflow-y-hidden d-none d-lg-flex flex-lg-column">
             <div class="p-12 py-xl-10 px-xl-20"><a class="d-block" href="#"><img
-                        src="{{asset( $activeTemplateTrue . 'agent/img/logos/logo-light.svg') }}" class="h-rem-10"
+                        src="{{ getImage(getFilePath('logoIcon') . '/logo.png') }}" class="h-rem-10"
                         alt="..."></a>
                 <div class="mt-16">
                     <h1 class="ls-tight fw-bolder display-6 text-white mb-5">
@@ -62,6 +62,9 @@
                         <div class="col-sm-6"><label class="form-label">Password</label> <input name="password"
                                 maxlength="8" type="password" class="form-control">
                         </div>
+                        <div class="col-sm-6"><label class="form-label">Confirmed Password</label> <input name="password_confirmation"
+                                maxlength="8" type="password" class="form-control">
+                        </div>
                         <div class="col-sm-6"><label class="form-label">Transaction PIN</label> <input name="pin"
                                 maxlength="8" type="number" class="form-control">
                         </div>
@@ -82,6 +85,8 @@
                         <div class="col-sm-6"><label class="form-label">Address</label> <input name="address" type="text" class="form-control">
                         </div>
                         <div class="col-sm-6"><label class="form-label">City</label> <input name="city" type="text" class="form-control">
+                        </div>
+                        <div class="col-sm-6"><label class="form-label">NIN</label> <input name="nin" type="number" class="form-control">
                         </div>
 
                         @if ($general->agree)

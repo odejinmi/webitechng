@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
-use App\Models\Admin;  
+use App\Models\Admin;
 use App\Models\Giftcardsale;
 use App\Models\User;
 use App\Models\Giftcard;
@@ -17,7 +17,7 @@ use File;
 use Image;
 class GiftcardController extends Controller
 {
-	
+
     public function giftcardlog(Request $request, $id)
     {
         $type = $request->type;
@@ -35,10 +35,13 @@ class GiftcardController extends Controller
         }
         $data['exchange'] = Giftcardsale::where('status', '=',$id)->with('user')->latest()->get();
         $data['pageTitle'] = $status.' Giftcard Log';
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
         return view('admin.giftcard.giftcard-log', $data);
 	}
 
- 
+
     public function cardinfo($id)
     {
         $get = Giftcardsale::where('id',$id)->first();
@@ -46,6 +49,9 @@ class GiftcardController extends Controller
         {
             $data['exchange'] = $get;
             $data['pageTitle'] = ' Giftcard Trade Details';
+            $activeTemplate = checkTemplate();
+            $data['activeTemplate'] = $activeTemplate;
+            $data['activeTemplateTrue'] = checkTemplate(true);
             return view('admin.giftcard.giftcard-info', $data);
         }
         abort(404);
@@ -56,7 +62,7 @@ class GiftcardController extends Controller
         $data = Giftcardsale::whereStatus(0)->find($id);
         // return $data->amount*$data->rate;
         if(!empty($request))
-        { 
+        {
             $data->code= $request->pin;
             if($request->hasFile('front'))
             {
@@ -90,9 +96,9 @@ class GiftcardController extends Controller
             $user->balance += $pay;
             $user->save();
         }
- 
+
         $notify[] = ['success', 'Gift Card Trade Approved Successfully !!'];
-        return back()->withNotify($notify); 
+        return back()->withNotify($notify);
 	}
 
 	  public function rejectgift(Request $request, $id)
@@ -105,7 +111,7 @@ class GiftcardController extends Controller
         if($data->trx_type == 'buy')
         {
             if(!empty($request->refund))
-            { 
+            {
                 if($request->refund == 'on')
                 {
                     $user = User::whereId($data->user_id)->first();
@@ -114,16 +120,19 @@ class GiftcardController extends Controller
                 }
             }
         }
-         
+
 
         $notify[] = ['success', 'Gift Card Trade Declined Successfully !!'];
-        return back()->withNotify($notify); 
+        return back()->withNotify($notify);
 	}
 
     public function giftcardindex()
     {
         $data['pageTitle'] = 'Manage Giftcard';
         $data['currency'] = Giftcard::orderBy('name','asc')->get();
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
         return view('admin.giftcard.index', $data);
     }
 
@@ -131,34 +140,40 @@ class GiftcardController extends Controller
     public function createcard($id)
     {
         $data['pageTitle'] = "Create Giftcard";
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
         return view('admin.giftcard.edit', $data);
     }
 
- 
+
     public function editcardType($id)
     {
         $data['pageTitle'] = 'Manage Giftcard Type';
         $data['currency'] = Giftcardtype::whereCardId($id)->orderBy('name','asc')->get();
         $data['giftcard'] = Giftcard::whereId($id)->orderBy('name','asc')->firstOrFail();
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
         return view('admin.giftcard.type', $data);
     }
- 
+
 
     public function delete($id)
     {
         $data = Giftcard::find($id);
-        $data->delete();  
+        $data->delete();
         $notify[] = ['success', 'Gift Card Deleted Successfully !!'];
-        return back()->withNotify($notify); 
+        return back()->withNotify($notify);
 	}
 	 public function deletetype($id)
     {
         $data = Giftcardtype::find($id);
-        $data->delete();  
+        $data->delete();
         $notify[] = ['success', 'Gift Card Type Deleted Successfully !!'];
-        return back()->withNotify($notify); 
+        return back()->withNotify($notify);
 	}
- 
+
     public function activate($id)
     {
         $data = Giftcard::find($id);
@@ -166,9 +181,9 @@ class GiftcardController extends Controller
         $data->save();
 
         $notify[] = ['success', 'Gift Card Activated Successfully !!'];
-        return back()->withNotify($notify); 
+        return back()->withNotify($notify);
 	}
-  
+
     public function deactivate($id)
     {
         $data = Giftcard::find($id);
@@ -176,7 +191,7 @@ class GiftcardController extends Controller
         $data->save();
 
         $notify[] = ['success', 'Gift Card Deactivated Successfully !!'];
-        return back()->withNotify($notify); 
+        return back()->withNotify($notify);
 	}
 
 
@@ -185,7 +200,7 @@ class GiftcardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -209,10 +224,10 @@ class GiftcardController extends Controller
         $request->photo->move('assets/images/giftcards',$image);
 
         $notify[] = ['success', 'Gift Card Created Successfully !!'];
-        return back()->withNotify($notify); 
+        return back()->withNotify($notify);
     }
 
-    
+
 
      public function storetype(Request $request, $id)
     {
@@ -233,11 +248,11 @@ class GiftcardController extends Controller
                 ]);
 
                 $notify[] = ['success', 'Gift Card Type Created Successfully !!'];
-                return back()->withNotify($notify); 
+                return back()->withNotify($notify);
 
 
     }
- 
+
     public function activatetype($id)
     {
         $data = Giftcardtype::find($id);
@@ -245,7 +260,7 @@ class GiftcardController extends Controller
         $data->save();
 
         $notify[] = ['success', 'Gift Card Activated Successfully !!'];
-        return back()->withNotify($notify); 
+        return back()->withNotify($notify);
 	}
 
     public function deactivatetype($id)
@@ -254,7 +269,7 @@ class GiftcardController extends Controller
         $data->status= 0;
         $data->save();
 
-        
+
         $notify[] = ['success', 'Giftcard Deactivated Successfully'];
         return back()->withNotify($notify);
 	}
@@ -263,6 +278,9 @@ class GiftcardController extends Controller
     {
         $data['giftcard'] = Giftcard::find($id);
         $data['pageTitle'] = "Manage Giftcard";
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
         return view('admin.giftcard.edit', $data);
     }
 
@@ -274,6 +292,9 @@ class GiftcardController extends Controller
         $data['giftcard'] = Giftcard::whereId($id)->first();
 
         $data['pageTitle'] = "Manage Giftcard";
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
         return view('admin.giftcard.edit-type', $data);
     }
 
@@ -284,6 +305,9 @@ class GiftcardController extends Controller
         $giftcard = Giftcardtype::whereId($id)->first();
         $data['giftcard'] = Giftcard::whereId($giftcard->card_id)->first();
         $data['pageTitle'] = "Manage Giftcardtype";
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
         return view('admin.giftcard.edit-type2', $data);
     }
 
@@ -308,7 +332,7 @@ class GiftcardController extends Controller
                 $data['image'] = uniqid().'.jpg';
                 $request->image->move('assets/images/giftcards',$data['image']);
 
-            } 
+            }
         $data->save();
 
         $notify[] = ['success', 'Giftcard Updated Successfully'];
@@ -333,8 +357,8 @@ class GiftcardController extends Controller
         $data->save();
 
         $notify[] = ['success', 'Giftcard Type Created Successfully'];
-        return back()->withNotify($notify);    
-    } 
+        return back()->withNotify($notify);
+    }
 
     public function updatecardType(Request $request, $id )
     {
@@ -351,9 +375,9 @@ class GiftcardController extends Controller
         $data->currency = $request->currency ;
         $data->save();
         $notify[] = ['success', 'Giftcard Type Updated Successfully'];
-        return back()->withNotify($notify);  
-    
+        return back()->withNotify($notify);
+
     }
 
- 
+
 }

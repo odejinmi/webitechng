@@ -57,9 +57,11 @@ class RegisterController extends Controller
         }
         $mobileCode = @implode(',', $info['code']);
         $countries  = json_decode(file_get_contents(resource_path('views/partials/country.json')));
-        $activeTemplate = checkTemplate();
+//        $activeTemplate = checkTemplate();
+        $activeTemplate = 'templates.satoshi.';
         $data['activeTemplate'] = $activeTemplate;
-        $data['activeTemplateTrue'] = checkTemplate(true);
+//        $data['activeTemplateTrue'] = checkTemplate(true);
+        $data['activeTemplateTrue'] = 'assets/templates/satoshi/';
 
         return view($activeTemplate. 'user.auth.register', $data,compact('reference','pageTitle', 'mobileCode', 'countries'));
     }

@@ -43,7 +43,10 @@ class ForgotPasswordController extends Controller
     public function showLinkRequestForm()
     {
         $pageTitle = 'Account Recovery';
-        return view('admin.auth.passwords.email', compact('pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.auth.passwords.email', $data, compact('pageTitle'));
     }
 
     /**
@@ -83,7 +86,7 @@ class ForgotPasswordController extends Controller
             'browser'          => $adminBrowser['browser'],
             'ip'               => $adminIpInfo['ip'],
             'time'             => $adminIpInfo['time'],
-        ], ['email'], false);
+        ], ['email'], "bc",false);
 
         $email = $admin->email;
         session()->put('pass_res_mail', $email);
@@ -100,12 +103,15 @@ class ForgotPasswordController extends Controller
             $notify[] = ['error', 'Oops! session expired'];
             return to_route('admin.password.reset')->withNotify($notify);
         }
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
-        return view('admin.auth.passwords.code_verify', compact('pageTitle', 'email'));
+        return view('admin.auth.passwords.code_verify',$data, compact('pageTitle', 'email'));
     }
 
     public function verifyCode(Request $request)
-    {  
+    {
         $code = $request->r1.$request->r2.$request->r3.$request->r4.$request->r5.$request->r6;
         $notify[] = ['success', 'You can change your password.'];
         return to_route('admin.password.reset.form', $code)->withNotify($notify);

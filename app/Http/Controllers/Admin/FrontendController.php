@@ -22,7 +22,10 @@ class FrontendController extends Controller
             $templates[$key]['image'] = asset($temp) . '/preview.jpg';
         }
         $extra_templates = json_decode(getTemplates(), true);
-        return view('admin.frontend.templates', compact('pageTitle', 'templates', 'extra_templates'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.frontend.templates',$data, compact('pageTitle', 'templates', 'extra_templates'));
 
     }
 
@@ -49,7 +52,10 @@ class FrontendController extends Controller
             $frontend->data_values = $data_values;
             $frontend->save();
         }
-        return view('admin.frontend.seo', compact('pageTitle', 'seo'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.frontend.seo',$data, compact('pageTitle', 'seo'));
     }
 
 
@@ -63,7 +69,10 @@ class FrontendController extends Controller
         $content = Frontend::where('data_keys', $key . '.content')->orderBy('id','desc')->first();
         $elements = Frontend::where('data_keys', $key . '.element')->orderBy('id')->orderBy('id','desc')->get();
         $pageTitle = $section->name ;
-        return view('admin.frontend.index', compact('section', 'content', 'elements', 'key', 'pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.frontend.index',$data, compact('section', 'content', 'elements', 'key', 'pageTitle'));
     }
 
 
@@ -160,7 +169,10 @@ class FrontendController extends Controller
             $data = Frontend::findOrFail($id);
             return view('admin.frontend.element', compact('section', 'key', 'pageTitle', 'data'));
         }
-        return view('admin.frontend.element', compact('section', 'key', 'pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.frontend.element',$data, compact('section', 'key', 'pageTitle'));
     }
 
 

@@ -13,7 +13,10 @@ class PageBuilderController extends Controller
     {
         $pdata = Page::where('tempname', $this->activeTemplate)->get();
         $pageTitle = 'Manage Pages';
-        return view('admin.frontend.builder.pages', compact('pageTitle', 'pdata'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.frontend.builder.pages', $data, compact('pageTitle', 'pdata'));
     }
 
     public function managePagesSave(Request $request)
@@ -78,7 +81,10 @@ class PageBuilderController extends Controller
         $pdata = Page::findOrFail($id);
         $pageTitle = 'Manage Section of ' . $pdata->name;
         $sections =  getPageSections(true);
-        return view('admin.frontend.builder.index', compact('pageTitle', 'pdata', 'sections'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.frontend.builder.index', $data, compact('pageTitle', 'pdata', 'sections'));
     }
 
 

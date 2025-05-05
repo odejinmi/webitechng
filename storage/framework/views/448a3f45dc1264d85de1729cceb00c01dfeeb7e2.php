@@ -59,8 +59,8 @@
                                             href="<?php echo e(route('pages', [$data->slug])); ?>"><?php echo e(__($data->name)); ?></a>
                                     </li>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                
-                        
+
+
 
                             </ul>
                         </li>

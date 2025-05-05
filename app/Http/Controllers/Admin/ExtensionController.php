@@ -12,7 +12,10 @@ class ExtensionController extends Controller
     {
         $pageTitle  = 'Extensions';
         $extensions = Extension::orderBy('name')->get();
-        return view('admin.extension.index', compact('pageTitle', 'extensions'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.extension.index', $data, compact('pageTitle', 'extensions'));
     }
 
     public function update(Request $request, $id)

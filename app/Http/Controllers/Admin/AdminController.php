@@ -30,9 +30,12 @@ class AdminController extends Controller
     {
         $scams = Scammer::orderBy('id', 'desc')->paginate(getPaginate());
         $pageTitle = 'Scam Attempts';
-        return view('admin.scams', compact('pageTitle', 'scams'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.scams', $data,compact('pageTitle', 'scams'));
     }
-    
+
     public function dashboard()
     {
         $pageTitle = 'Dashboard';
@@ -88,7 +91,7 @@ class AdminController extends Controller
 		$last7 = date('Y-m-d', strtotime('-7 days'));
 		$today = today();
 		$dayCount = date('t', strtotime($today));
-        
+
         // Monthly Deposit Graph
         $report['months'] = collect([]);
         $report['deposit_month_amount'] = collect([]);
@@ -131,7 +134,7 @@ class AdminController extends Controller
 			->groupBy([function ($query) {
 				return $query->created_at->format('F');
 			}, 'method_code']);
-            
+
 		$payouts = Withdrawal::select('created_at')
 			->whereYear('created_at', $today)
 			->groupBy([DB::raw("DATE_FORMAT(created_at, '%m')"), 'method_id'])
@@ -187,11 +190,11 @@ class AdminController extends Controller
         $data['msuccess_order'] = Order::whereStatus('SUCCESSFUL')->count();
         $data['mdeclined_order'] = Order::whereStatus('DECLINED')->count();
 
-        $widget['escrowpending'] = Escrow::whereStatus(0)->count(); 
-        $widget['escrowcompleted'] = Escrow::whereStatus(1)->count(); 
-        $widget['escrowrunning'] = Escrow::whereStatus(2)->count(); 
-        $widget['escrowdisputed'] = Escrow::whereStatus(8)->count(); 
-        $widget['escrowcancelled'] = Escrow::whereStatus(9)->count();  
+        $widget['escrowpending'] = Escrow::whereStatus(0)->count();
+        $widget['escrowcompleted'] = Escrow::whereStatus(1)->count();
+        $widget['escrowrunning'] = Escrow::whereStatus(2)->count();
+        $widget['escrowdisputed'] = Escrow::whereStatus(8)->count();
+        $widget['escrowcancelled'] = Escrow::whereStatus(9)->count();
 
         $widget['eventpending'] = Event::whereStatus(0)->count();
         $widget['eventapproved'] = Event::whereStatus(1)->count();
@@ -199,17 +202,19 @@ class AdminController extends Controller
 
         $widget['total_deposit_amount'] = Deposit::successful()->sum('amount');
         $widget['total_deposit_pending'] = Deposit::pending()->count();
-        $widget['total_deposit_rejected'] = Deposit::rejected()->count(); 
+        $widget['total_deposit_rejected'] = Deposit::rejected()->count();
 
 
         $widget['total_debit'] = Transaction::whereTrxType('-')->sum('amount');
-        $widget['total_credit'] = Transaction::whereTrxType('+')->sum('amount'); 
+        $widget['total_credit'] = Transaction::whereTrxType('+')->sum('amount');
 
-        $widget['pending_withdrawal'] = Withdrawal::whereStatus(2)->sum('amount'); 
-        $widget['approved_withdrawal'] = Withdrawal::whereStatus(1)->sum('amount'); 
-        $widget['declined_withdrawal'] = Withdrawal::whereStatus(3)->sum('amount'); 
+        $widget['pending_withdrawal'] = Withdrawal::whereStatus(2)->sum('amount');
+        $widget['approved_withdrawal'] = Withdrawal::whereStatus(1)->sum('amount');
+        $widget['declined_withdrawal'] = Withdrawal::whereStatus(3)->sum('amount');
 
-
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
         return view('admin.dashboard', $data, compact('pageTitle', 'widget', 'chart', 'deposits', 'report', 'depositsMonth', 'months', 'trxReport', 'plusTrx', 'minusTrx'));
     }
 
@@ -258,7 +263,10 @@ class AdminController extends Controller
     {
         $pageTitle = 'Profile';
         $admin = auth('admin')->user();
-        return view('admin.profile', compact('pageTitle', 'admin'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.profile',$data, compact('pageTitle', 'admin'));
     }
 
     public function profileUpdate(Request $request)
@@ -291,7 +299,10 @@ class AdminController extends Controller
     {
         $pageTitle = 'Password Setting';
         $admin = auth('admin')->user();
-        return view('admin.password', compact('pageTitle', 'admin'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.password', $data,compact('pageTitle', 'admin'));
     }
 
     public function passwordUpdate(Request $request)
@@ -312,14 +323,17 @@ class AdminController extends Controller
         $user->save();
         $notify[] = ['success', 'Password changed successfully.'];
         return to_route('admin.password')->withNotify($notify);
-    } 
+    }
 
 
     public function notifications()
     {
         $notifications = AdminNotification::orderBy('id', 'desc')->with('user')->paginate(getPaginate());
         $pageTitle = 'Notifications';
-        return view('admin.notifications', compact('pageTitle', 'notifications'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.notifications', $data,compact('pageTitle', 'notifications'));
     }
 
     public function notificationRead($id)
@@ -335,7 +349,7 @@ class AdminController extends Controller
 
         return redirect($url);
     }
- 
+
     public function readAll()
     {
         AdminNotification::where('is_read', Status::NO)->update([

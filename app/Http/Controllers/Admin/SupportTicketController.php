@@ -28,28 +28,40 @@ class SupportTicketController extends Controller
     {
         $pageTitle = 'Support Tickets';
         $items     = SupportTicket::orderBy('id', 'desc')->with('user')->paginate(getPaginate());
-        return view('admin.support.tickets', compact('items', 'pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.support.tickets', $data, compact('items', 'pageTitle'));
     }
 
     public function pendingTicket()
     {
         $pageTitle = 'Pending Tickets';
         $items     = SupportTicket::whereIn('status', [Status::TICKET_OPEN, Status::TICKET_REPLY])->orderBy('id', 'desc')->with('user')->paginate(getPaginate());
-        return view('admin.support.tickets', compact('items', 'pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.support.tickets', $data, compact('items', 'pageTitle'));
     }
 
     public function closedTicket()
     {
         $pageTitle = 'Closed Tickets';
         $items     = SupportTicket::where('status', Status::TICKET_CLOSE)->orderBy('id', 'desc')->with('user')->paginate(getPaginate());
-        return view('admin.support.tickets', compact('items', 'pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.support.tickets', $data, compact('items', 'pageTitle'));
     }
 
     public function answeredTicket()
     {
         $pageTitle = 'Answered Tickets';
         $items     = SupportTicket::orderBy('id', 'desc')->with('user')->where('status', Status::TICKET_ANSWER)->paginate(getPaginate());
-        return view('admin.support.tickets', compact('items', 'pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.support.tickets', $data, compact('items', 'pageTitle'));
     }
 
     public function ticketReply($id)
@@ -57,7 +69,10 @@ class SupportTicketController extends Controller
         $ticket    = SupportTicket::with('user')->where('id', $id)->firstOrFail();
         $pageTitle = 'Reply Ticket';
         $messages  = SupportMessage::with('ticket', 'admin', 'attachments')->where('support_ticket_id', $ticket->id)->orderBy('id', 'desc')->get();
-        return view('admin.support.reply', compact('ticket', 'messages', 'pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.support.reply', $data, compact('ticket', 'messages', 'pageTitle'));
     }
 
     public function ticketDelete($id)

@@ -2,7 +2,9 @@
 
 namespace App\Notify;
 
+use App\Jobs\SendKudiSMS;
 use App\Lib\CurlRequest;
+use Illuminate\Support\Facades\Log;
 use MessageBird\Client as MessageBirdClient;
 use MessageBird\Objects\Message;
 use Textmagic\Services\TextmagicRestClient;
@@ -26,6 +28,7 @@ class SmsGateway{
      * @var string
      */
     public $from;
+    public $smstype;
 
 
     /**
@@ -81,6 +84,14 @@ class SmsGateway{
 	public function smsBroadcast(){
 		$message = urlencode($this->message);
 		@file_get_contents("https://api.smsbroadcast.com.au/api-adv.php?username=".$this->config->sms_broadcast->username."&password=".$this->config->sms_broadcast->password."&to=$this->to&from=$this->fromName&message=$message&ref=112233&maxsplit=5&delay=15");
+	}
+
+	public function kudisms(){
+		$message = $this->message;
+        if (strpos($this->to, '0') === 0) {
+            $this->to = '234' . substr($this->to, 1);
+        }
+        SendKudiSMS::dispatch($this->config->kudisms, $this->to, $message, $this->smstype);
 	}
 
 	public function twilio(){

@@ -1189,7 +1189,7 @@ class UserController extends Controller
             notify($user, 'DEFAULT', [
                 'subject' => 'Pending Withdrawal',
                 'message' => 'There is a pending withdrawal of '.showAmount($withdraw->amount).$general->cur_text.' with transaction number '.$withdraw->trx.'. Please login to admin dashboard to complete request.',
-            ], ['email'], false);
+            ], ['email'],"bc", false);
         // End Send Email
 
         $notify[] = ['success', 'Withdraw request sent successfully'];

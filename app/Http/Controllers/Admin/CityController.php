@@ -14,9 +14,12 @@ class CityController extends Controller
         $pageTitle = "Manage City";
         $emptyMessage = "No Data Found";
         $citys = City::latest()->paginate(getPaginate());
-        return view('admin.city.index', compact('pageTitle', 'emptyMessage', 'citys'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.city.index', $data, compact('pageTitle', 'emptyMessage', 'citys'));
     }
-    
+
     public function store(Request $request)
     {
         $request->validate([

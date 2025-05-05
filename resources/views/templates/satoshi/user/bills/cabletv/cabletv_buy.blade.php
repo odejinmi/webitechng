@@ -216,15 +216,20 @@
                                                                 _token: "{{ csrf_token() }}",
                                                                 decoder: decoder
                                                               });
+                                                                const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                                                                const url = `{{ route('user.cabletv.operators') }}?decoder=${encodeURIComponent(decoder)}&_token=${csrfToken}`;
+                                                                console.log("Getting ready to call server");
                                                               var requestOptions = {
-                                                                method: 'POST',
+                                                                method: 'GET',
                                                                 headers: {
                                                                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                                                 },
-                                                                body: raw
                                                               };
-                                                              fetch("{{ route('user.cabletv.operators') }}", requestOptions).then(response =>
+                                                              console.log("about to call server");
+                                                              fetch(url, requestOptions).then(response =>
                                                                 response.text()).then(result => {
+                                                                    console.log("server response");
+                                                                    console.log(result);
                                                                   let html = '';
                                                                   const data = JSON.parse(result);
                                                                 var plans = data.content;
@@ -373,6 +378,7 @@
               customername: document.getElementById('customername').value,
               plan: document.getElementById('plan').value,
               decoder: document.getElementById('decodertype').value,
+                wallet: "main"
             });
 
             var requestOptions = {

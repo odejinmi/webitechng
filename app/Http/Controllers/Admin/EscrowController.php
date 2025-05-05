@@ -16,37 +16,55 @@ class EscrowController extends Controller {
     public function index() {
         $pageTitle = "All Escrows";
         $escrows   = $this->escrowData();
-        return view('admin.escrow.index', compact('pageTitle', 'escrows'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.escrow.index', $data, compact('pageTitle', 'escrows'));
     }
 
     public function accepted() {
         $pageTitle = "Accepted Escrows";
         $escrows   = $this->escrowData('accepted');
-        return view('admin.escrow.index', compact('pageTitle', 'escrows'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.escrow.index', $data, compact('pageTitle', 'escrows'));
     }
 
     public function notAccepted() {
         $pageTitle = "Not Accepted Escrows";
         $escrows   = $this->escrowData('notAccepted');
-        return view('admin.escrow.index', compact('pageTitle', 'escrows'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.escrow.index', $data,compact('pageTitle', 'escrows'));
     }
 
     public function completed() {
         $pageTitle = "Completed Escrows";
         $escrows   = $this->escrowData('completed');
-        return view('admin.escrow.index', compact('pageTitle', 'escrows'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.escrow.index', $data,compact('pageTitle', 'escrows'));
     }
 
     public function disputed() {
         $pageTitle = "Disputed Escrows";
         $escrows   = $this->escrowData('disputed');
-        return view('admin.escrow.index', compact('pageTitle', 'escrows'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.escrow.index', $data, compact('pageTitle', 'escrows'));
     }
 
     public function canceled() {
         $pageTitle = "Canceled Escrows";
         $escrows   = $this->escrowData('canceled');
-        return view('admin.escrow.index', compact('pageTitle', 'escrows'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.escrow.index', $data, compact('pageTitle', 'escrows'));
     }
 
     protected function escrowData($scope = null) {
@@ -66,15 +84,21 @@ class EscrowController extends Controller {
         $restAmount   = ($escrow->amount + $escrow->buyer_charge) - $escrow->paid_amount;
         $conversation = $escrow->conversation;
         $messages     = $conversation->messages;
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
-        return view('admin.escrow.details', compact('pageTitle', 'escrow', 'restAmount', 'conversation', 'messages'));
+        return view('admin.escrow.details',$data, compact('pageTitle', 'escrow', 'restAmount', 'conversation', 'messages'));
     }
 
     public function milestone($id) {
         $pageTitle  = "Escrow Milestone";
         $escrow     = Escrow::findOrFail($id);
         $milestones = Milestone::where('escrow_id', $escrow->id)->orderBy('id', 'desc')->paginate(getPaginate());
-        return view('admin.escrow.milestones', compact('pageTitle', 'escrow', 'milestones'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.escrow.milestones', $data, compact('pageTitle', 'escrow', 'milestones'));
     }
 
     public function replyMessage(Request $request) {
@@ -124,8 +148,11 @@ class EscrowController extends Controller {
         $conversation = Conversation::findOrFail($request->conversation_id);
         $messages     = Message::where('conversation_id', $conversation->id)->with('sender', 'admin')->get();
         $escrow       = $conversation->escrow;
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
-        return view('admin.escrow.message', compact('messages', 'escrow'));
+        return view('admin.escrow.message', $data, compact('messages', 'escrow'));
     }
 
 

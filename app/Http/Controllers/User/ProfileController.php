@@ -97,6 +97,11 @@ class ProfileController extends Controller
                 $user->en = $request->en ? 1 : 0;
                 $message = 'Notification Status Updated';
             }
+            if(!empty($request->theme))
+            {
+                $user->theme = $request->theme;
+                $message = 'Theme Updated';
+            }
 
 
         $user->theme = $request->theme;

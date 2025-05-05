@@ -374,7 +374,18 @@ class AirtimeController extends Controller
         //return json_decode($resp,true);
     }
 
-
+    public function  testnotify(){
+        $user = auth()->user();
+        notify($user,'AIRTIME_BUY', [
+            'provider'        => "MTN",
+            'currency'        => "Naira",
+            'amount'          => @showAmount("200"),
+            'rate'           =>  @showAmount("200"),
+            'beneficiary'     => "07064257276",
+            'purchase_at'     => @Carbon::now(),
+            'trx'             => "12345678909776",
+        ]);
+    }
 
     public function airtimelocal(Request $request)
     {

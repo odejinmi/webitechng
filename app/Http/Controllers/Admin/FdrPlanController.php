@@ -7,11 +7,14 @@ use App\Models\FdrPlan;
 use Illuminate\Http\Request;
 
 class FdrPlanController extends Controller {
-    
+
     public function index() {
         $pageTitle = 'FDR Plans (Fixed Deposit Receipt)';
         $plans     = FdrPlan::latest()->paginate(getPaginate());
-        return view('admin.plans.fdr.index', compact('pageTitle', 'plans'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.plans.fdr.index',$data, compact('pageTitle', 'plans'));
     }
 
     public function store(Request $request, $id = 0) {

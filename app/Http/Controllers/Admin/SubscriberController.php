@@ -12,13 +12,19 @@ class SubscriberController extends Controller
     {
         $pageTitle = 'Subscriber Manager';
         $subscribers = Subscriber::orderBy('id','desc')->paginate(getPaginate());
-        return view('admin.subscriber.index', compact('pageTitle', 'subscribers'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.subscriber.index', $data, compact('pageTitle', 'subscribers'));
     }
 
     public function sendEmailForm()
     {
         $pageTitle = 'Email to Subscribers';
-        return view('admin.subscriber.send_email', compact('pageTitle'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.subscriber.send_email', $data, compact('pageTitle'));
     }
 
     public function remove($id)

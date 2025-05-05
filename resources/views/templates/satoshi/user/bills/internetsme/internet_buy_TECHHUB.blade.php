@@ -369,6 +369,7 @@
                 phone: document.getElementById('phone').value,
                 networkid: document.getElementById('networkid').value,
                 data_plan: document.getElementById('data_plan').value,
+                wallet: "main"
             });
             var requestOptions = {
                 method: 'POST',

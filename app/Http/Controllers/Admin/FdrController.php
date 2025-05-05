@@ -59,8 +59,11 @@ class FdrController extends Controller
         if (request()->date) {
             $pdfCsvButton = true;
         }
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
-        return view('admin.fdr.index', compact('pageTitle', 'data', 'pdfCsvButton'));
+        return view('admin.fdr.index',$data, compact('pageTitle', 'data', 'pdfCsvButton'));
     }
 
     protected function downloadCsv($pageTitle, $data)
@@ -115,7 +118,10 @@ class FdrController extends Controller
         $fdr          = Fdr::with('installments')->findOrFail($id);
         $installments = $fdr->installments()->paginate(getPaginate());
         $pageTitle    = "FDR Installments";
-        return view('admin.fdr.installments', compact('pageTitle', 'installments', 'fdr'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.fdr.installments', $data, compact('pageTitle', 'installments', 'fdr'));
     }
 
     public function payDue($id)

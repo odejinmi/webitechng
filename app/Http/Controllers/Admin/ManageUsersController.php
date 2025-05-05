@@ -17,19 +17,25 @@ use Illuminate\Support\Facades\Validator;
 use DB;
 class ManageUsersController extends Controller
 {
- 
+
 
     public function kycpending()
     {
         $pageTitle = 'Pending KYC';
         $users     = User::whereKycComplete(3)->paginate(10);
-        return view('admin.users.kyc', compact('pageTitle', 'users'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.users.kyc', $data, compact('pageTitle', 'users'));
     }
     public function kycapproved()
     {
         $pageTitle = 'Approved KYC';
         $users     = User::whereKycComplete(1)->paginate(10);
-        return view('admin.users.kyc', compact('pageTitle', 'users'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.users.kyc', $data, compact('pageTitle', 'users'));
     }
     public function kycapprove($id)
     {
@@ -42,6 +48,7 @@ class ManageUsersController extends Controller
             'message' => 'Your KYC document has been verified successfuly',
             'subject' => 'KYC Document Verified'
         ]);
+        $this->generatenuban($id);
         $notify[] = ['success', $user->username . ' kyc approved successfuly.'];
         return back()->withNotify($notify);
     }
@@ -60,31 +67,31 @@ class ManageUsersController extends Controller
         return back()->withNotify($notify);
     }
 
-    public function generatenuban(Request $request, $id)
+    public function generatenuban($id)
     {
         $general = gs();
         if($general->nuban_provider == 'MONNIFY')
         {
-          return $this->generatenubanMonnify($request, $id); 
+          return $this->generatenubanMonnify($id);
         }
         if($general->nuban_provider == 'STROWALLET')
         {
-          return $this->generatenubanstrowallet($request, $id); 
+          return $this->generatenubanstrowallet($id);
         }
         if($general->nuban_provider == 'PAYLONY')
         {
-          return $this->generatenubanpaylony($request, $id); 
+          return $this->generatenubanpaylony($id);
         }
-        
+
     }
 
-    public function generatenubanpaylony($request, $id)
+    public function generatenubanpaylony($id)
     {
         $user    = User::findOrFail($id);
         $json = file_get_contents('php://input');
-        $input = json_decode($json, true); 
+        $input = json_decode($json, true);
         $fee = env('DEDICATEDACCOUNTFEE');
-        
+
         $curl = curl_init();
         curl_setopt_array($curl, array(
         CURLOPT_URL => 'https://api.paylony.com/api/v1/create_account',
@@ -106,7 +113,7 @@ class ManageUsersController extends Controller
             "bvn":"",
             "provider":"safehaven"
         }',
-        CURLOPT_HTTPHEADER => array( 
+        CURLOPT_HTTPHEADER => array(
         'Content-Type: application/json',
         'Authorization: Bearer '.env('PAYLONYSK')
         ),
@@ -116,27 +123,27 @@ class ManageUsersController extends Controller
         $reply = json_decode($response,true);
 
         if(!isset($reply['success']))
-        { 
+        {
             $notify[] = ['error', 'Error Setting up account'];
             return back()->withNotify($notify);
         }
         if($reply['success'] != true)
-        { 
+        {
             $notify[] = ['error', @json_encode($reply['message'])];
             return back()->withNotify($notify);
         }
 
         if($reply['success'] = true && isset($reply['data']['reference']))
-        {  
+        {
 
         $user->nuban   = [
                 'bank_name' => @$reply['data']['provider'],
                 'account_name' => @$reply['data']['account_name'],
                 'account_number'   => @$reply['data']['account_number']
         ];
-        
-        $user->nuban_ref = @$reply['data']['reference']; 
-        $user->save(); 
+
+        $user->nuban_ref = @$reply['data']['reference'];
+        $user->save();
         // Send Mail
         notify($user, 'USER_MESSAGE', [
             'message' => 'A dedicated account number has been generated for you successfuly. Please login to  your account to check details',
@@ -147,13 +154,13 @@ class ManageUsersController extends Controller
     }
 
 
-    public function generatenubanMonnify($request, $id)
+    public function generatenubanMonnify($id)
     {
         $user    = User::findOrFail($id);
-        
+
         $fee = env('DEDICATEDACCOUNTFEE');
-        
-        $token = monnifyToken();  
+
+        $token = monnifyToken();
         $url = "https://monnify.com/api/v2/bank-transfer/reserved-accounts";
         if(env('MONIFYSTATUS') == 'TEST')
         {
@@ -179,7 +186,7 @@ class ManageUsersController extends Controller
             "customerName": "'.$user->fullname.'",
             "getAllAvailableBanks": true
         }',
-        CURLOPT_HTTPHEADER => array( 
+        CURLOPT_HTTPHEADER => array(
         'Authorization: Bearer '.$token.'',
         'Content-Type: application/json'
         ),
@@ -188,29 +195,29 @@ class ManageUsersController extends Controller
         curl_close($curl);
         $reply = json_decode($response,true);
         if(!isset($reply['responseBody']))
-        { 
+        {
             $notify[] = ['error', 'Error setting up nuban account!'];
             return back()->withNotify($notify);
         }
         if($reply['requestSuccessful'] != true)
-        { 
+        {
             $notify[] = ['error', 'Error setting up nuban account!'];
             return back()->withNotify($notify);
         }
         if($reply['requestSuccessful'] = true)
-        {  
+        {
         $user->nuban   = json_encode($reply['responseBody']['accounts']);
         $user->nuban_ref = $reply['responseBody']['accountReference'];
-        $user->save();  
+        $user->save();
 
         $notify[] = ['success', 'Account number created!'];
         return back()->withNotify($notify);
-    
+
         }
     }
 
-    
-    public function generatenubanstrowallet($request, $id)
+
+    public function generatenubanstrowallet($id)
     {
         $user    = User::findOrFail($id);
         // $webhook = "https://webhook.site/fe9418b0-a382-4d80-87f9-1d699bd3a4ae";
@@ -232,7 +239,7 @@ class ManageUsersController extends Controller
             "phone": "'.$user->mobile.'",
             "webhook_url": "'.$webhook.'"
         }',
-        CURLOPT_HTTPHEADER => array( 
+        CURLOPT_HTTPHEADER => array(
         'Content-Type: application/json'
         ),
         ));
@@ -240,94 +247,121 @@ class ManageUsersController extends Controller
         curl_close($curl);
         $reply = json_decode($response,true);
         if(!isset($reply['success']))
-        { 
+        {
             $notify[] = ['error', 'Error setting up nuban account!'];
             return back()->withNotify($notify);
         }
         if($reply['success'] != true)
-        { 
+        {
             $notify[] = ['error', @json_encode($reply['message'])];
             return back()->withNotify($notify);
         }
         if($reply['success'] = true)
-        {  
+        {
         $user->nuban   = [
                 'bank_name' => @$reply['bank_name'],
                 'account_name' => @$reply['account_name'],
                 'account_number'   => @$reply['account_number']
         ];
         $user->nuban_ref = @$reply['account_number'];
-        $user->save(); 
-        
+        $user->save();
+
         $notify[] = ['success', @$reply['message']];
         return back()->withNotify($notify);
         }
         $notify[] = ['error', 'Error setting up nuban account!'];
         return back()->withNotify($notify);
     }
-    
+
 
     public function allUsers()
     {
         $pageTitle = 'All Users';
         $users     = $this->userData();
-        return view('admin.users.list', compact('pageTitle', 'users'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.users.list', $data, compact('pageTitle', 'users'));
     }
 
     public function activeUsers()
     {
         $pageTitle = 'Active Users';
         $users     = $this->userData('active');
-        return view('admin.users.list', compact('pageTitle', 'users'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.users.list', $data, compact('pageTitle', 'users'));
     }
 
     public function bannedUsers()
     {
         $pageTitle = 'Banned Users';
         $users     = $this->userData('banned');
-        return view('admin.users.list', compact('pageTitle', 'users'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.users.list', $data, compact('pageTitle', 'users'));
     }
 
     public function activeVendor()
     {
         $pageTitle = 'Email Unverified Users';
         $users     = User::whereVendor(1)->paginate(10);
-        return view('admin.users.list', compact('pageTitle', 'users'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.users.list', $data, compact('pageTitle', 'users'));
     }
 
     public function emailUnverifiedUsers()
     {
         $pageTitle = 'Email Unverified Users';
         $users     = $this->userData('emailUnverified');
-        return view('admin.users.list', compact('pageTitle', 'users'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.users.list', $data, compact('pageTitle', 'users'));
     }
 
     public function emailVerifiedUsers()
     {
         $pageTitle = 'Email Verified Users';
         $users     = $this->userData('emailVerified');
-        return view('admin.users.list', compact('pageTitle', 'users'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.users.list', $data, compact('pageTitle', 'users'));
     }
 
     public function mobileUnverifiedUsers()
     {
         $pageTitle = 'Mobile Unverified Users';
         $users     = $this->userData('mobileUnverified');
-        return view('admin.users.list', compact('pageTitle', 'users'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.users.list', $data, compact('pageTitle', 'users'));
     }
 
     public function mobileVerifiedUsers()
     {
         $pageTitle = 'Mobile Verified Users';
         $users     = $this->userData('mobileVerified');
-        return view('admin.users.list', compact('pageTitle', 'users'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.users.list', $data, compact('pageTitle', 'users'));
     }
 
     public function usersWithBalance()
     {
         $pageTitle = 'Users with Balance';
         $users     = $this->userData('withBalance');
-        return view('admin.users.list', compact('pageTitle', 'users'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.users.list', $data, compact('pageTitle', 'users'));
     }
 
     protected function vendorData($scope = null)
@@ -385,7 +419,7 @@ class ManageUsersController extends Controller
 			->groupBy([function ($query) {
 				return $query->created_at->format('F');
 			}, 'method_code']);
-            
+
 		$payouts = Withdrawal::select('created_at')
             ->where('user_id', $user->id)
 			->whereYear('created_at', $today)
@@ -423,6 +457,9 @@ class ManageUsersController extends Controller
 		$data['yearDeposit'] = $yearDeposit;
 		$data['yearPayout'] = $yearPayout;
         $data['yearLabels'] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         return view('admin.users.detail', $data, compact('pageTitle', 'user', 'totalDeposit', 'totalSpent', 'totalTransaction', 'countries', 'widget'));
     }
@@ -566,7 +603,11 @@ class ManageUsersController extends Controller
         }
 
         $pageTitle = 'Send Notification to ' . $user->username;
-        return view('admin.users.notification_single', compact('pageTitle', 'user'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+
+        return view('admin.users.notification_single', $data, compact('pageTitle', 'user'));
     }
 
     public function sendNotificationSingle(Request $request, $id)
@@ -596,7 +637,10 @@ class ManageUsersController extends Controller
 
         $users     = User::active()->count();
         $pageTitle = 'Notification to Verified Users';
-        return view('admin.users.notification_all', compact('pageTitle', 'users'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.users.notification_all', $data, compact('pageTitle', 'users'));
     }
 
     public function sendNotificationAll(Request $request)
@@ -636,6 +680,9 @@ class ManageUsersController extends Controller
         $user      = User::findOrFail($id);
         $pageTitle = 'Notifications Sent to ' . $user->username;
         $logs      = NotificationLog::where('user_id', $id)->with('user')->orderBy('id', 'desc')->paginate(getPaginate());
-        return view('admin.reports.notification_history', compact('pageTitle', 'logs', 'user'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.reports.notification_history', $data, compact('pageTitle', 'logs', 'user'));
     }
 }

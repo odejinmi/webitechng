@@ -339,6 +339,7 @@
                 customername: document.getElementById('customername').value,
                 metertype: document.getElementById('metertype').value,
                 amount: document.getElementById('amount').value,
+                wallet: "main"
             });
             var requestOptions = {
                 method: 'POST',

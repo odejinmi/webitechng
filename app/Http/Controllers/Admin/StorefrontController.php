@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 use App\Constants\Status;
 use App\Http\Controllers\Controller;
 use App\Lib\GoogleAuthenticator;
-use App\Models\Storefront; 
-use App\Models\GeneralSetting; 
+use App\Models\Storefront;
+use App\Models\GeneralSetting;
 use App\Models\AdminNotification;
 use App\Models\User;
 use App\Models\Order;
@@ -20,34 +20,40 @@ use Illuminate\Validation\Rules\Password;
 use DB;
 use Carbon\Carbon;
 class StorefrontController extends Controller
-{ 
- 
+{
+
     public function __construct()
     {
         $this->activeTemplate = activeTemplate();
     }
 
-  
+
     public function storefront(Request $request)
     {
         $pageTitle       = 'Manage Storefront';
         $log = Storefront::orderBy('id', 'desc')->paginate(getPaginate());
-        return view('admin.storefront.storefront_log', compact('pageTitle', 'log'));
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.storefront.storefront_log', $data, compact('pageTitle', 'log'));
     }
-  
+
     public function manage($id)
     {
         $pageTitle       = 'Manage Storefront';
         $storefront = Storefront::whereTrx($id)->firstOrFail();
-        
+
         $products = Product::whereStoreId($storefront->id)->whereStatus(1)->count();
         $order = Order::whereType('storefront')->whereStoreId($storefront->id)->searchable(['trx'])->paginate(getPaginate());
         $sales = Order::whereType('storefront')->whereStoreId($storefront->id)->whereStatus(1)->sum('price');
-        return view('admin.storefront.storefront_manage', compact('pageTitle', 'storefront','products','sales','order'));
-    } 
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        return view('admin.storefront.storefront_manage', $data, compact('pageTitle', 'storefront','products','sales','order'));
+    }
     public function update(Request $request, $id)
     {
-        $storefront = Storefront::whereTrx($id)->firstOrFail(); 
+        $storefront = Storefront::whereTrx($id)->firstOrFail();
 
         $storefront->name       =  $request->name;
         $storefront->details      =  $request->details;
@@ -78,11 +84,11 @@ class StorefrontController extends Controller
         }
 
         $notify[] = ['success', 'You have created payment link successfuly.'];
-        return back()->withNotify($notify);   
-    } 
+        return back()->withNotify($notify);
+    }
 
- 
- 
+
+
     public function status(Request $request, $id)
     {
         $pageTitle       = 'Manage Storefront';
@@ -92,8 +98,8 @@ class StorefrontController extends Controller
         $order->save();
         $notify[] = ['status', 'Order Status Updated Successfully'];
         return back()->withNotify($notify);
-    } 
+    }
 
-     
- 
+
+
 }
