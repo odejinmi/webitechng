@@ -1001,7 +1001,7 @@ class UserController extends Controller
             'wallet' => 'required'
         ]);
         $methodid = json_decode($request->methodId);
-        $method = WithdrawMethod::where('id', $methodid->id)->where('status', 1)->firstOrFail();
+        $method = WithdrawMethod::where('id', $methodid)->where('status', 1)->firstOrFail();
         $today = date('l');
         $payoutdays = json_decode($method->payout_days);
 

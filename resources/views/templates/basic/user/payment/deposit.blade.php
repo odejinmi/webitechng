@@ -38,15 +38,15 @@
 
                                     <!--begin::Input group-->
                                     <div class="mb-10 fv-row">
-                                        <!--begin::Label-->
-                                        <label class="d-flex align-items-center form-label mb-3">
-                                            @lang('Fixed Amount')
-                                            <span class="ms-1" data-bs-toggle="tooltip"
-                                                title="Select a fixed amount">
-                                                <i class="ti ti-alert-circle text-gray-500 fs-6"><span
-                                                        class="path1"></span><span class="path2"></span><span
-                                                        class="path3"></span></i></span> </label>
-                                        <!--end::Label-->
+{{--                                        <!--begin::Label-->--}}
+{{--                                        <label class="d-flex align-items-center form-label mb-3">--}}
+{{--                                            @lang('Fixed Amount')--}}
+{{--                                            <span class="ms-1" data-bs-toggle="tooltip"--}}
+{{--                                                title="Select a fixed amount">--}}
+{{--                                                <i class="ti ti-alert-circle text-gray-500 fs-6"><span--}}
+{{--                                                        class="path1"></span><span class="path2"></span><span--}}
+{{--                                                        class="path3"></span></i></span> </label>--}}
+{{--                                        <!--end::Label-->--}}
 
                                         <!--begin::Row-->
                                         <div class="row mb-2" data-kt-buttons="true">

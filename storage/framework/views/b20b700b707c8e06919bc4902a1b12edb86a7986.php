@@ -64,16 +64,75 @@
                                 <div class="d-flex justify-content-between text-xs text-muted">
                                     <span class="fw-semibold">Amount</span>
                                 </div>
-                                <div class="d-flex justify-content-between mt-4"><input type="tel" id="amount"
+                                <div class="d-flex justify-content-between mt-4">
+                                    <input type="tel" id="amount"
                                         placeholder="<?php echo e($general->cur_sym); ?> 0.00" name="amount"
                                         class="form-control form-control-flush text-xl fw-bold w-rem-40">
-                                    <div class="d-flex align-items-center gap-2"><img
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img
                                             src="<?php echo e(url('/')); ?>/assets/images/country/ngn.png"
                                             class="w-rem-6 h-rem-6 rounded-circle" alt="...">
                                         <span class="fw-semibold text-sm">NGN</span>
                                     </div>
                                 </div>
                             </div>
+
+                            <!--begin::Input group-->
+                            <div class="bg-body-secondary rounded-3 p-4">
+                                <!--begin::Row-->
+                                <div class="d-flex justify-content-between mt-4 gap-5">
+                                    <!--begin::Col-->
+                                    <div >
+                                        <!--begin::Option-->
+                                        <input type="radio" class="btn-check" name="wallet" value="act_wallet"
+                                               onchange="selectwallet('main')" id="act_wallet" />
+                                        <label
+                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center mb-10"
+                                            for="act_wallet">
+                                            <i class="ti ti-wallet fs-3x me-5"><span class="path1"></span><span
+                                                    class="path2"></span><span class="path3"></span><span
+                                                    class="path4"></span><span class="path5"></span></i>
+                                            <!--begin::Info-->
+                                            <span class="d-block fw-semibold text-start">
+                                                        <span class="text-dark fw-bold d-block fs-4 mb-2">
+                                                            <?php echo app('translator')->get('Main Wallet'); ?>
+                                                        </span>
+                                                        <span
+                                                            class="text-muted fw-semibold fs-6"><?php echo e($general->cur_sym); ?><?php echo e(showAmount(Auth::user()->balance)); ?></span>
+                                                    </span>
+                                            <!--end::Info-->
+                                        </label>
+                                        <!--end::Option-->
+                                    </div>
+                                    <!--end::Col-->
+
+                                    <!--begin::Col-->
+                                    <div >
+                                        <!--begin::Option-->
+                                        <input type="radio" class="btn-check" name="wallet"  value="ref_wallet"
+                                               onchange="selectwallet('ref')"
+                                               id="ref_wallet" />
+                                        <label
+                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center"
+                                            for="ref_wallet">
+                                            <i class="ti ti-cash fs-3x me-5"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                            <!--begin::Info-->
+                                            <span class="d-block fw-semibold text-start">
+                                                        <span class="text-dark fw-bold d-block fs-4 mb-2">
+                                                            <?php echo app('translator')->get('Referral Wallet'); ?></span>
+                                                        <span
+                                                            class="text-muted fw-semibold fs-6"><?php echo e($general->cur_sym); ?><?php echo e(showAmount(Auth::user()->ref_balance)); ?></span>
+                                                    </span>
+                                            <!--end::Info-->
+                                        </label>
+                                        <!--end::Option-->
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Row-->
+                            </div>
+                            <!--end::Input group-->
 
 
 

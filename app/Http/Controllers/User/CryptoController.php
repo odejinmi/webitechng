@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class CryptoController extends Controller
 {
@@ -55,6 +56,8 @@ class CryptoController extends Controller
 		$user = Auth::user();
 		$coin = Cryptocurrency::whereId(decrypt($id))->whereStatus(1)->firstOrFail();
 		$wallet = Cryptowallet::whereCoinId($coin->id)->whereUserId($user->id)->whereStatus(1)->first();
+
+        Log::info($coin);
 		if(!$wallet)
 		{
 		$baseurl = "https://coinremitter.com/api/v3/".$coin->symbol."/get-new-address";
@@ -68,12 +71,15 @@ class CryptoController extends Controller
 		  CURLOPT_FOLLOWLOCATION => true,
 		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 		  CURLOPT_CUSTOMREQUEST => 'POST',
-		  CURLOPT_POSTFIELDS => array('api_key' => $coin->apikey,'password' => $coin->apipass,'label' => $user->username),
+		  CURLOPT_POSTFIELDS => array('api_key' => $coin->apikey,'password' => $coin->apipass,'label' => "@ways247"),
 		));
 
 		$response = curl_exec($curl);
 		$reply = json_decode($response,true);
 		curl_close($curl);
+        Log::info($response);
+        Log::info($reply);
+        return ;
 		// return $response;
 		if(!isset($reply['data']['address']))
 		{
@@ -166,7 +172,8 @@ class CryptoController extends Controller
 
 
 		try{
-			$baseurl = "https://coinremitter.com/api/v3/".$coin->symbol."/get-fiat-to-crypto-rate";
+//			$baseurl = "https://coinremitter.com/api/v3/".$coin->symbol."/get-fiat-to-crypto-rate";
+            $baseurl = "https://api.coinremitter.com/v1/rate/fiat-to-crypto";
 			$curl = curl_init();
 			curl_setopt_array($curl, array(
 			CURLOPT_URL => $baseurl,
@@ -177,24 +184,37 @@ class CryptoController extends Controller
 			CURLOPT_FOLLOWLOCATION => true,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => 'POST',
-			CURLOPT_POSTFIELDS => array('api_key' => $coin->apikey,'password' => $coin->apipass,'fiat_symbol' => 'USD','fiat_amount' => $amount),
+//			CURLOPT_POSTFIELDS => array('api_key' => $coin->apikey,'password' => $coin->apipass,'fiat_symbol' => 'USD','fiat_amount' => $amount),
+                CURLOPT_POSTFIELDS => array('fiat' => 'USD','fiat_amount' => 1,'crypto' => $coin->symbol),
 			));
 
 			$response = curl_exec($curl);
 			$reply = json_decode($response,true);
 			curl_close($curl);
 			// return $response;
-			if(!isset($reply['data']['crypto_amount']))
+//			if(!isset($reply['data']['crypto_amount']))
+//			{
+//				return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Error, Please check network'],400);
+//			}
+//			if($wallet->balance < $reply['data']['crypto_amount'])
+//			{
+//				return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Insufficient wallet balance'],400);
+//			}
+//			if($reply['data']['crypto_amount'])
+//			{
+//				return response()->json(['ok'=>true,'status'=>'success','message'=> $reply['data']['crypto_amount'].$reply['data']['crypto_symbol'],'content'=> ''],200);
+//			}
+            if(!isset($reply['data'][0]['price']))
 			{
 				return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Error, Please check network'],400);
 			}
-			if($wallet->balance < $reply['data']['crypto_amount'])
+			if($wallet->balance < $reply['data'][0]['price'])
 			{
 				return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Insufficient wallet balance'],400);
 			}
-			if($reply['data']['crypto_amount'])
+			if($reply['data'][0]['price'])
 			{
-				return response()->json(['ok'=>true,'status'=>'success','message'=> $reply['data']['crypto_amount'].$reply['data']['crypto_symbol'],'content'=> ''],200);
+				return response()->json(['ok'=>true,'status'=>'success','message'=> $reply['data'][0]['price'].$reply['data']['short_name'],'content'=> ''],200);
 			}
 		}
 		catch (\Exception $e) {
@@ -217,7 +237,8 @@ class CryptoController extends Controller
 				return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Invalid Source Wallet'],400);
 			}
 		try{
-			$baseurl = "https://coinremitter.com/api/v3/".$coin->symbol."/get-fiat-to-crypto-rate";
+//			$baseurl = "https://coinremitter.com/api/v3/".$coin->symbol."/get-fiat-to-crypto-rate";
+            $baseurl = "https://api.coinremitter.com/v1/rate/fiat-to-crypto";
 			$curl = curl_init();
 			curl_setopt_array($curl, array(
 			CURLOPT_URL => $baseurl,
@@ -228,23 +249,33 @@ class CryptoController extends Controller
 			CURLOPT_FOLLOWLOCATION => true,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => 'POST',
-			CURLOPT_POSTFIELDS => array('api_key' => $coin->apikey,'password' => $coin->apipass,'fiat_symbol' => 'USD','fiat_amount' => $amount),
+//			CURLOPT_POSTFIELDS => array('api_key' => $coin->apikey,'password' => $coin->apipass,'fiat_symbol' => 'USD','fiat_amount' => $amount),
+                CURLOPT_POSTFIELDS => array('fiat' => 'USD','fiat_amount' => 1,'crypto' => $coin->symbol),
 			));
 
 			$response = curl_exec($curl);
 			$reply = json_decode($response,true);
 			curl_close($curl);
 			// return $response;
-			if(!isset($reply['data']['crypto_amount']))
+//			if(!isset($reply['data']['crypto_amount']))
+//			{
+//				return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Error, Please check network'],400);
+//			}
+//			if($wallet->balance < $reply['data']['crypto_amount'])
+//			{
+//				return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Insufficient wallet balance'],400);
+//			}
+
+			if(!isset($reply['data'][0]['price']))
 			{
 				return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Error, Please check network'],400);
 			}
-			if($wallet->balance < $reply['data']['crypto_amount'])
+			if($wallet->balance < $reply['data'][0]['price'])
 			{
 				return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Insufficient wallet balance'],400);
 			}
 
-				$wallet->balance -= $reply['data']['crypto_amount'];
+				$wallet->balance -= $reply['data'][0]['price'];
 				$wallet->save();
 
 				//Create Credit Transaction
@@ -313,7 +344,8 @@ class CryptoController extends Controller
 			}
 		try{
 
-			$baseurl = "https://coinremitter.com/api/v3/".$coin->symbol."/get-fiat-to-crypto-rate";
+//			$baseurl = "https://coinremitter.com/api/v3/".$coin->symbol."/get-fiat-to-crypto-rate";
+            $baseurl = "https://api.coinremitter.com/v1/rate/fiat-to-crypto";
 			$curl = curl_init();
 			curl_setopt_array($curl, array(
 			CURLOPT_URL => $baseurl,
@@ -322,16 +354,25 @@ class CryptoController extends Controller
 			CURLOPT_MAXREDIRS => 10,
 			CURLOPT_TIMEOUT => 0,
 			CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_SSL_VERIFYPEER => false,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => 'POST',
-			CURLOPT_POSTFIELDS => array('api_key' => $coin->apikey,'password' => $coin->apipass,'fiat_symbol' => 'USD','fiat_amount' => 1),
+//			CURLOPT_POSTFIELDS => array('api_key' => $coin->apikey,'password' => $coin->apipass,'fiat_symbol' => 'USD','fiat_amount' => 1),
+                CURLOPT_POSTFIELDS => array('fiat' => 'USD','fiat_amount' => 1,'crypto' => $coin->symbol),
 			));
 
 			$response = curl_exec($curl);
 			$reply = json_decode($response,true);
 			curl_close($curl);
 			// return $response;
-			if(!isset($reply['data']['crypto_amount']))
+//			if(!isset($reply['data']['crypto_amount']))
+//			{
+//				$notify[] = ['error', 'Error'];
+//			   return back()->withNotify($notify);
+//			}
+
+			if(!isset($reply['data'][0]['price']))
 			{
 				$notify[] = ['error', 'Error'];
 			   return back()->withNotify($notify);
@@ -339,7 +380,7 @@ class CryptoController extends Controller
 
 				//Create Credit Transaction
 
-				$usd = 	$wallet->balance / $reply['data']['crypto_amount'];
+				$usd = 	$wallet->balance / $reply['data'][0]['price'];
 				$get = 	$usd * $coin->swap_rate;
 
 
