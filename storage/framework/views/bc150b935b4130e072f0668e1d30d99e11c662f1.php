@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('panel'); ?>
     <div class="row">
         <div class="col-md-12">
@@ -24,6 +25,8 @@
                                     <?php echo app('translator')->get('Text Magic'); ?></option>
                                 <option value="bulksmsng" <?php if(@$general->sms_config->name == 'bulksmsng'): ?> selected <?php endif; ?>>
                                         <?php echo app('translator')->get('Bulk SMS Nigeria'); ?></option>
+                                <option value="kudisms" <?php if(@$general->sms_config->name == 'kudisms'): ?> selected <?php endif; ?>>
+                                        <?php echo app('translator')->get('Kudi SMS'); ?></option>
                                 <option value="custom" <?php if(@$general->sms_config->name == 'custom'): ?> selected <?php endif; ?>><?php echo app('translator')->get('Custom API'); ?>
                                 </option>
                             </select>
@@ -51,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row mt-4 d-none configForm" id="clickatell">
                             <div class="col-md-12">
                                 <h6 class="mb-2"><?php echo app('translator')->get('Clickatell Configuration'); ?></h6>
@@ -62,6 +65,55 @@
                                     <input type="text" class="form-control" placeholder="<?php echo app('translator')->get('API Key'); ?>"
                                         name="clickatell_api_key"
                                         value="<?php echo e(@$general->sms_config->clickatell->api_key); ?>" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4 d-none configForm" id="kudisms">
+                            <div class="col-md-12">
+                                <h6 class="mb-2"><?php echo app('translator')->get('Kudi Sms Configuration'); ?></h6>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label><?php echo app('translator')->get('API Key'); ?> </label>
+                                    <input type="text" class="form-control" placeholder="<?php echo app('translator')->get('API Key'); ?>"
+                                        name="kudisms_api_key"
+                                        value="<?php echo e(@$general->sms_config->kudisms->api_key); ?>" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label><?php echo app('translator')->get('SMS Sender'); ?> </label>
+                                    <input type="text" class="form-control" placeholder="<?php echo app('translator')->get('Sender'); ?>"
+                                           name="sender"
+                                           value="<?php echo e(@$general->sms_config->kudisms->sender); ?>" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label><?php echo app('translator')->get('App Name Code'); ?> </label>
+                                    <input type="text" class="form-control" placeholder="<?php echo app('translator')->get('appnamecode'); ?>"
+                                           name="appnamecode"
+                                           value="<?php echo e(@$general->sms_config->kudisms->appnamecode); ?>" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label><?php echo app('translator')->get('Sms Template Code'); ?> </label>
+                                    <input type="text" class="form-control" placeholder="<?php echo app('translator')->get('smstemplatecode'); ?>"
+                                           name="smstemplatecode"
+                                           value="<?php echo e(@$general->sms_config->kudisms->smstemplatecode); ?>" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label><?php echo app('translator')->get('Whatsapp Template Code'); ?> </label>
+                                    <input type="text" class="form-control" placeholder="<?php echo app('translator')->get('whatsapptemplatecode'); ?>"
+                                           name="whatsapptemplatecode"
+                                           value="<?php echo e(@$general->sms_config->kudisms->whatsapptemplatecode); ?>" />
                                 </div>
                             </div>
                         </div>
@@ -315,18 +367,32 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><?php echo app('translator')->get('Test SMS Setup'); ?></h5> 
+                    <h5 class="modal-title"><?php echo app('translator')->get('Test SMS Setup'); ?></h5>
                 </div>
                 <form action="<?php echo e(route('admin.setting.notification.sms.test')); ?>" method="POST">
                     <?php echo csrf_field(); ?>
                     <input type="hidden" name="id">
                     <div class="modal-body">
-                        <div class="row">
+                        <div class="col-md-12">
                             <div class="col-md-12">
                                 <div class="form-group mb-3">
                                     <label><?php echo app('translator')->get('Sent to'); ?> </label>
                                     <input type="text" name="mobile" class="form-control"
                                         placeholder="<?php echo app('translator')->get('Mobile'); ?>">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label><?php echo app('translator')->get('Sms type'); ?> </label>
+                                    <div class="radio mt-3">
+                                        <input id="demo-form-radio" class="magic-radio" value="bc"
+                                               type="radio" name="smstype" checked>
+                                        <label for="demo-form-radio">Broadcast SMS</label>
+
+                                        <input id="demo-form-radio-2" class="magic-radio" value="otp"
+                                               type="radio" name="smstype">
+                                        <label for="demo-form-radio-2">OTP SMS</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -391,6 +457,7 @@
                 $('.headerFields').append(html);
 
             })
+
             $(document).on('click', '.removeHeader', function() {
                 $(this).closest('.row').remove();
             })
@@ -412,6 +479,7 @@
                 $('.bodyFields').append(html);
 
             })
+
             $(document).on('click', '.removeBody', function() {
                 $(this).closest('.row').remove();
             })

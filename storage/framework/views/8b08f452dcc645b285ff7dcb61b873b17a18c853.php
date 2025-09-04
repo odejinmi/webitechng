@@ -40,7 +40,7 @@
                         aria-controls="sidebar-dashboards"><i class="bi bi-house"></i>
                         <span>Dashboard</span>
                         <span class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
-                </li>
+                </li> 
             </ul>
 
 
@@ -49,8 +49,8 @@
             <ul class="navbar-nav">
                 <li><span class="nav-link text-xs fw-semibold text-uppercase text-muted ls-wide">Bills Payment</span>
                 </li>
-
-
+                
+                
                 <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.airtime.tocash.request') ? 'active' : ''); ?>"
                         href="<?php echo e(route('user.airtime.tocash.request')); ?>"><i class="bi bi-phone-flip"></i> <span>Airtime To Cash</span>
                         </a>
@@ -71,79 +71,70 @@
                         href="<?php echo e(route('user.fund.betting.wallet')); ?>"><i class="bi bi-balloon"></i> <span>Sport Betting</span>
                         </a>
                 </li>
-
+                 
                 <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.buy.cabletv') ? 'active' : ''); ?>"
                         href="<?php echo e(route('user.buy.cabletv')); ?>" ><i class="bi bi-tv"></i>
-                        <span>Cable TV</span> </a>
+                        <span>Cable TV</span> </a> 
                 </li>
-
-
+                 
+                 
             </ul>
 
             <hr class="navbar-divider my-5 opacity-70">
             <ul class="navbar-nav">
                 <li><span class="nav-link text-xs fw-semibold text-uppercase text-muted ls-wide">Digital Assets</span>
                 </li>
-
+                  
                 <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.buygift') ? 'active' : ''); ?>"
                         href="<?php echo e(route('user.buygift')); ?>"><i class="bi bi-gift"></i> <span>Buy Giftcard</span>
                         </a>
                 </li>
-                <li class="nav-item my-1">
-                    <a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.tradegift') ? 'active' : ''); ?>"
+                <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.tradegift') ? 'active' : ''); ?>"
                         href="<?php echo e(route('user.tradegift')); ?>"><i class="bi bi-credit-card"></i> <span>Sell Giftcard</span>
                         </a>
-                </li>
-                <?php if($general->crypto > 0): ?>
-                    <li class="nav-item my-1">
-                        <a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.crypto.index') ? 'active' : ''); ?>"
-                           href="<?php echo e(route('user.crypto.index')); ?>" ><i class="bi bi-wallet"></i>
-                            <span><?php echo app('translator')->get('Crypto Wallet'); ?></span>
-                        </a>
-                    </li>
-                <?php endif; ?>
-                <li class="nav-item my-1">
-                    <a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.crypto.trade.index') ? 'active' : ''); ?>"
+                </li> 
+                  
+                <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.crypto.trade.index') ? 'active' : ''); ?>"
                         href="<?php echo e(route('user.crypto.trade.index')); ?>"><i class="bi bi-wallet"></i> <span>Trade Crypto</span>
                         </a>
-                </li>
-
-
+                </li> 
+                 
+                 
             </ul>
 
              <?php if($general->virtualcard > 0 && Auth::user()->vendor == 1): ?>
              <hr class="navbar-divider my-5 opacity-70">
             <ul class="navbar-nav">
-
+                
                 <li><span class="nav-link text-xs fw-semibold text-uppercase text-muted ls-wide">Virtual Card</span>
                 </li>
                  <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.virtualcard.index') ? 'active' : ''); ?>"
                         href="<?php echo e(route('user.virtualcard.index')); ?>"><i class="bi bi-key"></i> <span>(Verve NGN)</span>
                          </a>
-                </li>
+                </li>  
                  <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.list.card') ? 'active' : ''); ?>"
                         href="<?php echo e(route('user.list.card')); ?>"><i class="bi bi-key"></i> <span>(Visa USD)</span>
                          </a>
-                </li>
-            </ul>
+                </li>                 
+            </ul> 
             <?php endif; ?>
 
 
             <?php if(Auth::user()->api_access == 1 || Auth::user()->vendor == 1): ?>
             <hr class="navbar-divider my-5 opacity-70">
             <ul class="navbar-nav">
-
+                
                 <?php if(Auth::user()->api_access == 1 || Auth::user()->vendor == 1): ?>
                 <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.api.key') ? 'active' : ''); ?>"
                         href="<?php echo e(route('user.api.key')); ?>"><i class="bi bi-key"></i> <span>API Key</span>
                          </a>
                 </li>
-
+                 
                 <?php endif; ?>
-
+                 
             </ul>
             <?php endif; ?>
-
+ 
 
             <hr class="navbar-divider my-5 opacity-70">
             <ul class="navbar-nav">
@@ -160,7 +151,7 @@
                         <span>Wallet Transfer</span>
                         <span
                             class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
-
+                     
                 </li>
                 <?php endif; ?>
                 <?php if($general->swap_fiat > 0): ?>
@@ -170,16 +161,16 @@
                             Hot</span></a>
                 </li>
                 <?php endif; ?>
-
+                
                 <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.transactions') ? 'active' : ''); ?>"
                         href="<?php echo e(route('user.transactions')); ?>" role="button"
                         aria-controls="sidebar-components"><i class="bi bi-cash-stack"></i>
                         <span>Transactions</span>
                         <span
                             class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
-
+                     
                 </li>
-            </ul>
+            </ul> 
             <div class="mt-auto"></div>
             <div class="card bg-dark border-0 mt-5 mb-3">
                 <div class="card-body">

@@ -30,8 +30,8 @@
                                         <!--begin::Action-->
 
                                         <a href="<?php echo e(route('user.giftcard.digital.shop')); ?>" class="btn btn-primary er fs-6 px-8 py-4">
-                                            <?php echo app('translator')->get('Buy Digital Giftcard'); ?> </a>  
-                                        <br> <br> 
+                                            <?php echo app('translator')->get('Buy Digital Giftcard'); ?> </a>
+                                        <br> <br>
                                         <!--end::Action-->
                                     </div>
                                 </div>
@@ -59,6 +59,6 @@
 
     <?php $__env->startPush('breadcrumb-plugins'); ?>
     <a class="btn btn-sm btn-primary" href="<?php echo e(route('user.giftcard.digital.history')); ?>"> <i class="ti ti-printer"></i> <?php echo app('translator')->get('Giftcard Log'); ?></a>
-    <?php $__env->stopPush(); ?> 
+    <?php $__env->stopPush(); ?>
 
 <?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/basic/user/giftcard_auto/index.blade.php ENDPATH**/ ?>

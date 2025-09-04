@@ -45,6 +45,7 @@
             res.data.map(coin => {
                 let coinPrice = coin.metrics.market_data.price_usd
                 let coinPercent = coin.metrics.market_data.percent_change_usd_last_24_hours
+                var newBalance
                 switch (coin.symbol) {
                     case "BTC":
                         document.getElementById("BTC").innerHTML = `$${coinPrice.toFixed(0) } `

@@ -43,14 +43,14 @@
                           </form>
                     </div>
 
-                    
+
                     <div class="table-responsive">
                         <table class="table table-hover table-striped table-sm table-nowrap">
                             <thead>
                                 <tr>
                                     <th scope="col">
                                         <div class="d-flex align-items-center gap-2 ps-1">
-                                            <div class="text-base"> 
+                                            <div class="text-base">
                                             </div><span>Remark</span>
                                         </div>
                                     </th>
@@ -67,11 +67,11 @@
                                  <?php $__empty_1 = true; $__currentLoopData = $transactions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <tr>
                                     <td>
-                                        <div class="d-flex align-items-center gap-3 ps-1"> 
-                                            
+                                        <div class="d-flex align-items-center gap-3 ps-1">
+
                                             <div class="d-none d-xl-inline-flex icon icon-shape w-rem-8 h-rem-8 rounded-circle text-sm <?php if($data->trx_type == '+'): ?> bg-success text-success <?php else: ?>  bg-danger text-danger <?php endif; ?> bg-opacity-25 ">
                                                 <?php if($data->trx_type == '+'): ?> <i class="bi bi-download"></i> <?php else: ?> <i class="bi bi-upload"></i> <?php endif; ?>
-                                                
+
                                             </div>
                                             <div><span class="d-block text-heading fw-bold"><?php echo e($data->remark); ?></span></div>
                                         </div>
@@ -92,13 +92,13 @@
                                 <?php echo emptyData(); ?>
 
                                 <?php endif; ?>
-                                 
+
                             </tbody>
                         </table>
                     </div>
                     <?php if($transactions->hasPages()): ?>
                     <div class="py-4 px-6">
-                        <div class="row align-items-center justify-content-between"> 
+                        <div class="row align-items-center justify-content-between">
                             <div class="col-md-auto">
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination pagination-spaced gap-1">
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     <?php endif; ?>
-                    
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/satoshi/user/transactions.blade.php ENDPATH**/ ?>

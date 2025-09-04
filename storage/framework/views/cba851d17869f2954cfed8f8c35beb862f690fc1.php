@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('panel'); ?>
     <!-- File export -->
     <div class="row">

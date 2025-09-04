@@ -295,15 +295,6 @@ class BillsController extends Controller
              ),
         ));
         $resp = curl_exec($curl);
-
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        if ($err) {
-            // echo "cURL Error #:" . $err;
-            return [];
-        }
         $reply = json_decode($resp, true);
         curl_close($curl);
         if(!isset($reply['data']['id']) && !isset($reply['data']['pan']))

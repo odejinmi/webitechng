@@ -46,7 +46,7 @@ $passwordContent = getContent('password.content', true);
                     <!--begin::Form-->
                     <form class="form w-100 verify-gcaptcha"  data-kt-redirect-url="<?php echo e(route('user.home')); ?>"  class="form w-100" novalidate="novalidate" id="kt_password_reset_form" method="POST"
                     action="<?php echo e(route('user.password.email')); ?>">
-                    <?php echo csrf_field(); ?> 
+                    <?php echo csrf_field(); ?>
 
                     <div class="text-center mb-10">
                         <img alt="Logo" class="mh-125px" src="<?php echo e(asset('assets/thirdparty/media/svg/misc/smartphone-2.svg')); ?>"/>
@@ -65,14 +65,14 @@ $passwordContent = getContent('password.content', true);
                             </div>
                             <!--end::Subtitle--->
                         </div>
-                        <!--begin::Heading-->  
+                        <!--begin::Heading-->
 
                         <!--begin::Input group--->
                         <div class="fv-row mb-8">
                             <!--begin::Email-->
                             <input type="text" name="value" class="form-control bg-transparent" value="<?php echo e(old('value')); ?>" autocomplete="off" placeholder="<?php echo app('translator')->get('Username or Email'); ?>" required>
                             <!--end::Email-->
-                        </div> 
+                        </div>
 
                         <!--begin::Submit button-->
                         <div class="d-grid mb-10">
@@ -81,7 +81,7 @@ $passwordContent = getContent('password.content', true);
                                 <!--begin::Indicator label-->
                                 <span class="indicator-label">
                                     <?php echo app('translator')->get('Proceed'); ?></span>
-                                <!--end::Indicator label--> 
+                                <!--end::Indicator label-->
                              </button>
                         </div>
                         <!--end::Submit button-->
@@ -99,7 +99,7 @@ $passwordContent = getContent('password.content', true);
                     <!--end::Form-->
 
                 </div>
-                <!--end::Wrapper--> 
+                <!--end::Wrapper-->
             </div>
             <!--end::Content-->
         </div>
@@ -108,7 +108,7 @@ $passwordContent = getContent('password.content', true);
     <!--end::Body-->
 </div>
 <!--end::Authentication - Password Reset-->
- 
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make($activeTemplate . 'layouts.auth', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/basic/user/auth/passwords/email.blade.php ENDPATH**/ ?>

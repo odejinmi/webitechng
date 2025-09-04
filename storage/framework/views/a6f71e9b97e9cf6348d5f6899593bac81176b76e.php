@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('panel'); ?>
  <!-- content @s
 -->
@@ -18,7 +17,7 @@
 
                     <!--begin::Step 2-->
                     <div data-kt-stepper-element="scontent">
-                        
+
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -34,12 +33,12 @@
                                 </div>
                                 <!--end::Notice-->
                             </div>
-                            <!--end::Heading-->    
+                            <!--end::Heading-->
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
                                 <!--begin::Label-->
                                 <label class="d-flex align-items-center form-label mb-3">
-                                    <?php echo app('translator')->get('Fixed Amount'); ?> 
+                                    <?php echo app('translator')->get('Fixed Amount'); ?>
                                     <span class="ms-1" data-bs-toggle="tooltip" title="Select a fixed amount">
                                         <i class="ti ti-alert-circle text-gray-500 fs-6">
                                             <span class="path1"></span>
@@ -134,7 +133,7 @@ endif;
 unset($__errorArgs, $__bag); ?>" value="<?php echo e(old('amount')); ?>" name="amount" placeholder="0.00" />
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group--> 
+                            <!--end::Input group-->
 
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
@@ -153,14 +152,14 @@ unset($__errorArgs, $__bag); ?>" id="purpose"
                                     name="purpose" value="<?php echo e(old('purpose')); ?>" placeholder="Purpose of invoice" />
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group--> 
+                            <!--end::Input group-->
 
                              <!--begin::Input group-->
                              <div class="mb-10 fv-row">
                                 <!--begin::Label-->
-                                <label class="form-label mb-3"><?php echo app('translator')->get('Status '); ?></label> 
+                                <label class="form-label mb-3"><?php echo app('translator')->get('Status '); ?></label>
                                 <div class="form-check form-switch form-check-custom form-check-solid">
-                                    
+
                                     <input class="form-check-input" type="checkbox" name="status" id="status"/>
                                     <label class="form-check-label" for="status">
                                         <small class="text-danger">Toggle on switch to make invoice active</small>
@@ -178,12 +177,12 @@ unset($__errorArgs, $__bag); ?>" id="purpose"
 
                     <!--begin::Actions-->
                     <div class="d-flex flex-stack pt-15">
- 
+
                         <!--begin::Wrapper-->
                         <div>
 
                             <button type="submit" class="btn btn-lg btn-primary" type="button" id="submit"><?php echo app('translator')->get('Proceed'); ?>
-                                
+
                                 <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span class="path2"></span></i> </button>
                         </div>
                         <!--end::Wrapper-->
@@ -199,7 +198,7 @@ unset($__errorArgs, $__bag); ?>" id="purpose"
     <!--end::Card-->
 </div>
 <!--end::Container-->
- 
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/basic/user/vendor/invoice/create.blade.php ENDPATH**/ ?>

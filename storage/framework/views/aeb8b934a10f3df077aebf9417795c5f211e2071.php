@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('panel'); ?>
     <!-- content @s
         -->
@@ -271,7 +270,7 @@ unset($__errorArgs, $__bag); ?>"
                                             <input type="text" id="pin1" name="code_1"
                                                 class="form-control form-control-solid"
                                                 placeholder="****" />
-                                             
+
                                         </div>
                                         <!--begin::Input group-->
                                     </div>
@@ -355,7 +354,7 @@ unset($__errorArgs, $__bag); ?>"
                         .then(response => response.text())
                         .then(result => {
                             const reply = JSON.parse(result);
-                            if (reply.ok != true) 
+                            if (reply.ok != true)
                             {
                                 document.getElementById("submit").disabled = true;
                             }
@@ -369,7 +368,7 @@ unset($__errorArgs, $__bag); ?>"
                                 `<div class="alert alert-${reply.status} d-flex align-items-center p-5">
                                 <i class="ti ti-alert-circle fs-2hx text-${reply.status} me-4"><span class="path1"></span><span class="path2"></span></i>
                                 <div class="d-flex flex-column">
-                                    <h4 class="mb-1 text-dark"></h4> 
+                                    <h4 class="mb-1 text-dark"></h4>
                                     <span>${reply.message}</span>
                                 </div>
                                 </div>`
@@ -433,20 +432,20 @@ unset($__errorArgs, $__bag); ?>"
             fetch("<?php echo e(route('user.bank.transfer.strowallet')); ?>", requestOptions)
                 .then(response => response.text())
                 .then(result => {
-                    const reply = JSON.parse(result); 
+                    const reply = JSON.parse(result);
                     document.getElementById("submit").disabled = false;
                     $("#beneficiary").html(
                         `<div class="alert alert-${reply.status} d-flex align-items-center p-5">
                         <i class="ti ti-alert-circle fs-2hx text-${reply.status} me-4"><span class="path1"></span><span class="path2"></span></i>
                         <div class="d-flex flex-column">
-                            <h4 class="mb-1 text-dark"></h4> 
+                            <h4 class="mb-1 text-dark"></h4>
                             <span>${reply.message}</span>
                         </div>
                         </div>`
                     );
                     KTApp.hidePageLoading();
                     loadingEl.remove();
-                    if (reply.ok != true) 
+                    if (reply.ok != true)
                     {
                         /*
                         setTimeout(function(){
@@ -467,4 +466,5 @@ unset($__errorArgs, $__bag); ?>"
     <?php $__env->startPush('breadcrumb-plugins'); ?>
         <a class="btn btn-sm btn-primary" href="<?php echo e(route('user.bank.transfer.history')); ?>"> <i class="ti ti-printer"></i> <?php echo app('translator')->get('Bank Transfer Log'); ?></a>
     <?php $__env->stopPush(); ?>
+
 <?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/basic/user/bank/strowallet.blade.php ENDPATH**/ ?>

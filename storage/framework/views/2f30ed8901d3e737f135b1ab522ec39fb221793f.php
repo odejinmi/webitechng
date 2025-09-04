@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
     <?php echo $__env->make($activeTemplate . 'partials.sidenav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <div class="flex-lg-fill overflow-x-auto ps-lg-1 vstack vh-lg-100 position-relative">
@@ -24,7 +23,7 @@
 
         </main>
     </div>
-    
+
     </div>
 <?php $__env->stopSection(); ?>
 

@@ -5,7 +5,7 @@
 <?php $__env->stopPush(); ?>
             <!-- File export -->
             <div class="row">
-                <div class="col-12"> 
+                <div class="col-12">
 
                   <!-- ---------------------
                               start File export
@@ -36,22 +36,22 @@
                             <!-- end row -->
                           </thead>
                           <tbody>
-                             
+
                             <?php $__empty_1 = true; $__currentLoopData = @$log; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $deposit): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                     <tr>
                                         <td>
-                                            <span class="fw-bold"> 
-                                              
+                                            <span class="fw-bold">
+
                                               <span
                                                     class="text-primary"><?php echo e(__($deposit->product_name)); ?><small> (<?php echo e(__($deposit->asset->symbol)); ?>)</small></span>
-                                            </span> 
+                                            </span>
                                             <br>
                                             <span class="symbol symbol-40px me-6">
                                               <span class="symbol-label bg-light-primary">
                                                   <i class="ti ti-image fs-2x text-warning"><img src="<?php echo e(url('/')); ?>/assets/images/coins/<?php echo e($deposit->asset->image); ?>" width="30" class="path1"/></i>
                                               </span>
-                                              
-                                          </span> 
+
+                                          </span>
                                         </td>
 
                                         <td class="text-center">
@@ -63,19 +63,19 @@
                                             <?php echo e(($deposit->deposit_code)); ?>
 
                                         </td>
-                                       
+
                                         <td class="text-center">
                                            <small> <?php echo e(showAmount($deposit->payment)); ?><?php echo e(__(@$deposit->asset->symbol)); ?></small>
-                                            <br> 
-                                            <strong><?php echo e(showAmount($deposit->price)); ?> <?php echo e(__($deposit->currency)); ?></strong>                                        
+                                            <br>
+                                            <strong><?php echo e(showAmount($deposit->price)); ?> <?php echo e(__($deposit->currency)); ?></strong>
                                         </td>
                                         <td class="text-center">
                                           <?php echo e(__($deposit->value)); ?><?php echo e(__($general->cur_text)); ?>
 
-                                        </td> 
+                                        </td>
                                         <td class="text-center">
                                            <label class='badge text-white  <?php if($deposit->status_code == 1 || $deposit->status_code == 3  || $deposit->status == 'success'): ?> bg-success <?php else: ?> bg-danger <?php endif; ?>'> <?php echo $deposit->status ?></label>
-                                        </td> 
+                                        </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                     <?php echo emptyData2(); ?>
@@ -107,7 +107,7 @@
                   <!-- ---------------------
                               end File export
                           ---------------- -->
-  
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('breadcrumb-plugins'); ?>
@@ -137,7 +137,7 @@
 <script src="<?php echo e(asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js')); ?>"></script>
 <script src="<?php echo e(asset('assets/assets/cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js')); ?>"></script>
 <script src="<?php echo e(asset('assets/assets/dist/js/datatable/datatable-advanced.init.js')); ?>"></script>
- 
+
 <?php $__env->stopPush(); ?>
 
 <?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/basic/user/assets/crypto/sellcrypto/sell_log.blade.php ENDPATH**/ ?>

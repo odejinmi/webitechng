@@ -70,7 +70,7 @@
                                 <!--begin::Links-->
                                 <div class="text-center mb-1">
                                     <!--begin::Link-->
-                                   
+
                                     <!--begin::Link-->
                                     <a class="btn btn-sm btn-dark mb-1"
                                         href="<?php echo e(route('user.crypto.wallet.trx', $wallet->address)); ?>">
@@ -191,14 +191,14 @@
                       <?php echo app('translator')->get('Swap '); ?> <?php echo e($coin->name); ?>
 
                     </button>
-                    
-                    
+
+
                     <button class="btn btn-sm btn-warning me-2 mb-1"
                       data-bs-toggle="modal" data-bs-target="#bs-example-modal-md2">
-                      <?php echo app('translator')->get('Sell All '); ?> 
+                      <?php echo app('translator')->get('Sell All '); ?>
                     </button>
-                    
-                    
+
+
                       <div class="modal fade" id="bs-example-modal-md2" tabindex="-1"
                       aria-labelledby="bs-example-modal-lg" aria-hidden="true">
                       <div class="modal-dialog modal-lg">
@@ -221,22 +221,22 @@
                 <!--begin::Modal body-->
                 <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                     <!--begin::Form-->
-                   
+
 <form method="POST" action="<?php echo e(route('user.crypto.sellall',encrypt($coin->id))); ?>" enctype="multipart/form-data">
     <?php echo csrf_field(); ?>
                         <!--begin::Input group-->
                         <div class="d-flex flex-column mb-7 fv-row">
                             <!--begin::Label-->
-                           
+
                            <div class="alert alert-danger">
-                              You are about to convert all your  <?php echo e($coin->name); ?> wallet balance to your main balance. 
+                              You are about to convert all your  <?php echo e($coin->name); ?> wallet balance to your main balance.
                            </div>
                         </div>
                         <!--end::Input group-->
- 
+
 
                         <!--begin::Input group-->
-                        <div class="row mb-10"> 
+                        <div class="row mb-10">
 
                             <!--begin::Actions-->
                             <div class="text-center pt-15">
@@ -261,7 +261,7 @@
                     </div>
                   </div>
                   <div>
-                    
+
                     <!-- sample modal content -->
                     <div id="bs-example-modal-md" class="modal fade" tabindex="-1"
                       aria-labelledby="bs-example-modal-md" aria-hidden="true">
@@ -353,7 +353,7 @@
 
 
 
-      
+
 
 
 

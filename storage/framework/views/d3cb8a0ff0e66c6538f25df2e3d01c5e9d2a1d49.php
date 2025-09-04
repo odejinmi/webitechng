@@ -1,0 +1,422 @@
+<?php $__env->startSection('panel'); ?>
+    <div class="vstacks">
+        <div class="px-3s px-md-8s pt-8s">
+
+
+            <div class="row row-cols-xl-4 row-cols-md-2 g-6 mt-6">
+                <div class="col">
+                    <div class="card bg-warning bg-opacity-10 border-warning border-opacity-40">
+                        <div class="p-5">
+                            <div class="d-flex gap-3 mb-5"><img src="<?php echo e(url('/')); ?>/assets/images/provider/mtn.png" class="avatar"
+                                    alt="...">
+                                <div class=""><a class="d-inline-block text-sm text-heading fw-semibold"
+                                        href="#">MTN Network
+                                    </a><span class="d-block text-xs text-muted">Internet Subscriptions</span></div>
+                            </div>
+                            <div class="d-flex align-items-end">
+                                <div class="hstack gap-2">
+                                    <span class="badge bg-warning bg-opacity-25 text-warning"><?php echo e($general->cur_sym); ?><?php echo e(number_format($mtn,2)); ?></span>
+                                    <span class="badge badge-count bg-warning text-xs rounded-circle"><i
+                                            class="bi bi-wallet"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card bg-success bg-opacity-10 border-success border-opacity-40">
+                        <div class="p-5">
+                            <div class="d-flex gap-3 mb-5"><img src="<?php echo e(url('/')); ?>/assets/images/provider/glo.jpeg" class="avatar"
+                                    alt="...">
+                                <div class=""><a class="d-inline-block text-sm text-heading fw-semibold"
+                                        href="#">GLO Network
+                                    </a><span class="d-block text-xs text-muted">Internet Subscriptions</span></div>
+                            </div>
+                            <div class="d-flex align-items-end">
+                                <div class="hstack gap-2">
+                                    <span class="badge bg-success bg-opacity-25 text-success"><?php echo e($general->cur_sym); ?><?php echo e(number_format($glo,2)); ?></span>
+                                    <span class="badge badge-count bg-success text-xs rounded-circle"><i
+                                            class="bi bi-wallet"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card bg-danger bg-opacity-10 border-danger border-opacity-40">
+                        <div class="p-5">
+                            <div class="d-flex gap-3 mb-5"><img src="<?php echo e(url('/')); ?>/assets/images/provider/airtel.jpeg" class="avatar"
+                                    alt="...">
+                                <div class=""><a class="d-inline-block text-sm text-heading fw-semibold"
+                                        href="#">Airtel Network
+                                    </a><span class="d-block text-xs text-muted">Internet Subscriptions</span></div>
+                            </div>
+                            <div class="d-flex align-items-end">
+                                <div class="hstack gap-2">
+                                    <span class="badge bg-danger bg-opacity-25 text-danger"><?php echo e($general->cur_sym); ?><?php echo e(number_format($airtel,2)); ?></span>
+                                    <span class="badge badge-count bg-danger text-xs rounded-circle"><i
+                                            class="bi bi-wallet"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card bg-dark bg-opacity-10 border-dark border-opacity-40">
+                        <div class="p-5">
+                            <div class="d-flex gap-3 mb-5"><img src="<?php echo e(url('/')); ?>/assets/images/provider/9mobile.jpeg" class="avatar"
+                                    alt="...">
+                                <div class=""><a class="d-inline-block text-sm text-heading fw-semibold"
+                                        href="#">9Mobile Network
+                                    </a><span class="d-block text-xs text-muted">Internet Subscriptions</span></div>
+                            </div>
+                            <div class="d-flex align-items-end">
+                                <div class="hstack gap-2">
+                                    <span class="badge bg-dark bg-opacity-25 text-dark"><?php echo e($general->cur_sym); ?><?php echo e(number_format($etisalat,2)); ?></span>
+                                    <span class="badge badge-count bg-dark text-xs rounded-circle"><i
+                                            class="bi bi-wallet"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row align-items-center g-6 mt-0 mb-6">
+
+                           <form action="#">
+                <div class="col-sm-6">
+                    <div class="d-flex gap-2">
+
+                        <div class="input-group input-group-sm input-group-inline w-100 w-md-50">
+                            <span class="input-group-text"><i class="bi bi-search me-2"></i> </span>
+                            <input type="search" class="form-control ps-0" name="search" placeholder="Search by ID" aria-label="Search">
+
+                        </div>
+
+
+                    </div>
+                </div>
+                    </form>
+            </div>
+        </div>
+        <div class="border-top">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-nowrap">
+                    <thead>
+                        <tr>
+                            <th scope="col">Network</th>
+                            <th class="w-md-32" scope="col">Amount</th>
+                            <th class="w-md-32 d-none d-sm-table-cell" scope="col">Ref</th>
+                            <th class="w-md-32" scope="col">Beneficiary</th>
+                            <th class="w-md-20 d-none d-sm-table-cell"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <?php $__empty_1 = true; $__currentLoopData = $internetlog; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3"><img src="<?php echo e(url('/')); ?>/assets/images/provider/<?php echo e($data->product_name); ?>.jpeg"
+                                        class="avatar avatar-sm rounded-circle" alt="...">
+                                    <div class=""><a class="d-inline-block text-sm text-heading fw-semibold"
+                                            href="#"><?php echo e(__(@strToUpper($data->product_name))); ?>
+
+                                        </a><span class="d-block text-xs text-muted"></span></div>
+                                </div>
+                            </td>
+                            <td><?php echo e(__($general->cur_sym)); ?><?php echo e(showAmount($data->price)); ?></td>
+                            <td class="d-none d-sm-table-cell">
+                                <span class="text-success fw-semibold"><?php echo e($data->trx); ?></span>
+                            </td>
+
+                            <td class="d-non d-sm-table-cell"><?php echo e($data->val_1); ?></td>
+                            <td class="d-none d-xl-table-cell">
+                                <div class="w-rem-32">
+                                    <?php echo e(showDate($data->created_at)); ?>
+
+                                </div>
+                            </td>
+                        </tr>
+                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                        <?php echo emptyData2(); ?>
+
+                        <?php endif; ?>
+
+                    </tbody>
+                </table>
+            </div>
+            <?php if($internetlog->hasPages()): ?>
+            <div class="py-4 px-6">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-md-6 d-none d-md-block">
+                        <span class="text-muted text-sm"></span>
+                    </div>
+                    <div class="col-md-auto">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination pagination-spaced gap-1">
+
+                                <?php echo e($internetlog->links()); ?>
+
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="modal fade" id="topUpModal" tabindex="-1" aria-labelledby="topUpModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content overflow-hidden">
+                                <div class="modal-header pb-0 border-0">
+                                    <h1 class="modal-title h4" id="topUpModalLabel">Buy Internet Plan</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body undefined">
+                                    <form class="vstack gap-8">
+                                        <div class="bg-body-secondary rounded-3 p-4">
+                                            <div class="d-flex justify-content-between text-xs text-muted">
+                                                <span class="fw-semibold">Phone Number</span> </div>
+
+                                            <div class="d-flex justify-content-between gap-2 mt-4">
+                                              <input type="tel" id="phone" class="form-control form-control-flush text-xl fw-bold w-rem-40" placeholder="080********">
+                                                <button class="btn btn-sm btn-neutral rounded-pill shadow-none flex-none d-flex align-items-center gap-2 p-2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <a id="networkimage"><img src="<?php echo e(url('/')); ?>/assets/images/provider/mtn.png" class="w-rem-6 h-rem-6 rounded-circle" alt="..."></a>  <i class="bi bi-chevron-down text-xs me-1"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-sm">
+                                                      <?php $__currentLoopData = json_decode($networks); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $plan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <li onclick="verifynetwork(`<?php echo e($plan->logo); ?>`,`<?php echo e($plan->networkid); ?>`,`<?php echo e(strToLower($plan->name)); ?>`)"><a class="dropdown-item d-flex align-items-center gap-2" href="#"><img src="<?php echo e(url('/')); ?>/assets/images/provider/<?php echo e($plan->logo); ?>" class="w-rem-6 h-rem-6 rounded-circle" alt="...">
+                                                                <span><?php echo e($plan->name); ?></span>
+                                                            </a>
+                                                        </li>
+                                                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                         <?php $__env->startPush('script'); ?>
+                                                          <script>
+                                                            function verifynetwork(logo,networkid,networkname)
+                                                            {
+                                                              document.getElementById("networkimage").innerHTML = `<img src="<?php echo e(url('/')); ?>/assets/images/provider/${logo}" class="w-rem-6 h-rem-6 rounded-circle"/>`;
+                                                              document.getElementById("networkid").value = networkid;
+                                                              this.getplans(logo,networkid,networkname);
+                                                            }
+                                                            function getplans(logo,networkid,network) {
+                                                              var raw = JSON.stringify({
+                                                                _token: "<?php echo e(csrf_token()); ?>",
+                                                              });
+                                                              var requestOptions = {
+                                                                method: 'POST',
+                                                                headers: {
+                                                                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                                },
+                                                                body: raw
+                                                              };
+                                                              fetch("<?php echo e(route('user.internet_sme.operatorsInternetdetailsTECHHUB')); ?>", requestOptions).then(response =>
+                                                                response.text()).then(result => {
+                                                                  // Function to filter plans based on selected category
+                                                                  function filterPlans(selectedCategory, event) {
+                                                                      if (event) event.preventDefault(); // Prevents the default behavior (form submission)
+
+                                                                      let filteredHtml = ""; // Reset filtered HTML
+
+                                                                      plans.map(plan => {
+                                                                          if (plan['network'].toUpperCase() === network.toUpperCase() && plan.category === selectedCategory) {
+
+                                                                              filteredHtml += `
+                                                                                    <div class="form-item-checkable">
+                                                                                        <input onchange="setamount(this)" class="form-item-check" type="radio"
+                                                                                            name="operator" id="${plan['plan_id']}"
+                                                                                            value="${plan['plan_name']}|${plan['amount']}|${plan['plan_id']}|${network}">
+
+                                                                                        <label class="form-item cursor-pointer" for="${plan['plan_id']}">
+                                                                                            <span class="form-item-click d-inline-flex flex-column gap-3 align-items-center justify-content-center form-control text-center text-muted"
+                                                                                                style="min-width: 120px; max-width: 140px; word-wrap: break-word; white-space: normal; text-align: center;">
+
+                                                                                                <img style="border-radius: 50%;" src="<?php echo e(url('/')); ?>/assets/images/provider/${logo}" width="40" />
+
+                                                                                                <span class="fw-semibold text-xs" style="display: block; max-width: 100%; word-wrap: break-word; overflow-wrap: break-word;">
+                                                                                                    <b>${plan['plan_name']}</b>
+                                                                                                    <br>
+                                                                                                    <small class="text-muted"> <b>₦${plan['amount']}</b></small>
+                                                                                                </span>
+                                                                                            </span>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    `;
+                                                                          }
+                                                                      });
+
+                                                                      // Update the plan list in the DOM
+                                                                      document.getElementById("planlist").innerHTML =
+                                                                          `  <div class="row align-items-center g-3">
+                                                              <div class="">
+                                                                  <div class="d-flex gap-3 scrollable-x">${filteredHtml}</div></div></div>`;
+                                                                  }
+
+                                                                  // Ensure this function is accessible globally
+                                                                  window.filterPlans = filterPlans;
+
+                                                                  const plans = JSON.parse(result);
+                                                                  const categories = [...new Set(plans.map(plan => plan.category))];
+                                                                  let categoryhtml = ""; // Initialize category HTML
+                                                                  let html = ""; // Initialize plans HTML
+
+                                                                  // Generate category buttons with click event to filter plans
+                                                                  categories.map(category => {
+                                                                      let htmlSegment = `
+                                                                            <button type="button" class="btn btn-primary category-btn" onclick="filterPlans('${category}', event)">
+                                                                                ${category}
+                                                                            </button>`;
+                                                                      categoryhtml += htmlSegment;
+                                                                  });
+                                                                  // Initial rendering of all plans
+                                                                  plans.map(plan => {
+                                                                      if (plan['network'].toUpperCase() === network.toUpperCase()) {
+                                                                          html +=
+                                                                              ` <div class="form-item-checkable">
+                                                                                        <input onchange="setamount(this)" class="form-item-check" type="radio"
+                                                                                            name="operator" id="${plan['plan_id']}"
+                                                                                            value="${plan['plan_name']}|${plan['amount']}|${plan['plan_id']}|${network}">
+
+                                                                                        <label class="form-item cursor-pointer" for="${plan['plan_id']}">
+                                                                                            <span class="form-item-click d-inline-flex flex-column gap-3 align-items-center justify-content-center form-control text-center text-muted"
+                                                                                                style="min-width: 120px; max-width: 140px; word-wrap: break-word; white-space: normal; text-align: center;">
+
+                                                                                                <img style="border-radius: 50%;" src="<?php echo e(url('/')); ?>/assets/images/provider/${logo}" width="40" />
+
+                                                                                                <span class="fw-semibold text-xs" style="display: block; max-width: 100%; word-wrap: break-word; overflow-wrap: break-word;">
+                                                                                                    <b>${plan['plan_name']}</b>
+                                                                                                    <br>
+                                                                                                    <small class="text-muted"> <b>₦${plan['amount']}</b></small>
+                                                                                                </span>
+                                                                                            </span>
+                                                                                        </label>
+                                                                                    </div>`;
+                                                                      }
+                                                                  });
+
+                                                                  // document.getElementById("categoeylist").innerHTML =`${categoryhtml}`
+                                                                  document.getElementById("planlist").innerHTML =
+                                                                    `  <div class="row align-items-center g-3">
+                                                              <div class="">
+                                                                  <div class="d-flex gap-3 scrollable-x">${html}</div></div></div>`;
+
+                                                                }).catch(error => {
+                                                                  console.log(error);
+                                                                });
+                                                            }
+                                                          </script>
+                                                          <script>
+                                                            function setamount(input) {
+                                                              document.getElementById("phone").disabled = false;
+                                                              document.getElementById("amount").value = input.value;
+                                                              document.getElementById("networkname").value = input.value.split('|')[3];
+                                                              document.getElementById("data_plan").value = input.value.split('|')[2];
+                                                            }
+                                                          </script>
+                                                          <?php $__env->stopPush(); ?>
+
+                                                      <input id="amount" hidden>
+                                                      <input id="networkname" hidden>
+                                                      <input id="networkid" name="networkid" hidden>
+                                                      <input id="data_plan" hidden>
+
+                                                    </ul>
+                                            </div>
+                                        </div>
+
+                                                    <!--<div id="categoeylist"></div>-->
+                                                    <a id="planlist"></a>
+
+
+
+
+
+
+                                        <div class="bg-body-secondary rounded-3 p-4">
+                                            <div class="d-flex justify-content-between text-xs text-muted">
+                                                <span class="fw-semibold">PIN</span></div>
+                                            <div class="d-flex justify-content-between gap-2 mt-4"><input type="tel" id="password" class="form-control form-control-flush text-xl fw-bold flex-fill" placeholder="****">
+                                            </div>
+                                        </div>
+
+
+                                        <div>
+                                            <div class="vstack gap-2">
+                                                 <div id="purchasemessage"></div>
+                                                <div class="text-center">
+                                                    <button type="button" id="submit" onclick="submitform()" class="btn btn-primary w-100"><a id="submitloader">Buy</a></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startPush('breadcrumb'); ?>
+    <button type="button" class="btn btn-sm btn-neutral d-sm-inline-flex" data-bs-target="#topUpModal" data-bs-toggle="modal">Recharge</button>
+<?php $__env->stopPush(); ?>
+<?php $__env->startPush('script'); ?>
+    <script>
+        function submitform() {
+            var raw = JSON.stringify({
+                _token: "<?php echo e(csrf_token()); ?>",
+                password: document.getElementById('password').value,
+                networkname: document.getElementById('networkname').value,
+                amount: document.getElementById('amount').value,
+                phone: document.getElementById('phone').value,
+                networkid: document.getElementById('networkid').value,
+                data_plan: document.getElementById('data_plan').value,
+                wallet: "main"
+            });
+            var requestOptions = {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                body: raw
+            };
+            document.getElementById("submit").disabled = true;
+
+            $(document).ready(function() {
+                $.blockUI();
+            });
+            fetch("<?php echo e(route('user.buy.internet_sme_techhub')); ?>", requestOptions).then(response => response.text()).then(
+                result => {
+                    resp = JSON.parse(result);
+                    $(document).ready(function() {
+                        $.unblockUI();
+                    });
+                    document.getElementById("submit").disabled = false;
+
+                    if (resp.status == 'success') {
+                         Toastify({
+                          text: `${resp.message}`,
+                          className: "info",
+                          style: {
+                              background: "linear-gradient(to right, #00b09b, #96c93d)",
+                          }
+                          }).showToast();
+                        location.reload();
+                    }
+                    if (resp.status == 'danger')
+                    {
+                      Toastify({
+                      text: `${resp.message}`,
+                      className: "info",
+                      style: {
+                          background: "linear-gradient(to right, #D22B2B, #000000)",
+                      }
+                      }).showToast();
+                    }
+                }).catch(error => {});
+        }
+    </script>
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/satoshi/user/bills/internetsme/internet_buy_TECHHUB.blade.php ENDPATH**/ ?>

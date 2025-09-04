@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <?php echo $__env->make($activeTemplate . 'partials.breadcrumb', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
@@ -16,7 +15,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="row justify-content-center g-lg-4 g-md-2 g-4">
             <?php $__currentLoopData = $coins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <?php
@@ -52,7 +51,7 @@
 
                                 </li>
                             </ul>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -83,7 +82,7 @@
 
                                 </li>
                             </ul>
-                        </div> 
+                        </div>
                     </div>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <div class="alert alert-danger">

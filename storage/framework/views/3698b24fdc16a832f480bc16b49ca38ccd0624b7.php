@@ -30,7 +30,7 @@
                                         <!--begin::Action-->
                                         <a href="<?php echo e(route('user.voucher.create')); ?>" class="btn btn-primary er fs-6 px-8 py-4">
                                             <?php echo app('translator')->get('Generate Voucher'); ?> </a>
-                                        
+
                                             &nbsp;&nbsp;&nbsp;
 
                                         <!--begin::Action-->
@@ -75,13 +75,13 @@
                     </a>
                   </div>
 
-                  <form action="<?php echo e(route('user.voucher.redeem')); ?>" method="post" class="ps-3 pr-3"> 
-                    <?php echo csrf_field(); ?> 
+                  <form action="<?php echo e(route('user.voucher.redeem')); ?>" method="post" class="ps-3 pr-3">
+                    <?php echo csrf_field(); ?>
                     <div class="mb-3">
                       <label for="password1">Voucher Code</label>
                       <input class="form-control" type="password" required="" name="code" id="code"
                         placeholder="**********" />
-                    </div> 
+                    </div>
                     <div class="mb-3 text-center">
                       <button class="btn btn-rounded bg-info-subtle text-info font-medium" type="submit">
                         Redeem Voucher

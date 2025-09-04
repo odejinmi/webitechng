@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('panel'); ?>
 <!-- content @s -->
 <!--begin::Container-->
@@ -14,7 +13,7 @@
                         <div class="card-body p-4">
                           <h4 class="fw-semibold mb-3"><?php echo app('translator')->get('Account Verification'); ?></h4>
                           <form action="" method="post" enctype="multipart/form-data">
-                            <?php echo csrf_field(); ?>                    
+                            <?php echo csrf_field(); ?>
                             <div class="row">
                               <div class="col-lg-6">
                                 <div class="mb-4">
@@ -26,12 +25,12 @@
                                   <option>Select</option>
                                   <option>Voters Card</option>
                                   <option>International Passport</option>
-                                  <option>Drivers Licence</option> 
+                                  <option>Drivers Licence</option>
                                   <option>NIN Card</option>
                                 </select>
                                 </div>
-                                 
-                               
+
+
                                 <div class="mb-4">
                                   <label for="exampleInputPassword1" class="form-label fw-semibold"><?php echo app('translator')->get('Front View'); ?>*</label>
                                   <input type="file" class="form-control" name="front"  id="front">
@@ -39,9 +38,9 @@
                                 <div class="mb-4">
                                   <label for="exampleInputPassword1" class="form-label fw-semibold"><?php echo app('translator')->get('Back View'); ?>*</label>
                                   <input type="file" class="form-control" name="back" id="back">
-                                </div> 
-                                
-                                
+                                </div>
+
+
                               <br>
                               <div class="mb-4">
                               <button type="submit" class="mt-4 btn btn-primary"><?php echo app('translator')->get('Submit'); ?></button>
@@ -50,9 +49,9 @@
                               <?php if($user->kyc_complete == 3 || $user->kyc_complete == 1): ?>
                               <div class="col-lg-6 d-flex align-items-stretch">
                                 <div class="card w-100 position-relative overflow-hidden">
-                                   
-                                  <div class="card-body p-4"> 
-                                    
+
+                                  <div class="card-body p-4">
+
                                     <div class="text-center">
                                        <p class="mb-0"><?php echo e(@$user->kyc->type); ?></p>
                                     <?php if($user->kyc_complete == 3): ?>

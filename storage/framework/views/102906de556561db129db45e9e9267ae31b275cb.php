@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection('content'); ?>
 
 <?php
@@ -19,13 +21,12 @@
                 <h1 class="text-gray-800 fs-2qx fw-bold text-center mb-7">
                     <?php echo e(__(@$loginContent->data_values->heading)); ?>
 
-                </h1>
+                </h1> 
                 <!--end::Title-->
 
                 <!--begin::Text-->
                 <div class="text-gray-600 fs-base text-center fw-semibold">
-                    <?php echo e(__(@$loginContent->data_values->sub_heading)); ?>
-
+                    <?php echo e(__(@$loginContent->data_values->sub_heading)); ?> 
                 </div>
                 <!--end::Text-->
             </div>
@@ -45,7 +46,7 @@
                         <!--begin::Form-->
                         <form class="form w-100 verify-gcaptcha"  data-kt-redirect-url="<?php echo e(route('user.home')); ?>"  class="form w-100" novalidate="novalidate" id="kt_sign_in_form" method="POST"
                         action="<?php echo e(route('user.login')); ?>">
-                        <?php echo csrf_field(); ?>
+                        <?php echo csrf_field(); ?> 
                             <!--begin::Heading-->
                             <div class="text-center mb-11">
                                 <!--begin::Title-->
@@ -60,7 +61,7 @@
                                 </div>
                                 <!--end::Subtitle--->
                             </div>
-                            <!--begin::Heading-->
+                            <!--begin::Heading-->  
 
                             <!--begin::Input group--->
                             <div class="fv-row mb-8">
@@ -139,7 +140,7 @@
                         <!--end::Form-->
 
                     </div>
-                    <!--end::Wrapper-->
+                    <!--end::Wrapper--> 
                 </div>
                 <!--end::Content-->
             </div>

@@ -10,12 +10,37 @@
         <div class="navbar-user d-lg-none">
             <div class="dropdown"><a class="d-flex align-items-center" href="#" role="button"
                     data-bs-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                
+                
+                
+                
                     <div>
-                        <div class="avatar avatar-sm text-bg-secondary rounded-circle">AE</div>
-                    </div>
-                    <div class="d-none d-sm-block ms-3"><span class="h6"><?php echo e(Auth::user()->fullname); ?></span></div>
-                    <div class="d-none d-md-block ms-md-2"><i class="bi bi-chevron-down text-muted text-xs"></i>
-                    </div>
+    <div id="avatar" class="avatar avatar-sm text-bg-secondary rounded-circle"></div>
+</div>
+<div class="d-none d-sm-block ms-3">
+    <span class="h6"><?php echo e(Auth::user()->fullname); ?></span>
+</div>
+<div class="d-none d-md-block ms-md-2">
+    <i class="bi bi-chevron-down text-muted text-xs"></i>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let userName = "<?php echo e(Auth::user()->fullname); ?>"; // Get Laravel user full name
+        function getInitials(name) {
+            let initials = name.split(" ").map(n => n[0].toUpperCase()).join("");
+            return initials.substring(0, 2); // Ensure only two letters
+        }
+        document.getElementById("avatar").textContent = getInitials(userName);
+    });
+</script>
+
+               
+               
+               
+               
+               
+               
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <div class="dropdown-header">
@@ -93,9 +118,16 @@
                         href="<?php echo e(route('user.tradegift')); ?>"><i class="bi bi-credit-card"></i> <span>Sell Giftcard</span>
                         </a>
                 </li> 
-                  
+                <?php if($general->crypto > 0): ?>
+                    <li class="nav-item my-1">
+                        <a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.crypto.index') ? 'active' : ''); ?>"
+                           href="<?php echo e(route('user.crypto.index')); ?>" ><i class="bi bi-wallet"></i>
+                            <span><?php echo app('translator')->get('Crypto Wallet'); ?></span>
+                        </a>
+                    </li>
+                <?php endif; ?>
                 <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.crypto.trade.index') ? 'active' : ''); ?>"
-                        href="<?php echo e(route('user.crypto.trade.index')); ?>"><i class="bi bi-wallet"></i> <span>Trade Crypto</span>
+                        href="<?php echo e(route('user.crypto.trade.index')); ?>"><i class="bi bi-wallet"></i> <span>Trade Assests</span>
                         </a>
                 </li> 
                  

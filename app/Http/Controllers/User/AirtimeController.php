@@ -374,6 +374,7 @@ class AirtimeController extends Controller
         //return json_decode($resp,true);
     }
 
+
     public function  testnotify(){
         $user = auth()->user();
         notify($user,'AIRTIME_BUY', [

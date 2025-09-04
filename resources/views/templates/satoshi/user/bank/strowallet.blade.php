@@ -120,7 +120,7 @@
                                 <div class="d-flex justify-content-between text-xs text-muted">
                                     <span class="fw-semibold">Transaction PIN</span>
                                 </div>
-                                <div class="d-flex justify-content-between mt-4"><input id="otp" placeholder="****"
+                                <div class="d-flex justify-content-between mt-4"><input id="otp" type="password" inputmode="numeric" pattern="[0-9]*"  placeholder="****"
                                         class="form-control form-control-flush text-xl fw-bold w-rem-40">
                                 </div>
                             </div>

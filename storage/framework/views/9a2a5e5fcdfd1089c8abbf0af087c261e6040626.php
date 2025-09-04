@@ -13,7 +13,7 @@
             <?php echo e(__($pageTitle)); ?>
 
           </li>
-                        <?php echo e($activeTemplate); ?>
+                        <?php echo e(checkTemplate()); ?>
 
 
         <div style="display: flex; justify-content: flex-end; margin-left: auto; margin-right: 0;" class="d-flex flex-wrap justify-content-end gap-2 align-items-center breadcrumb-plsugins">

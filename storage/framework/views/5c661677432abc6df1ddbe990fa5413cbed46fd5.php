@@ -45,7 +45,7 @@ $passwordContent = getContent('emailauth.content', true);
                     <!--begin::Form-->
                     <form class="form w-100 verify-gcaptcha" class="form w-100" novalidate="novalidate" method="POST"
                     action="<?php echo e(route('user.verify.email')); ?>">
-                    <?php echo csrf_field(); ?> 
+                    <?php echo csrf_field(); ?>
                      <!--begin::Icon-->
                     <div class="text-center mb-10">
                         <img alt="Logo" class="mh-125px" src="<?php echo e(asset('assets/thirdparty/media/svg/misc/smartphone-2.svg')); ?>"/>
@@ -65,14 +65,14 @@ $passwordContent = getContent('emailauth.content', true);
                             </div>
                             <!--end::Subtitle--->
                         </div>
-                        <!--begin::Heading-->   
+                        <!--begin::Heading-->
                         <!--begin::Section-->
-                        <div class="mb-10"> 
+                        <div class="mb-10">
 
                         <!--begin::Input group-->
-                        <div class="d-flex flex-wrap flex-stack">                      
+                        <div class="d-flex flex-wrap flex-stack">
                             <input type="text" name="code" maxlength="6" type="password" class="form-control bg-transparent text-center mx-1 my-2" value=""/>
-                        </div>                
+                        </div>
                         <!--begin::Input group-->
     </div>
     <!--end::Section-->
@@ -84,10 +84,10 @@ $passwordContent = getContent('emailauth.content', true);
                                 <!--begin::Indicator label-->
                                 <span class="indicator-label">
                                     <?php echo app('translator')->get('Proceed'); ?></span>
-                                <!--end::Indicator label--> 
+                                <!--end::Indicator label-->
                              </button>
                         </div>
-                        <!--end::Submit button--> 
+                        <!--end::Submit button-->
                     </form>
                     <!--end::Form-->
                     <p>
@@ -101,7 +101,7 @@ $passwordContent = getContent('emailauth.content', true);
                     <?php endif; ?>
 
                 </div>
-                <!--end::Wrapper--> 
+                <!--end::Wrapper-->
             </div>
             <!--end::Content-->
         </div>
@@ -110,12 +110,12 @@ $passwordContent = getContent('emailauth.content', true);
     <!--end::Body-->
 </div>
 <!--end::Authentication - Sign-in-->
- 
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('style'); ?>
-    
+
 <?php $__env->stopPush(); ?>
- 
+
 
 <?php echo $__env->make($activeTemplate . 'layouts.auth', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/basic/user/auth/authorization/email.blade.php ENDPATH**/ ?>

@@ -727,7 +727,7 @@
                     <input id="trxnumber" name="trx" hidden>
                     <div class="mb-3">
                     <label for="proof">Proof Of Payment</label>
-                    <input class="form-control" type="file" name="proof" id="proof" required="" />
+                    <input class="form-control" type="file" name="proof" id="proof" />
                     </div>
 
                     <div class="mb-3 text-center">
@@ -957,7 +957,7 @@
                                                                                         <a href="#" onClick="confirmPayment('${resp.data.invoice_id}|${resp.data.coin}')">Click Here To Verify Payment</a>
 
                                                                                         </div>
-
+                                                                                        
                                                                                     </div>
                                                                             </section>
                                                                         </div>
@@ -1102,4 +1102,5 @@
     <?php $__env->startPush('breadcrumb-plugins'); ?>
         <a class="btn btn-sm btn-primary" href="<?php echo e(route('user.crypto.sell.log')); ?>"> <i class="ti ti-printer"></i> <?php echo app('translator')->get('Trade Log'); ?></a>
     <?php $__env->stopPush(); ?>
+
 <?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/basic/user/assets/crypto/sellcrypto/sell.blade.php ENDPATH**/ ?>

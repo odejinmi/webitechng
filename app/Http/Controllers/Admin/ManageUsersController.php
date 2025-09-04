@@ -39,6 +39,7 @@ class ManageUsersController extends Controller
     }
     public function kycapprove($id)
     {
+        $this->generatenuban($id);
         $user      = User::findOrFail($id);
         $user->kyc_complete = 1;
         $user->vendor = 1;
@@ -48,7 +49,6 @@ class ManageUsersController extends Controller
             'message' => 'Your KYC document has been verified successfuly',
             'subject' => 'KYC Document Verified'
         ]);
-        $this->generatenuban($id);
         $notify[] = ['success', $user->username . ' kyc approved successfuly.'];
         return back()->withNotify($notify);
     }
@@ -82,7 +82,82 @@ class ManageUsersController extends Controller
         {
           return $this->generatenubanpaylony($id);
         }
+        if($general->nuban_provider == 'PAYVESSEL')
+        {
+          return $this->generatenubanpayvessel($id);
+        }
 
+    }
+    
+    public function generatenubanpayvessel($id)
+    {
+        try {
+        $user = User::findOrFail($id);
+        $json = file_get_contents('php://input');
+        $input = json_decode($json, true);
+        $fee = env('DEDICATEDACCOUNTFEE');
+
+        if($user->nuban != null)
+        {
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'You already have an account number'],400);
+        }
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://api.payvessel.com/api/external/request/customerReservedAccount/',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>'{
+            "businessid": "'.env('PAYVESSELBIZID').'",
+            "email": "'.$user->email.'",
+            "name": "'.$user->fullname.'",
+            "phoneNumber": "'.$user->mobile.'",
+            "bankcode":["120001"],
+            "bvn": "'.$user->nin.'"
+        }',
+        CURLOPT_HTTPHEADER => array(
+        'api-key: '.env('PAYVESSELAPIKEY'),
+        'api-secret: Bearer '.env('PAYVESSELSEK'),
+        'Content-Type: application/json'
+        ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $reply = json_decode($response,true);
+        if(!isset($reply['status']))
+        {
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Sorry we cant process this request at the moment', "error" => $reply['message']],400);
+        }
+        if($reply['status'] != true)
+        {
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> @$reply['message']],400);
+        }
+        if($reply['status'] = true)
+        {
+        $bank = $reply['banks'][0];
+        $user->nuban   = [
+                'bank_name' => @$bank['bankName'],
+                'account_name' => @$bank['accountName'],
+                'account_number'   => @$bank['accountNumber']
+        ];
+
+        $user->nuban_ref = @$bank['accountNumber'];
+        $user->save();
+        // Send Mail
+        notify($user, 'USER_MESSAGE', [
+            'message' => 'A dedicated account number has been generated for you successfuly. Please login to  your account to check details',
+            'subject' => 'Account Number Generated'
+        ]);
+        return response()->json(['ok'=>true,'status'=>'success','message'=> @$reply['message']],200);
+        }
+        } catch (\Exception $exp) {
+            return response()->json(['ok'=>false,'status'=>'error','message'=> $exp->getMessage()],200);
+
+        }
     }
 
     public function generatenubanpaylony($id)

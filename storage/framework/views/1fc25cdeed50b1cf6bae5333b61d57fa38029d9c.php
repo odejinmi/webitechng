@@ -1,4 +1,4 @@
-<?php $__env->startSection('panel'); ?> 
+<?php $__env->startSection('panel'); ?>
 <!-- content @s
 -->
 <!--begin::Container-->
@@ -17,7 +17,7 @@
 
                     <!--begin::Step 2-->
                     <div data-kt-stepper-element="scontent">
-                        
+
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -45,18 +45,18 @@
             <label class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center mb-10" for="act_wallet">
                 <i class="ti ti-wallet fs-3x me-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                 <!--begin::Info-->
-                <span class="d-block fw-semibold text-start">                            
+                <span class="d-block fw-semibold text-start">
                     <span class="text-dark fw-bold d-block fs-4 mb-2">
                         <?php echo app('translator')->get('Main Wallet'); ?>
                     </span>
                     <span class="text-muted fw-semibold fs-6"><?php echo app('translator')->get('Transaction wallet'); ?></span>
                 </span>
                 <!--end::Info-->
-            </label>   
+            </label>
             <!--end::Option-->
         </div>
         <!--end::Col-->
-        
+
         <!--begin::Col-->
         <div class="col-lg-6">
             <!--begin::Option-->
@@ -64,24 +64,24 @@
             <label class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center" for="ref_wallet">
                 <i class="ti ti-cash fs-3x me-5"><span class="path1"></span><span class="path2"></span></i>
                 <!--begin::Info-->
-                <span class="d-block fw-semibold text-start">                              
+                <span class="d-block fw-semibold text-start">
                     <span class="text-dark fw-bold d-block fs-4 mb-2"> <?php echo app('translator')->get('Referral Wallet'); ?></span>
                     <span class="text-muted fw-semibold fs-6"><?php echo app('translator')->get('Alternative wallet'); ?></span>
-                </span>           
-                <!--end::Info-->               
-            </label>           
-            <!--end::Option-->   
+                </span>
+                <!--end::Info-->
+            </label>
+            <!--end::Option-->
         </div>
         <!--end::Col-->
     </div>
-    <!--end::Row-->        
+    <!--end::Row-->
 </div>
-<!--end::Input group-->    
+<!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row">
                                 <!--begin::Label-->
                                 <label class="d-flex align-items-center form-label mb-3">
-                                    <?php echo app('translator')->get('Fixed Amount'); ?> 
+                                    <?php echo app('translator')->get('Fixed Amount'); ?>
                                     <span class="ms-1" data-bs-toggle="tooltip"
                                         title="Select a fixed amount">
                                         <i class="ti ti-alert-circle text-gray-500 fs-6"><span
@@ -201,7 +201,7 @@ unset($__errorArgs, $__bag); ?>" id="amount" value="<?php echo e(old('amount'));
                                             <!--begin::Icon-->
                                             <span class="symbol symbol-50px me-6">
                                                 <span class="symbol-label">
-                                                    <img width="40" src="<?php echo e(getImage(imagePath()['withdraw']['method']['path'].'/'. $data->image,imagePath()['withdraw']['method']['size'])); ?>" alt="" class="img-fluid ms-auto"> 
+                                                    <img width="40" src="<?php echo e(getImage(imagePath()['withdraw']['method']['path'].'/'. $data->image,imagePath()['withdraw']['method']['size'])); ?>" alt="" class="img-fluid ms-auto">
                                                 </span>
                                             </span>
                                             <!--end::Icon-->
@@ -225,7 +225,7 @@ unset($__errorArgs, $__bag); ?>" id="amount" value="<?php echo e(old('amount'));
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                     <?php echo emptyData(); ?>
 
-                                    <?php endif; ?> 
+                                    <?php endif; ?>
                                 </div>
                                 <!--end::Options-->
                             </div>
@@ -246,7 +246,7 @@ unset($__errorArgs, $__bag); ?>" id="amount" value="<?php echo e(old('amount'));
                         <div>
                             <button hidden id="submitnow" type="submit"></button>
 
-                            <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" href="#payout-now" type="button" disabled id="submit"><?php echo app('translator')->get('Proceed'); ?> 
+                            <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" href="#payout-now" type="button" disabled id="submit"><?php echo app('translator')->get('Proceed'); ?>
                                 <i class="ti ti-arrow-right fs-4 ms-1 me-0"><span class="path1"></span><span
                                         class="path2"></span></i> </button>
                         </div>
@@ -301,7 +301,7 @@ unset($__errorArgs, $__bag); ?>" id="amount" value="<?php echo e(old('amount'));
         </li>
     </ul>
 </div>
- 
+
 <div class="buysell-field form-action text-center">
     <div class="mt-3">
         <a class="btn btn-primary"  onclick="document.getElementById('submitnow').click()" ><?php echo app('translator')->get('Confirm Payout'); ?></a>
@@ -328,7 +328,7 @@ unset($__errorArgs, $__bag); ?>" id="amount" value="<?php echo e(old('amount'));
 <script>
 'use strict';
 $(document).ready(function () {
-    
+
     $(document).on('input', 'input[name="amount"]', function () {
 				let limit = '2';
 				let amount = $(this).val();
@@ -337,7 +337,7 @@ $(document).ready(function () {
 					amount = (Math.floor(amount * Math.pow(10, limit)) / Math.pow(10, limit)).toFixed(limit);
 					$(this).val(amount);
 				}
-	}); 
+	});
 
     $(document).on('change, input', ".methodId", function (e) {
     var amount = document.getElementById("amount").value;
@@ -356,8 +356,8 @@ $(document).ready(function () {
     } else {
     $('.showCharge').addClass('d-none');
     }
-           
-    });        
+
+    });
 });
 function submitButton(status) {
         if (status) {

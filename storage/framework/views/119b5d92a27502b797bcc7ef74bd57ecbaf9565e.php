@@ -6,7 +6,7 @@
     <div class="vstacks">
         <div class="px-3s px-md-8s pt-8s">
 
-             
+
             <div class="row row-cols-xl-4 row-cols-md-2 g-6 mt-6">
                 <div class="col">
                     <div class="card bg-primary bg-opacity-10 border-primary border-opacity-40">
@@ -22,7 +22,7 @@
                                     <span class="badge bg-primary bg-opacity-25 text-primary"><?php echo e($general->cur_sym); ?><?php echo e(number_format($dstv,2)); ?></span>
                                     <span class="badge badge-count bg-primary text-xs rounded-circle"><i
                                             class="bi bi-wallet"></i></span>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                                     <span class="badge bg-warning bg-opacity-25 text-warning"><?php echo e($general->cur_sym); ?><?php echo e(number_format($gotv,2)); ?></span>
                                     <span class="badge badge-count bg-warning text-xs rounded-circle"><i
                                             class="bi bi-wallet"></i></span>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                                     <span class="badge bg-danger bg-opacity-25 text-danger"><?php echo e($general->cur_sym); ?><?php echo e(number_format($startimes,2)); ?></span>
                                     <span class="badge badge-count bg-danger text-xs rounded-circle"><i
                                             class="bi bi-wallet"></i></span>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -80,26 +80,26 @@
                                     <span class="badge bg-success bg-opacity-25 text-success"><?php echo e($general->cur_sym); ?><?php echo e(number_format($showmax,2)); ?></span>
                                     <span class="badge badge-count bg-success text-xs rounded-circle"><i
                                             class="bi bi-wallet"></i></span>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                 
+
             </div>
             <div class="row align-items-center g-6 mt-0 mb-6">
 
                            <form action="#">
                 <div class="col-sm-6">
                     <div class="d-flex gap-2">
-                      
+
                         <div class="input-group input-group-sm input-group-inline w-100 w-md-50">
                             <span class="input-group-text"><i class="bi bi-search me-2"></i> </span>
                             <input type="search" class="form-control ps-0" name="search" placeholder="Search by ID" aria-label="Search">
-                        
+
                         </div>
-                         
-                         
+
+
                     </div>
                 </div>
                     </form>
@@ -113,7 +113,7 @@
                             <th scope="col">Network</th>
                             <th class="w-md-32" scope="col">Amount</th>
                             <th class="w-md-32 d-none d-sm-table-cell" scope="col">Ref</th>
-                            <th class="w-md-32" scope="col">Customer</th> 
+                            <th class="w-md-32" scope="col">Customer</th>
                             <th class="w-md-20 d-none d-sm-table-cell">Date</th>
                         </tr>
                     </thead>
@@ -133,7 +133,7 @@
                             <td class="d-none d-sm-table-cell">
                                 <span class="text-success fw-semibold"><?php echo e($data->trx); ?></span>
                             </td>
-                            
+
                             <td class="d-non d-sm-table-cell"><?php echo e($data->val_1); ?><br>
                             <small><?php echo e($data->val_2); ?></small>
                             </td>
@@ -142,13 +142,13 @@
                                     <?php echo e(showDate($data->created_at)); ?>
 
                                 </div>
-                            </td> 
+                            </td>
                         </tr>
                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <?php echo emptyData2(); ?>
 
                         <?php endif; ?>
-                         
+
                     </tbody>
                 </table>
             </div>
@@ -161,16 +161,16 @@
                     <div class="col-md-auto">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination pagination-spaced gap-1">
-                               
+
                                 <?php echo e($cabletvlog->links()); ?>
 
-                              
+
                             </ul>
                         </nav>
                     </div>
                 </div>
             </div>
-            <?php endif; ?> 
+            <?php endif; ?>
         </div>
     </div>
 
@@ -184,9 +184,9 @@
                                 </div>
                                 <div class="modal-body undefined">
                                     <form class="vstack gap-8">
-                                       
-                                         
- 
+
+
+
 
                                         <div class="bg-body-secondary rounded-3 p-4">
                                             <div class="d-flex justify-content-between text-xs text-muted">
@@ -206,7 +206,7 @@
                                                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                          <?php $__env->startPush('script'); ?>
                                                           <script>
-                                                            function verifynetwork(logo,decoder) 
+                                                            function verifynetwork(logo,decoder)
                                                             {
 
                                                               document.getElementById("decodernumber").value = null;
@@ -219,23 +219,24 @@
                                                                 _token: "<?php echo e(csrf_token()); ?>",
                                                                 decoder: decoder
                                                               });
+                                                                const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                                                                const url = `<?php echo e(route('user.cabletv.operators')); ?>?decoder=${encodeURIComponent(decoder)}&_token=${csrfToken}`;
                                                               var requestOptions = {
-                                                                method: 'POST',
+                                                                method: 'GET',
                                                                 headers: {
                                                                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                                                 },
-                                                                body: raw
                                                               };
-                                                              fetch("<?php echo e(route('user.cabletv.operators')); ?>", requestOptions).then(response =>
+                                                              fetch(url, requestOptions).then(response =>
                                                                 response.text()).then(result => {
                                                                   let html = '';
                                                                   const data = JSON.parse(result);
                                                                 var plans = data.content;
                                                                 var image = data.image;
                                                                   plans.map(plan => {
-                                                                     
+
                                                                       let htmlSegment =
-                                                                        ` 
+                                                                        `
                                                                         <div class="form-item-checkable">
                                                                           <input class="form-item-check" type="radio" id="${plan['variation_code']}"  onchange="networkprovider('${plan['variation_code']}|${plan['variation_amount']}')" value="${plan['variation_code']}|${plan['variation_amount']}">
                                                                           <label class="form-item cursor-pointer" for="${plan['variation_code']}"><span class="form-item-click d-inline-flex flex-column gap-3 align-items-center justify-content-center form-control w-rem-24 h-rem-24 text-center text-muted">
@@ -244,7 +245,7 @@
                                                             width="30" /> <span class="fw-semibold text-xs"><b>${plan['name'].substring(0, 13)}</b><br><small class="text-muted"> <b>₦${plan['variation_amount']}</b></small></span></span></label>
                                                                         </div>`;
                                                                       html += htmlSegment;
-                                                                    
+
                                                                   });
                                                                   document.getElementById("planlist").innerHTML =
                                                                     `  <div class="row align-items-center g-3">
@@ -254,7 +255,7 @@
                                                                   console.log(error);
                                                                 });
                                                             }
-                                                          </script> 
+                                                          </script>
                                                           <script>
                                                             function setamount(input) {
                                                               document.getElementById("phone").disabled = false;
@@ -262,7 +263,7 @@
                                                               document.getElementById("networkname").value = input.value.split('|')[3];
                                                               document.getElementById("data_plan").value = input.value.split('|')[2];
                                                             }
-                                                          </script> 
+                                                          </script>
                                                           <script>
                                                                 function networkprovider(network) {
                                                                 document.getElementById("plan").value = `${network}`;
@@ -274,18 +275,18 @@
                                                       <input id="amount" hidden>
                                                         <input id="plan" hiddens>
                                                         <input id="decodertype" hidden>
-                                                         
+
                                                     </ul>
                                             </div>
                                         </div>
                                         <p id="customer"></p>
-                         
 
-                        <input id="customername" hidden> 
+
+                        <input id="customername" hidden>
 
                                                                        <a id="planlist"></a>
-                                                                  
-                                        
+
+
                                             <?php $__env->startPush('script'); ?>
                                             <script>
                                             function validatedecoder() {
@@ -333,11 +334,11 @@
                                                     }
                                                 });
                                                 }
-                                                // END GET DATA \\  
+                                                // END GET DATA \\
                                             }
                                             </script>
                                             <?php $__env->stopPush(); ?>
-                                         
+
 
 
                                         <div class="bg-body-secondary rounded-3 p-4">
@@ -364,7 +365,7 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('breadcrumb'); ?>
-    <button type="button" class="btn btn-sm btn-neutral d-sm-inline-flex" data-bs-target="#topUpModal" data-bs-toggle="modal">Recharge</button> 
+    <button type="button" class="btn btn-sm btn-neutral d-sm-inline-flex" data-bs-target="#topUpModal" data-bs-toggle="modal">Recharge</button>
 <?php $__env->stopPush(); ?>
 <?php $__env->startPush('script'); ?>
     <script>
@@ -376,6 +377,7 @@
               customername: document.getElementById('customername').value,
               plan: document.getElementById('plan').value,
               decoder: document.getElementById('decodertype').value,
+                wallet: "main"
             });
 
             var requestOptions = {
@@ -386,7 +388,7 @@
                 body: raw
             };
             document.getElementById("submit").disabled = true;
-             
+
             $(document).ready(function() {
                 $.blockUI();
             });
@@ -405,10 +407,10 @@
                           style: {
                               background: "linear-gradient(to right, #00b09b, #96c93d)",
                           }
-                          }).showToast(); 
+                          }).showToast();
                         location.reload();
                     }
-                    if (resp.status == 'danger') 
+                    if (resp.status == 'danger')
                     {
                       Toastify({
                       text: `${resp.message}`,

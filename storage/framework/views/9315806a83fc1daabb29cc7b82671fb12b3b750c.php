@@ -53,13 +53,13 @@
 
             <div class="notice d-flex <?php if(Auth::user()->nuban == null): ?> bg-light-danger rounded border-danger <?php else: ?> bg-light-primary rounded border-primary <?php endif; ?>  border border-dashed min-w-lg-600px flex-shrink-0 p-6">
                 <!--begin::Icon-->
-                
+
                 <i class="<?php if(Auth::user()->nuban == null): ?> ti ti-alert-circle fs-2tx text-danger <?php else: ?>  ti ti-building-bank fs-2tx text-primary <?php endif; ?> me-4">
                     <span class="path1"></span>
                     <span class="path2"></span>
                     <span class="path3"></span>
                 </i> <!--end::Icon-->
-    
+
                 <!--begin::Wrapper-->
                 <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
                     <!--begin::Content-->
@@ -78,75 +78,75 @@
                             <?php $__currentLoopData = $nuban; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <?php if(isset($data['bankName']) && isset($data['accountName'])): ?>
                              <div class="d-flex align-items-center flex-wrap d-grid gap-2 mb-3">
-                                <!--begin::Item-->                  
+                                <!--begin::Item-->
                                 <div class="d-flex align-items-center me-5 me-xl-13">
                                     <!--begin::Symbol-->
-                                    <div class="symbol symbol-30px symbol-circle me-3">                                                   
+                                    <div class="symbol symbol-30px symbol-circle me-3">
                                         <span class="symbol-label" style="background: #040273;">
-                                            <i class="ti ti-building-bank fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>                                                        
+                                            <i class="ti ti-building-bank fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>
                                     </div>
-                                    <!--end::Symbol--> 
-                                    
+                                    <!--end::Symbol-->
+
                                     <!--begin::Info-->
-                                    <div class="m-0">                               
+                                    <div class="m-0">
                                         <a href="#" class="text-dark text-opacity-75 fs-8"><?php echo app('translator')->get('Bank Name'); ?></a>
                                         <span class="fw-bold text-dark fs-7 d-block"><?php echo e(@$data['bankName'] ?? null); ?></span>
                                     </div>
                                     <!--end::Info-->
-                                </div>                    
-                                <!--end::Item-->  
-        
-                                <!--begin::Item-->                    
+                                </div>
+                                <!--end::Item-->
+
+                                <!--begin::Item-->
                                 <div class="d-flex align-items-center me-5 me-xl-13">
                                     <!--begin::Symbol-->
-                                    <div class="symbol symbol-30px symbol-circle me-3">                                                   
+                                    <div class="symbol symbol-30px symbol-circle me-3">
                                         <span class="symbol-label" style="background: #410a8fc1;">
-                                            <i class="ti ti-user fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>                                                        
+                                            <i class="ti ti-user fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>
                                     </div>
-                                    <!--end::Symbol--> 
-                                    
+                                    <!--end::Symbol-->
+
                                     <!--begin::Info-->
-                                    <div class="m-0">                               
+                                    <div class="m-0">
                                         <a href="#" class="text-dark text-opacity-75 fs-8"><?php echo app('translator')->get('Account Name'); ?></a>
                                         <span class="fw-bold text-dark fs-7 d-block"><?php echo e(@$data['accountName']); ?></span>
                                     </div>
                                     <!--end::Info-->
-                                </div>                    
-                                <!--end::Item-->  
-                                <!--begin::Item-->                    
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
                                 <div class="d-flex align-items-center me-5 me-xl-13">
                                     <!--begin::Symbol-->
-                                    <div class="symbol symbol-30px symbol-circle me-3">                                                   
+                                    <div class="symbol symbol-30px symbol-circle me-3">
                                         <span class="symbol-label" style="background: #410a8fc1;">
-                                            <i class="ti ti-wallet fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>                                                        
+                                            <i class="ti ti-wallet fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>
                                     </div>
-                                    <!--end::Symbol--> 
-                                    
+                                    <!--end::Symbol-->
+
                                     <!--begin::Info-->
-                                    <div class="m-0">                               
+                                    <div class="m-0">
                                         <a href="#" class="text-dark text-opacity-75 fs-8"><?php echo app('translator')->get('Account Number'); ?></a>
                                         <span class="fw-bold text-dark fs-7 d-block"><?php echo e(@$data['accountNumber']); ?></span>
                                     </div>
                                     <!--end::Info-->
-                                </div>                    
-                                <!--end::Item-->  
+                                </div>
+                                <!--end::Item-->
                             </div>
                             <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            
+
                             <?php elseif($general->nuban_provider == "STROWALLET" || $general->nuban_provider == "PAYVESSEL"): ?>
                             <div class="d-flex align-items-center flex-wrap d-grid gap-2 ">
-                                <!--begin::Item-->                  
+                                <!--begin::Item-->
                                 <div class="d-flex align-items-center me-5 me-xl-13">
                                     <!--begin::Symbol-->
-                                    <div class="symbol symbol-30px symbol-circle me-3">                                                   
+                                    <div class="symbol symbol-30px symbol-circle me-3">
                                         <span class="symbol-label" style="background: #040273;">
-                                            <i class="ti ti-building-bank fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>                                                        
+                                            <i class="ti ti-building-bank fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>
                                     </div>
-                                    <!--end::Symbol--> 
-                                    
+                                    <!--end::Symbol-->
+
                                     <!--begin::Info-->
-                                    <div class="m-0">                               
+                                    <div class="m-0">
                                         <a href="#" class="text-dark text-opacity-75 fs-8"><?php echo app('translator')->get('Bank Name'); ?></a>
                                         <?php
                                         $bankdetails = json_decode(Auth::user()->nuban);
@@ -154,57 +154,57 @@
                                         <span class="fw-bold text-dark fs-7 d-block"><?php echo e(@$bankdetails->bank_name); ?></span>
                                     </div>
                                     <!--end::Info-->
-                                </div>                    
-                                <!--end::Item-->  
-        
-                                <!--begin::Item-->                    
+                                </div>
+                                <!--end::Item-->
+
+                                <!--begin::Item-->
                                 <div class="d-flex align-items-center me-5 me-xl-13">
                                     <!--begin::Symbol-->
-                                    <div class="symbol symbol-30px symbol-circle me-3">                                                   
+                                    <div class="symbol symbol-30px symbol-circle me-3">
                                         <span class="symbol-label" style="background: #410a8fc1;">
-                                            <i class="ti ti-user fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>                                                        
+                                            <i class="ti ti-user fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>
                                     </div>
-                                    <!--end::Symbol--> 
-                                    
+                                    <!--end::Symbol-->
+
                                     <!--begin::Info-->
-                                    <div class="m-0">                               
+                                    <div class="m-0">
                                         <a href="#" class="text-dark text-opacity-75 fs-8"><?php echo app('translator')->get('Account Name'); ?></a>
                                         <span class="fw-bold text-dark fs-7 d-block"><?php echo e(@$bankdetails->account_name); ?></span>
                                     </div>
                                     <!--end::Info-->
-                                </div>                    
-                                <!--end::Item-->  
-                                <!--begin::Item-->                    
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
                                 <div class="d-flex align-items-center me-5 me-xl-13">
                                     <!--begin::Symbol-->
-                                    <div class="symbol symbol-30px symbol-circle me-3">                                                   
+                                    <div class="symbol symbol-30px symbol-circle me-3">
                                         <span class="symbol-label" style="background: #410a8fc1;">
-                                            <i class="ti ti-wallet fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>                                                        
+                                            <i class="ti ti-wallet fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>
                                     </div>
-                                    <!--end::Symbol--> 
-                                    
+                                    <!--end::Symbol-->
+
                                     <!--begin::Info-->
-                                    <div class="m-0">                               
+                                    <div class="m-0">
                                         <a href="#" class="text-dark text-opacity-75 fs-8"><?php echo app('translator')->get('Account Number'); ?></a>
                                         <span class="fw-bold text-dark fs-7 d-block"><?php echo e(@$bankdetails->account_number); ?></span>
                                     </div>
                                     <!--end::Info-->
-                                </div>                    
-                                <!--end::Item-->  
+                                </div>
+                                <!--end::Item-->
                             </div>
                             <?php elseif($general->nuban_provider == "PAYLONY"): ?>
                             <div class="d-flex align-items-center flex-wrap d-grid gap-2 ">
-                                <!--begin::Item-->                  
+                                <!--begin::Item-->
                                 <div class="d-flex align-items-center me-5 me-xl-13">
                                     <!--begin::Symbol-->
-                                    <div class="symbol symbol-30px symbol-circle me-3">                                                   
+                                    <div class="symbol symbol-30px symbol-circle me-3">
                                         <span class="symbol-label" style="background: #410a8fc1;">
-                                            <i class="ti ti-building-bank fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>                                                        
+                                            <i class="ti ti-building-bank fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>
                                     </div>
-                                    <!--end::Symbol--> 
-                                    
+                                    <!--end::Symbol-->
+
                                     <!--begin::Info-->
-                                    <div class="m-0">                               
+                                    <div class="m-0">
                                         <a href="#" class="text-dark text-opacity-75 fs-8"><?php echo app('translator')->get('Bank Name'); ?></a>
                                         <?php
                                         $bankdetails = json_decode(Auth::user()->nuban);
@@ -212,52 +212,52 @@
                                         <span class="fw-bold text-dark fs-7 d-block"><?php echo e(@$bankdetails->bank_name); ?></span>
                                     </div>
                                     <!--end::Info-->
-                                </div>                    
-                                <!--end::Item-->  
-        
-                                <!--begin::Item-->                    
+                                </div>
+                                <!--end::Item-->
+
+                                <!--begin::Item-->
                                 <div class="d-flex align-items-center me-5 me-xl-13">
                                     <!--begin::Symbol-->
-                                    <div class="symbol symbol-30px symbol-circle me-3">                                                   
+                                    <div class="symbol symbol-30px symbol-circle me-3">
                                         <span class="symbol-label" style="background: #410a8fc1;">
-                                            <i class="ti ti-user fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>                                                        
+                                            <i class="ti ti-user fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>
                                     </div>
-                                    <!--end::Symbol--> 
-                                    
+                                    <!--end::Symbol-->
+
                                     <!--begin::Info-->
-                                    <div class="m-0">                               
+                                    <div class="m-0">
                                         <a href="#" class="text-dark text-opacity-75 fs-8"><?php echo app('translator')->get('Account Name'); ?></a>
                                         <span class="fw-bold text-dark fs-7 d-block"><?php echo e(@$bankdetails->account_name); ?></span>
                                     </div>
                                     <!--end::Info-->
-                                </div>                    
-                                <!--end::Item-->  
-                                <!--begin::Item-->                    
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
                                 <div class="d-flex align-items-center me-5 me-xl-13">
                                     <!--begin::Symbol-->
-                                    <div class="symbol symbol-30px symbol-circle me-3">                                                   
+                                    <div class="symbol symbol-30px symbol-circle me-3">
                                         <span class="symbol-label" style="background: #410a8fc1;">
-                                            <i class="ti ti-wallet fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>                                                        
+                                            <i class="ti ti-wallet fs-4 text-white"><span class="path1"></span><span class="path2"></span></i>                                    </span>
                                     </div>
-                                    <!--end::Symbol--> 
-                                    
+                                    <!--end::Symbol-->
+
                                     <!--begin::Info-->
-                                    <div class="m-0">                               
+                                    <div class="m-0">
                                         <a href="#" class="text-dark text-opacity-75 fs-8"><?php echo app('translator')->get('Account Number'); ?></a>
                                         <span class="fw-bold text-dark fs-7 d-block"><?php echo e(@$bankdetails->account_number); ?></span>
                                     </div>
                                     <!--end::Info-->
-                                </div>                    
-                                <!--end::Item-->  
+                                </div>
+                                <!--end::Item-->
                             </div>
                             <?php endif; ?>
                         <!--end::Items-->
-    
+
                         <?php endif; ?>
                         <div id="responsemessage"></div>
                     </div>
                     <!--end::Content-->
-    
+
                     <!--begin::Action-->
                     <?php if(Auth::user()->nuban == null): ?>
                     <a href="#" id="fundbutton" onclick="generatenuban()" class="btn btn-primary px-6 align-self-center text-nowrap">
@@ -274,7 +274,7 @@
 <?php $__env->startPush('script'); ?>
 <script>
     function generatenuban() {
-        // START GET DATA \\  
+        // START GET DATA \\
         const loadingEl = document.createElement("div");
         document.body.prepend(loadingEl);
         loadingEl.classList.add("page-loader");
@@ -289,9 +289,9 @@
         $("#responsemessage").html('');
         // Show page loading
         KTApp.showPageLoading();
-        var _token = $("input[name='_token']").val(); 
+        var _token = $("input[name='_token']").val();
         var raw = JSON.stringify({
-            _token: "<?php echo e(csrf_token()); ?>", 
+            _token: "<?php echo e(csrf_token()); ?>",
         });
 
         var requestOptions = {
@@ -305,7 +305,7 @@
             .then(response => response.text())
             .then(result => {
                 resp = JSON.parse(result);
-                document.getElementById("fundbutton").disabled = false; 
+                document.getElementById("fundbutton").disabled = false;
                 $("#responsemessage").html(
                     `<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`
                     );
@@ -326,7 +326,7 @@
     }
 </script>
 <?php $__env->stopPush(); ?>
-    
+
 
         <div class="col-lg-4 d-flex align-items-strech">
             <div class="card bg-info border-0 w-100">
@@ -406,7 +406,7 @@
 <div class="row gy-5 g-xl-10">
   <!--begin::Col-->
   <div class="col-xl-4 mb-xl-10">
-      
+
 <!--begin::List widget 16-->
 <div class="card card-flush h-xl-100">
   <!--begin::Header-->
@@ -419,70 +419,70 @@
       <!--end::Title-->
 
       <!--begin::Toolbar-->
-      <div class="card-toolbar">   
-          <a href="<?php echo e(route('user.transactions')); ?>" class="btn btn-sm btn-light" data-bs-toggle='tooltip' data-bs-dismiss='click' title="<?php echo app('translator')->get('View all transactions on your account'); ?>"><?php echo app('translator')->get('View All'); ?></a>             
+      <div class="card-toolbar">
+          <a href="<?php echo e(route('user.transactions')); ?>" class="btn btn-sm btn-light" data-bs-toggle='tooltip' data-bs-dismiss='click' title="<?php echo app('translator')->get('View all transactions on your account'); ?>"><?php echo app('translator')->get('View All'); ?></a>
       </div>
       <!--end::Toolbar-->
   </div>
   <!--end::Header-->
 
   <!--begin::Body-->
-  <div class="card-body pt-4 px-0">       
-      <!--begin::Nav-->             
+  <div class="card-body pt-4 px-0">
+      <!--begin::Nav-->
       <ul class="nav nav-pills nav-pills-custom item position-relative mx-9 mb-9">
-          <!--begin::Item--> 
+          <!--begin::Item-->
           <li class="nav-item col-6 mx-0 p-0">
-              <!--begin::Link--> 
-              <a class="nav-link active d-flex justify-content-center w-100 border-0 h-100" data-bs-toggle="pill" href="delivery.html#kt_list_widget_16_tab_1">                   
+              <!--begin::Link-->
+              <a class="nav-link active d-flex justify-content-center w-100 border-0 h-100" data-bs-toggle="pill" href="delivery.html#kt_list_widget_16_tab_1">
                   <!--begin::Subtitle-->
                   <span class="nav-text text-gray-800 fw-bold fs-6 mb-3">
                      <?php echo app('translator')->get('Credit'); ?>
-                  </span> 
+                  </span>
                   <!--end::Subtitle-->
-                  
+
                   <!--begin::Bullet-->
                   <span class="bullet-custom position-absolute z-index-2 bottom-0 w-100 h-4px bg-primary rounded"></span>
                   <!--end::Bullet-->
               </a>
-              <!--end::Link-->                
+              <!--end::Link-->
           </li>
-          <!--end::Item--> 
-          
-          <!--begin::Item--> 
+          <!--end::Item-->
+
+          <!--begin::Item-->
           <li class="nav-item col-6 mx-0 px-0">
-              <!--begin::Link--> 
-              <a class="nav-link d-flex justify-content-center w-100 border-0 h-100" data-bs-toggle="pill" href="delivery.html#kt_list_widget_16_tab_2">                   
+              <!--begin::Link-->
+              <a class="nav-link d-flex justify-content-center w-100 border-0 h-100" data-bs-toggle="pill" href="delivery.html#kt_list_widget_16_tab_2">
                   <!--begin::Subtitle-->
                   <span class="nav-text text-gray-800 fw-bold fs-6 mb-3">
                       <?php echo app('translator')->get('Debit'); ?>
-                  </span> 
+                  </span>
                   <!--end::Subtitle-->
-                  
+
                   <!--begin::Bullet-->
                   <span class="bullet-custom position-absolute z-index-2 bottom-0 w-100 h-4px bg-primary rounded"></span>
                   <!--end::Bullet-->
               </a>
-              <!--end::Link-->                
+              <!--end::Link-->
           </li>
-          <!--end::Item-->  
-          
+          <!--end::Item-->
+
           <!--begin::Bullet-->
           <span class="position-absolute z-index-1 bottom-0 w-100 h-4px bg-light rounded"></span>
           <!--end::Bullet-->
-      </ul>             
+      </ul>
       <!--end::Nav-->
 
       <!--begin::Tab Content-->
       <div class="tab-content px-9 hover-scroll-overlay-y pe-7 me-3 mb-2" style="height: 454px">
-                          
+
               <!--begin::Tap pane-->
               <div class="tab-pane fade show active" id="kt_list_widget_16_tab_1">
-                          
+
                       <!--begin::Item-->
-                      <?php $__empty_1 = true; $__currentLoopData = $credit; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>   
-                      <div class="m-0">                              
+                      <?php $__empty_1 = true; $__currentLoopData = $credit; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                      <div class="m-0">
                           <!--begin::Timeline-->
-                          <div class="timeline ms-n1">                                
+                          <div class="timeline ms-n1">
                                 <!--begin::Timeline item-->
                               <div class="timeline-item align-items-center">
                                   <!--begin::Timeline line-->
@@ -491,7 +491,7 @@
 
                                   <!--begin::Timeline icon-->
                                   <div class="timeline-icon pt-1" style="margin-left: 0.5px">
-                                      <i class="ti ti-wallet fs-2 text-success"><span class="path1"></span><span class="path2"></span></i>                                   
+                                      <i class="ti ti-wallet fs-2 text-success"><span class="path1"></span><span class="path2"></span></i>
                                   </div>
                                   <!--end::Timeline icon-->
 
@@ -502,40 +502,40 @@
                                       <!--begin::Label-->
 
                                       <!--begin::Title-->
-                                      <a href="#" class="fs-6 text-gray-800 fw-bold d-block text-hover-primary"><?php echo e(__($general->cur_sym)); ?><?php echo e(showAmount($data->amount)); ?></a>                                        
-                                      <!--end::Title-->   
-                                      
+                                      <a href="#" class="fs-6 text-gray-800 fw-bold d-block text-hover-primary"><?php echo e(__($general->cur_sym)); ?><?php echo e(showAmount($data->amount)); ?></a>
+                                      <!--end::Title-->
+
                                       <!--begin::Title-->
                                       <span class="fw-semibold text-gray-400"><?php echo e(diffForHumans($data->created_at)); ?></span>
-                                      <!--end::Title-->    
+                                      <!--end::Title-->
                                   </div>
-                                  <!--end::Timeline content-->                                  
-                              </div>                                        
-                              <!--end::Timeline item--> 
+                                  <!--end::Timeline content-->
+                              </div>
+                              <!--end::Timeline item-->
                           </div>
                           <!--end::Timeline-->
                          </div>
-                      <!--end::Item-->    
-                      
+                      <!--end::Item-->
+
                       <!--begin::Separator-->
                       <div class="separator separator-dashed mt-5 mb-4"></div>
                       <!--end::Separator-->
                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                        <?php echo emptyData(); ?>
 
-                      <?php endif; ?>                    
-                      <!--begin::Item--> 
+                      <?php endif; ?>
+                      <!--begin::Item-->
               </div>
-              <!--end::Tap pane-->                               
-                          
+              <!--end::Tap pane-->
+
               <!--begin::Tap pane-->
               <div class="tab-pane fade " id="kt_list_widget_16_tab_2">
-                                                     
+
               <!--begin::Item-->
-              <?php $__empty_1 = true; $__currentLoopData = $debit; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>   
-              <div class="m-0">                              
+              <?php $__empty_1 = true; $__currentLoopData = $debit; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+              <div class="m-0">
                   <!--begin::Timeline-->
-                  <div class="timeline ms-n1">                                
+                  <div class="timeline ms-n1">
                         <!--begin::Timeline item-->
                       <div class="timeline-item align-items-center">
                           <!--begin::Timeline line-->
@@ -544,7 +544,7 @@
 
                           <!--begin::Timeline icon-->
                           <div class="timeline-icon pt-1" style="margin-left: 0.5px">
-                              <i class="ti ti-wallet-off fs-2 text-danger"><span class="path1"></span><span class="path2"></span></i>                                   
+                              <i class="ti ti-wallet-off fs-2 text-danger"><span class="path1"></span><span class="path2"></span></i>
                           </div>
                           <!--end::Timeline icon-->
 
@@ -555,43 +555,43 @@
                               <!--begin::Label-->
 
                               <!--begin::Title-->
-                              <a href="#" class="fs-6 text-gray-800 fw-bold d-block text-hover-primary"><?php echo e(__($general->cur_sym)); ?><?php echo e(showAmount($data->amount)); ?></a>                                        
-                              <!--end::Title-->   
-                              
+                              <a href="#" class="fs-6 text-gray-800 fw-bold d-block text-hover-primary"><?php echo e(__($general->cur_sym)); ?><?php echo e(showAmount($data->amount)); ?></a>
+                              <!--end::Title-->
+
                               <!--begin::Title-->
                               <span class="fw-semibold text-gray-400"><?php echo e(diffForHumans($data->created_at)); ?></span>
-                              <!--end::Title-->    
+                              <!--end::Title-->
                           </div>
-                          <!--end::Timeline content-->                                  
-                      </div>                                        
-                      <!--end::Timeline item--> 
+                          <!--end::Timeline content-->
+                      </div>
+                      <!--end::Timeline item-->
                   </div>
                   <!--end::Timeline-->
                  </div>
-              <!--end::Item-->    
-              
+              <!--end::Item-->
+
               <!--begin::Separator-->
               <div class="separator separator-dashed mt-5 mb-4"></div>
               <!--end::Separator-->
               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                <?php echo emptyData(); ?>
 
-              <?php endif; ?>                    
-              <!--begin::Item-->   
+              <?php endif; ?>
+              <!--begin::Item-->
               </div>
-              <!--end::Tap pane-->                                
-                       
+              <!--end::Tap pane-->
+
       </div>
-      <!--end::Tab Content-->        
+      <!--end::Tab Content-->
   </div>
   <!--end: Card Body-->
 </div>
 <!--end::List widget 16-->     </div>
-  <!--end::Col-->      
+  <!--end::Col-->
 
   <!--begin::Col-->
   <div class="col-xl-8 mb-5 mb-xl-10">
-      
+
 <!--begin::Chart widget 32-->
 <div class="card card-flush h-xl-100">
   <!--begin::Header-->
@@ -601,133 +601,133 @@
     <span class="card-label fw-bold text-gray-800"><?php echo app('translator')->get('Bills Payment Chart'); ?></span>
     <span class="text-gray-400 mt-1 fw-semibold fs-6"><?php echo app('translator')->get('An overview showing your bills payment histroy'); ?></span>
   </h3>
-      <!--end::Title--> 
+      <!--end::Title-->
   </div>
   <!--end::Header-->
 
   <!--begin::Body-->
-  <div class="card-body d-flex flex-column justify-content-between pb-5 px-0">       
-      <!--begin::Nav-->             
+  <div class="card-body d-flex flex-column justify-content-between pb-5 px-0">
+      <!--begin::Nav-->
       <ul class="nav nav-pills nav-pills-custom mb-3 mx-9">
-         
-            <!--begin::Item--> 
+
+            <!--begin::Item-->
             <li class="nav-item mb-3 me-3 me-lg-6">
-              <!--begin::Link--> 
-              <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 active 
-                  " data-bs-toggle="pill" id="" 
+              <!--begin::Link-->
+              <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 active
+                  " data-bs-toggle="pill" id=""
                   href="#totalbills">
                   <!--begin::Icon-->
-                  <div class="nav-icon mb-3">        
-                      <i class="ti ti-printer fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                                                                                                                                                  
+                  <div class="nav-icon mb-3">
+                      <i class="ti ti-printer fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                   </div>
                   <!--end::Icon-->
-                  
+
                   <!--begin::Title-->
                   <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">
-                      <?php echo app('translator')->get('All'); ?>                        
-                  </span> 
+                      <?php echo app('translator')->get('All'); ?>
+                  </span>
                   <!--end::Title-->
-                  
+
                   <!--begin::Bullet-->
                   <span class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
                   <!--end::Bullet-->
               </a>
               <!--end::Link-->
           </li>
-          <!--end::Item--> 
-              <!--begin::Item--> 
+          <!--end::Item-->
+              <!--begin::Item-->
               <li class="nav-item mb-3 me-3 me-lg-6">
-                  <!--begin::Link--> 
-                  <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 
-                      " data-bs-toggle="pill" id="" 
+                  <!--begin::Link-->
+                  <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2
+                      " data-bs-toggle="pill" id=""
                       href="#airtime">
                       <!--begin::Icon-->
-                      <div class="nav-icon mb-3">        
-                          <i class="ti ti-device-mobile fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                                                                                                                                                  
+                      <div class="nav-icon mb-3">
+                          <i class="ti ti-device-mobile fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                       </div>
                       <!--end::Icon-->
-                      
+
                       <!--begin::Title-->
                       <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">
-                          <?php echo app('translator')->get('Airtime'); ?>                        
-                      </span> 
+                          <?php echo app('translator')->get('Airtime'); ?>
+                      </span>
                       <!--end::Title-->
-                      
+
                       <!--begin::Bullet-->
                       <span class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
                       <!--end::Bullet-->
                   </a>
                   <!--end::Link-->
               </li>
-              <!--end::Item--> 
-              <!--begin::Item--> 
+              <!--end::Item-->
+              <!--begin::Item-->
               <li class="nav-item mb-3 me-3 me-lg-6">
-                  <!--begin::Link--> 
-                  <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 
-                      " data-bs-toggle="pill" id="" 
+                  <!--begin::Link-->
+                  <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2
+                      " data-bs-toggle="pill" id=""
                       href="#internet">
                       <!--begin::Icon-->
-                      <div class="nav-icon mb-3">        
-                          <i class="ti ti-wifi fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                                                                                                                                                  
+                      <div class="nav-icon mb-3">
+                          <i class="ti ti-wifi fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                       </div>
                       <!--end::Icon-->
-                      
+
                       <!--begin::Title-->
                       <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">
-                          <?php echo app('translator')->get('Internet'); ?>                        
-                      </span> 
+                          <?php echo app('translator')->get('Internet'); ?>
+                      </span>
                       <!--end::Title-->
-                      
+
                       <!--begin::Bullet-->
                       <span class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
                       <!--end::Bullet-->
                   </a>
                   <!--end::Link-->
               </li>
-              <!--end::Item--> 
-              <!--begin::Item--> 
+              <!--end::Item-->
+              <!--begin::Item-->
               <li class="nav-item mb-3 me-3 me-lg-6">
-                  <!--begin::Link--> 
-                  <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 
-                      " data-bs-toggle="pill" id="" 
+                  <!--begin::Link-->
+                  <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2
+                      " data-bs-toggle="pill" id=""
                       href="#cabletv">
                       <!--begin::Icon-->
-                      <div class="nav-icon mb-3">        
-                          <i class="ti ti-video fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                                                                                                                                                  
+                      <div class="nav-icon mb-3">
+                          <i class="ti ti-video fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                       </div>
                       <!--end::Icon-->
-                      
+
                       <!--begin::Title-->
                       <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">
-                          <?php echo app('translator')->get('TV'); ?>                        
-                      </span> 
+                          <?php echo app('translator')->get('TV'); ?>
+                      </span>
                       <!--end::Title-->
-                      
+
                       <!--begin::Bullet-->
                       <span class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
                       <!--end::Bullet-->
                   </a>
                   <!--end::Link-->
               </li>
-              <!--end::Item--> 
-              <!--begin::Item--> 
+              <!--end::Item-->
+              <!--begin::Item-->
               <li class="nav-item mb-3 me-3 me-lg-6">
-                <!--begin::Link--> 
-                <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 
-                    " data-bs-toggle="pill" id="" 
+                <!--begin::Link-->
+                <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2
+                    " data-bs-toggle="pill" id=""
                     href="#utility">
                     <!--begin::Icon-->
-                    <div class="nav-icon mb-3">        
-                        <i class="ti ti-bolt fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                                                                                                                                                  
+                    <div class="nav-icon mb-3">
+                        <i class="ti ti-bolt fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                     </div>
                     <!--end::Icon-->
-                    
+
                     <!--begin::Title-->
                     <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">
-                        <?php echo app('translator')->get('Utility'); ?>                        
-                    </span> 
+                        <?php echo app('translator')->get('Utility'); ?>
+                    </span>
                     <!--end::Title-->
-                    
+
                     <!--begin::Bullet-->
                     <span class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
                     <!--end::Bullet-->
@@ -735,24 +735,24 @@
                 <!--end::Link-->
             </li>
             <!--end::Item-->
-            <!--begin::Item--> 
+            <!--begin::Item-->
             <li class="nav-item mb-3 me-3 me-lg-6">
-                <!--begin::Link--> 
-                <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 
-                    " data-bs-toggle="pill" id="" 
+                <!--begin::Link-->
+                <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2
+                    " data-bs-toggle="pill" id=""
                     href="#insurance">
                     <!--begin::Icon-->
-                    <div class="nav-icon mb-3">        
-                        <i class="ti ti-shield fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                                                                                                                                                  
+                    <div class="nav-icon mb-3">
+                        <i class="ti ti-shield fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                     </div>
                     <!--end::Icon-->
-                    
+
                     <!--begin::Title-->
                     <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">
-                        <?php echo app('translator')->get('Insurance'); ?>                        
-                    </span> 
+                        <?php echo app('translator')->get('Insurance'); ?>
+                    </span>
                     <!--end::Title-->
-                    
+
                     <!--begin::Bullet-->
                     <span class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
                     <!--end::Bullet-->
@@ -760,8 +760,8 @@
                 <!--end::Link-->
             </li>
             <!--end::Item-->
-                      
-      </ul>             
+
+      </ul>
       <!--end::Nav-->
 
       <!--begin::Tab Content-->
@@ -810,14 +810,14 @@
             </div>
             <!--end::Tap pane-->
       </div>
-      <!--end::Tab Content-->        
+      <!--end::Tab Content-->
   </div>
   <!--end: Card Body-->
 </div>
 <!--end::Chart widget 32-->    </div>
-  <!--end::Col-->      
+  <!--end::Col-->
 </div>
-<!--end::Row--> 
+<!--end::Row-->
 
 
 
@@ -862,10 +862,10 @@
                                 <!--begin::Symbol-->
                                   <div class="symbol symbol-70px symbol-circle me-5">
                                     <span class="symbol-label bg-light-info">
-                                        <i class="ti ti-clock fs-3x text-info"><span class="path1"></span><span class="path2"></span></i>                               
-                                    </span>                
+                                        <i class="ti ti-clock fs-3x text-info"><span class="path1"></span><span class="path2"></span></i>
+                                    </span>
                                 </div>
-                                <!--end::Symbol--> 
+                                <!--end::Symbol-->
 
                                 <!--begin::Info-->
                                 <div class="m-0">
@@ -936,10 +936,10 @@
                                <!--begin::Symbol-->
                                <div class="symbol symbol-70px symbol-circle me-5">
                                 <span class="symbol-label bg-light-info">
-                                    <i class="ti ti-calendar fs-3x text-info"><span class="path1"></span><span class="path2"></span></i>                               
-                                </span>                
+                                    <i class="ti ti-calendar fs-3x text-info"><span class="path1"></span><span class="path2"></span></i>
+                                </span>
                             </div>
-                            <!--end::Symbol--> 
+                            <!--end::Symbol-->
 
                                 <!--begin::Info-->
                                 <div class="m-0">
@@ -1013,9 +1013,9 @@
 
         </div>
         <!--end::Col-->
- 
- 
-         
+
+
+
     </div>
 <?php $__env->stopSection(); ?>
 
@@ -1514,7 +1514,7 @@
                 show: false,
             },
             categories: <?php echo json_encode($yearLabels); ?>,
-  
+
         },
         yaxis: {
             tickAmount: 4,
@@ -1523,7 +1523,7 @@
             theme: "dark",
         },
     };
-  
+
     var chart = new ApexCharts(document.querySelector("#yearInsurance"), chart);
     chart.render();
   </script>

@@ -9,11 +9,8 @@
 <div class="row g-0 justify-content-center gradient-bottom-right start-purple middle-indigo end-pink">
         <div
             class="col-md-6 col-lg-5 col-xl-5 position-fixed start-0 top-0 vh-100 overflow-y-hidden d-none d-lg-flex flex-lg-column">
-            <div class="p-12 py-xl-10 px-xl-20">
-                <a class="d-block"
-                    href="#">
-                    <img src="{{ getImage(getFilePath('logoIcon') . '/logo.png') }}" class="h-rem-10" alt="...">
-                </a>
+            <div class="p-12 py-xl-10 px-xl-20"><a class="d-block"
+                    href="#"><img src="{{ getImage(getFilePath('logoIcon') . '/logo.png') }}" class="h-rem-10" alt="..."></a>
                 <div class="mt-16">
                     <h1 class="ls-tight fw-bolder display-6 text-white mb-5">{{ __(@$loginContent->data_values->heading) }}
                     </h1>
@@ -27,14 +24,14 @@
             class="col-12 col-md-12 col-lg-7 offset-lg-5 min-vh-100 overflow-y-auto d-flex flex-column justify-content-center position-relative bg-body rounded-top-start-lg-4 border-start-lg shadow-soft-5">
             <div class="w-md-50 mx-auto px-10 px-md-0 py-10">
                 <div class="mb-10"><a class="d-inline-block d-lg-none mb-10"
-                        href="#"><img src="{{asset( $activeTemplateTrue . 'agent/img/logos/logo-dark.svg')}}" class="h-rem-10" alt="..."></a>
+                        href="#"><img src="{{ getImage(getFilePath('logoIcon') . '/logo.png') }}" class="h-rem-10" alt="..."></a>
                     <h1 class="ls-tight fw-bolder h3">Sign in to your account</h1>
 
                 </div>
                 <form class="crancy-wc__form-main  verify-gcaptcha" novalidate="novalidate" id="login_form"
                                 method="POST" action="{{ route('user.login') }}">
                                 @csrf
-                    <div class="mb-5"><label class="form-label" for="email">Email address</label>
+                    <div class="mb-5"><label class="form-label" for="email">Email address/Username</label>
                       <input type="text" name="username" class="form-control" id="username">
                     </div>
                     <div class="mb-5">
@@ -47,7 +44,8 @@
                         <div class="form-check"><input class="form-check-input" type="checkbox" name="check_example" id="check_example">
                             <label class="form-check-label" for="check_example">Keep me logged in</label></div>
                     </div>
-                    <div><button type="submit" class="btn btn-dark w-100">Sign in</button></div>
+                    <div><button type="submit" class="btn w-100" style="background-color: #6f42c1; color: white;">Sign in</button></div>
+
                 </form>
                 <div class="py-5 text-center"><span class="text-xs text-uppercase fw-semibold">or</span></div>
                 <div class="row g-2">

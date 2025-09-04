@@ -138,14 +138,14 @@
                                                             <span class="symbol-label bg-light-primary">
                                                                 <i class="ti ti-image fs-2x text-warning"><img src="<?php echo e(url('/')); ?>/assets/images/provider/${plan['logo']}" width="30" class="path1"/></i>
                                                             </span>
-                                                            
-                                                        </span> 
+
+                                                        </span>
                                                         <span class="d-flex flex-column">
                                                             <span class="fw-bold fs-6">${plan['name']}</span>
                                                             <span class="fs-7 text-muted">Airtime Topup</span>
                                                         </span>
                                                     </span>
-        
+
                                                     <span class="form-check form-check-custom form-check-solid">
                                                         <input class="form-check-input" type="radio" onchange="networkprovider('${plan['networkid']}','${plan['logo']}','${plan['name']}','${plan['networkid']}')"
                                                             name="operator" id="${plan['networkid']}" value="${plan['networkid']}" />
@@ -157,12 +157,12 @@
 
                                     document.getElementById('providers').innerHTML =
                                         `<div class="mb-0">
-                                             <label class="d-flex align-items-center form-label mb-5"> </label> ${html} 
-                                        </div>`; 
+                                             <label class="d-flex align-items-center form-label mb-5"> </label> ${html}
+                                        </div>`;
                                     KTApp.hidePageLoading();
                                     loadingEl.remove();
                                 }
-                                // END GET DATA \\ 
+                                // END GET DATA \\
                             </script>
                             <script>
                                 function networkprovider(operatorId, image, name, networkid) {

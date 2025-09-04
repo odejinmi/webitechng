@@ -64,12 +64,10 @@
                                 <div class="d-flex justify-content-between text-xs text-muted">
                                     <span class="fw-semibold">Amount</span>
                                 </div>
-                                <div class="d-flex justify-content-between mt-4">
-                                    <input type="tel" id="amount"
+                                <div class="d-flex justify-content-between mt-4"><input type="tel" id="amount"
                                         placeholder="{{ $general->cur_sym }} 0.00" name="amount"
                                         class="form-control form-control-flush text-xl fw-bold w-rem-40">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <img
+                                    <div class="d-flex align-items-center gap-2"><img
                                             src="{{ url('/') }}/assets/images/country/ngn.png"
                                             class="w-rem-6 h-rem-6 rounded-circle" alt="...">
                                         <span class="fw-semibold text-sm">NGN</span>
@@ -104,8 +102,8 @@
                                         </label>
                                         <!--end::Option-->
                                     </div>
+                                    
                                     <!--end::Col-->
-{{--                                    <div></div>--}}
                                     <!--begin::Col-->
                                     <div >
                                         <!--begin::Option-->
@@ -133,6 +131,8 @@
                                 <!--end::Row-->
                             </div>
                             <!--end::Input group-->
+
+
 
                             <button type="submit" id="submit"
                                 class="btn btn-lg btn-dark w-100">Request Payout</button>

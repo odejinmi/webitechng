@@ -38,6 +38,7 @@ class Sms extends NotifyProcess implements Notifiable
      */
     public function send()
     {
+
         //get message from parent
         $message = $this->getMessage();
         if ($this->setting->sn && $message) {

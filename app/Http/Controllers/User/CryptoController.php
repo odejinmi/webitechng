@@ -15,7 +15,6 @@ use Illuminate\Support\Str;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
 
 class CryptoController extends Controller
 {
@@ -56,8 +55,6 @@ class CryptoController extends Controller
 		$user = Auth::user();
 		$coin = Cryptocurrency::whereId(decrypt($id))->whereStatus(1)->firstOrFail();
 		$wallet = Cryptowallet::whereCoinId($coin->id)->whereUserId($user->id)->whereStatus(1)->first();
-
-        Log::info($coin);
 		if(!$wallet)
 		{
 		$baseurl = "https://coinremitter.com/api/v3/".$coin->symbol."/get-new-address";
@@ -71,15 +68,12 @@ class CryptoController extends Controller
 		  CURLOPT_FOLLOWLOCATION => true,
 		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 		  CURLOPT_CUSTOMREQUEST => 'POST',
-		  CURLOPT_POSTFIELDS => array('api_key' => $coin->apikey,'password' => $coin->apipass,'label' => "@ways247"),
+		  CURLOPT_POSTFIELDS => array('api_key' => $coin->apikey,'password' => $coin->apipass,'label' => $user->username),
 		));
 
 		$response = curl_exec($curl);
 		$reply = json_decode($response,true);
 		curl_close($curl);
-        Log::info($response);
-        Log::info($reply);
-        return ;
 		// return $response;
 		if(!isset($reply['data']['address']))
 		{

@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('panel'); ?>
 <form action="" method="post" enctype="multipart/form-data">
               <?php echo csrf_field(); ?>
@@ -15,7 +14,7 @@
                         <badge class="badge bg-danger">KYC Status: <?php echo app('translator')->get('Rejected'); ?></badge>
                         <?php echo app('translator')->get('Please proceed to reupload file'); ?>
                         <?php endif; ?>
-        </div> 
+        </div>
     </div>
     <hr class="my-6">
     <div class="row align-items-center">
@@ -23,7 +22,7 @@
         <div class="col-md-8 col-xl-5">
             <div class=""><input type="text" value="<?php echo e($user->fullname); ?>" disabled class="form-control"></div>
         </div>
-    </div> 
+    </div>
     <hr class="my-6">
     <div class="row align-items-center">
         <div class="col-md-2"><label class="form-label">Email</label></div>
@@ -38,7 +37,7 @@
             </div>
         </div>
     </div>
-     
+
     <hr class="my-6">
     <div class="row align-items-center">
         <div class="col-md-2"><label class="form-label">Id Type</label></div>
@@ -56,7 +55,7 @@
             </div>
         </div>
     </div>
-     
+
     <hr class="my-6">
     <div class="row align-items-center">
         <div class="col-md-2"><label class="form-label">Front View</label></div>
@@ -70,7 +69,7 @@
                         <div class="text-center">
                             <div class="text-2xl text-muted">
                               <img id="khaytech" width="35"
-                                src="<?php echo e(asset($activeTemplateTrue . 'dashboard/img/upload-file.png')); ?>" />
+                                src="<?php echo e(asset( $activeTemplateTrue . 'dashboard/img/upload-file.png')); ?>" />
                             </div>
                             <div class="d-flex text-sm mt-3">
                                 <p class="fw-semibold">Upload a file or drag and drop</p>
@@ -96,7 +95,7 @@
                         <div class="text-center">
                             <div class="text-2xl text-muted">
                               <img id="khaytech2" width="35"
-                                src="<?php echo e(asset($activeTemplateTrue . 'dashboard/img/upload-file.png')); ?>" />
+                                src="<?php echo e(asset( $activeTemplateTrue . 'dashboard/img/upload-file.png')); ?>" />
                             </div>
                             <div class="d-flex text-sm mt-3">
                                 <p class="fw-semibold">Upload a file or drag and drop</p>

@@ -30,10 +30,10 @@
                                         <!--begin::Action-->
 
                                         <a href="<?php echo e(route('user.buygift')); ?>" class="btn btn-primary er fs-6 px-8 py-4">
-                                            <?php echo app('translator')->get('Buy Giftcard'); ?> </a> 
+                                            <?php echo app('translator')->get('Buy Giftcard'); ?> </a>
                                         <a href="<?php echo e(route('user.sellgift')); ?>" class="btn btn-danger er fs-6 px-8 py-4">
                                                 <?php echo app('translator')->get('Sell Giftcard'); ?> </a>
-                                        <br> <br> 
+                                        <br> <br>
                                         <!--end::Action-->
                                     </div>
                                 </div>
@@ -60,6 +60,6 @@
     <?php $__env->stopSection(); ?>
 
     <?php $__env->startPush('breadcrumb-plugins'); ?>
-    <?php $__env->stopPush(); ?> 
+    <?php $__env->stopPush(); ?>
 
 <?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/basic/user/giftcard/index.blade.php ENDPATH**/ ?>

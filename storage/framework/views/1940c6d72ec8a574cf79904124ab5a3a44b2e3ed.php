@@ -3,7 +3,7 @@
 
 <section>
     <div class="container">
-        
+
         <div class="row align-items-center justify-content-center mt-4">
             <div class="col-xl-7 col-lg-7 col-md-11 mb-3">
                 <div class="sec-heading text-center">
@@ -13,7 +13,7 @@
                   </div>
             </div>
         </div>
-        
+
         <div class="row justify-content-center g-lg-4 g-md-2 g-4">
             <?php $__currentLoopData = $coins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
@@ -36,12 +36,12 @@
                                 <li class="py-2 font--medium"><i class="fa-regular  <?php if($data->sell_rate > 0): ?> fa-circle-check text-primary <?php else: ?>  fa fa-x text-danger <?php endif; ?> me-2"></i><?php echo app('translator')->get('Sell Rate'); ?>: <?php echo e(number_format($data->sell_rate,2)); ?><?php echo e($general->cur_text); ?></li>
                                 <li class="py-2 font--medium"><i class="fa-regular   <?php if($data->swap_rate > 0): ?> fa-circle-check text-primary <?php else: ?>  fa fa-x text-danger <?php endif; ?>  me-2"></i><?php echo app('translator')->get('Swap Rate'); ?>: <?php echo e(number_format($data->swap_rate,2)); ?><?php echo e($general->cur_text); ?></li>
                             </ul>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-             
+
         </div>
 
 
@@ -62,13 +62,13 @@
                     <div class="prcs-body bg-white py-4 px-lg-4 px-md-2 px-4 rounded-3">
                         <div class="prcs-list mb-3">
                             <ul class="p-0 m-0">
-                               
+
                                 <li class="py-2 font--medium"><i class="fa-regular fa-circle-check text-primary me-2"></i>Name: <?php echo e($type->name); ?></li>
                                 <li class="py-2 font--medium"><i class="fa-regular fa-circle-check text-primary me-2"></i>Sell Rate: <?php echo e(number_format($type->sell_rate,2)); ?><?php echo e($general->cur_text); ?></li>
                                 <li class="py-2 font--medium"><i class="fa-regular fa-circle-check text-primary me-2"></i>Buy Rate: <?php echo e(number_format($type->buy_rate,2)); ?><?php echo e($general->cur_text); ?></li>
-                               
+
                             </ul>
-                        </div> 
+                        </div>
                     </div>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <div class="alert alert-danger">
@@ -78,12 +78,12 @@
                 </div>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-             
+
         </div>
-        
+
     </div>
 </section>
-  
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make($activeTemplate . 'layouts.frontend', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/satoshi/rates.blade.php ENDPATH**/ ?>

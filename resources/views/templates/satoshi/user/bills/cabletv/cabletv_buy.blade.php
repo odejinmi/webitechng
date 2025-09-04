@@ -218,18 +218,14 @@
                                                               });
                                                                 const csrfToken = $('meta[name="csrf-token"]').attr('content');
                                                                 const url = `{{ route('user.cabletv.operators') }}?decoder=${encodeURIComponent(decoder)}&_token=${csrfToken}`;
-                                                                console.log("Getting ready to call server");
                                                               var requestOptions = {
                                                                 method: 'GET',
                                                                 headers: {
                                                                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                                                 },
                                                               };
-                                                              console.log("about to call server");
                                                               fetch(url, requestOptions).then(response =>
                                                                 response.text()).then(result => {
-                                                                    console.log("server response");
-                                                                    console.log(result);
                                                                   let html = '';
                                                                   const data = JSON.parse(result);
                                                                 var plans = data.content;

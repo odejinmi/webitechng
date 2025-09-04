@@ -47,7 +47,7 @@ $passwordContent = getContent('password.content', true);
                    <!--begin::Form-->
                    <form class="form w-100 verify-gcaptcha"  data-kt-redirect-url="<?php echo e(route('user.home')); ?>"  class="form w-100" novalidate="novalidate" id="kt_password_reset_form" method="POST"
                    action="<?php echo e(route('user.password.update')); ?>">
-                   <?php echo csrf_field(); ?> 
+                   <?php echo csrf_field(); ?>
 
                    <input type="hidden" name="email" value="<?php echo e($email); ?>">
                    <input type="hidden" name="token" value="<?php echo e($token); ?>">
@@ -68,7 +68,7 @@ $passwordContent = getContent('password.content', true);
                            </div>
                            <!--end::Subtitle--->
                        </div>
-                       <!--begin::Heading-->  
+                       <!--begin::Heading-->
 
                        <!--begin::Input group--->
                        <div class="fv-row mb-8">
@@ -86,16 +86,16 @@ $passwordContent = getContent('password.content', true);
                                 </div>
                             <?php endif; ?>
                            <!--end::Password-->
-                       </div> 
+                       </div>
                        <br>
                        <div class="fv-row mb-8">
                         <!--begin::Password-->
                         <label class="form-label">Confirm New Password</label>
 
                         <input type="password" class="form-control bg-transparent" name="password_confirmation"
-                             placeholder="<?php echo app('translator')->get('Confirm Password'); ?>" required> 
+                             placeholder="<?php echo app('translator')->get('Confirm Password'); ?>" required>
                         <!--end::Password-->
-                    </div> 
+                    </div>
 
                        <!--begin::Submit button-->
                        <div class="d-grid mb-10">
@@ -104,16 +104,16 @@ $passwordContent = getContent('password.content', true);
                                <!--begin::Indicator label-->
                                <span class="indicator-label">
                                    <?php echo app('translator')->get('Proceed'); ?></span>
-                               <!--end::Indicator label--> 
+                               <!--end::Indicator label-->
                             </button>
                        </div>
                        <!--end::Submit button-->
- 
+
                    </form>
                    <!--end::Form-->
 
                 </div>
-                <!--end::Wrapper--> 
+                <!--end::Wrapper-->
             </div>
             <!--end::Content-->
         </div>
@@ -122,9 +122,9 @@ $passwordContent = getContent('password.content', true);
     <!--end::Body-->
 </div>
 <!--end::Authentication - Password Reset-->
- 
+
 <?php $__env->stopSection(); ?>
- 
+
 
 <?php if($general->secure_password): ?>
     <?php $__env->startPush('script-lib'); ?>

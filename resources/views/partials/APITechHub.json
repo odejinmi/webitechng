@@ -1,14 +1,14 @@
 [
  {
-   "plan_name": "Gifting - 1.2GB Pulse Weekly",
-   "plan_id": 1113,
-   "amount": 699.5,
+   "plan_name": "Gifting - Pulse 1.2GB+1hr (YT/IG/TT) Weekly",
+   "plan_id": 1254,
+   "amount": 733.5,
    "category": "Gifting",
-   "formated_amount": "699.50",
+   "formated_amount": "733.50",
    "network": "mtn"
  },
  {
-   "plan_name": "Gifting - 1GB+5mins Weekly",
+   "plan_name": "Gifting - 1GB Weekly",
    "plan_id": 1112,
    "amount": 792,
      "category": "Gifting",
@@ -16,7 +16,7 @@
    "network": "mtn"
  },
  {
-   "plan_name": "Gifting - 1.5GB+5mins Weekly",
+   "plan_name": "Gifting - 1.5GB Weekly",
    "plan_id": 1114,
    "amount": 985,
      "category": "Gifting",
@@ -74,6 +74,14 @@
    "network": "mtn"
  },
  {
+   "plan_name": "Gifting - 7GB Monthly",
+   "plan_id": 1249,
+   "amount": 3430,
+     "category": "Gifting",
+   "formated_amount": "3430.00",
+   "network": "mtn"
+ },
+ {
    "plan_name": "Gifting - 10GB+10mins Monthly",
    "plan_id": 1120,
    "amount": 4400.5,
@@ -82,11 +90,11 @@
    "network": "mtn"
  },
  {
-   "plan_name": "Gifting - 11GB+25mins Monthly",
-   "plan_id": 1121,
-   "amount": 4880,
+   "plan_name": "Gifting - 12.5GB Monthly",
+   "plan_id": 1247,
+   "amount": 5366,
      "category": "Gifting",
-   "formated_amount": "4,880.00",
+   "formated_amount": "5,366.00",
    "network": "mtn"
  },
  {
@@ -130,6 +138,14 @@
    "network": "mtn"
  },
  {
+   "plan_name": "Gifting - 65GB Monthly",
+   "plan_id": 1277,
+   "amount": 15550,
+     "category": "Gifting",
+   "formated_amount": "15550.00",
+   "network": "mtn"
+ },
+ {
    "plan_name": "Gifting - 75GB Monthly",
    "plan_id": 1127,
    "amount": 19300,
@@ -153,14 +169,7 @@
    "formated_amount": "54,000.00",
    "network": "mtn"
  },
- {
-   "plan_name": "Gifting - 40GB Postpaid 2-Month",
-   "plan_id": 1131,
-   "amount": 8785,
-     "category": "Gifting",
-   "formated_amount": "8,785.00",
-   "network": "mtn"
- },
+ 
  {
    "plan_name": "Gifting - 90GB 2-Month",
    "plan_id": 1130,
@@ -178,11 +187,19 @@
    "network": "mtn"
  },
  {
-   "plan_name": "Gifting - 200GB 2-Month",
-   "plan_id": 1133,
-   "amount": 49150,
+   "plan_name": "Gifting - 480GB 3-Month",
+   "plan_id": 1253,
+   "amount": 87750,
      "category": "Gifting",
-   "formated_amount": "49,150.00",
+   "formated_amount": "87,750.00",
+   "network": "mtn"
+ },
+ {
+   "plan_name": "Gifting - 800GB Yearly",
+   "plan_id": 1278,
+   "amount": 121875,
+     "category": "Gifting",
+   "formated_amount": "121,875.00",
    "network": "mtn"
  },
  {
@@ -210,8 +227,8 @@
  {
    "plan_name": "Gifting - 200GB Monthly Broadband",
    "plan_id": 1200,
-   "amount": 24500,
-   "formated_amount": "24,500.00",
+   "amount": 37200,
+   "formated_amount": "37,200.00",
    "network": "mtn"
  },
  {
@@ -221,11 +238,11 @@
    "formated_amount": "73,000.00",
    "network": "mtn"
  },
-  {
+ {
    "plan_name": "Gifting - 1.5TB Yearly Broadband",
    "plan_id": 1201,
-   "amount": 147000,
-   "formated_amount": "147,000.00",
+   "amount": 219900,
+   "formated_amount": "219,900.00",
    "network": "mtn"
  },
  {
@@ -267,13 +284,38 @@
    "network": "mtn"
  },
  {
-   "plan_name": "5GB [Transfer]",
-   "plan_id": 946,
-   "amount": 3000,
+   "plan_name": "1GB [Transfer]",
+   "plan_id": 893,
+   "amount": 700,
      "category": "Transfer",
-   "formated_amount": "3,000.00",
+   "formated_amount": "700.00",
    "network": "mtn"
  },
+ {
+   "plan_name": "2GB [Transfer]",
+   "plan_id": 894,
+   "amount": 1400,
+     "category": "Transfer",
+   "formated_amount": "1,400.00",
+   "network": "mtn"
+ },
+ {
+   "plan_name": "3GB [Transfer]",
+   "plan_id": 892,
+   "amount": 1825,
+     "category": "Transfer",
+   "formated_amount": "1,825.00",
+   "network": "mtn"
+ },
+ {
+   "plan_name": "5GB [Transfer]",
+   "plan_id": 946,
+   "amount": 2500,
+     "category": "Transfer",
+   "formated_amount": "2,500.00",
+   "network": "mtn"
+ },
+ 
  {
    "plan_name": "Gifting - Weekly Plan 800 -  Data - 1.0 GB (7 Days) [WEB]",
    "plan_id": 1165,
@@ -509,73 +551,73 @@
  {
    "plan_name": "100MB [Corporate] - 7 Days",
    "plan_id": 45,
-   "amount": 80,
+   "amount": 89,
      "category": "Corporate",
-   "formated_amount": "80.00",
+   "formated_amount": "89.00",
    "network": "airtel"
  },
  {
    "plan_name": "300MB [Corporate] - 7 Days",
    "plan_id": 46,
-   "amount": 195,
+   "amount": 261,
      "category": "Corporate",
-   "formated_amount": "195.00",
+   "formated_amount": "261.00",
    "network": "airtel"
  },
  {
    "plan_name": "500MB [Corporate] - 30 Days",
    "plan_id": 47,
-   "amount": 380,
+   "amount": 430,
      "category": "Corporate",
-   "formated_amount": "380.00",
+   "formated_amount": "430.00",
    "network": "airtel"
  },
  {
    "plan_name": "1GB [Corporate] - 30 Days",
    "plan_id": 48,
-   "amount": 650,
+   "amount": 850,
      "category": "Corporate",
-   "formated_amount": "650.00",
+   "formated_amount": "850.00",
    "network": "airtel"
  },
  {
    "plan_name": "2GB [Corporate] - 30 Days",
    "plan_id": 49,
-   "amount": 1300,
+   "amount": 1700,
      "category": "Corporate",
-   "formated_amount": "1,300.00",
+   "formated_amount": "1,700.00",
    "network": "airtel"
  },
  {
    "plan_name": "5GB [Corporate] - 30 Days",
    "plan_id": 50,
-   "amount": 3250,
+   "amount": 4250,
      "category": "Corporate",
-   "formated_amount": "3,250.00",
+   "formated_amount": "4,250.00",
    "network": "airtel"
  },
  {
    "plan_name": "10GB [Corporate] - 30 Days",
    "plan_id": 89,
-   "amount": 6500,
+   "amount": 8500,
      "category": "Corporate",
-   "formated_amount": "6,500.00",
+   "formated_amount": "8,500.00",
    "network": "airtel"
  },
  {
    "plan_name": "15GB [Corporate] - 30 Days",
    "plan_id": 90,
-   "amount": 9750,
+   "amount": 12750,
      "category": "Corporate",
-   "formated_amount": "9,750.00",
+   "formated_amount": "12,750.00",
    "network": "airtel"
  },
  {
    "plan_name": "20GB [Corporate] - 30 Days",
    "plan_id": 91,
-   "amount": 13000,
+   "amount": 17000,
      "category": "Corporate",
-   "formated_amount": "13,000.00",
+   "formated_amount": "17,000.00",
    "network": "airtel"
  },
  {
@@ -714,7 +756,11 @@
    "formated_amount": "35,000.00",
    "network": "9mobile"
  },
-  {
+ 
+ 
+ 
+ 
+ {
    "plan_name": "200MB [Corporate] - 14 Days",
    "plan_id": 171,
    "amount": 100,
@@ -771,35 +817,35 @@
    "network": "glo"
  },
  {
-   "plan_name": "Glo: 1GB|CG|30days",
-   "plan_id": 1190,
-   "amount": 400,
-     "category": "Direct",
-   "formated_amount": "400.00",
+   "plan_name": "N1000 Monthly 2.6GB 30Days (1.1GB + 1.5GB Night)",
+   "plan_id": 51,
+   "amount": 930,
+      "category": "Gifting",
+   "formated_amount": "930.00",
    "network": "glo"
  },
  {
-   "plan_name": "Glo: 2GB|CG|30days",
-   "plan_id": 1191,
-   "amount": 800,
-     "category": "Direct",
-   "formated_amount": "800.00",
+   "plan_name": "N1500 Monthly 5GB 30Days (2GB + 3GB Night)",
+   "plan_id": 62,
+   "amount": 1395,
+     "category": "Gifting",
+   "formated_amount": "1395.00",
    "network": "glo"
  },
  {
-   "plan_name": "Glo: 3GB|CG|30days",
-   "plan_id": 1192,
-   "amount": 1000,
-     "category": "Direct",
-   "formated_amount": "1000.00",
+   "plan_name": "N2000 Monthly 6.15GB 30Days (3.15GB + 3GB Night)",
+   "plan_id": 59,
+   "amount": 1860,
+     "category": "Gifting",
+   "formated_amount": "1860.00",
    "network": "glo"
  },
  {
-   "plan_name": "Glo: 5GB|CG|30days",
-   "plan_id": 1193,
-   "amount": 2000,
-     "category": "Direct",
-   "formated_amount": "2,000.00",
+   "plan_name": "N2500 Monthly 7.25GB 30Days (4.25GB + 3GB Night)",
+   "plan_id": 56,
+   "amount": 2325,
+     "category": "Gifting",
+   "formated_amount": "2,325.00",
    "network": "glo"
  }
 

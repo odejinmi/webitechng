@@ -145,7 +145,7 @@
                 </div>
                 <div class="modal-body undefined">
                     <form class="vstack gap-8">
- 
+
                         <div class="bg-body-secondary rounded-3 p-4">
                             <div class="d-flex justify-content-between text-xs text-muted">
                                 <span class="fw-semibold">Wallet ID</span>
@@ -188,15 +188,15 @@
 
                                 </ul>
 
- 
+
                             </div>
                         </div>
 
 
                             <p id="customer"></p>
-                         
 
-                        <input id="customername" hidden> 
+
+                        <input id="customername" hidden>
                         <?php $__env->startPush('script'); ?>
                 <script>
                   function validateaccount() {
@@ -256,13 +256,13 @@
                             }
                         });
                         }
-                        // END GET DATA \\  
+                        // END GET DATA \\
                     }
 
                     </script>
                     <?php $__env->stopPush(); ?>
 
-                         
+
 
 
                         <div class="bg-body-secondary rounded-3 p-4">
@@ -321,6 +321,7 @@
               customername: document.getElementById('customername').value,
               amount: document.getElementById('amount').value,
               company: document.getElementById('company').value,
+                wallet: "main"
             });
             var requestOptions = {
                 method: 'POST',

@@ -1,18 +1,17 @@
-
 <?php $__env->startSection('content'); ?>
 
 <?php echo $__env->make($activeTemplate . 'partials.breadcrumb', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <!-- Start Career Section -->
-<section id="career" class="bg-lightgrey wide-60 contacts-section division">				
+<section id="career" class="bg-lightgrey wide-60 contacts-section division">
     <div class="container">
-        <!-- SECTION TITLE -->	
-        <div class="row">	
+        <!-- SECTION TITLE -->
+        <div class="row">
             <div class="col-lg-10 offset-lg-1">
-                <div class="section-title text-center mb-60">		
-                    <!-- Title 	-->	
-                    <h2 class="h2-xs">Careers at LtechNG</h2>	 
-                </div>	
+                <div class="section-title text-center mb-60">
+                    <!-- Title 	-->
+                    <h2 class="h2-xs">Careers at LtechNG</h2>
+                </div>
             </div>
         </div>
 
@@ -50,7 +49,7 @@
                 </ul>
             </div>
         </div>
-    </div> <!-- End container -->		
+    </div> <!-- End container -->
 </section> <!-- END Career Section -->
 
 <?php $__env->stopSection(); ?>

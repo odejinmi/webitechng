@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('panel'); ?>
     <!-- content @s
         -->
@@ -40,7 +38,7 @@
                                     <div class="mb-10 fv-row">
                                         <!--begin::Label-->
                                         <label class="d-flex align-items-center form-label mb-3">
-                                            <?php echo app('translator')->get('Fixed Amount'); ?> 
+                                            <?php echo app('translator')->get('Fixed Amount'); ?>
                                             <span class="ms-1" data-bs-toggle="tooltip"
                                                 title="Select a fixed amount">
                                                 <i class="ti ti-alert-circle text-gray-500 fs-6"><span
@@ -160,7 +158,7 @@ unset($__errorArgs, $__bag); ?>" id="amount" value="<?php echo e(old('amount'));
                                                     <!--begin::Icon-->
                                                     <span class="symbol symbol-50px me-6">
                                                         <span class="symbol-label">
-                                                            <img width="40" src="<?php echo e(getImage(imagePath()['gateway']['path'].'/'. $data->method->image,imagePath()['gateway']['size'])); ?>" alt="" class="img-fluid ms-auto"> 
+                                                            <img width="40" src="<?php echo e(getImage(imagePath()['gateway']['path'].'/'. $data->method->image,imagePath()['gateway']['size'])); ?>" alt="" class="img-fluid ms-auto">
                                                         </span>
                                                     </span>
                                                     <!--end::Icon-->
@@ -184,7 +182,7 @@ unset($__errorArgs, $__bag); ?>" id="amount" value="<?php echo e(old('amount'));
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                             <?php echo emptyData(); ?>
 
-                                            <?php endif; ?> 
+                                            <?php endif; ?>
                                         </div>
                                         <!--end::Options-->
                                     </div>
@@ -259,7 +257,7 @@ unset($__errorArgs, $__bag); ?>" id="amount" value="<?php echo e(old('amount'));
                 </li>
             </ul>
         </div>
-         
+
         <div class="buysell-field form-action text-center">
             <div class="mt-3">
                 <a class="btn btn-primary"  onclick="document.getElementById('submitnow').click()" ><?php echo app('translator')->get('Confirm Deposit'); ?></a>

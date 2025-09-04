@@ -5,7 +5,7 @@
             <div class="col">
                 <div class="card bg-success bg-opacity-10 border-success border-opacity-40">
                     <div class="p-5">
-                        <div class="d-flex gap-3 mb-5"><img src="<?php echo e(asset( $activeTemplateTrue . 'images/country/ngn.png')); ?>"
+                        <div class="d-flex gap-3 mb-5"><img src="<?php echo e(asset($activeTemplateTrue . 'images/country/ngn.png')); ?>"
                                 class="avatar" alt="...">
                             <div class=""><a class="d-inline-block text-sm text-heading fw-semibold" href="#">NGN
                                     Wallet
@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-
+              
 
         </div>
         <div class="row g-3 g-xl-6">
@@ -59,133 +59,133 @@
     <span class="card-label fw-bold text-gray-800"><?php echo app('translator')->get('Bills Payment Chart'); ?></span>
     <span class="text-gray-400 mt-1 fw-semibold fs-6"><?php echo app('translator')->get('An overview showing your bills payment histroy'); ?></span>
   </h3>
-      <!--end::Title-->
+      <!--end::Title--> 
   </div>
   <!--end::Header-->
 
   <!--begin::Body-->
-  <div class="card-body d-flex flex-column justify-content-between pb-5 px-0">
-      <!--begin::Nav-->
+  <div class="card-body d-flex flex-column justify-content-between pb-5 px-0">       
+      <!--begin::Nav-->             
       <ul class="nav nav-pills nav-pills-custom mb-3 mx-9">
-
-            <!--begin::Item-->
+         
+            <!--begin::Item--> 
             <li class="nav-item mb-3 me-3 me-lg-6">
-              <!--begin::Link-->
-              <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 active
-                  " data-bs-toggle="pill" id=""
+              <!--begin::Link--> 
+              <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 active 
+                  " data-bs-toggle="pill" id="" 
                   href="#totalbills">
                   <!--begin::Icon-->
-                  <div class="nav-icon mb-3">
-                      <i class="ti ti-printer fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                  <div class="nav-icon mb-3">        
+                      <i class="ti ti-printer fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                                                                                                                                                  
                   </div>
                   <!--end::Icon-->
-
+                  
                   <!--begin::Title-->
                   <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">
-                      <?php echo app('translator')->get('All'); ?>
-                  </span>
+                      <?php echo app('translator')->get('All'); ?>                        
+                  </span> 
                   <!--end::Title-->
-
+                  
                   <!--begin::Bullet-->
                   <span class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
                   <!--end::Bullet-->
               </a>
               <!--end::Link-->
           </li>
-          <!--end::Item-->
-              <!--begin::Item-->
+          <!--end::Item--> 
+              <!--begin::Item--> 
               <li class="nav-item mb-3 me-3 me-lg-6">
-                  <!--begin::Link-->
-                  <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2
-                      " data-bs-toggle="pill" id=""
+                  <!--begin::Link--> 
+                  <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 
+                      " data-bs-toggle="pill" id="" 
                       href="#airtime">
                       <!--begin::Icon-->
-                      <div class="nav-icon mb-3">
-                          <i class="ti ti-device-mobile fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                      <div class="nav-icon mb-3">        
+                          <i class="ti ti-device-mobile fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                                                                                                                                                  
                       </div>
                       <!--end::Icon-->
-
+                      
                       <!--begin::Title-->
                       <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">
-                          <?php echo app('translator')->get('Airtime'); ?>
-                      </span>
+                          <?php echo app('translator')->get('Airtime'); ?>                        
+                      </span> 
                       <!--end::Title-->
-
+                      
                       <!--begin::Bullet-->
                       <span class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
                       <!--end::Bullet-->
                   </a>
                   <!--end::Link-->
               </li>
-              <!--end::Item-->
-              <!--begin::Item-->
+              <!--end::Item--> 
+              <!--begin::Item--> 
               <li class="nav-item mb-3 me-3 me-lg-6">
-                  <!--begin::Link-->
-                  <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2
-                      " data-bs-toggle="pill" id=""
+                  <!--begin::Link--> 
+                  <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 
+                      " data-bs-toggle="pill" id="" 
                       href="#internet">
                       <!--begin::Icon-->
-                      <div class="nav-icon mb-3">
-                          <i class="ti ti-wifi fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                      <div class="nav-icon mb-3">        
+                          <i class="ti ti-wifi fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                                                                                                                                                  
                       </div>
                       <!--end::Icon-->
-
+                      
                       <!--begin::Title-->
                       <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">
-                          <?php echo app('translator')->get('Internet'); ?>
-                      </span>
+                          <?php echo app('translator')->get('Internet'); ?>                        
+                      </span> 
                       <!--end::Title-->
-
+                      
                       <!--begin::Bullet-->
                       <span class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
                       <!--end::Bullet-->
                   </a>
                   <!--end::Link-->
               </li>
-              <!--end::Item-->
-              <!--begin::Item-->
+              <!--end::Item--> 
+              <!--begin::Item--> 
               <li class="nav-item mb-3 me-3 me-lg-6">
-                  <!--begin::Link-->
-                  <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2
-                      " data-bs-toggle="pill" id=""
+                  <!--begin::Link--> 
+                  <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 
+                      " data-bs-toggle="pill" id="" 
                       href="#cabletv">
                       <!--begin::Icon-->
-                      <div class="nav-icon mb-3">
-                          <i class="ti ti-video fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                      <div class="nav-icon mb-3">        
+                          <i class="ti ti-video fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                                                                                                                                                  
                       </div>
                       <!--end::Icon-->
-
+                      
                       <!--begin::Title-->
                       <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">
-                          <?php echo app('translator')->get('TV'); ?>
-                      </span>
+                          <?php echo app('translator')->get('TV'); ?>                        
+                      </span> 
                       <!--end::Title-->
-
+                      
                       <!--begin::Bullet-->
                       <span class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
                       <!--end::Bullet-->
                   </a>
                   <!--end::Link-->
               </li>
-              <!--end::Item-->
-              <!--begin::Item-->
+              <!--end::Item--> 
+              <!--begin::Item--> 
               <li class="nav-item mb-3 me-3 me-lg-6">
-                <!--begin::Link-->
-                <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2
-                    " data-bs-toggle="pill" id=""
+                <!--begin::Link--> 
+                <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 
+                    " data-bs-toggle="pill" id="" 
                     href="#utility">
                     <!--begin::Icon-->
-                    <div class="nav-icon mb-3">
-                        <i class="ti ti-bolt fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                    <div class="nav-icon mb-3">        
+                        <i class="ti ti-bolt fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                                                                                                                                                  
                     </div>
                     <!--end::Icon-->
-
+                    
                     <!--begin::Title-->
                     <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">
-                        <?php echo app('translator')->get('Utility'); ?>
-                    </span>
+                        <?php echo app('translator')->get('Utility'); ?>                        
+                    </span> 
                     <!--end::Title-->
-
+                    
                     <!--begin::Bullet-->
                     <span class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
                     <!--end::Bullet-->
@@ -193,24 +193,24 @@
                 <!--end::Link-->
             </li>
             <!--end::Item-->
-            <!--begin::Item-->
+            <!--begin::Item--> 
             <li class="nav-item mb-3 me-3 me-lg-6">
-                <!--begin::Link-->
-                <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2
-                    " data-bs-toggle="pill" id=""
+                <!--begin::Link--> 
+                <a class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary flex-column overflow-hidden w-80px h-85px pt-5 pb-2 
+                    " data-bs-toggle="pill" id="" 
                     href="#insurance">
                     <!--begin::Icon-->
-                    <div class="nav-icon mb-3">
-                        <i class="ti ti-shield fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                    <div class="nav-icon mb-3">        
+                        <i class="ti ti-shield fs-1 p-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                                                                                                                                                  
                     </div>
                     <!--end::Icon-->
-
+                    
                     <!--begin::Title-->
                     <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">
-                        <?php echo app('translator')->get('Insurance'); ?>
-                    </span>
+                        <?php echo app('translator')->get('Insurance'); ?>                        
+                    </span> 
                     <!--end::Title-->
-
+                    
                     <!--begin::Bullet-->
                     <span class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
                     <!--end::Bullet-->
@@ -218,8 +218,8 @@
                 <!--end::Link-->
             </li>
             <!--end::Item-->
-
-      </ul>
+                      
+      </ul>             
       <!--end::Nav-->
 
       <!--begin::Tab Content-->
@@ -268,13 +268,13 @@
             </div>
             <!--end::Tap pane-->
       </div>
-      <!--end::Tab Content-->
+      <!--end::Tab Content-->        
   </div>
   <!--end: Card Body-->
 </div>
 
         <div class="row g-3 g-xl-6">
-
+             
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body pb-0">
@@ -314,7 +314,7 @@
                                 <?php echo emptyData(); ?>
 
                             <?php endif; ?>
-
+                             
                         </div>
                     </div>
                 </div>
@@ -325,7 +325,7 @@
 
 <?php $__env->startPush('script'); ?>
 
-
+     
      <script src="<?php echo e(asset('assets/assets/dist/libs/apexcharts/dist/apexcharts.min.js')); ?>""></script>
 
      <script src="<?php echo e(asset('assets/assets/dist/libs/jquery/dist/jquery.min.js')); ?>"></script>
@@ -747,7 +747,7 @@
                 show: false,
             },
             categories: <?php echo json_encode($yearLabels); ?>,
-
+  
         },
         yaxis: {
             tickAmount: 4,
@@ -756,7 +756,7 @@
             theme: "dark",
         },
     };
-
+  
     var chart = new ApexCharts(document.querySelector("#yearInsurance"), chart);
     chart.render();
   </script>
@@ -842,7 +842,7 @@
 
   var chart = new ApexCharts(document.querySelector("#yearBill"), chart);
   chart.render();
-</script>
+</script>  
 <?php $__env->stopPush(); ?>
 
 <?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\DELL\PhpstormProjects\webitechng\resources\views/templates/satoshi/user/dashboard.blade.php ENDPATH**/ ?>

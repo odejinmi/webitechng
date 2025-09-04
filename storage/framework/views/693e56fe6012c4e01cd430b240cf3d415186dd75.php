@@ -1,7 +1,7 @@
 <!-- HEADER
    ============================================= -->
 <header id="header" class="header tra-menu <?php if(Route::is('home') ): ?> navbar-light <?php else: ?>  navbar-dark <?php endif; ?>">
-    
+
     <div class="header-wrapper">
 
 
@@ -31,7 +31,7 @@
 
 
                         <!-- DROPDOWN MENU -->
-                        <li aria-haspopup="true" class="text-primary"><a <?php if(!Route::is('home') ): ?> style="color:black;" <?php endif; ?> 
+                        <li aria-haspopup="true" class="text-primary"><a <?php if(!Route::is('home') ): ?> style="color:black;" <?php endif; ?>
                                 href="<?php echo e(route('home')); ?>">Home </a>
 
                         </li>
@@ -45,7 +45,7 @@
                                 <li>
                                     <a  href="<?php echo e(route('page', 'assets')); ?>" <?php if(!Route::is('home') ): ?> style="color:black;" <?php endif; ?>>About</a>
                                 </li>
-                                 
+
                                 <?php
                                     $pages = App\Models\Page::where('tempname', $activeTemplate)
                                         ->where('is_default', 0)
@@ -58,14 +58,14 @@
                                             href="<?php echo e(route('pages', [$data->slug])); ?>"><?php echo e(__($data->name)); ?></a>
                                     </li>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                
-                        
+
+
 
                             </ul>
                         </li>
 
 
-                        <li aria-haspopup="true" class="text-primary"><a 
+                        <li aria-haspopup="true" class="text-primary"><a
                             href="<?php echo e(route('blog')); ?>" <?php if(!Route::is('home') ): ?> style="color:black;" <?php endif; ?>>Blog </a>
 
                         </li>

@@ -914,6 +914,8 @@ class InternetSmeController extends Controller
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
         CURLOPT_POSTFIELDS =>'{
@@ -928,6 +930,14 @@ class InternetSmeController extends Controller
         ));
 
         $resp = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+        // dd($err);
+        return response()->json(['ok'=>false,'status'=>'danger','message'=> $err],400);
+        }
 
         $response = json_decode($resp,true);
 

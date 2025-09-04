@@ -23,14 +23,14 @@
                         <!-- AppStore -->
                         <a href="#" class="store">
                             <img class="appstore-original"
-                                src="<?php echo e(asset($activeTemplateTrue . 'front/images/appstore.png')); ?>"
+                                src="<?php echo e(asset( $activeTemplateTrue . 'front/images/appstore.png')); ?>"
                                 alt="appstore-badge" />
                         </a>
 
                         <!-- Google Play -->
                         <a href="#" class="store">
                             <img class="googleplay-original"
-                                src="<?php echo e(asset($activeTemplateTrue . 'front/images/googleplay.png')); ?>"
+                                src="<?php echo e(asset( $activeTemplateTrue . 'front/images/googleplay.png')); ?>"
                                 alt="googleplay-badge" />
                         </a>
 
@@ -44,7 +44,7 @@
             <!-- HERO IMAGE -->
             <div class="col-md-5 col-lg-6 m-bottom">
                 <div class="hero-3-img text-center mb-40 wow fadeInLeft" data-wow-delay="0.6s">
-                    <img class="img-fluid" src="<?php echo e(asset($activeTemplateTrue . 'front/images/img-01.png')); ?>"
+                    <img class="img-fluid" src="<?php echo e(asset( $activeTemplateTrue . 'front/images/img-01.png')); ?>"
                         alt="hero-image">
                 </div>
             </div>
@@ -52,9 +52,9 @@
 
         </div> <!-- End row -->
     </div> <!--End container -->
-</section> <!-- END HERO-3 --> 
+</section> <!-- END HERO-3 -->
 
- 
+
 
 
     <!-- CONTENT-2
@@ -67,7 +67,7 @@
                 <!-- IMAGE BLOCK -->
                 <div class="col-md-5 col-lg-6">
                     <div class="img-block left-column mb-40 wow fadeInRight" data-wow-delay="0.6s">
-                        <img class="img-fluid" src="<?php echo e(asset($activeTemplateTrue . 'front/images/frontapp2.png')); ?>"
+                        <img class="img-fluid" src="<?php echo e(asset( $activeTemplateTrue . 'front/images/frontapp2.png')); ?>"
                             alt="content-image">
                     </div>
                 </div>
@@ -323,7 +323,7 @@
                     <!-- IMAGE BLOCK -->
                     <div class="col-md-5 col-lg-6 m-top">
                         <div class="img-block right-column mb-40 wow fadeInLeft" data-wow-delay="0.4s">
-                            <img class="img-fluid" src="<?php echo e(asset($activeTemplateTrue . 'front/images/img-03.png')); ?>"
+                            <img class="img-fluid" src="<?php echo e(asset( $activeTemplateTrue . 'front/images/img-03.png')); ?>"
                                 alt="content-image">
                         </div>
                     </div>
@@ -341,7 +341,7 @@
                     <!-- IMAGE BLOCK -->
                     <div class="col-md-5 col-lg-6">
                         <div class="img-block left-column mb-40 wow fadeInRight" data-wow-delay="0.4s">
-                            <img class="img-fluid" src="<?php echo e(asset($activeTemplateTrue . 'front/images/frontapp3.png')); ?>"
+                            <img class="img-fluid" src="<?php echo e(asset( $activeTemplateTrue . 'front/images/frontapp3.png')); ?>"
                                 alt="content-image">
                         </div>
                     </div>
@@ -496,7 +496,7 @@
                 <!-- IMAGE BLOCK -->
                 <div class="col-md-5 col-lg-6 m-top">
                     <div class="img-block right-column mb-40 wow fadeInLeft" data-wow-delay="0.6s">
-                        <img class="img-fluid" src="<?php echo e(asset($activeTemplateTrue . 'front/images/shield1.png')); ?>"
+                        <img class="img-fluid" src="<?php echo e(asset( $activeTemplateTrue . 'front/images/shield1.png')); ?>"
                             alt="content-image">
                     </div>
                 </div>
@@ -509,11 +509,11 @@
 
     <?php echo $__env->make($activeTemplate . 'sections.counter', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
- 
+
     <?php echo $__env->make($activeTemplate . 'sections.testimonial', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     <?php echo $__env->make($activeTemplate . 'sections.subscribe', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
- 
+
 
 
     <!-- DOWNLOAD-1
@@ -543,14 +543,14 @@
                             <!-- AppStore -->
                             <a href="#" class="store">
                                 <img class="appstore-original"
-                                    src="<?php echo e(asset($activeTemplateTrue . 'front/images/appstore.png')); ?>"
+                                    src="<?php echo e(asset( $activeTemplateTrue . 'front/images/appstore.png')); ?>"
                                     alt="appstore-badge" />
                             </a>
 
                             <!-- Google Play -->
                             <a href="#" class="store">
                                 <img class="googleplay-original"
-                                    src="<?php echo e(asset($activeTemplateTrue . 'front/images/googleplay.png')); ?>"
+                                    src="<?php echo e(asset( $activeTemplateTrue . 'front/images/googleplay.png')); ?>"
                                     alt="googleplay-badge" />
                             </a>
 

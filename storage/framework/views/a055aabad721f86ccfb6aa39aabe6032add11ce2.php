@@ -250,8 +250,8 @@
                                                 <script>
 
                                               function selectwallet(wallet) {
-                                                        localStorage.setItem('wallet', wallet); 
-                                                    } 
+                                                        localStorage.setItem('wallet', wallet);
+                                                    }
                                                 </script>
                                                 <?php $__env->stopPush(); ?>
                                             </div>
@@ -317,8 +317,8 @@
                                                     // Show page loading
                                                     KTApp.showPageLoading();
                                                     document.getElementById('providers').innerHTML = '';
-                                                    var code = $("#youSendCurrency option:selected").attr('data-code'); 
-                                                    var name = $("#youSendCurrency option:selected").attr('data-name'); 
+                                                    var code = $("#youSendCurrency option:selected").attr('data-code');
+                                                    var name = $("#youSendCurrency option:selected").attr('data-name');
                                                     document.getElementById('insurancename').innerHTML = name;
                                                     document.getElementById("serviceID").value = code;
                                                     var _token = $("input[name='_token']").val();
@@ -326,7 +326,7 @@
                                                         url: "<?php echo e(route('user.insurance.operators')); ?>",
                                                         type: 'GET',
                                                         async: true,
-                                                        data: 
+                                                        data:
                                                         {
                                                             _token: _token,
                                                             code: code
@@ -338,17 +338,17 @@
                                                                 var plans = data.content.varations;
                                                                 var image = data.image;
                                                                 console.info(plans);
-                                                                let html = ''; 
-                                                                plans.map(plan => {  
- 
-                                                                    let htmlSegment = 
+                                                                let html = '';
+                                                                plans.map(plan => {
+
+                                                                    let htmlSegment =
                                                                     `<label class="d-flex flex-stack cursor-pointer mb-5" for="${plan['variation_code']}" >
                                                                         <span class="d-flex align-items-center me-2">
                                                                             <span class="symbol symbol-50px me-6">
                                                                                 <span class="symbol-label bg-light-primary">
                                                                                     <i class="ti ti-image fs-2x text-warning"><img src="${image}" width="30" class="path1"/></i>
                                                                                 </span>
-                                                                            </span> 
+                                                                            </span>
                                                                             <span class="d-flex flex-column">
                                                                                 <span class="fw-bold fs-6">${plan['name']}</span>
                                                                                 <span class="fs-7 text-muted"><?php echo e($general->cur_sym); ?>${plan['variation_amount']}</span>
@@ -359,14 +359,14 @@
                                                                         </span>
                                                                     </label>
                                                                     `;
-                                                                    html += htmlSegment;  
+                                                                    html += htmlSegment;
                                                                 });
 
                                                                 document.getElementById('providers').innerHTML =
                                                                     ` <div class="mb-0"> <label class="d-flex align-items-center form-label mb-5">
                                                                         <?php echo app('translator')->get('Select Operator Plan'); ?>
                                                                         <span class="ms-1"  data-bs-toggle="tooltip" title="Please select network service provider" >
-                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>        
+                                                                        <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>
                                                                         </label> ${html} </div>
                                                                     `;
 
@@ -384,7 +384,7 @@
                                             </script>
                                             <script>
                                               function networkprovider(variation_code,planamount,code,name) {
- 
+
                                                         document.getElementById("servicetype").innerHTML = name;
                                                         document.getElementById("variation_code").value = variation_code;
                                                         document.getElementById("variation_name").value = name;
@@ -394,47 +394,47 @@
                                                         {
                                                         document.getElementById("customerdetails").innerHTML =
                                                         `
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('The plate Number of the vehicle you wish to make the insurance payment on.'); ?></label>
                                                             <input name="billersCode" id="billersCode" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('The phone number of the customer or recipient of this service'); ?></label>
                                                             <input name="phone" id="phone" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('Name of the owner of the insured vehicle'); ?></label>
                                                             <input name="Insured_Name" id="Insured_Name" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('Engine Number of the insured vehicle'); ?></label>
                                                             <input name="Engine_Number" id="Engine_Number" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('Chasis Number of the insured vehicle'); ?></label>
                                                             <input name="Chasis_Number" id="Chasis_Number" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('Make of the insured vehicle'); ?></label>
                                                             <input name="Vehicle_Make" id="Vehicle_Make" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('Vehicle color'); ?></label>
                                                             <input name="Vehicle_Color" id="Vehicle_Color" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('Model of the insured vehicle'); ?></label>
                                                             <input name="Vehicle_Model" id="Vehicle_Model" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('The year the insured vehicle was made'); ?></label>
                                                             <input name="Year_of_Make" id="Year_of_Make" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('Contact Address of the vehicle owner'); ?></label>
                                                             <input name="Contact_Address" id="Contact_Address" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('Amount to be paid'); ?></label>
                                                             <input name="amount" id="amount" value="${planamount}" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
@@ -446,35 +446,35 @@
                                                         {
                                                         document.getElementById("customerdetails").innerHTML =
                                                         `
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('The Full name of the person you wish to make the insurance payment on'); ?></label>
                                                             <input name="billersCode" id="billersCode" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('The phone number of the customer or recipient of this service'); ?></label>
                                                             <input name="phone" id="phone" class="form-control form-control-lg form-control-solid"/>
-                                                        </div> 
-                                                        <div class="fv-row mb-10"> 
+                                                        </div>
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('The Address of the person you wish to make the insurance payment on.'); ?></label>
                                                             <input name="address" id="address" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('The date of birth of the person insured in for of YYYY-mm-dd.'); ?></label>
                                                             <input name="dob" id="dob" type="date" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('Customer’s next of kin name.'); ?></label>
                                                             <input name="next_kin_name" id="next_kin_name" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
-                                                        <div class="fv-row mb-10"> 
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('Customer’s next of kin phone number.'); ?></label>
                                                             <input name="next_kin_phone" id="next_kin_phone" class="form-control form-control-lg form-control-solid"/>
-                                                        </div> 
-                                                        <div class="fv-row mb-10"> 
+                                                        </div>
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('Customer’s business occupation.'); ?></label>
                                                             <input name="business_occupation" id="business_occupation" class="form-control form-control-lg form-control-solid"/>
-                                                        </div> 
-                                                        <div class="fv-row mb-10"> 
+                                                        </div>
+                                                        <div class="fv-row mb-10">
                                                             <label class="form-label required"><?php echo app('translator')->get('Amount to be paid'); ?></label>
                                                             <input name="amount" id="amount" value="${planamount}" class="form-control form-control-lg form-control-solid"/>
                                                         </div>
@@ -485,11 +485,11 @@
                                                         {
                                                             document.getElementById("customerdetails").innerHTML = '';
                                                         }
-                                                        
 
-                                        
 
-                                                    } 
+
+
+                                                    }
                                             </script>
                                         <?php $__env->stopPush(); ?>
 
@@ -498,7 +498,7 @@
                                         <div class="mb-0 fv-row">
 
                                             <!--begin::Options-->
-                                            <div id="providers"></div> 
+                                            <div id="providers"></div>
                                             <input id="variation_code" hidden>
                                             <input id="variation_name" hidden>
                                             <input id="serviceID" hidden>
@@ -530,7 +530,7 @@
 
                                         <!--begin::Input group-->
                                         <div id="customerdetails"></div>
-                                        <!--end::Input group--> 
+                                        <!--end::Input group-->
 
                                     </div>
                                     <!--end::Wrapper-->
@@ -556,13 +556,13 @@
                                             <!--end::Notice-->
                                         </div>
                                         <!--end::Heading-->
- 
+
 
                                         <!--begin::Input group-->
                                         <div class="fv-row mb-10">
 
 
-                                        <!--begin::Documents--> 
+                                        <!--begin::Documents-->
                                                   <!--begin::Table-->
                                                   <table
                                                       class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
@@ -617,16 +617,16 @@
                                                               </td>
                                                           </tr>
 
-                                                            
+
                                                           <tr></tr>
                                                       </tbody>
-                                                  </table> 
-                                                  
+                                                  </table>
+
                                                   <br><br><br>
-                                      
-                                            
+
+
                                             <label class="fs-6 fw-semibold mb-2">
-                                                <?php echo app('translator')->get('Enter Transaction Password'); ?> 
+                                                <?php echo app('translator')->get('Enter Transaction Password'); ?>
                                                 <span class="ms-1" data-bs-toggle="tooltip"
                                                     title="Please enter your transaction password to authenticate the wallet debit">
                                                     <i class="ti ti-alert-circle text-gray-500 fs-6"><span
@@ -652,10 +652,10 @@
                                                       aria-hidden="true"></span>
                                                     <span class="visually-hidden">Loading...</span>
                                                     </button>`);
- 
+
                                                 var raw = JSON.stringify({
-                                                  _token: "<?php echo e(csrf_token()); ?>", 
-                                                  password : e.value, 
+                                                  _token: "<?php echo e(csrf_token()); ?>",
+                                                  password : e.value,
                                                 });
 
                                                 var requestOptions = {
@@ -665,7 +665,7 @@
                                                 };
                                                 fetch("<?php echo e(route('user.trxpass')); ?>", requestOptions)
                                                   .then(response => response.text())
-                                                  .then(result => 
+                                                  .then(result =>
                                                   {
                                                     resp = JSON.parse(result);
                                                     if(resp.ok != true)
@@ -679,11 +679,11 @@
                                                     $("#passmessage").html(`<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`);
                                                   }
                                                   )
-                                                  .catch(error => 
+                                                  .catch(error =>
                                                   {
 
                                                   }
-                                                  ); 
+                                                  );
                                                   // END GET DATA \\
                                                }
                                         </script>
@@ -711,7 +711,7 @@
                                                <center>  <a href="<?php echo e(route('user.insurance.history')); ?>" class="btn btn-primary d-block"><?php echo app('translator')->get('View Order'); ?></a> </center>
                                               </div>
                                             </section>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <!--end::Wrapper-->
                                 </div>
@@ -740,7 +740,7 @@
                                                 <i class="ti ti-arrow-right fs-3 ms-2 me-0">
                                                     <span class="path1"></span>
                                                     <span class="path2"></span>
-                                                </i> 
+                                                </i>
                                             </span>
                                             <span class="indicator-progress">
                                                 Please wait... <span
@@ -754,7 +754,7 @@
                                             <i class="ti ti-arrow-right fs-4 ms-1 me-0">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
-                                            </i> 
+                                            </i>
                                         </button>
                                     </div>
                                     <!--end::Wrapper-->
@@ -777,7 +777,7 @@
     <?php $__env->stopPush(); ?>
     <?php $__env->startPush('script'); ?>
     <script>
-        
+
     </script>
         <script>
             "use strict";
@@ -786,15 +786,15 @@
                 return {
                     init: function() {
                         (e = document.querySelector("#kt_modal_create_account")) && new bootstrap.Modal(e), (t =
-                            document.querySelector("#kt_create_account_stepper")) && (i = t.querySelector("#kt_create_account_form"), 
-                                o = t.querySelector('[data-kt-stepper-action="submit"]'), 
+                            document.querySelector("#kt_create_account_stepper")) && (i = t.querySelector("#kt_create_account_form"),
+                                o = t.querySelector('[data-kt-stepper-action="submit"]'),
                                 a = t.querySelector('[data-kt-stepper-action="next"]'), (r = new KTStepper(t)).on("kt.stepper.changed",
                                 (function(e) {
                                     4 === r.getCurrentStepIndex() ? (o.classList.remove("d-none"), o.classList
                                             .add("d-inline-block"), a.classList.add("d-none")) : 5 === r
-                                        .getCurrentStepIndex() ? (o.classList.add("d-none"), 
-                                            a.classList.add("d-none")) : (o.classList.remove("d-inline-block"), 
-                                            o.classList.remove("d-none"), 
+                                        .getCurrentStepIndex() ? (o.classList.add("d-none"),
+                                            a.classList.add("d-none")) : (o.classList.remove("d-inline-block"),
+                                            o.classList.remove("d-none"),
                                             a.classList.remove("d-none"))
                                 })), r.on("kt.stepper.next", (function(e) {
                                 console.log("stepper.next");
@@ -860,8 +860,8 @@
                                                 message: "Please enter decoder number"
                                             }
                                         }
-                                    } 
-                                }, 
+                                    }
+                                },
                                 fields: {
                                     customername: {
                                         validators: {
@@ -869,7 +869,7 @@
                                                 message: "Please validate customer ID First"
                                             }
                                         }
-                                    } 
+                                    }
                                 },
                                 plugins: {
                                     trigger: new FormValidation.plugins.Trigger,
@@ -914,23 +914,23 @@
                                             {
                                                 var url = "<?php echo e(route('user.buy.insurance.motor')); ?>";
                                                 var raw = JSON.stringify({
-                                                  _token: "<?php echo e(csrf_token()); ?>", 
-                                                  password : document.getElementById('password').value, 
-                                                  variation_code : document.getElementById('variation_code').value, 
-                                                  variation_name : document.getElementById('variation_name').value,   
-                                                  serviceID : document.getElementById('serviceID').value,  
-                                                  billersCode : document.getElementById('billersCode').value,  
-                                                  amount : document.getElementById('amount').value, 
-                                                  phone : document.getElementById('phone').value,  
-                                                  Insured_Name :document.getElementById('Insured_Name').value, 
-                                                  Engine_Number :document.getElementById('Engine_Number').value, 
-                                                  Chasis_Number :document.getElementById('Chasis_Number').value, 
-                                                  Vehicle_Make :document.getElementById('Vehicle_Make').value, 
-                                                  Vehicle_Color :document.getElementById('Vehicle_Color').value, 
-                                                  Vehicle_Model :document.getElementById('Vehicle_Model').value, 
-                                                  Year_of_Make :document.getElementById('Year_of_Make').value, 
-                                                  Contact_Address :document.getElementById('Contact_Address').value, 
-                                                  wallet :localStorage.getItem('wallet'), 
+                                                  _token: "<?php echo e(csrf_token()); ?>",
+                                                  password : document.getElementById('password').value,
+                                                  variation_code : document.getElementById('variation_code').value,
+                                                  variation_name : document.getElementById('variation_name').value,
+                                                  serviceID : document.getElementById('serviceID').value,
+                                                  billersCode : document.getElementById('billersCode').value,
+                                                  amount : document.getElementById('amount').value,
+                                                  phone : document.getElementById('phone').value,
+                                                  Insured_Name :document.getElementById('Insured_Name').value,
+                                                  Engine_Number :document.getElementById('Engine_Number').value,
+                                                  Chasis_Number :document.getElementById('Chasis_Number').value,
+                                                  Vehicle_Make :document.getElementById('Vehicle_Make').value,
+                                                  Vehicle_Color :document.getElementById('Vehicle_Color').value,
+                                                  Vehicle_Model :document.getElementById('Vehicle_Model').value,
+                                                  Year_of_Make :document.getElementById('Year_of_Make').value,
+                                                  Contact_Address :document.getElementById('Contact_Address').value,
+                                                  wallet :localStorage.getItem('wallet'),
                                                 });
                                             }
 
@@ -938,31 +938,31 @@
                                             {
                                                 var url = "<?php echo e(route('user.buy.insurance.personal')); ?>";
                                                 var raw = JSON.stringify({
-                                                  _token: "<?php echo e(csrf_token()); ?>", 
-                                                  password : document.getElementById('password').value, 
-                                                  variation_code : document.getElementById('variation_code').value, 
-                                                  variation_name : document.getElementById('variation_name').value,   
-                                                  serviceID : document.getElementById('serviceID').value,  
-                                                  billersCode : document.getElementById('billersCode').value,  
-                                                  amount : document.getElementById('amount').value, 
-                                                  phone : document.getElementById('phone').value,  
-                                                  address :document.getElementById('address').value, 
-                                                  dob :document.getElementById('dob').value, 
-                                                  next_kin_name :document.getElementById('next_kin_name').value, 
-                                                  next_kin_phone :document.getElementById('next_kin_phone').value, 
-                                                  business_occupation :document.getElementById('business_occupation').value, 
-                                                  wallet :localStorage.getItem('wallet'), 
+                                                  _token: "<?php echo e(csrf_token()); ?>",
+                                                  password : document.getElementById('password').value,
+                                                  variation_code : document.getElementById('variation_code').value,
+                                                  variation_name : document.getElementById('variation_name').value,
+                                                  serviceID : document.getElementById('serviceID').value,
+                                                  billersCode : document.getElementById('billersCode').value,
+                                                  amount : document.getElementById('amount').value,
+                                                  phone : document.getElementById('phone').value,
+                                                  address :document.getElementById('address').value,
+                                                  dob :document.getElementById('dob').value,
+                                                  next_kin_name :document.getElementById('next_kin_name').value,
+                                                  next_kin_phone :document.getElementById('next_kin_phone').value,
+                                                  business_occupation :document.getElementById('business_occupation').value,
+                                                  wallet :localStorage.getItem('wallet'),
                                                 });
                                             }
-                                              else 
+                                              else
                                             {
                                                 var raw = JSON.stringify({
-                                                  _token: "<?php echo e(csrf_token()); ?>", 
-                                                  password : document.getElementById('password').value, 
-                                                  variation_code : document.getElementById('variation_code').value, 
-                                                  variation_name : document.getElementById('variation_name').value,   
-                                                  serviceID : document.getElementById('serviceID').value,  
-                                                  billersCode : document.getElementById('billersCode').value,   
+                                                  _token: "<?php echo e(csrf_token()); ?>",
+                                                  password : document.getElementById('password').value,
+                                                  variation_code : document.getElementById('variation_code').value,
+                                                  variation_name : document.getElementById('variation_name').value,
+                                                  serviceID : document.getElementById('serviceID').value,
+                                                  billersCode : document.getElementById('billersCode').value,
                                                 });
                                             }
 
@@ -973,7 +973,7 @@
                                                 };
                                                 fetch(url, requestOptions)
                                                   .then(response => response.text())
-                                                  .then(result => 
+                                                  .then(result =>
                                                   {
                                                     resp = JSON.parse(result);
                                                     if(resp.ok == false)
@@ -991,11 +991,11 @@
                                                    $("#passmessage").html(`<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`);
                                                   }
                                                   )
-                                                  .catch(error => 
+                                                  .catch(error =>
                                                   {
-                                                    
+
                                                   }
-                                                  ); 
+                                                  );
                                             }
                                             // END BUY Utility \\
                                            // o.removeAttribute("data-kt-indicator"),
@@ -1018,10 +1018,10 @@
             }();
             KTUtil.onDOMContentLoaded((function() {
                 KTCreateAccount.init()
-            })); 
+            }));
         </script>
         <script>
-            
+
         </script>
     <?php $__env->stopPush(); ?>
 

@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('panel'); ?>
     <!-- File export -->
 <div class="row">
@@ -60,11 +59,11 @@
                                         <td>
                                          <!--   <a href="<?php echo e(url('/user/fund/card/'.$row->id)); ?>" class="btn btn-primary btn-sm btn-xs">Fund Card</a>-->
                                             <a href="<?php echo e(url('/user/withdraw/card/'.$row->id)); ?>" class="btn btn-danger btn-sm btn-xs">Withdraw</a>
-                                           
+
                                                 <a href="<?php echo e(url('/user/freez/card/'.$row->id)); ?>" class="btn btn-info btn-sm btn-xs">Freeze</a>
-                                            
+
                                                 <a href="<?php echo e(url('/user/unfreez/card/'.$row->id)); ?>" class="btn btn-warning btn-sm btn-xs">UnFreeze</a>
-                                           
+
                                         </td>
                                     </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>

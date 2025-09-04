@@ -129,7 +129,6 @@ class CabletvController extends Controller
     }
     $resp = curl_exec($curl);
     $reply = json_decode($resp, true);
-    dd($reply);
     curl_close($curl);
     //return $network;
     //$image = json_decode($image,true)

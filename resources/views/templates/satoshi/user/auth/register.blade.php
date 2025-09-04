@@ -26,9 +26,9 @@
             class="col-12 col-md-12 col-lg-7 offset-lg-5 min-vh-100 overflow-y-auto d-flex flex-column justify-content-center position-relative bg-body rounded-top-start-lg-4 border-start-lg shadow-soft-5">
             <div class="w-md-50 mx-auto px-10 px-md-0 py-10">
                 <div class="mb-10"><a class="d-inline-block d-lg-none mb-10" href="#"><img
-                            src="{{asset( $activeTemplateTrue . 'agent/img/logos/logo-dark.svg') }}" class="h-rem-10"
+                            src="{{ getImage(getFilePath('logoIcon') . '/logo.png') }}" class="h-rem-10"
                             alt="..."></a>
-                    <h1 class="ls-tight fw-bolder h3">Sign in to your account</h1>
+                    <h1 class="ls-tight fw-bolder h3">Sign Up</h1>
 
                 </div>
                 <form class="crancy-wc__form-main verify-gcaptcha" novalidate="novalidate" method="POST"
@@ -59,6 +59,9 @@
                         <div class="col-sm-12"><label class="form-label">Email address</label> <input type="email"
                                 name="email" class="form-control">
                         </div>
+                        <div class="col-sm-12"><label class="form-label">NIN</label> <input type="number"
+                                name="nin" class="form-control">
+                        </div>
                         <div class="col-sm-6"><label class="form-label">Password</label> <input name="password"
                                 maxlength="8" type="password" class="form-control">
                         </div>
@@ -68,26 +71,23 @@
                         <div class="col-sm-6"><label class="form-label">Transaction PIN</label> <input name="pin"
                                 maxlength="8" type="number" class="form-control">
                         </div>
-                        <div class="col-sm-6"><label class="form-label">Select Country</label>
-                            <select name="country" class="form-select crancy__item-input bg-transaparent"
-                                data-control="select2" id="" data-placeholder="Select an option">
-                                @foreach ($countries as $key => $country)
-                                    <option data-mobile_code="{{ $country->dial_code }}" value="{{ $country->country }}"
-                                        data-code="{{ $key }}">
-                                        {{ __($country->country) }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <div class="col-sm-6">
+    <label class="form-label">Select Country</label>
+    <select name="country" class="form-select crancy__item-input bg-transparent" data-control="select2" data-placeholder="Select an option">
+        <option data-mobile_code="+234" value="Nigeria" data-code="NG">Nigeria</option>
+    </select>
+</div>
 
-                        <div class="col-sm-6"><label class="form-label">State</label> <input name="state" type="text" class="form-control">
-                        </div>
 
-                        <div class="col-sm-6"><label class="form-label">Address</label> <input name="address" type="text" class="form-control">
-                        </div>
-                        <div class="col-sm-6"><label class="form-label">City</label> <input name="city" type="text" class="form-control">
-                        </div>
-                        <div class="col-sm-6"><label class="form-label">NIN</label> <input name="nin" type="number" class="form-control">
-                        </div>
+                        <!--<div class="col-sm-6"><label class="form-label">State</label> <input name="state" type="text" class="form-control">-->
+                        <!--</div>-->
+
+                        <!--<div class="col-sm-6"><label class="form-label">Address</label> <input name="address" type="text" class="form-control">-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-6"><label class="form-label">City</label> <input name="city" type="text" class="form-control">-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-6"><label class="form-label">NIN</label> <input name="nin" type="number" class="form-control">-->
+                        <!--</div>-->
 
                         @if ($general->agree)
                             <!--begin::Accept-->

@@ -13,14 +13,14 @@
             <?php echo e(__($pageTitle)); ?>
 
           </li>
-                        <?php echo e(activeTemplate()); ?>
+                        <?php echo e($activeTemplate); ?>
 
-            
+
         <div style="display: flex; justify-content: flex-end; margin-left: auto; margin-right: 0;" class="d-flex flex-wrap justify-content-end gap-2 align-items-center breadcrumb-plsugins">
           <?php echo $__env->yieldPushContent('breadcrumb-plugins'); ?>
         </div>
-      
+
         </ol>
-    
-      </nav> 
-    <?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/basic/partials/userbreadcrumb.blade.php ENDPATH**/ ?>
+
+      </nav>
+<?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/basic/partials/userbreadcrumb.blade.php ENDPATH**/ ?>

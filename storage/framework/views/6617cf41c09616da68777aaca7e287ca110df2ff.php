@@ -20,13 +20,13 @@
         <div class="card">
           <div class="card-body p-4">
             <form action="<?php echo e(route('user.create.card.add')); ?>" method="post" enctype="multipart/form-data">
-              <?php echo csrf_field(); ?> 
+              <?php echo csrf_field(); ?>
               <?php if(session('success')): ?>
                 <div class="alert alert-success">
                     <?php echo e(session('success')); ?>
 
                 </div>
-              <?php endif; ?>                   
+              <?php endif; ?>
               <div class="row">
                 <!-- Card Holder Name Field -->
                 <div class="col-sm-6">
@@ -36,7 +36,7 @@
                   </div>
                 </div>
               </div>
-              
+
               <div class="row">
                 <!-- Amount in USD Field -->
                 <div class="col-sm-6">
@@ -46,8 +46,8 @@
                   </div>
                 </div>
               </div>
-              
-             
+
+
               <!-- Total Charge Display -->
               <div class="col-sm-6">
               <div class="mb-4">
@@ -68,7 +68,7 @@
 </div>
 <?php $__env->stopSection(); ?>
 
-<?php $__env->startPush('breadcrumb-plugins'); ?> 
+<?php $__env->startPush('breadcrumb-plugins'); ?>
 <?php $__env->stopPush(); ?>
 
 <?php $__env->startPush('script'); ?>

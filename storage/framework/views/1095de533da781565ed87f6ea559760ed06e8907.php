@@ -13,7 +13,7 @@
 
 
                 <!--begin::Form-->
-                  
+
                 <?php echo $__env->make($activeTemplate . 'partials.escrow_form', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
                 <!--end::Form-->
@@ -26,7 +26,7 @@
 </div>
 <!--end::Container-->
 
-     
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('style'); ?>

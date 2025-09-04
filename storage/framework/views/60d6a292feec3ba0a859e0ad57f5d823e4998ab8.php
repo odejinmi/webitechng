@@ -249,8 +249,8 @@
                                                 <script>
 
                                               function selectwallet(wallet) {
-                                                        localStorage.setItem('wallet', wallet); 
-                                                    } 
+                                                        localStorage.setItem('wallet', wallet);
+                                                    }
                                                 </script>
                                                 <?php $__env->stopPush(); ?>
                                             </div>
@@ -303,19 +303,19 @@
                                             </select> <!--end::Input-->
                                         </div>
                                         <!--end::Input group-->
-                                        <?php $__env->startPush('script'); ?> 
+                                        <?php $__env->startPush('script'); ?>
                                             <script>
-                                              function companymeter(network) { 
-                                                        document.getElementById("metertype").value = network; 
-                                                        document.getElementById("customer").innerHTML = ''; 
-                                                        document.getElementById("customername").value = ''; 
-                                                        document.getElementById("metertype2").innerHTML = network;  
-                                                    } 
+                                              function companymeter(network) {
+                                                        document.getElementById("metertype").value = network;
+                                                        document.getElementById("customer").innerHTML = '';
+                                                        document.getElementById("customername").value = '';
+                                                        document.getElementById("metertype2").innerHTML = network;
+                                                    }
                                             </script>
                                             <script>
-                                                function setamount(e) { 
+                                                function setamount(e) {
                                                           document.getElementById("totalamount").innerHTML = '<?php echo e($general->cur_sym); ?>'+e.value;
-                                                      } 
+                                                      }
                                               </script>
                                         <?php $__env->stopPush(); ?>
 
@@ -327,7 +327,7 @@
                                             <div class="mb-0"> <label class="d-flex align-items-center form-label mb-5">
                                                 <?php echo app('translator')->get('Select Meter Type'); ?>
                                                 <span class="ms-1"  data-bs-toggle="tooltip" title="Please select network service provider" >
-                                                <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>        
+                                                <i class="ti ti-alert-circle text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>
                                                 </label>
                                               <label class="d-flex flex-stack cursor-pointer mb-5" for="1" >
                                                 <span class="d-flex align-items-center me-2">
@@ -335,7 +335,7 @@
                                                         <span class="symbol-label bg-light-primary">
                                                             <i class="ti ti-image fs-2x text-warning"><i class="ti ti-box path1"/></i></i>
                                                         </span>
-                                                    </span> 
+                                                    </span>
                                                     <span class="d-flex flex-column">
                                                         <span class="fw-bold fs-6">Prepaid Meter</span>
                                                         <span class="fs-7 text-muted">Prepaid Meter</span>
@@ -351,7 +351,7 @@
                                                         <span class="symbol-label bg-light-primary">
                                                             <i class="ti ti-image fs-2x text-primary"><i class="ti ti-printer path1"/></i></i>
                                                         </span>
-                                                    </span> 
+                                                    </span>
                                                     <span class="d-flex flex-column">
                                                         <span class="fw-bold fs-6">Postpaid Meter</span>
                                                         <span class="fs-7 text-muted">Postpaid Meter</span>
@@ -408,7 +408,7 @@
                                         <!--end::Input group-->
                                         <?php $__env->startPush('script'); ?>
                                         <script>
-                                            function verifymeter(pickup){ 
+                                            function verifymeter(pickup){
                                             if(pickup.value.length > 9)
                                             {
                                             // START GET CUSTOMER \\
@@ -423,7 +423,7 @@
                                                     url: "<?php echo e(route('user.local.utility.verify')); ?>",
                                                     type: 'GET',
                                                     async: true,
-                                                    data: 
+                                                    data:
                                                 {
                                                     _token: _token,
                                                     number: pickup.value,
@@ -438,28 +438,28 @@
                                                      <br>
                                                      <span class="mb-1 badge font-medium bg-light-${data.status} text-${data.status}">${data.content}</span>`;
                                                      document.getElementById("customername").value = data.content;
-                                                     $("#loader").html(''); 
-                            
+                                                     $("#loader").html('');
+
                                                 }
                                             });
-                                // END GET DATA \\ 
-                                
+                                // END GET DATA \\
+
                                             }
                                   }
                                 </script>
                                 <?php $__env->stopPush(); ?>
 
                                         <!--begin::Input group-->
-                                        <div class="mb-10 fv-row"> 
+                                        <div class="mb-10 fv-row">
                                              <!--begin::Label-->
                                              <label class="form-label required"><?php echo app('translator')->get('Enter Amount'); ?></label>
                                              <!--end::Label-->
- 
+
                                              <!--begin::Input-->
                                              <input name="amount" id="amount" type="number" onkeyup="setamount(this)" class="form-control form-control-lg form-control-solid"/>
-                                           
+
                                         </div>
-                                        <!--end::Input group--> 
+                                        <!--end::Input group-->
 
                                     </div>
                                     <!--end::Wrapper-->
@@ -485,13 +485,13 @@
                                             <!--end::Notice-->
                                         </div>
                                         <!--end::Heading-->
- 
+
 
                                         <!--begin::Input group-->
                                         <div class="fv-row mb-10">
 
 
-                                        <!--begin::Documents--> 
+                                        <!--begin::Documents-->
                                                   <!--begin::Table-->
                                                   <table
                                                       class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
@@ -545,27 +545,27 @@
                                                               </td>
                                                           </tr>
 
-                                                           
+
 
                                                           <tr>
                                                               <td class="text-muted">
                                                                   <div class="d-flex align-items-center">
                                                                       <i class="ti ti-building-bank fs-2 me-2"><span
                                                                               class="path1"></span><span
-                                                                              class="path2"></span></i> <?php echo app('translator')->get('Total'); ?> 
+                                                                              class="path2"></span></i> <?php echo app('translator')->get('Total'); ?>
                                                                   </div>
                                                               </td>
                                                               <td class="fw-bold text-end" ><a id="totalamount"></a></td>
                                                           </tr>
                                                           <tr></tr>
                                                       </tbody>
-                                                  </table> 
-                                                  
+                                                  </table>
+
                                                   <br><br><br>
-                                      
-                                            
+
+
                                             <label class="fs-6 fw-semibold mb-2">
-                                                <?php echo app('translator')->get('Enter Transaction Password'); ?> 
+                                                <?php echo app('translator')->get('Enter Transaction Password'); ?>
                                                 <span class="ms-1" data-bs-toggle="tooltip"
                                                     title="Please enter your transaction pin to authenticate the wallet debit">
                                                     <i class="ti ti-alert-circle text-gray-500 fs-6"><span
@@ -591,10 +591,10 @@
                                                       aria-hidden="true"></span>
                                                     <span class="visually-hidden">Loading...</span>
                                                     </button>`);
- 
+
                                                 var raw = JSON.stringify({
-                                                  _token: "<?php echo e(csrf_token()); ?>", 
-                                                  password : e.value, 
+                                                  _token: "<?php echo e(csrf_token()); ?>",
+                                                  password : e.value,
                                                 });
 
                                                 var requestOptions = {
@@ -604,7 +604,7 @@
                                                 };
                                                 fetch("<?php echo e(route('user.trxpass')); ?>", requestOptions)
                                                   .then(response => response.text())
-                                                  .then(result => 
+                                                  .then(result =>
                                                   {
                                                     resp = JSON.parse(result);
                                                     if(resp.ok != true)
@@ -618,11 +618,11 @@
                                                     $("#passmessage").html(`<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`);
                                                   }
                                                   )
-                                                  .catch(error => 
+                                                  .catch(error =>
                                                   {
 
                                                   }
-                                                  ); 
+                                                  );
                                                   // END GET DATA \\
                                                }
                                         </script>
@@ -650,7 +650,7 @@
                                                <center>  <a href="<?php echo e(route('user.utility.local.history')); ?>" class="btn btn-primary d-block"><?php echo app('translator')->get('View Order'); ?></a> </center>
                                               </div>
                                             </section>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <!--end::Wrapper-->
                                 </div>
@@ -708,7 +708,7 @@
     <?php $__env->stopPush(); ?>
     <?php $__env->startPush('script'); ?>
     <script>
-        
+
     </script>
         <script>
             "use strict";
@@ -717,15 +717,15 @@
                 return {
                     init: function() {
                         (e = document.querySelector("#kt_modal_create_account")) && new bootstrap.Modal(e), (t =
-                            document.querySelector("#kt_create_account_stepper")) && (i = t.querySelector("#kt_create_account_form"), 
-                                o = t.querySelector('[data-kt-stepper-action="submit"]'), 
+                            document.querySelector("#kt_create_account_stepper")) && (i = t.querySelector("#kt_create_account_form"),
+                                o = t.querySelector('[data-kt-stepper-action="submit"]'),
                                 a = t.querySelector('[data-kt-stepper-action="next"]'), (r = new KTStepper(t)).on("kt.stepper.changed",
                                 (function(e) {
                                     4 === r.getCurrentStepIndex() ? (o.classList.remove("d-none"), o.classList
                                             .add("d-inline-block"), a.classList.add("d-none")) : 5 === r
-                                        .getCurrentStepIndex() ? (o.classList.add("d-none"), 
-                                            a.classList.add("d-none")) : (o.classList.remove("d-inline-block"), 
-                                            o.classList.remove("d-none"), 
+                                        .getCurrentStepIndex() ? (o.classList.add("d-none"),
+                                            a.classList.add("d-none")) : (o.classList.remove("d-inline-block"),
+                                            o.classList.remove("d-none"),
                                             a.classList.remove("d-none"))
                                 })), r.on("kt.stepper.next", (function(e) {
                                 console.log("stepper.next");
@@ -791,8 +791,8 @@
                                                 message: "Please enter meter number"
                                             }
                                         }
-                                    } 
-                                }, 
+                                    }
+                                },
                                 fields: {
                                     customername: {
                                         validators: {
@@ -800,7 +800,7 @@
                                                 message: "Please validate customer ID First"
                                             }
                                         }
-                                    } 
+                                    }
                                 },
                                 plugins: {
                                     trigger: new FormValidation.plugins.Trigger,
@@ -840,14 +840,14 @@
                                             {
                                               $("#passmessage").html(``);
                                               var raw = JSON.stringify({
-                                                  _token: "<?php echo e(csrf_token()); ?>", 
-                                                  password : document.getElementById('password').value, 
-                                                  company : document.getElementById('company').value,  
-                                                  number : document.getElementById('meternumber').value,  
-                                                  customername : document.getElementById('customername').value, 
-                                                  metertype : document.getElementById('metertype').value,  
-                                                  amount :document.getElementById('amount').value, 
-                                                  wallet :localStorage.getItem('wallet'), 
+                                                  _token: "<?php echo e(csrf_token()); ?>",
+                                                  password : document.getElementById('password').value,
+                                                  company : document.getElementById('company').value,
+                                                  number : document.getElementById('meternumber').value,
+                                                  customername : document.getElementById('customername').value,
+                                                  metertype : document.getElementById('metertype').value,
+                                                  amount :document.getElementById('amount').value,
+                                                  wallet :localStorage.getItem('wallet'),
                                                 });
 
                                                 var requestOptions = {
@@ -857,7 +857,7 @@
                                                 };
                                                 fetch("<?php echo e(route('user.buy.local.utility')); ?>", requestOptions)
                                                   .then(response => response.text())
-                                                  .then(result => 
+                                                  .then(result =>
                                                   {
                                                     resp = JSON.parse(result);
                                                     if(resp.ok == false)
@@ -875,11 +875,11 @@
                                                    $("#passmessage").html(`<div class="alert alert-${resp.status}" role="alert"><strong>${resp.status} - </strong> ${resp.message}</div>`);
                                                   }
                                                   )
-                                                  .catch(error => 
+                                                  .catch(error =>
                                                   {
-                                                    
+
                                                   }
-                                                  ); 
+                                                  );
                                             }
                                             // END BUY Utility \\
                                            // o.removeAttribute("data-kt-indicator"),
@@ -902,10 +902,10 @@
             }();
             KTUtil.onDOMContentLoaded((function() {
                 KTCreateAccount.init()
-            })); 
+            }));
         </script>
         <script>
-            
+
         </script>
     <?php $__env->stopPush(); ?>
 

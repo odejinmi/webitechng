@@ -1,4 +1,4 @@
-<?php $__env->startSection('panel'); ?> 
+<?php $__env->startSection('panel'); ?>
 
 <div class="vstack gap-3 gap-xl-6 mt-8">
         <div class="row row-cols-sm-2 row-cols-md-6 g-3">
@@ -27,8 +27,8 @@
             </div>
 
         </div>
- 
-       
+
+
         <div class="row row-cols-md-2 g-6">
              <form  class="crancy-wallet-form" novalidate="novalidate" action="<?php echo e(route('user.withdraw.money')); ?>" method="post">
             <?php echo csrf_field(); ?>
@@ -37,7 +37,7 @@
                     <div class="card-body p-0 p-xxl-6">
                         <div class="d-flex gap-8 justify-content-center mb-5"><a href="#"
                                 class="text-lg fw-bold text-heading">Request Payout</a></div>
-                        <div class="vstack gap-2"> 
+                        <div class="vstack gap-2">
 
                             <div class="bg-body-secondary rounded-3 p-4">
                                 <div class="d-flex justify-content-between text-xs text-muted">
@@ -58,7 +58,7 @@
                             <div>
                                 <h6 class="progress-text mb-1 d-block"></h6>
                             </div>
- 
+
 
                             <div class="bg-body-secondary rounded-3 p-4">
                                 <div class="d-flex justify-content-between text-xs text-muted">
@@ -75,8 +75,65 @@
                                 </div>
                             </div>
 
+                            <!--begin::Input group-->
+                            <div class="bg-body-secondary rounded-3 p-4">
+                                <!--begin::Row-->
+                                <div class="d-flex justify-content-between mt-4 gap-5">
+                                    <!--begin::Col-->
+                                    <div >
+                                        <!--begin::Option-->
+                                        <input type="radio" class="btn-check" name="wallet" value="act_wallet"
+                                               onchange="selectwallet('main')" id="act_wallet" />
+                                        <label
+                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center mb-10"
+                                            for="act_wallet">
+                                            <i class="ti ti-wallet fs-3x me-5"><span class="path1"></span><span
+                                                    class="path2"></span><span class="path3"></span><span
+                                                    class="path4"></span><span class="path5"></span></i>
+                                            <!--begin::Info-->
+                                            <span class="d-block fw-semibold text-start">
+                                                        <span class="text-dark fw-bold d-block fs-4 mb-2">
+                                                            <?php echo app('translator')->get('Main Wallet'); ?>
+                                                        </span>
+                                                        <span
+                                                            class="text-muted fw-semibold fs-6"><?php echo e($general->cur_sym); ?><?php echo e(showAmount(Auth::user()->balance)); ?></span>
+                                                    </span>
+                                            <!--end::Info-->
+                                        </label>
+                                        <!--end::Option-->
+                                    </div>
+                                    
+                                    <!--end::Col-->
+                                    <!--begin::Col-->
+                                    <div >
+                                        <!--begin::Option-->
+                                        <input type="radio" class="btn-check" name="wallet"  value="ref_wallet"
+                                               onchange="selectwallet('ref')"
+                                               id="ref_wallet" />
+                                        <label
+                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center"
+                                            for="ref_wallet">
+                                            <i class="ti ti-cash fs-3x me-5"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                            <!--begin::Info-->
+                                            <span class="d-block fw-semibold text-start">
+                                                        <span class="text-dark fw-bold d-block fs-4 mb-2">
+                                                            <?php echo app('translator')->get('Referral Wallet'); ?></span>
+                                                        <span
+                                                            class="text-muted fw-semibold fs-6"><?php echo e($general->cur_sym); ?><?php echo e(showAmount(Auth::user()->ref_balance)); ?></span>
+                                                    </span>
+                                            <!--end::Info-->
+                                        </label>
+                                        <!--end::Option-->
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Row-->
+                            </div>
+                            <!--end::Input group-->
 
-                             
+
+
                             <button type="submit" id="submit"
                                 class="btn btn-lg btn-dark w-100">Request Payout</button>
                         </div>
@@ -114,8 +171,8 @@
                                                     <?php if($data->status == 2): ?>
                                                     <span class="badge bg-warning"><?php echo app('translator')->get('Pending'); ?></span>
                                                 <?php elseif($data->status == 1): ?>
-                                                    <span class="badge bg-success"><?php echo app('translator')->get('Completed'); ?></span> 
-                                                    
+                                                    <span class="badge bg-success"><?php echo app('translator')->get('Completed'); ?></span>
+
                                                 <?php elseif($data->status == 3): ?>
                                                     <span class="badge bg-danger"><?php echo app('translator')->get('Rejected'); ?></span>
                                                 </button>
@@ -163,7 +220,7 @@
                                                     <div class="crancy-wc__heading crancy-flex__column-center text-center">
                                                         <h3 class="crancy-login-popup__title"> Details</h3>
                                                         <p>
-                                                        
+
                                                 <?php echo e($data->admin_feedback); ?>
 
                                                         </p>
@@ -177,11 +234,11 @@
                                                     <span class="badge bg-warning"><?php echo app('translator')->get('Pending'); ?></span>
                                                 <?php elseif($data->status == 1): ?>
                                                     <span class="badge bg-success"><?php echo app('translator')->get('Completed'); ?></span>
-                                                   
-                                                    
+
+
                                                 <?php elseif($data->status == 3): ?>
-                                                    <span class="badge bg-danger"><?php echo app('translator')->get('Rejected'); ?></span> 
-                                                <?php endif; ?> 
+                                                    <span class="badge bg-danger"><?php echo app('translator')->get('Rejected'); ?></span>
+                                                <?php endif; ?>
                                                         <!-- Search Form -->
                                                         <div
                                                             class="crancy-header__form crancy-header__form__currency mg-top-20">
@@ -205,13 +262,13 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     </div>
-    
+
 <?php $__env->stopSection(); ?>
- 
-<?php $__env->startPush('script'); ?> 
+
+<?php $__env->startPush('script'); ?>
 
 <?php $__env->stopPush(); ?>
 

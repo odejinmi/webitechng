@@ -20,10 +20,10 @@
       <?php echo emptyData2(); ?>
 
       <?php endif; ?>
-       
+
     </div>
   </div>
- 
+
    <!-- Transaction Log -->
    <div class="col-lg-12 d-flex align-items-strech">
     <div class="card w-100">
@@ -31,7 +31,7 @@
         <div class="d-sm-flex d-block align-items-center justify-content-between mb-7">
           <div class="mb-3 mb-sm-0">
             <h5 class="card-title fw-semibold"><?php echo app('translator')->get('Referral Earning Transaction'); ?></h5>
-          </div> 
+          </div>
         </div>
         <div class="table-respon2sive">
           <table class="table align-middle text-nowrap mb-0">
@@ -79,7 +79,7 @@
               <?php echo emptyData(); ?>
 
               <?php endif; ?>
-               
+
             </tbody>
           </table>
         </div>
@@ -89,17 +89,18 @@
 
                     </div>
         <?php endif; ?>
-             
+
       </div>
     </div>
   </div>
 
-              
-                
 
-    
+
+
+
 <?php $__env->stopSection(); ?>
-<?php $__env->startPush('breadcrumb-plugins'); ?> 
+<?php $__env->startPush('breadcrumb-plugins'); ?>
 
 <?php $__env->stopPush(); ?>
+
 <?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/basic/user/ref.blade.php ENDPATH**/ ?>

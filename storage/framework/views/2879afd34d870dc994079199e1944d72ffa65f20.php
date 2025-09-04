@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('panel'); ?>
    <!-- Transaction Log -->
  <div class="col-lg-12 d-flex align-items-strech">
@@ -7,7 +6,7 @@
       <div class="d-sm-flex d-block align-items-center justify-content-between mb-7">
         <div class="mb-3 mb-sm-0">
           <h5 class="card-title fw-semibold"><?php echo app('translator')->get('Create Customer'); ?></h5>
-        </div> 
+        </div>
         <?php if(!empty($customer)): ?>
           <div class="mb-3 mb-sm-0">
             <a href="<?php echo e(url('/user/create/card')); ?>" class="btn btn-primary">Create New Card</a>
@@ -56,7 +55,7 @@
                       <?php echo e(session('success')); ?>
 
                   </div>
-                <?php endif; ?>    -->                      
+                <?php endif; ?>    -->
                 <div class="row">
                     <div class="col-sm-6">
                       <label for="house_number" class="form-label fw-semibold"><?php echo app('translator')->get('House Number'); ?></label>
@@ -67,7 +66,7 @@
                           <input type="text" class="form-control" name="phone_number">
                       </div>
                   </div>
-                  <div class="row">                              
+                  <div class="row">
                     <div class="col-sm-6">
                       <label for="date_of_birth" class="form-label fw-semibold"><?php echo app('translator')->get('Date of Birth YYYY-MM-DD'); ?></label>
                       <input type="text" class="form-control" name="date_of_birth">
@@ -76,7 +75,7 @@
                       <label for="idImage" class="form-label fw-semibold"><?php echo app('translator')->get('Id Image'); ?>*</label>
                       <input type="text" class="form-control" name="idImage" value="<?php echo e(asset('assets/images/kyc')); ?>/<?php echo e(auth()->user()->username); ?>/front_kyc_image.png" readonly>
 
-                    </div> 
+                    </div>
                     <div class="col-sm-6">
                         <label for="line" class="form-label fw-semibold"><?php echo app('translator')->get('Address'); ?>*</label>
                         <input type="text" class="form-control" name="line">
@@ -86,7 +85,7 @@
                      <div class="col-sm-6">
                         <label for="userPhoto" class="form-label fw-semibold"><?php echo app('translator')->get('User Photo'); ?></label>
                          <input type="text" class="form-control" name="userPhoto" value="<?php echo e(asset('assets/images/kyc')); ?>/<?php echo e(auth()->user()->username); ?>/back_kyc_image.png" readonly>
-                    </div> 
+                    </div>
                   </div>
                   <div class="row">
                     <div class="col-lg-6">
@@ -108,6 +107,7 @@
   </div>
 </div>
 <?php $__env->stopSection(); ?>
-<?php $__env->startPush('breadcrumb-plugins'); ?> 
+<?php $__env->startPush('breadcrumb-plugins'); ?>
 <?php $__env->stopPush(); ?>
+
 <?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ltecyxtc/public_html/core/resources/views/templates/basic/user/virtual_card/create.blade.php ENDPATH**/ ?>
