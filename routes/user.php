@@ -5,14 +5,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('User\Auth')->name('user.')->group(function () {
 
-    // Google OAuth routes
-    Route::get('auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.login');
-    Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
-
     Route::controller('LoginController')->group(function () {
         Route::get('/login', 'showLoginForm')->name('login');
         Route::post('/login', 'login');
         Route::get('logout', 'logout')->name('logout');
+        Route::get('auth/google', 'redirectToGoogle')->name('google.login');
+        Route::get('auth/google/callback', 'handleGoogleCallback');
     });
 
     Route::controller('RegisterController')->group(function () {
