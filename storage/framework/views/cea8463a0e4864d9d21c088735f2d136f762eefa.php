@@ -47,6 +47,7 @@
 
                 </form>
 
+                <div class="py-5 text-center"><span class="text-xs text-uppercase fw-semibold"></span></div>
                 <!-- Google Login Button -->
                 <div class="d-grid">
                     <a href="<?php echo e(route('user.google.login')); ?>" class="btn btn-danger">

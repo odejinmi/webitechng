@@ -230,7 +230,6 @@ class LoginController extends Controller
             return $this->authenticated(request(), $newUser);
 
         } catch (Exception $e) {
-            dd($e);
             $notify[] = ['error', 'Something went wrong with Google authentication.'];
             return redirect()->route('user.login')->withNotify($notify);
         }
