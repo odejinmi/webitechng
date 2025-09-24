@@ -202,7 +202,7 @@ class CoinController extends Controller
         $user = User::all();
         $wallets = Cryptowallet::whereCoin_id($currency->id)->get();
         $general = GeneralSetting::first();
-        $baseurl = "https://coinremitter.com/api/v3/get-coin-rate";
+        $baseurl = "https://api.coinremitter.com/v1/rate/fiat-to-crypto";
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 		  CURLOPT_URL => $baseurl,
@@ -214,26 +214,26 @@ class CoinController extends Controller
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_SSL_VERIFYHOST => false,
 		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-		  CURLOPT_CUSTOMREQUEST => 'GET',
-		  CURLOPT_POSTFIELDS => array('api_key' => $currency->apikey,'password' => $currency->apipass,'fiat_amount' => 1,'fiat_symbol' => 'USD'),
+		  CURLOPT_CUSTOMREQUEST => 'POST',
+		  CURLOPT_POSTFIELDS => array('api_key' => $currency->apikey,'password' => $currency->apipass,'fiat_amount' => 1,'fiat' => 'USD', 'crypto' => $currency->symbol),
 		));
 
 		$response = curl_exec($curl);
 		$reply = json_decode($response,true);
 		curl_close($curl);
-
-		if (!isset($reply['msg']))
+//        dd($reply);
+//		if (!isset($reply['msg']))
+//         {
+//		        $notify[] = ['error', 'An error occur. Contact server admin'];
+//            return back()->withNotify($notify);
+//         }
+         if ($reply['success'] == false)
          {
 		        $notify[] = ['error', 'An error occur. Contact server admin'];
             return back()->withNotify($notify);
          }
-         if ($reply['msg'] != 'success')
-         {
-		        $notify[] = ['error', 'An error occur. Contact server admin'];
-            return back()->withNotify($notify);
-         }
 
-         $rate = $reply['data'][$currency->symbol]['price'];
+         $rate = $reply['data'][0]['price'];
          $usd = $rate * $unit;
          foreach ($wallets as $dataw)
         {
