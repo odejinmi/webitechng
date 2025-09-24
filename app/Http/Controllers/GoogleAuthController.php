@@ -24,7 +24,7 @@ class GoogleAuthController extends Controller
 
             // Check if user already exists with this Google ID
             $existingUser = User::where('google_id', $googleUser->id)->first();
-
+dd($googleUser);
             dd($existingUser);
             if ($existingUser) {
                 // User exists, log them in
