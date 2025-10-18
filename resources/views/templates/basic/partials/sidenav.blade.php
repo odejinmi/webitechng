@@ -5,7 +5,7 @@
       <!-- Sidebar scroll-->
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-         
+
           <div class="close-btn d-lg-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
             <i class="ti ti-x fs-8 text-muted"></i>
           </div>
@@ -13,49 +13,49 @@
 <!--begin::User-->
 <div class="aside-user d-flex align-items-sm-center justify-content-center py-5">
   <!--begin::Symbol-->
-  <div class="symbol symbol-50px">             
-      <img src="{{ getImage(getFilePath('userProfile') . '/' . auth()->user()->image, getFileSize('userProfile')) }}" alt=""/>         
+  <div class="symbol symbol-50px">
+      <img src="{{ getImage(getFilePath('userProfile') . '/' . auth()->user()->image, getFileSize('userProfile')) }}" alt=""/>
   </div>
   <!--end::Symbol-->
 
   <!--begin::Wrapper-->
-  <div class="aside-user-info flex-row-fluid flex-wrap ms-5">  
+  <div class="aside-user-info flex-row-fluid flex-wrap ms-5">
       <!--begin::Section-->
-      <div class="d-flex">  
-          <!--begin::Info-->                  
+      <div class="d-flex">
+          <!--begin::Info-->
           <div class="flex-grow-1 me-2">
               <!--begin::Username-->
-              
+
               <a href="#" class="hide-menu text-primary text-hover-primary fs-6 fw-bold">{{Auth::user()->fullname}}</a>
               <!--end::Username-->
               <!--begin::Description-->
               <a href="#" class="hide-menu text-gray-600 text-hover-primary fw-semibold d-block fs-8 mb-1">{{Auth::user()->username}}</a>
               <!--end::Description-->
-              <!--begin::Label--> 
+              <!--begin::Label-->
               <div class="hide-menu d-flex align-items-center text-success fs-9">
                   <span class=" bullet bullet-dot bg-success me-1"></span>@lang('online')
               </div>
               <!--end::Label-->
-          </div>    
-          <!--end::Info-->                   
-          <!--begin::User menu-->        
+          </div>
+          <!--end::Info-->
+          <!--begin::User menu-->
           <div class="me-n2">
-              <!--begin::Action-->        
+              <!--begin::Action-->
               <a href="#" class="btn btn-icon btn-sm btn-active-color-primary mt-n2" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" data-kt-menu-overflow="true">
-                  <i class="ti ti-setting text-muted fs-1"><span class="path1"></span><span class="path2"></span></i>            
-              </a>  
+                  <i class="ti ti-setting text-muted fs-1"><span class="path1"></span><span class="path2"></span></i>
+              </a>
               <!--end::Action-->
-          </div>       
-          <!--end::User menu-->      
+          </div>
+          <!--end::User menu-->
       </div>
-      <!--end::Section-->   
+      <!--end::Section-->
   </div>
-  <!--end::Wrapper-->                
-</div>    
+  <!--end::Wrapper-->
+</div>
 <!--end::User-->
 
-        </div> 
-        
+        </div>
+
 
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav scroll-sidebar" data-simplebar>
@@ -78,7 +78,7 @@
                 <span class="hide-menu">@lang('Dashboard')</span>
               </a>
             </li>
-            
+
             @if (Auth::user()->api_access > 0)
             <!-- ============================= -->
             <!-- API -->
@@ -94,9 +94,9 @@
                   </span>
                   <span class="hide-menu">@lang('API Key')</span>
                 </a>
-            </li> 
+            </li>
             @endif
-            
+
 
             <!-- ============================= -->
             <!-- Apps -->
@@ -137,7 +137,7 @@
             <span class="hide-menu">@lang('Bank Transfer')</span>
           </a>
         </li>
-        
+
         @if ($general->p2p > 0)
         <li class="sidebar-item">
             <a class="sidebar-link" href="{{ route('user.p2p.history') }}" aria-expanded="false">
@@ -148,7 +148,7 @@
             </a>
         </li>
         @endif
-            
+
             <!-- ============================= -->
             <!-- VENDOR -->
             <!-- ============================= -->
@@ -163,7 +163,7 @@
                   <i class="ti ti-heart-handshake"></i>
                 </span>
                 <span class="hide-menu">@lang('Escrow Payment')</span>
-              </a> 
+              </a>
             </li>
             @endif
             @if ($general->event > 0)
@@ -173,7 +173,7 @@
                   <i class="ti ti-ticket"></i>
                 </span>
                 <span class="hide-menu">@lang('Event Ticket')</span>
-              </a> 
+              </a>
             </li>
             @endif
             @if ($general->crypto > 0)
@@ -216,7 +216,7 @@
                 <span class="hide-menu">@lang('Trade Assets')</span>
               </a>
           </li>
-          @endif 
+          @endif
           @if($general->invoice > 0 && Auth::user()->vendor == 1)
           <li class="sidebar-item">
               <a class="sidebar-link" href="{{ route('user.invoice.index') }}" aria-expanded="false">
@@ -323,7 +323,7 @@
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
               <span class="hide-menu">@lang('Bills')</span>
             </li>
-           
+
             @if ($general->airtime2cash > 0)
             <li class="sidebar-item">
               <a class="sidebar-link" href="{{ route('user.airtime.tocash') }}" aria-expanded="false">
@@ -331,7 +331,7 @@
                   <i class="ti ti-reload"></i>
                 </span>
                 <span class="hide-menu">@lang('Airtime 2 Cash')</span>
-              </a> 
+              </a>
             </li>
             @endif
             @if ($general->airtime > 0)
@@ -342,7 +342,7 @@
                   <i class="ti ti-device-mobile"></i>
                 </span>
                 <span class="hide-menu">@lang('Airtime Topup')</span>
-              </a> 
+              </a>
             </li>
             --}}
             @endif
@@ -353,7 +353,7 @@
                   <i class="ti ti-device-mobile"></i>
                 </span>
                 <span class="hide-menu">@lang('Airtime ')</span>
-              </a> 
+              </a>
             </li>
             @endif
             @if ($general->internet > 0)
@@ -363,8 +363,8 @@
                   <i class="ti ti-building-broadcast-tower"></i>
                 </span>
                 <span class="hide-menu">@lang('Internet') <small>(@lang('Global'))</small></span>
-                
-              </a> 
+
+              </a>
             </li>
             @endif
             @if ($general->internetsme > 0)
@@ -374,7 +374,7 @@
                   <i class="ti ti-wifi"></i>
                 </span>
                 <span class="hide-menu">@lang('Internet') <small>(@lang('SME & Gifting'))</small> </span>
-              </a> 
+              </a>
             </li>
             @endif
             @if ($general->utilityglobal > 0)
@@ -384,8 +384,8 @@
                   <i class="ti ti-bolt"></i>
                 </span>
                 <span class="hide-menu">@lang('Utility Bills') <small>(@lang('Global'))</small></span>
-              </a> 
-            </li> 
+              </a>
+            </li>
             @endif
             @if ($general->utilitylocal > 0)
             <li class="sidebar-item">
@@ -394,8 +394,8 @@
                   <i class="ti ti-bulb"></i>
                 </span>
                 <span class="hide-menu">@lang('Utility Bills') </span>
-              </a> 
-            </li> 
+              </a>
+            </li>
             @endif
             @if ($general->cabletv > 0)
             <li class="sidebar-item">
@@ -404,8 +404,8 @@
                   <i class="ti ti-video"></i>
                 </span>
                 <span class="hide-menu">@lang('Cable TV')</span>
-              </a> 
-            </li> 
+              </a>
+            </li>
             @endif
             @if ($general->insurance > 0)
             <li class="sidebar-item">
@@ -414,8 +414,8 @@
                   <i class="ti ti-umbrella"></i>
                 </span>
                 <span class="hide-menu">@lang('Insurance')</span>
-              </a> 
-            </li> 
+              </a>
+            </li>
             @endif
             @if ($general->betting > 0)
             <li class="sidebar-item">
@@ -424,11 +424,22 @@
                   <i class="ti ti-run"></i>
                 </span>
                 <span class="hide-menu">@lang('Sport Betting ')<small>(@lang('Wallet Funding'))</small></span>
-              </a> 
+              </a>
             </li>
             @endif
 
-          
+            @if ($general->education > 0)
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('user.education.index') }}" aria-expanded="false">
+                <span class="d-flex">
+                  <i class="ti ti-book"></i>
+                </span>
+                <span class="hide-menu">@lang('Education ')</span>
+              </a>
+            </li>
+            @endif
+
+
             <!-- ============================= -->
             <!-- Apps -->
             <!-- ============================= -->
@@ -443,7 +454,7 @@
                   </span>
                   <span class="hide-menu">@lang('Transactions')</span>
                 </a>
-            </li> 
+            </li>
             <li class="sidebar-item">
                 <a class="sidebar-link" href="{{ route('ticket.index') }}" aria-expanded="false">
                   <span>
@@ -451,7 +462,7 @@
                   </span>
                   <span class="hide-menu">@lang('Support Ticket')</span>
                 </a>
-            </li> 
+            </li>
 
             <li class="sidebar-item">
                 <a class="sidebar-link" href="{{ route('user.profile.setting') }}" aria-expanded="false">
@@ -459,7 +470,7 @@
                     <i class="ti ti-settings"></i>
                   </span>
                   <span class="hide-menu">@lang('Account Settings')</span>
-                </a> 
+                </a>
             </li>
             <li class="sidebar-item">
               <a class="sidebar-link" href="{{route('user.downlines')}}" aria-expanded="false">
@@ -477,11 +488,11 @@
                 <span class="hide-menu">@lang('Logout')</span>
               </a>
             </li>
-             
-                 
+
+
           </ul>
           <div class="unlimited-access hide-menu bg-light-primary position-relative my-7 rounded">
-            <div class="d-flex"> 
+            <div class="d-flex">
               <div class="unlimited-access-img">
                 <img src="{{ asset('assets/assets/dist/images/backgrounds/lock.png')}}" alt="" class="img-fluid">
                 <center>
@@ -505,7 +516,7 @@
               <i class="ti ti-power fs-6"></i>
             </a>
           </div>
-        </div>  
+        </div>
         <!-- End Sidebar navigation -->
       </div>
       <!-- End Sidebar scroll-->
@@ -513,8 +524,8 @@
     <!--  Sidebar End -->
     <!--  Main wrapper -->
 
-    
+
 
 @push('script')
- 
+
 @endpush
