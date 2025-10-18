@@ -368,7 +368,7 @@ class EducationController extends Controller
             $order               = new Order();
             $order->user_id      = $user->id;
             $order->type         =  'education';
-            $order->val_1   = $customername;
+            $order->val_1   = @$reply['content']['transactions']['unique_element'];
             $order->val_2   = $number;
             $order->product_id   = @$decoder;
             $order->product_name = @$plan;
@@ -392,7 +392,7 @@ class EducationController extends Controller
             $transaction->post_balance = $order->balance_after;
             $transaction->charge       = env('CABLECHARGE');
             $transaction->trx_type     = '-';
-            $transaction->details      = 'Paid education bill via ' . strToUpper($wallet).' Wallet';
+            $transaction->details      = 'Paid education bill via ' . strToUpper($wallet).' Wallet '. $reply['content']['transactions']['unique_element'];
             $transaction->trx          = $order->trx;
             $transaction->remark       = 'education';
             $transaction->save();
