@@ -93,7 +93,7 @@
                 </span>
                 <span class="hide-menu">@lang('Declined Request')</span>
               </a>
-            </li>            
+            </li>
             @endcan
 
             <!-- ============================= -->
@@ -103,7 +103,7 @@
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
               <span class="hide-menu">@lang('Loan')</span>
             </li>
-            
+
             <li class="sidebar-item">
               <a class="sidebar-link" href="{{ route('admin.plans.loan.index') }}" aria-expanded="false">
                 <span>
@@ -112,13 +112,13 @@
                 <span class="hide-menu">@lang('Loan Plans')</span>
               </a>
             </li>
-              
+
             <li class="sidebar-item">
               <a class="sidebar-link has-arrow" href="javascript: void(0)" aria-expanded="false">
                 <span class="d-flex">
                   <i class="ti ti-heart-handshake"></i>
                 </span>
-                <span class="hide-menu">@lang('Manage Loans')</span> 
+                <span class="hide-menu">@lang('Manage Loans')</span>
               </a>
               <ul aria-expanded="false" class="collapse first-level">
                 <li class="sidebar-item">
@@ -133,11 +133,11 @@
                         class="badge rounded-circle bg-danger d-flex align-items-center justify-content-center rounded-pill fs-2"
                         >{{ $pendingLoanCount }}</span
                       >
-                    </div> 
+                    </div>
                     @endif
                   </a>
-                </li> 
-                 
+                </li>
+
                 <li class="sidebar-item">
                   <a href="{{ route('admin.loan.running') }}" class="sidebar-link">
                     <div class="round-16 d-flex align-items-center justify-content-center">
@@ -145,8 +145,8 @@
                     </div>
                     <span class="hide-menu">@lang('Running Loan')</span>
                   </a>
-                </li> 
-                 
+                </li>
+
                 <li class="sidebar-item">
                   <a href="{{ route('admin.loan.due') }}" class="sidebar-link">
                     <div class="round-16 d-flex align-items-center justify-content-center">
@@ -154,8 +154,8 @@
                     </div>
                     <span class="hide-menu">@lang('Due Loan')</span>
                   </a>
-                </li> 
-                 
+                </li>
+
                 <li class="sidebar-item">
                   <a href="{{ route('admin.loan.paid') }}" class="sidebar-link">
                     <div class="round-16 d-flex align-items-center justify-content-center">
@@ -163,17 +163,17 @@
                     </div>
                     <span class="hide-menu">@lang('Paid Loan')</span>
                   </a>
-                </li> 
-                 
+                </li>
+
                 <li class="sidebar-item">
                   <a href="{{ route('admin.loan.rejected') }}" class="sidebar-link">
                     <div class="round-16 d-flex align-items-center justify-content-center">
                       <i class="ti ti-circle"></i>
                     </div>
-                    <span class="hide-menu">@lang('Rejected Loan')</span> 
+                    <span class="hide-menu">@lang('Rejected Loan')</span>
                   </a>
-                </li> 
-                 
+                </li>
+
                 <li class="sidebar-item">
                   <a href="{{ route('admin.loan.index') }}" class="sidebar-link">
                     <div class="round-16 d-flex align-items-center justify-content-center">
@@ -181,7 +181,7 @@
                     </div>
                     <span class="hide-menu">@lang('All Loans')</span>
                   </a>
-                </li>  
+                </li>
               </ul>
             </li>
 
@@ -220,7 +220,7 @@
                 <span class="d-flex">
                   <i class="ti ti-heart-handshake"></i>
                 </span>
-                <span class="hide-menu">@lang('Manage Escrow')</span> 
+                <span class="hide-menu">@lang('Manage Escrow')</span>
               </a>
               <ul aria-expanded="false" class="collapse first-level">
                 @can(['admin.escrow.index'])
@@ -231,7 +231,7 @@
                     </div>
                     <span class="hide-menu">@lang('All')</span>
                   </a>
-                </li> 
+                </li>
                 @endcan
                 @can(['admin.escrow.accepted'])
                 <li class="sidebar-item">
@@ -241,7 +241,7 @@
                     </div>
                     <span class="hide-menu">@lang('Accepted')</span>
                   </a>
-                </li> 
+                </li>
                 @endcan
                 @can(['admin.escrow.not.accepted'])
                 <li class="sidebar-item">
@@ -251,7 +251,7 @@
                     </div>
                     <span class="hide-menu">@lang('Not Accepted')</span>
                   </a>
-                </li> 
+                </li>
                 @endcan
                 @can(['admin.escrow.completed'])
                 <li class="sidebar-item">
@@ -261,7 +261,7 @@
                     </div>
                     <span class="hide-menu">@lang('Completed')</span>
                   </a>
-                </li> 
+                </li>
                 @endcan
                 @can(['admin.escrow.disputed'])
                 <li class="sidebar-item">
@@ -277,10 +277,10 @@
                         class="badge rounded-circle bg-danger d-flex align-items-center justify-content-center rounded-pill fs-2"
                         >{{ $disputedEscrowCount }}</span
                       >
-                    </div> 
+                    </div>
                     @endif
                   </a>
-                </li> 
+                </li>
                 @endcan
                 @can(['admin.escrow.canceled'])
                 <li class="sidebar-item">
@@ -290,13 +290,13 @@
                     </div>
                     <span class="hide-menu">@lang('Cancelled')</span>
                   </a>
-                </li> 
+                </li>
                 @endcan
               </ul>
             </li>
             @endcan
 
-            
+
             <!-- ============================= -->
             <!-- Events -->
             <!-- ============================= -->
@@ -344,7 +344,7 @@
                 <span class="d-flex">
                   <i class="ti ti-balloon"></i>
                 </span>
-                <span class="hide-menu">@lang('Manage Event')</span> 
+                <span class="hide-menu">@lang('Manage Event')</span>
               </a>
               <ul aria-expanded="false" class="collapse first-level">
                 @can(['admin.event.create'])
@@ -355,7 +355,7 @@
                     </div>
                     <span class="hide-menu">@lang('Create Event')</span>
                   </a>
-                </li> 
+                </li>
                 @endcan
                 @can(['admin.event.index'])
                 <li class="sidebar-item">
@@ -365,7 +365,7 @@
                     </div>
                     <span class="hide-menu">@lang('All Events')</span>
                   </a>
-                </li>  
+                </li>
                 @endcan
                 @can(['admin.event.pending'])
                 <li class="sidebar-item">
@@ -375,7 +375,7 @@
                     </div>
                     <span class="hide-menu">@lang('Pending Events')</span>
                   </a>
-                </li>  
+                </li>
                 @endcan
                 @can(['admin.event.approved'])
                 <li class="sidebar-item">
@@ -385,7 +385,7 @@
                     </div>
                     <span class="hide-menu">@lang('Approved Events')</span>
                   </a>
-                </li>  
+                </li>
                 @endcan
                 @can(['admin.event.cancel'])
                 <li class="sidebar-item">
@@ -395,13 +395,13 @@
                     </div>
                     <span class="hide-menu">@lang('Cancelled Events')</span>
                   </a>
-                </li> 
-                @endcan  
+                </li>
+                @endcan
               </ul>
             </li>
             @endcan
             @endcan
-            
+
 
 
             <!-- ============================= -->
@@ -439,7 +439,7 @@
                 <span class="d-flex">
                   <i class="ti ti-coin-bitcoin"></i>
                 </span>
-                <span class="hide-menu">@lang('Crypto Trade')</span> 
+                <span class="hide-menu">@lang('Crypto Trade')</span>
               </a>
               <ul aria-expanded="false" class="collapse first-level">
                 @can(['admin.crypto.assetselltrade*'])
@@ -450,7 +450,7 @@
                     </div>
                     <span class="hide-menu">@lang('Pending Sales')</span>
                   </a>
-                </li> 
+                </li>
                 <li class="sidebar-item">
                   <a href="{{ route('admin.crypto.assetselltrade','success') }}" class="sidebar-link">
                     <div class="round-16 d-flex align-items-center justify-content-center">
@@ -458,7 +458,7 @@
                     </div>
                     <span class="hide-menu">@lang('Approved Sales')</span>
                   </a>
-                </li>  
+                </li>
                 <li class="sidebar-item">
                   <a href="{{ route('admin.crypto.assetselltrade','declined') }}" class="sidebar-link">
                     <div class="round-16 d-flex align-items-center justify-content-center">
@@ -466,8 +466,8 @@
                     </div>
                     <span class="hide-menu">@lang('Declined Sales')</span>
                   </a>
-                </li> 
-                <hr> 
+                </li>
+                <hr>
                 @endcan
                 @can(['admin.crypto.assetbuytrade*'])
                 <li class="sidebar-item">
@@ -477,7 +477,7 @@
                     </div>
                     <span class="hide-menu">@lang('Pending Purchase')</span>
                   </a>
-                </li> 
+                </li>
 
                 <li class="sidebar-item">
                   <a href="{{ route('admin.crypto.assetbuytrade','success') }}" class="sidebar-link">
@@ -486,8 +486,8 @@
                     </div>
                     <span class="hide-menu">@lang('Approved Purchase')</span>
                   </a>
-                </li> 
-                
+                </li>
+
                 <li class="sidebar-item">
                   <a href="{{ route('admin.crypto.assetbuytrade','declined') }}" class="sidebar-link">
                     <div class="round-16 d-flex align-items-center justify-content-center">
@@ -495,8 +495,8 @@
                     </div>
                     <span class="hide-menu">@lang('Declined Purchase')</span>
                   </a>
-                </li> 
-                @endcan   
+                </li>
+                @endcan
               </ul>
             </li>
             @endcan
@@ -506,7 +506,7 @@
                 <span class="d-flex">
                   <i class="ti ti-credit-card"></i>
                 </span>
-                <span class="hide-menu">@lang('Giftcard Trade')</span> 
+                <span class="hide-menu">@lang('Giftcard Trade')</span>
               </a>
               <ul aria-expanded="false" class="collapse first-level">
                 @can(['admin.sellpenex*'])
@@ -517,7 +517,7 @@
                     </div>
                     <span class="hide-menu">@lang('Pending Sales')</span>
                   </a>
-                </li> 
+                </li>
                 @endcan
                 @can(['admin.sellproex*'])
                 <li class="sidebar-item">
@@ -529,8 +529,8 @@
                   </a>
                 </li>
                 @endcan
-                @can(['admin.selldecex*']) 
-                
+                @can(['admin.selldecex*'])
+
                 <li class="sidebar-item">
                   <a href="{{ route('admin.selldecex',2) }}" class="sidebar-link">
                     <div class="round-16 d-flex align-items-center justify-content-center">
@@ -538,7 +538,7 @@
                     </div>
                     <span class="hide-menu">@lang('Declined Sales')</span>
                   </a>
-                </li> 
+                </li>
 
                 @endcan
                 @can(['admin.buypenex*'])
@@ -550,7 +550,7 @@
                     </div>
                     <span class="hide-menu">@lang('Pending Purcahse')</span>
                   </a>
-                </li> 
+                </li>
 
                 @endcan
                 @can(['admin.buyproex*'])
@@ -561,7 +561,7 @@
                     </div>
                     <span class="hide-menu">@lang('Approved Purchase')</span>
                   </a>
-                </li> 
+                </li>
                 @endcan
                 @can(['admin.buydecex*'])
                 <li class="sidebar-item">
@@ -572,11 +572,11 @@
                     <span class="hide-menu">@lang('Declined Purchase')</span>
                   </a>
                 </li>
-                @endcan    
+                @endcan
               </ul>
             </li>
             @endcan
-            
+
             @if ($general->crypto > 0)
             @can(['admin.crypto.wallet*'])
             <li class="sidebar-item">
@@ -589,7 +589,7 @@
             </li>
             @endcan
             @endif
-           
+
 
              <!-- ============================= -->
             <!-- Apps -->
@@ -642,8 +642,8 @@
                 <span class="d-flex">
                   <i class="ti ti-cash"></i>
                 </span>
-                <span class="hide-menu">@lang('Savings Plans')</span> 
-              </a> 
+                <span class="hide-menu">@lang('Savings Plans')</span>
+              </a>
             </li>
             @endcan
             @endif
@@ -667,7 +667,7 @@
                 <span class="d-flex">
                   <i class="ti ti-cash"></i>
                 </span>
-                <span class="hide-menu">@lang('Airtime To Cash')</span> 
+                <span class="hide-menu">@lang('Airtime To Cash')</span>
               </a>
               <ul aria-expanded="false" class="collapse first-level">
                 <li class="sidebar-item">
@@ -677,7 +677,7 @@
                     </div>
                     <span class="hide-menu">@lang('Fees Settings')</span>
                   </a>
-                </li>  
+                </li>
                 <li class="sidebar-item">
                   <a href="{{ route('admin.bills.airtime2cash') }}" class="sidebar-link">
                     <div class="round-16 d-flex align-items-center justify-content-center">
@@ -685,7 +685,7 @@
                     </div>
                     <span class="hide-menu">@lang('All Transactions')</span>
                   </a>
-                </li> 
+                </li>
                 <li class="sidebar-item">
                   <a href="{{ route('admin.bills.airtime2cash',0) }}" class="sidebar-link">
                     <div class="round-16 d-flex align-items-center justify-content-center">
@@ -693,7 +693,7 @@
                     </div>
                     <span class="hide-menu">@lang('Pending Transactions')</span>
                   </a>
-                </li> 
+                </li>
                 <li class="sidebar-item">
                   <a href="{{ route('admin.bills.airtime2cash',1) }}" class="sidebar-link">
                     <div class="round-16 d-flex align-items-center justify-content-center">
@@ -701,7 +701,7 @@
                     </div>
                     <span class="hide-menu">@lang('Successfull Transactions')</span>
                   </a>
-                </li> 
+                </li>
                 <li class="sidebar-item">
                   <a href="{{ route('admin.bills.airtime2cash',2) }}" class="sidebar-link">
                     <div class="round-16 d-flex align-items-center justify-content-center">
@@ -709,10 +709,10 @@
                     </div>
                     <span class="hide-menu">@lang('Declined Transactions')</span>
                   </a>
-                </li> 
-                 
+                </li>
+
               </ul>
-            </li> 
+            </li>
             @endcan
             @endif
             @can(['admin.bills.airtime','admin.bills.internet','admin.bills.cabletv','admin.bills.utility','admin.bills.insurance'])
@@ -721,7 +721,7 @@
                 <span class="d-flex">
                   <i class="ti ti-cash"></i>
                 </span>
-                <span class="hide-menu">@lang('Bills Payments')</span> 
+                <span class="hide-menu">@lang('Bills Payments')</span>
               </a>
               <ul aria-expanded="false" class="collapse first-level">
                 @can(['admin.bills.airtime'])
@@ -732,7 +732,7 @@
                     </div>
                     <span class="hide-menu">@lang('Airtime')</span>
                   </a>
-                </li> 
+                </li>
                 @endcan
                 @can(['admin.bills.insurance'])
                 <li class="sidebar-item">
@@ -742,8 +742,8 @@
                     </div>
                     <span class="hide-menu">@lang('Insurance')</span>
                   </a>
-                </li> 
-                 
+                </li>
+
                 @endcan
                 @can(['admin.bills.internet'])
                 <li class="sidebar-item">
@@ -754,7 +754,7 @@
                     <span class="hide-menu">@lang('Internet')</span>
                   </a>
                 </li>
-                 
+
                 @endcan
                 @can(['admin.bills.cabletv'])
                 <li class="sidebar-item">
@@ -764,7 +764,7 @@
                     </div>
                     <span class="hide-menu">@lang('Cable TV')</span>
                   </a>
-                </li>  
+                </li>
                 @endcan
                 @can(['admin.bills.utility'])
                 <li class="sidebar-item">
@@ -774,13 +774,13 @@
                     </div>
                     <span class="hide-menu">@lang('Utility')</span>
                   </a>
-                </li> 
-                @endcan 
+                </li>
+                @endcan
               </ul>
             </li>
             @endcan
-           
-              
+
+
             @can(['admin.staff.index', 'admin.roles.index', 'admin.users.kyc.approved','admin.users.kyc.pending','admin.permissions.index','admin.users*'])
             <li class="nav-small-cap">
                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -825,7 +825,7 @@
                   <i class="ti ti-shield"></i>
                 </span>
                 <span class="hide-menu">@lang('Manage Staff')</span>
-              </a> 
+              </a>
             </li>
           @endcan
           @can('admin.roles.index')
@@ -835,9 +835,9 @@
                   <i class="ti ti-key"></i>
                 </span>
                 <span class="hide-menu">@lang('Roles & Permission')</span>
-              </a> 
+              </a>
             </li>
-          @endcan 
+          @endcan
           @can(['admin.users*'])
             <li class="sidebar-item">
                 <a class="sidebar-link has-arrow" href="javascript: void(0)" aria-expanded="false">
@@ -1229,13 +1229,13 @@
                         <i class="ti ti-circle"></i>
                       </div>
                       <span class="hide-menu">@lang('Notification History')</span>
-                    </a> 
+                    </a>
                   </li>
                   @endcan
                 </ul>
             </li>
             @endcan
-            
+
             @can('admin.subscriber.index')
             <li class="sidebar-item">
               <a class="sidebar-link" href="{{ route('admin.subscriber.index') }}" aria-expanded="false">
@@ -1274,7 +1274,7 @@
                 <span class="hide-menu">@lang('System Configuration')</span>
               </a>
             </li>
-            @endcan 
+            @endcan
             @can('admin.referral.setting')
             <li class="sidebar-item">
               <a class="sidebar-link" href="{{route('admin.referral.index')}}" aria-expanded="false">
@@ -1322,6 +1322,16 @@
                   <i class="ti ti-user-circle"></i>
                 </span>
                 <span class="hide-menu">@lang('SEO Settings')</span>
+              </a>
+            </li>
+            @endcan
+            @can('admin.bonus')
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('admin.bonus.index') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-user-circle"></i>
+                </span>
+                <span class="hide-menu">@lang('Transaction Bonuses')</span>
               </a>
             </li>
             @endcan
@@ -1534,5 +1544,5 @@
     <!--  Main wrapper -->
 
 @push('script')
-    
+
 @endpush

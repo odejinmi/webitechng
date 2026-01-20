@@ -23,7 +23,7 @@ Route::namespace('Auth')->group(function () {
     });
 });
 
- 
+
 
 Route::middleware(['admin','adminPermission'])->group(function () {
     Route::controller('AdminController')->group(function () {
@@ -36,21 +36,25 @@ Route::middleware(['admin','adminPermission'])->group(function () {
 
         Route::get('top/sold', 'AdminController@topSold')->name('top.sold');
         Route::get('today/sale', 'AdminController@todaySale')->name('today.sale');
-        
+
         //refer
         Route::get('/referral', 'refIndex')->name('referral.index');
         Route::post('/referral', 'refStore')->name('store.refer');
         Route::post('/referral/feature', 'refupdate')->name('store.feature');
-  
+
 
         //Notification
         Route::get('notifications', 'notifications')->name('notifications');
         Route::get('notification/read/{id}', 'notificationRead')->name('notification.read');
         Route::get('notifications/read-all', 'readAll')->name('notifications.readAll');
- 
+
         Route::get('download-attachments/{file_hash}', 'downloadAttachment')->name('download.attachment');
     });
 
+    Route::prefix('bonus')->name('bonus.')->group(function () {
+        Route::get('/', 'BonusController@index')->name('index');
+        Route::post('/update', 'BonusController@update')->name('update');
+    });
 
          //============FDR Plan================//
          Route::name('plans.fdr.')->prefix('fdr')->controller('FdrPlanController')->group(function () {
@@ -59,7 +63,7 @@ Route::middleware(['admin','adminPermission'])->group(function () {
             Route::post('status/{id}', 'changeStatus')->name('status');
         });
 
-     
+
      // WITHDRAW SYSTEM
     Route::controller('WithdrawalController')->name('withdraw.')->prefix('withdraw')->group(function () {
 
@@ -85,14 +89,14 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::post('method/activate', 'activate')->name('method.activate');
         Route::post('method/deactivate', 'deactivate')->name('method.deactivate');
     });
- 
+
     // Users Manager
     Route::controller('ManageUsersController')->name('users.')->prefix('users')->group(function () {
         Route::get('/', 'allUsers')->name('all');
         Route::get('/kyc/pending', 'kycpending')->name('kyc.pending');
         Route::get('/kyc/approved', 'kycapproved')->name('kyc.approved');
         Route::get('/kyc/approve/{id}', 'kycapprove')->name('kyc.approve');
-        Route::get('/kyc/reject/{id}', 'kycreject')->name('kyc.reject'); 
+        Route::get('/kyc/reject/{id}', 'kycreject')->name('kyc.reject');
         Route::get('card', 'card')->name('card');
         Route::get('vendor', 'activeVendor')->name('vendor');
         Route::get('active', 'activeUsers')->name('active');
@@ -191,7 +195,7 @@ Route::middleware(['admin','adminPermission'])->group(function () {
       Route::post('store', 'store')->name('store');
       Route::post('update', 'update')->name('update');
     });
-       
+
     //Event Management
     Route::controller('EventController')->prefix('event')->name('event.')->group(function () {
     Route::get('list', 'index')->name('index');
@@ -290,16 +294,16 @@ Route::middleware(['admin','adminPermission'])->group(function () {
     // Savings
     Route::controller('SavingsController')->prefix('savings')->name('savings.')->group(function () {
         Route::get('index', 'log')->name('log');
-        Route::get('view/{id}', 'view')->name('view'); 
+        Route::get('view/{id}', 'view')->name('view');
     });
 
 
     // Voucher
     Route::controller('VoucherController')->prefix('voucher')->name('voucher.')->group(function () {
         Route::get('index', 'log')->name('log');
-        Route::get('create', 'create')->name('create'); 
-        Route::post('create', 'createPost'); 
-        Route::get('delete/{id}', 'delete')->name('delete'); 
+        Route::get('create', 'create')->name('create');
+        Route::post('create', 'createPost');
+        Route::get('delete/{id}', 'delete')->name('delete');
     });
 
 
@@ -385,9 +389,9 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::get('virtualcard/activate/{id?}', 'virtualcardActivate')->name('virtualcard.status.activate');
         Route::get('virtualcard/deactivate/{id?}', 'virtualcardDeactivate')->name('virtualcard.status.deactivate');
         Route::get('virtualcard/block/{id?}', 'virtualcardBlock')->name('virtualcard.status.block');
-    });  
+    });
 
-        
+
     //CRYPTO WALLET STARTS
 
 
@@ -395,7 +399,7 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::controller('CoinController')->name('coin.')->prefix('coin')->group(function () {
             Route::get('/currency/settings', 'index')->name('CurrencySetting');
         });
-        
+
     Route::controller('CoinController')->prefix('crypto')->name('crypto.')->group(function () {
         Route::get('/currency', 'CoinController@index')->name('currency');
         Route::get('/currency/edit/{id}', 'edit')->name('edit');
@@ -404,7 +408,7 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::post('/update-coin/{id}', 'apiupdate')->name('postcoin');
         Route::get('/delete-coin/{id}', 'delete')->name('deletecoin');
         Route::post('/add-coin', 'coinAdd')->name('addcoin');
-        
+
         Route::get('/wallet', 'CoinController@wallet')->name('wallet');
         Route::get('/wallet/{id}', 'CoinController@viewwallet')->name('viewwallet');
         Route::get('/deactivatewallet/{id}', 'CoinController@deactivatewallet')->name('deactivatewallet');
@@ -421,9 +425,9 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::get('/sell/coin/{id}', 'selllog')->name('assetselltrade');
         Route::get('/sell/coin/approve/{id}', 'selllogApprove')->name('assetselltrade.approve');
         Route::get('/sell/coin/decline/{id}', 'selllogDecline')->name('assetselltrade.decline');
-    }); 
+    });
 
-         
+
     //GIFTCARD SYSTEM
     Route::controller('GiftcardController')->prefix('giftcard')->group(function () {
         Route::get('/sell/giftcard/approved/{id}', 'giftcardlog')->name('sellproex');
@@ -437,7 +441,7 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::any('/rejectgift/{id}', 'rejectgift')->name('rejgift');
 
         Route::get('card/settings', 'giftcardindex')->name('giftcardindex');
-        Route::post('card/create', 'store')->name('storecard'); 
+        Route::post('card/create', 'store')->name('storecard');
         Route::get('card/edit/{id}', 'editPage')->name('editcard');
         Route::post('card/edit', 'postcard')->name('postcard');
         Route::get('card/edit/type/{id}', 'editcardType')->name('editcardType');
@@ -460,7 +464,7 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::get('storefront/manage/{id}', 'manage')->name('storefront.edit');
         Route::post('storefront/manage/{id}', 'update');
         Route::get('storefront/status/{id}', 'status')->name('storefront.order.status');
-    });  
+    });
 
     Route::controller('GeneralSettingController')->group(function () {
         // General Setting
@@ -533,10 +537,10 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::get('create', 'create')->name('create');
         Route::post('create', 'createVoucher')->name('create');
         Route::get('used', 'used')->name('used');
-        Route::get('unused', 'unused')->name('unused'); 
-        Route::get('pending', 'pending')->name('pending'); 
-        Route::post('update', 'update')->name('update'); 
-        Route::get('rejected', 'rejected')->name('declined'); 
+        Route::get('unused', 'unused')->name('unused');
+        Route::get('pending', 'pending')->name('pending');
+        Route::post('update', 'update')->name('update');
+        Route::get('rejected', 'rejected')->name('declined');
     });
 
     //Api Settings
@@ -587,6 +591,6 @@ Route::middleware(['admin','adminPermission'])->group(function () {
             Route::post('manage-section/{id}', 'manageSectionUpdate')->name('manage.section.update');
         });
     });
-}); 
+});
 
 ?>
