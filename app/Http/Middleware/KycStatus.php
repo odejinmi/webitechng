@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Transaction;
 use Auth;
 use Closure;
 
