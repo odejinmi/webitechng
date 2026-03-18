@@ -484,7 +484,7 @@ class AirtimeController extends Controller
         $auth = base64_encode($str);
         $datecode = date('Y').date('m').date('d').date('H').date('i').date('s');
         $codex = substr(str_shuffle('01234567890') , 0 , 5 );
-        $trx = $datecode.$codex;
+        $trx = 'web'.$datecode.$codex;
 
         $walletService = app(WalletLedgerService::class);
         $order = null;
