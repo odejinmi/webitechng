@@ -76,19 +76,19 @@ class RequestAccountController extends Controller {
         $log->save();
 
         $user = User::whereId($log->user_id)->firstOrFail();
+        $credit = walletAtomicCredit($user->id, 'main', $log->pay);
+        $user->refresh();
         $transaction               = new Transaction();
         $transaction->user_id      = $user->id;
         $transaction->amount       = $log->pay;
-        $transaction->post_balance = $user->balance;
+        $transaction->balance_before = $credit['balance_before'];
+        $transaction->balance_after = $credit['balance_after'];
+        $transaction->post_balance = $credit['balance_after'];
         $transaction->trx_type     = '+';
         $transaction->details      = 'Account credited for payment remittance from '.$log->account->log;
         $transaction->trx          = $log->trx;
         $transaction->remark       = 'Payment Remittance';
         $transaction->save();
-
-        //Create Credit Transaction
-        $user->balance += $log->pay;
-        $user->save();
 
         $notify[] = ['success', 'Payment Approved Successfuly'];
         return back()->withNotify($notify);

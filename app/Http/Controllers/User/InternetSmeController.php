@@ -10,11 +10,12 @@ use App\Models\GeneralSetting;
  use App\Models\AdminNotification;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Services\WalletLedgerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Password;
-use DB;
 use Carbon\Carbon;
 class InternetSmeController extends Controller
 {
@@ -266,18 +267,49 @@ class InternetSmeController extends Controller
                 return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
             }
 
-        $payment = $amount;
-        if($wallet == 'main')
-        {
-            $balance = $user->balance;
-        }
-        else
-        {
-            $balance = $user->ref_balance;
-        }
-        if($payment > $balance)
-        {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Insufficient wallet balance'],400);
+        $wallet = $wallet === 'main' ? 'main' : 'ref';
+        $payment = (float) $amount;
+        $code = getTrx();
+
+        $walletService = app(WalletLedgerService::class);
+        $order = null;
+
+        try {
+            $debit = $walletService->debit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use (&$order, $user, $phone, $plan, $networkname, $amount, $wallet, $payment, $code) {
+                $order               = new Order();
+                $order->user_id      = $user->id;
+                $order->type         =  'smedata';
+                $order->val_1   = $phone;
+                $order->val_2   = $plan;
+                $order->deposit_code   = null;
+                $order->product_name = @$networkname;
+                $order->product_logo = null;
+                $order->details      = null;
+                $order->quantity     = 1;
+                $order->price        = (float) $amount;
+                $order->currency     = 'NGN';
+                $order->status       = 'processing';
+                $order->payment      = (float) $payment;
+                $order->trx          = $code;
+                $order->source       = $wallet;
+                $order->balance_before  = (float) $balanceBefore;
+                $order->balance_after   = (float) $balanceAfter;
+                $order->transaction_id  = null;
+                $order->save();
+
+                $transaction               = new Transaction();
+                $transaction->user_id      = $order->user_id;
+                $transaction->amount       = $order->payment;
+                $transaction->post_balance = $order->balance_after;
+                $transaction->charge       = 0;
+                $transaction->trx_type     = '-';
+                $transaction->details      = 'Purchased SME internet data via ' . strToUpper($wallet).' Wallet';
+                $transaction->trx          = $order->trx;
+                $transaction->remark       = 'internet';
+                $transaction->save();
+            });
+        } catch (\RuntimeException $e) {
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> $e->getMessage()],400);
         }
 
         $token = getN3TToken();
@@ -292,7 +324,6 @@ class InternetSmeController extends Controller
         "Content-Type: application/json",
         );
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        $code = getTrx();
         $data = <<<DATA
         {
             "data_plan": "$data_plan",
@@ -311,54 +342,33 @@ class InternetSmeController extends Controller
         $response = json_decode($resp,true);
         if(!isset($response['status']) && !isset($response['newbal']))
         {
+            $refundTrx = getTrx();
+            $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                $refundTransaction               = new Transaction();
+                $refundTransaction->user_id      = $order->user_id;
+                $refundTransaction->amount       = $order->payment;
+                $refundTransaction->post_balance = (float) $balanceAfter;
+                $refundTransaction->charge       = 0;
+                $refundTransaction->trx_type     = '+';
+                $refundTransaction->details      = 'SME internet purchase reversed via ' . strToUpper($wallet).' Wallet';
+                $refundTransaction->trx          = $refundTrx;
+                $refundTransaction->remark       = 'internet_refund';
+                $refundTransaction->save();
+            });
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->balance_after = $credit['balance_after'];
+            $order->save();
             return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Sorry we cant process this request at the moment'],400);
         }
         // END AIRTIME VENDING \\
         if($response['status'] == 'success')
         {
-            if($wallet == 'main')
-            {
-                $user->balance -= $payment;
-                $balance_after = $user->balance;
-            }
-            else
-            {
-                $user->ref_balance -= $payment;
-                $balance_after = $user->ref_balance;
-            }
-            $user->save();
-            $order               = new Order();
-            $order->user_id      = $user->id;
-            $order->type         =  'smedata';
-            $order->val_1   = $phone;
-            $order->val_2   = $plan;
             $order->deposit_code   = @$response['plan_type'];
-            $order->product_name = @$networkname;
-            $order->product_logo = null;
             $order->details      = json_encode($response,true);
-            $order->quantity     = 1;
-            $order->price        = $amount;
-            $order->currency     = 'NGN';
-            $order->status       = @$response['status'];
-            $order->payment      = @$payment;
-            $order->trx          = $code;
-            $order->source       = $wallet;
-            $order->balance_before  = $balance;
-            $order->balance_after   = $balance_after;
-            $order->transaction_id  = $response['request-id'];
+            $order->status       = @$response['status'] ?? 'success';
+            $order->transaction_id  = $response['request-id'] ?? $code;
             $order->save();
-
-
-            $transaction               = new Transaction();
-            $transaction->user_id      = $order->user_id;
-            $transaction->amount       = $order->payment;
-            $transaction->post_balance = $order->balance_after;
-            $transaction->charge       = 0;
-            $transaction->trx_type     = '-';
-            $transaction->details      = 'Purchased SME internet data via ' . strToUpper($wallet).' Wallet';
-            $transaction->trx          = $order->trx;
-            $transaction->remark       = 'internet';
-            $transaction->save();
 
             notify($user,'INTERNET_BUY', [
                 'provider'        => @$networkname,
@@ -375,6 +385,23 @@ class InternetSmeController extends Controller
         }
         else
         {
+            $refundTrx = getTrx();
+            $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                $refundTransaction               = new Transaction();
+                $refundTransaction->user_id      = $order->user_id;
+                $refundTransaction->amount       = $order->payment;
+                $refundTransaction->post_balance = (float) $balanceAfter;
+                $refundTransaction->charge       = 0;
+                $refundTransaction->trx_type     = '+';
+                $refundTransaction->details      = 'SME internet purchase reversed via ' . strToUpper($wallet).' Wallet';
+                $refundTransaction->trx          = $refundTrx;
+                $refundTransaction->remark       = 'internet_refund';
+                $refundTransaction->save();
+            });
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->balance_after = $credit['balance_after'];
+            $order->save();
             return response()->json(['ok'=>false,'status'=>'danger','message'=> @$response['message']. 'API ERROR'],400);
         }
         } catch (\Exception $e) {
@@ -410,18 +437,49 @@ class InternetSmeController extends Controller
                 return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
             }
 
-        $payment = $amount;
-        if($wallet == 'main')
-        {
-            $balance = $user->balance;
-        }
-        else
-        {
-            $balance = $user->ref_balance;
-        }
-        if($payment > $balance)
-        {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Insufficient wallet balance'],400);
+        $wallet = $wallet === 'main' ? 'main' : 'ref';
+        $payment = (float) $amount;
+        $code = getTrx();
+
+        $walletService = app(WalletLedgerService::class);
+        $order = null;
+
+        try {
+            $debit = $walletService->debit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use (&$order, $user, $data_type, $phone, $plan, $networkname, $amount, $wallet, $payment, $code) {
+                $order               = new Order();
+                $order->user_id      = $user->id;
+                $order->type         =  $data_type;
+                $order->val_1   = $phone;
+                $order->val_2   = $plan;
+                $order->deposit_code   = null;
+                $order->product_name = @$networkname;
+                $order->product_logo = null;
+                $order->details      = null;
+                $order->quantity     = 1;
+                $order->price        = (float) $amount;
+                $order->currency     = 'NGN';
+                $order->status       = 'processing';
+                $order->payment      = (float) $payment;
+                $order->trx          = $code;
+                $order->source       = $wallet;
+                $order->balance_before  = (float) $balanceBefore;
+                $order->balance_after   = (float) $balanceAfter;
+                $order->transaction_id  = null;
+                $order->save();
+
+                $transaction               = new Transaction();
+                $transaction->user_id      = $order->user_id;
+                $transaction->amount       = $order->payment;
+                $transaction->post_balance = $order->balance_after;
+                $transaction->charge       = 0;
+                $transaction->trx_type     = '-';
+                $transaction->details      = 'Purchased SME internet data via ' . strToUpper($wallet).' Wallet';
+                $transaction->trx          = $order->trx;
+                $transaction->remark       = 'internet';
+                $transaction->save();
+            });
+        } catch (\RuntimeException $e) {
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> $e->getMessage()],400);
         }
 
 
@@ -436,7 +494,6 @@ class InternetSmeController extends Controller
         "Content-Type: application/json",
         );
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        $code = getTrx();
         $data = <<<DATA
         {
             "serviceID": "$data_type",
@@ -456,54 +513,33 @@ class InternetSmeController extends Controller
         $response = json_decode($resp,true);
         if(!isset($response['status']) && !isset($response['content']))
         {
+            $refundTrx = getTrx();
+            $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                $refundTransaction               = new Transaction();
+                $refundTransaction->user_id      = $order->user_id;
+                $refundTransaction->amount       = $order->payment;
+                $refundTransaction->post_balance = (float) $balanceAfter;
+                $refundTransaction->charge       = 0;
+                $refundTransaction->trx_type     = '+';
+                $refundTransaction->details      = 'SME internet purchase reversed via ' . strToUpper($wallet).' Wallet';
+                $refundTransaction->trx          = $refundTrx;
+                $refundTransaction->remark       = 'internet_refund';
+                $refundTransaction->save();
+            });
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->balance_after = $credit['balance_after'];
+            $order->save();
             return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Sorry we cant process this request at the moment'],400);
         }
         // END AIRTIME VENDING \\
         if($response['status'] == 'TRANSACTION_SUCCESSFUL' && $response['content']['code'] == 200)
         {
-            if($wallet == 'main')
-            {
-                $user->balance -= $payment;
-                $balance_after = $user->balance;
-            }
-            else
-            {
-                $user->ref_balance -= $payment;
-                $balance_after = $user->ref_balance;
-            }
-            $user->save();
-            $order               = new Order();
-            $order->user_id      = $user->id;
-            $order->type         =  $data_type;
-            $order->val_1   = $phone;
-            $order->val_2   = $plan;
             $order->deposit_code   = @$response['content']['transactionID'];
-            $order->product_name = @$networkname;
-            $order->product_logo = null;
             $order->details      = json_encode($response,true);
-            $order->quantity     = 1;
-            $order->price        = $amount;
-            $order->currency     = 'NGN';
             $order->status       = @$response['status'];
-            $order->payment      = @$payment;
-            $order->trx          = $code;
-            $order->source       = $wallet;
-            $order->balance_before  = $balance;
-            $order->balance_after   = $balance_after;
             $order->transaction_id  = $response['content']['transactionID'];
             $order->save();
-
-
-            $transaction               = new Transaction();
-            $transaction->user_id      = $order->user_id;
-            $transaction->amount       = $order->payment;
-            $transaction->post_balance = $order->balance_after;
-            $transaction->charge       = 0;
-            $transaction->trx_type     = '-';
-            $transaction->details      = 'Purchased SME internet data via ' . strToUpper($wallet).' Wallet';
-            $transaction->trx          = $order->trx;
-            $transaction->remark       = 'internet';
-            $transaction->save();
 
             notify($user,'INTERNET_BUY', [
                 'provider'        => @$networkname,
@@ -520,6 +556,23 @@ class InternetSmeController extends Controller
         }
         else
         {
+            $refundTrx = getTrx();
+            $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                $refundTransaction               = new Transaction();
+                $refundTransaction->user_id      = $order->user_id;
+                $refundTransaction->amount       = $order->payment;
+                $refundTransaction->post_balance = (float) $balanceAfter;
+                $refundTransaction->charge       = 0;
+                $refundTransaction->trx_type     = '+';
+                $refundTransaction->details      = 'SME internet purchase reversed via ' . strToUpper($wallet).' Wallet';
+                $refundTransaction->trx          = $refundTrx;
+                $refundTransaction->remark       = 'internet_refund';
+                $refundTransaction->save();
+            });
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->balance_after = $credit['balance_after'];
+            $order->save();
             return response()->json(['ok'=>false,'status'=>'danger','message'=> @$response['description']. '. API ERROR!!'],400);
         }
         } catch (\Exception $e) {
@@ -553,36 +606,50 @@ class InternetSmeController extends Controller
                 return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
             }
 
-        $payment = $amount;
+        $wallet = $wallet === 'main' ? 'main' : 'ref';
+        $payment = (float) $amount;
+        $code = getTrx();
 
-        if($wallet == 'main')
-        {
-            $balance = $user->balance;
-            $balance_after = $user->balance;
+        $walletService = app(WalletLedgerService::class);
+        $order = null;
 
-        }
-        else
-        {
-            $balance = $user->ref_balance;
-            $balance_after = $user->ref_balance;
+        try {
+            $debit = $walletService->debit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use (&$order, $user, $phone, $plan, $networkname, $amount, $wallet, $payment, $code) {
+                $order               = new Order();
+                $order->user_id      = $user->id;
+                $order->type         =  'smedata';
+                $order->val_1   = $phone;
+                $order->val_2   = $plan;
+                $order->deposit_code   = null;
+                $order->product_name = @$networkname;
+                $order->product_logo = null;
+                $order->details      = null;
+                $order->quantity     = 1;
+                $order->price        = (float) $amount;
+                $order->currency     = 'NGN';
+                $order->status       = 'processing';
+                $order->payment      = (float) $payment;
+                $order->trx          = $code;
+                $order->source       = $wallet;
+                $order->balance_before  = (float) $balanceBefore;
+                $order->balance_after   = (float) $balanceAfter;
+                $order->transaction_id  = null;
+                $order->save();
 
+                $transaction               = new Transaction();
+                $transaction->user_id      = $order->user_id;
+                $transaction->amount       = $order->payment;
+                $transaction->post_balance = $order->balance_after;
+                $transaction->charge       = 0;
+                $transaction->trx_type     = '-';
+                $transaction->details      = 'Purchased SME internet data via ' . strToUpper($wallet).' Wallet';
+                $transaction->trx          = $order->trx;
+                $transaction->remark       = 'internet';
+                $transaction->save();
+            });
+        } catch (\RuntimeException $e) {
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> $e->getMessage()],400);
         }
-        if($payment > $balance)
-        {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Insufficient wallet balance'],400);
-        }
-
-        //DEBIT WALLET
-        if($wallet == 'main')
-        {
-            $user->balance -= $payment;
-        }
-        else
-        {
-            $user->ref_balance -= $payment;
-        }
-        $user->save();
-        //END DEBIT WALLET
 
 
         $token = env('GTIDINGSTOKEN');
@@ -613,57 +680,35 @@ class InternetSmeController extends Controller
         $response = json_decode($resp,true);
         if(!isset($response['ident']) && !isset($response['balance_after']))
         {
-            //RETURN FUND
-            if($wallet == 'main')
-            {
-                $user->balance += $payment;
-            }
-            else
-            {
-                $user->ref_balance += $payment;
-            }
-            $user->save();
-            //RETURN FUND
+            $refundTrx = getTrx();
+            $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                $refundTransaction               = new Transaction();
+                $refundTransaction->user_id      = $order->user_id;
+                $refundTransaction->amount       = $order->payment;
+                $refundTransaction->post_balance = (float) $balanceAfter;
+                $refundTransaction->charge       = 0;
+                $refundTransaction->trx_type     = '+';
+                $refundTransaction->details      = 'SME internet purchase reversed via ' . strToUpper($wallet).' Wallet';
+                $refundTransaction->trx          = $refundTrx;
+                $refundTransaction->remark       = 'internet_refund';
+                $refundTransaction->save();
+            });
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->balance_after = $credit['balance_after'];
+            $order->save();
             return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Sorry we cant process this request at the moment '.json_encode($response)],400);
         }
 
         // END AIRTIME VENDING \\
         if($response['ident'])
         {
-
-            $code = getTrx();
-            $order               = new Order();
-            $order->user_id      = $user->id;
-            $order->type         =  'smedata';
-            $order->val_1   = $phone;
-            $order->val_2   = $plan;
             $order->deposit_code   = @$response['plan_name'];
             $order->product_name = @$response['plan_network'];
-            $order->product_logo = null;
             $order->details      = json_encode($response,true);
-            $order->quantity     = 1;
-            $order->price        = $amount;
-            $order->currency     = 'NGN';
             $order->status       = @$response['status'];
-            $order->payment      = @$payment;
-            $order->trx          = $code;
-            $order->source       = $wallet;
-            $order->balance_before  = $balance;
-            $order->balance_after   = $balance_after;
             $order->transaction_id  = $response['ident'];
             $order->save();
-
-
-            $transaction               = new Transaction();
-            $transaction->user_id      = $order->user_id;
-            $transaction->amount       = $order->payment;
-            $transaction->post_balance = $order->balance_after;
-            $transaction->charge       = 0;
-            $transaction->trx_type     = '-';
-            $transaction->details      = 'Purchased SME internet data via ' . strToUpper($wallet).' Wallet';
-            $transaction->trx          = $order->trx;
-            $transaction->remark       = 'internet';
-            $transaction->save();
 
             notify($user,'INTERNET_BUY', [
                 'provider'        => @$networkname,
@@ -680,6 +725,23 @@ class InternetSmeController extends Controller
         }
         else
         {
+            $refundTrx = getTrx();
+            $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                $refundTransaction               = new Transaction();
+                $refundTransaction->user_id      = $order->user_id;
+                $refundTransaction->amount       = $order->payment;
+                $refundTransaction->post_balance = (float) $balanceAfter;
+                $refundTransaction->charge       = 0;
+                $refundTransaction->trx_type     = '+';
+                $refundTransaction->details      = 'SME internet purchase reversed via ' . strToUpper($wallet).' Wallet';
+                $refundTransaction->trx          = $refundTrx;
+                $refundTransaction->remark       = 'internet_refund';
+                $refundTransaction->save();
+            });
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->balance_after = $credit['balance_after'];
+            $order->save();
             return response()->json(['ok'=>false,'status'=>'danger','message'=> 'ERROR '.@$response['api_response']. 'API ERROR'],400);
         }
         } catch (\Exception $e) {
@@ -713,36 +775,50 @@ class InternetSmeController extends Controller
                 return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
             }
 
-        $payment = $amount;
+        $wallet = $wallet === 'main' ? 'main' : 'ref';
+        $payment = (float) $amount;
+        $code = getTrx();
 
-        if($wallet == 'main')
-        {
-            $balance = $user->balance;
-            $balance_after = $user->balance;
+        $walletService = app(WalletLedgerService::class);
+        $order = null;
 
-        }
-        else
-        {
-            $balance = $user->ref_balance;
-            $balance_after = $user->ref_balance;
+        try {
+            $debit = $walletService->debit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use (&$order, $user, $phone, $plan, $networkname, $amount, $wallet, $payment, $code) {
+                $order               = new Order();
+                $order->user_id      = $user->id;
+                $order->type         =  'smedata';
+                $order->val_1   = $phone;
+                $order->val_2   = $plan;
+                $order->deposit_code   = null;
+                $order->product_name = @$networkname;
+                $order->product_logo = null;
+                $order->details      = null;
+                $order->quantity     = 1;
+                $order->price        = (float) $amount;
+                $order->currency     = 'NGN';
+                $order->status       = 'processing';
+                $order->payment      = (float) $payment;
+                $order->trx          = $code;
+                $order->source       = $wallet;
+                $order->balance_before  = (float) $balanceBefore;
+                $order->balance_after   = (float) $balanceAfter;
+                $order->transaction_id  = null;
+                $order->save();
 
+                $transaction               = new Transaction();
+                $transaction->user_id      = $order->user_id;
+                $transaction->amount       = $order->payment;
+                $transaction->post_balance = $order->balance_after;
+                $transaction->charge       = 0;
+                $transaction->trx_type     = '-';
+                $transaction->details      = 'Purchased SME internet data via ' . strToUpper($wallet).' Wallet';
+                $transaction->trx          = $order->trx;
+                $transaction->remark       = 'internet';
+                $transaction->save();
+            });
+        } catch (\RuntimeException $e) {
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> $e->getMessage()],400);
         }
-        if($payment > $balance)
-        {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Insufficient wallet balance'],400);
-        }
-
-        //DEBIT WALLET
-        if($wallet == 'main')
-        {
-            $user->balance -= $payment;
-        }
-        else
-        {
-            $user->ref_balance -= $payment;
-        }
-        $user->save();
-        //END DEBIT WALLET
 
         $token = env('NATKEMLINKSTOKEN');
         $curl = curl_init();
@@ -773,56 +849,34 @@ class InternetSmeController extends Controller
 
         if(!isset($response['ident']) && !isset($response['balance_after']))
         {
-            //RETURN FUND
-            if($wallet == 'main')
-            {
-                $user->balance += $payment;
-            }
-            else
-            {
-                $user->ref_balance += $payment;
-            }
-            $user->save();
-            //RETURN FUND
+            $refundTrx = getTrx();
+            $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                $refundTransaction               = new Transaction();
+                $refundTransaction->user_id      = $order->user_id;
+                $refundTransaction->amount       = $order->payment;
+                $refundTransaction->post_balance = (float) $balanceAfter;
+                $refundTransaction->charge       = 0;
+                $refundTransaction->trx_type     = '+';
+                $refundTransaction->details      = 'SME internet purchase reversed via ' . strToUpper($wallet).' Wallet';
+                $refundTransaction->trx          = $refundTrx;
+                $refundTransaction->remark       = 'internet_refund';
+                $refundTransaction->save();
+            });
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->balance_after = $credit['balance_after'];
+            $order->save();
             return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Sorry we cant process this request at the moment '.json_encode($response)],400);
         }
         // END AIRTIME VENDING \\
         if($response['ident'])
         {
-
-            $code = getTrx();
-            $order               = new Order();
-            $order->user_id      = $user->id;
-            $order->type         =  'smedata';
-            $order->val_1   = $phone;
-            $order->val_2   = $plan;
             $order->deposit_code   = @$response['plan_name'];
             $order->product_name = @$response['plan_network'];
-            $order->product_logo = null;
             $order->details      = json_encode($response,true);
-            $order->quantity     = 1;
-            $order->price        = $amount;
-            $order->currency     = 'NGN';
             $order->status       = @$response['status'];
-            $order->payment      = @$payment;
-            $order->trx          = $code;
-            $order->source       = $wallet;
-            $order->balance_before  = $balance;
-            $order->balance_after   = $balance_after;
             $order->transaction_id  = $response['ident'];
             $order->save();
-
-
-            $transaction               = new Transaction();
-            $transaction->user_id      = $order->user_id;
-            $transaction->amount       = $order->payment;
-            $transaction->post_balance = $order->balance_after;
-            $transaction->charge       = 0;
-            $transaction->trx_type     = '-';
-            $transaction->details      = 'Purchased SME internet data via ' . strToUpper($wallet).' Wallet';
-            $transaction->trx          = $order->trx;
-            $transaction->remark       = 'internet';
-            $transaction->save();
 
             notify($user,'INTERNET_BUY', [
                 'provider'        => @$networkname,
@@ -839,6 +893,23 @@ class InternetSmeController extends Controller
         }
         else
         {
+            $refundTrx = getTrx();
+            $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                $refundTransaction               = new Transaction();
+                $refundTransaction->user_id      = $order->user_id;
+                $refundTransaction->amount       = $order->payment;
+                $refundTransaction->post_balance = (float) $balanceAfter;
+                $refundTransaction->charge       = 0;
+                $refundTransaction->trx_type     = '+';
+                $refundTransaction->details      = 'SME internet purchase reversed via ' . strToUpper($wallet).' Wallet';
+                $refundTransaction->trx          = $refundTrx;
+                $refundTransaction->remark       = 'internet_refund';
+                $refundTransaction->save();
+            });
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->balance_after = $credit['balance_after'];
+            $order->save();
             return response()->json(['ok'=>false,'status'=>'danger','message'=> 'ERROR '.@$response['api_response']. 'API ERROR'],400);
         }
         } catch (\Exception $e) {
@@ -874,36 +945,50 @@ class InternetSmeController extends Controller
                 return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
             }
 
-        $payment = $amount;
+        $wallet = 'main';
+        $payment = (float) $amount;
+        $code = getTrx();
 
-        if($wallet == 'main')
-        {
-            $balance = $user->balance;
-            $balance_after = $user->balance;
+        $walletService = app(WalletLedgerService::class);
+        $order = null;
 
-        }
-        else
-        {
-            $balance = $user->ref_balance;
-            $balance_after = $user->ref_balance;
+        try {
+            $debit = $walletService->debit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use (&$order, $user, $phone, $plan, $networkname, $amount, $wallet, $payment, $code) {
+                $order               = new Order();
+                $order->user_id      = $user->id;
+                $order->type         =  'smedata';
+                $order->val_1   = $phone;
+                $order->val_2   = $plan;
+                $order->deposit_code   = @$plan;
+                $order->product_name = @$networkname;
+                $order->product_logo = null;
+                $order->details      = null;
+                $order->quantity     = 1;
+                $order->price        = (float) $amount;
+                $order->currency     = 'NGN';
+                $order->status       = 'processing';
+                $order->payment      = (float) $payment;
+                $order->trx          = $code;
+                $order->source       = $wallet;
+                $order->balance_before  = (float) $balanceBefore;
+                $order->balance_after   = (float) $balanceAfter;
+                $order->transaction_id  = null;
+                $order->save();
 
+                $transaction               = new Transaction();
+                $transaction->user_id      = $order->user_id;
+                $transaction->amount       = $order->payment;
+                $transaction->post_balance = $order->balance_after;
+                $transaction->charge       = 0;
+                $transaction->trx_type     = '-';
+                $transaction->details      = 'Purchased SME internet data via ' . strToUpper($wallet).' Wallet';
+                $transaction->trx          = $order->trx;
+                $transaction->remark       = 'internet';
+                $transaction->save();
+            });
+        } catch (\RuntimeException $e) {
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> $e->getMessage()],400);
         }
-        if($payment > $balance)
-        {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Insufficient wallet balance'],400);
-        }
-
-        //DEBIT WALLET
-        if($wallet == 'main')
-        {
-            $user->balance -= $payment;
-        }
-        else
-        {
-            $user->ref_balance -= $payment;
-        }
-        $user->save();
-        //END DEBIT WALLET
 
         $token = env('TECHHUBTOKEN');
         $curl = curl_init();
@@ -943,56 +1028,32 @@ class InternetSmeController extends Controller
 
         if(!isset($response['data']['reference']))
         {
-            //RETURN FUND
-            if($wallet == 'main')
-            {
-                $user->balance += $payment;
-            }
-            else
-            {
-                $user->ref_balance += $payment;
-            }
-            $user->save();
-            //RETURN FUND
+            $refundTrx = getTrx();
+            $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                $refundTransaction               = new Transaction();
+                $refundTransaction->user_id      = $order->user_id;
+                $refundTransaction->amount       = $order->payment;
+                $refundTransaction->post_balance = (float) $balanceAfter;
+                $refundTransaction->charge       = 0;
+                $refundTransaction->trx_type     = '+';
+                $refundTransaction->details      = 'SME internet purchase reversed via ' . strToUpper($wallet).' Wallet';
+                $refundTransaction->trx          = $refundTrx;
+                $refundTransaction->remark       = 'internet_refund';
+                $refundTransaction->save();
+            });
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->balance_after = $credit['balance_after'];
+            $order->save();
             return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Sorry we cant process this request at the moment '.json_encode($response)],400);
         }
         // END AIRTIME VENDING \\
         if($response['data']['reference'])
         {
-
-            $code = getTrx();
-            $order               = new Order();
-            $order->user_id      = $user->id;
-            $order->type         =  'smedata';
-            $order->val_1   = $phone;
-            $order->val_2   = $plan;
-            $order->deposit_code   = @$plan;
-            $order->product_name = @$networkname;
-            $order->product_logo = null;
             $order->details      = json_encode($response,true);
-            $order->quantity     = 1;
-            $order->price        = $amount;
-            $order->currency     = 'NGN';
             $order->status       = @$response['data']['status'];
-            $order->payment      = @$payment;
-            $order->trx          = $code;
-            $order->source       = $wallet;
-            $order->balance_before  = $balance;
-            $order->balance_after   = $balance_after;
             $order->transaction_id  = $response['data']['reference'];
             $order->save();
-
-
-            $transaction               = new Transaction();
-            $transaction->user_id      = $order->user_id;
-            $transaction->amount       = $order->payment;
-            $transaction->post_balance = $order->balance_after;
-            $transaction->charge       = 0;
-            $transaction->trx_type     = '-';
-            $transaction->details      = 'Purchased SME internet data via ' . strToUpper($wallet).' Wallet';
-            $transaction->trx          = $order->trx;
-            $transaction->remark       = 'internet';
-            $transaction->save();
 
             notify($user,'INTERNET_BUY', [
                 'provider'        => @$networkname,
@@ -1009,6 +1070,23 @@ class InternetSmeController extends Controller
         }
         else
         {
+            $refundTrx = getTrx();
+            $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                $refundTransaction               = new Transaction();
+                $refundTransaction->user_id      = $order->user_id;
+                $refundTransaction->amount       = $order->payment;
+                $refundTransaction->post_balance = (float) $balanceAfter;
+                $refundTransaction->charge       = 0;
+                $refundTransaction->trx_type     = '+';
+                $refundTransaction->details      = 'SME internet purchase reversed via ' . strToUpper($wallet).' Wallet';
+                $refundTransaction->trx          = $refundTrx;
+                $refundTransaction->remark       = 'internet_refund';
+                $refundTransaction->save();
+            });
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->balance_after = $credit['balance_after'];
+            $order->save();
             return response()->json(['ok'=>false,'status'=>'danger','message'=> 'ERROR '.@$response['message']. 'API ERROR'],400);
         }
         } catch (\Exception $e) {

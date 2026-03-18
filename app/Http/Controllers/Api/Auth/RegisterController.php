@@ -10,6 +10,7 @@ use App\Models\UserLogin;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
@@ -101,7 +102,14 @@ class RegisterController extends Controller
 
         $user = $this->create($request->all());
 
-        $response['access_token'] =  $user->createToken('auth_token')->plainTextToken;
+        $response['access_token'] = DB::transaction(function () use ($user) {
+            $lockedUser = User::whereKey($user->id)->lockForUpdate()->firstOrFail();
+            $lockedUser->tokens()->delete();
+            $newToken = $lockedUser->createToken('auth_token');
+            $lockedUser->latest_api_token_id = $newToken->accessToken->id;
+            $lockedUser->save();
+            return $newToken->plainTextToken;
+        });
         $response['user'] = $user;
         $response['token_type'] = 'Bearer';
         $notify[] = 'Registration successfull';

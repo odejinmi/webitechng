@@ -40,7 +40,8 @@
                 <th scope="col" class="ps-0">@lang('TRX')</th>
                 <th scope="col">@lang('TRX ID')</th>
                 <th scope="col">@lang('Amount')</th>
-                <th scope="col">@lang('Balance')</th>
+                <th scope="col">@lang('Balance Before')</th>
+                <th scope="col">@lang('Balance After')</th>
               </tr>
             </thead>
             <tbody class="border-top">
@@ -72,7 +73,10 @@
                   <span class="badge fw-semibold py-1 w-85 @if($data->trx_type == '-') bg-light-primary text-danger @else bg-light-success text-success @endif">{{ __($general->cur_sym) }}{{ showAmount($data->fee) }}</span>
                 </td>
                 <td>
-                  <p class="fs-3 text-dark mb-0">{{ __($general->cur_sym) }}{{ showAmount($data->post_balance) }}</p>
+                  <p class="fs-3 text-dark mb-0">{{ __($general->cur_sym) }}{{ $data->balance_before !== null ? showAmount($data->balance_before) : '—' }}</p>
+                </td>
+                <td>
+                  <p class="fs-3 text-dark mb-0">{{ __($general->cur_sym) }}{{ $data->balance_after !== null ? showAmount($data->balance_after) : showAmount($data->post_balance) }}</p>
                 </td>
               </tr>
               @empty

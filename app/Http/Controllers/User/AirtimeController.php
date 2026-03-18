@@ -11,11 +11,12 @@ use App\Models\GeneralSetting;
  use App\Models\AdminNotification;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Services\WalletLedgerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Password;
-use DB;
 use Carbon\Carbon;
 class AirtimeController extends Controller
 {
@@ -263,22 +264,56 @@ class AirtimeController extends Controller
         {
             return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Maximum amount you can purchase is '.getAmount($max)],400);
         }
-        $payment = $amount/$rate;
-        if($wallet == 'main')
-        {
-            $balance = $user->balance;
+        $wallet = $wallet === 'main' ? 'main' : 'ref';
+        if (!$rate || (float) $rate <= 0) {
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Invalid exchange rate'],400);
         }
-        else
-        {
-            $balance = $user->ref_balance;
-        }
-        if($payment > $balance)
-        {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'You currently do not have sufficient wallet balance to complete this process'],400);
+        $payment = (float) $amount / (float) $rate;
+        $code = getTrx();
+
+        $walletService = app(WalletLedgerService::class);
+        $order = null;
+
+        try {
+            $debit = $walletService->debit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use (&$order, $user, $phone, $operatorId, $operatorName, $operatorLogo, $operatorCurrency, $amount, $wallet, $payment, $code) {
+                $order               = new Order();
+                $order->user_id      = $user->id;
+                $order->type         =  'airtime';
+                $order->val_1        = $phone;
+                $order->product_id   = $operatorId;
+                $order->product_name = @$operatorName;
+                $order->product_logo = @$operatorLogo;
+                $order->details      = null;
+                $order->quantity     = 1;
+                $order->price        = (float) $amount;
+                $order->currency     = @$operatorCurrency;
+                $order->status       = 'processing';
+                $order->payment      = (float) $payment;
+                $order->trx          = $code;
+                $order->source       = $wallet;
+                $order->balance_before  = (float) $balanceBefore;
+                $order->balance_after   = (float) $balanceAfter;
+                $order->transaction_id  = null;
+                $order->save();
+
+                $transaction               = new Transaction();
+                $transaction->user_id      = $order->user_id;
+                $transaction->amount       = $order->payment;
+                $transaction->post_balance = $order->balance_after;
+                $transaction->charge       = 0;
+                $transaction->trx_type     = '-';
+                $transaction->details      = 'Purchase airtime Via ' . strToUpper($wallet).' Wallet';
+                $transaction->trx          = $order->trx;
+                $transaction->remark       = 'airtime';
+                $transaction->save();
+            });
+        } catch (\RuntimeException $e) {
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> $e->getMessage()],400);
         }
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
         $headers = array(
@@ -286,7 +321,6 @@ class AirtimeController extends Controller
         "Content-Type: application/json",
         );
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        $code = getTrx();
         $data = <<<DATA
         {
             "operatorId": "$operatorId",
@@ -312,48 +346,11 @@ class AirtimeController extends Controller
         // END AIRTIME VENDING \\
         if(isset($response['status']) && isset($response['transactionId']) > 0)
         {
-            if($wallet == 'main')
-            {
-                $user->balance -= $payment;
-                $balance_after = $user->balance;
-            }
-            else
-            {
-                $user->ref_balance -= $payment;
-                $balance_after = $user->ref_balance;
-            }
-            $user->save();
-            $order               = new Order();
-            $order->user_id      = $user->id;
-            $order->type         =  'airtime';
-            $order->val_1        = $phone;
-            $order->product_id   = $operatorId;
-            $order->product_name = @$operatorName;
-            $order->product_logo = @$operatorLogo;
             $order->details      = json_encode($response,true);
-            $order->quantity     = 1;
-            $order->price        = $amount;
-            $order->currency     = @$response['requestedAmountCurrencyCode'];
-            $order->status       = @$response['status'];
-            $order->payment      = @$payment;
-            $order->trx          = $code;
-            $order->source       = $wallet;
-            $order->balance_before  = $balance;
-            $order->balance_after   = $balance_after;
-            $order->transaction_id  = $response['transactionId'];
+            $order->currency     = @$response['requestedAmountCurrencyCode'] ?? $order->currency;
+            $order->status       = @$response['status'] ?? 'success';
+            $order->transaction_id  = $response['transactionId'] ?? null;
             $order->save();
-
-
-            $transaction               = new Transaction();
-            $transaction->user_id      = $order->user_id;
-            $transaction->amount       = $order->payment;
-            $transaction->post_balance = $order->balance_after;
-            $transaction->charge       = 0;
-            $transaction->trx_type     = '-';
-            $transaction->details      = 'Purchase airtime Via ' . strToUpper($wallet).' Wallet';
-            $transaction->trx          = $order->trx;
-            $transaction->remark       = 'airtime';
-            $transaction->save();
 
             notify($user,'AIRTIME_BUY', [
                 'provider'        => @$operatorName,
@@ -369,7 +366,28 @@ class AirtimeController extends Controller
         }
         else
         {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> $response['message']. 'API ERROR'],400);
+            $credit = null;
+            try {
+                $refundTrx = getTrx();
+                $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                    $refundTransaction               = new Transaction();
+                    $refundTransaction->user_id      = $order->user_id;
+                    $refundTransaction->amount       = $order->payment;
+                    $refundTransaction->post_balance = (float) $balanceAfter;
+                    $refundTransaction->charge       = 0;
+                    $refundTransaction->trx_type     = '+';
+                    $refundTransaction->details      = 'Airtime purchase reversed Via ' . strToUpper($wallet).' Wallet';
+                    $refundTransaction->trx          = $refundTrx;
+                    $refundTransaction->remark       = 'airtime_refund';
+                    $refundTransaction->save();
+                });
+            } catch (\RuntimeException $e) {
+            }
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->save();
+
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> ($response['message'] ?? 'Request failed'). ' API ERROR'],400);
         }
         //return json_decode($resp,true);
     }
@@ -456,18 +474,8 @@ class AirtimeController extends Controller
             }
 
 
-        if($wallet == 'main')
-        {
-            $balance = $user->balance;
-        }
-        else
-        {
-            $balance = $user->ref_balance;
-        }
-        if($amount > $balance)
-        {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Insufficient wallet balance'],400);
-        }
+        $wallet = $wallet === 'main' ? 'main' : 'ref';
+        $payment = (float) $amount;
 
         $mode = env('MODE');
         $username = env('VTPASSUSERNAME');
@@ -477,6 +485,46 @@ class AirtimeController extends Controller
         $datecode = date('Y').date('m').date('d').date('H').date('i').date('s');
         $codex = substr(str_shuffle('01234567890') , 0 , 5 );
         $trx = $datecode.$codex;
+
+        $walletService = app(WalletLedgerService::class);
+        $order = null;
+
+        try {
+            $debit = $walletService->debit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use (&$order, $user, $phone, $operator, $amount, $wallet, $payment, $trx) {
+                $order               = new Order();
+                $order->user_id      = $user->id;
+                $order->type         =  'airtime';
+                $order->val_1        = $phone;
+                $order->product_id   = $operator;
+                $order->product_name = @$operator;
+                $order->product_logo = @$operator;
+                $order->details      = null;
+                $order->quantity     = 1;
+                $order->price        = (float) $amount;
+                $order->currency     = 'NGN';
+                $order->status       = 'processing';
+                $order->payment      = (float) $payment;
+                $order->trx          = $trx;
+                $order->source       = $wallet;
+                $order->balance_before  = (float) $balanceBefore;
+                $order->balance_after   = (float) $balanceAfter;
+                $order->transaction_id  = null;
+                $order->save();
+
+                $transaction               = new Transaction();
+                $transaction->user_id      = $order->user_id;
+                $transaction->amount       = $order->payment;
+                $transaction->post_balance = $order->balance_after;
+                $transaction->charge       = 0;
+                $transaction->trx_type     = '-';
+                $transaction->details      = 'Purchase airtime Via ' . strToUpper($wallet).' Wallet';
+                $transaction->trx          = $order->trx;
+                $transaction->remark       = 'airtime';
+                $transaction->save();
+            });
+        } catch (\RuntimeException $e) {
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> $e->getMessage()],400);
+        }
         if($mode == 'TEST')
         {
         $url = 'https://sandbox.vtpass.com/api/pay';
@@ -514,64 +562,79 @@ class AirtimeController extends Controller
     curl_close($curl);
     if(!isset($reply['code'] ))
     {
+        $refundTrx = getTrx();
+        $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+            $refundTransaction               = new Transaction();
+            $refundTransaction->user_id      = $order->user_id;
+            $refundTransaction->amount       = $order->payment;
+            $refundTransaction->post_balance = (float) $balanceAfter;
+            $refundTransaction->charge       = 0;
+            $refundTransaction->trx_type     = '+';
+            $refundTransaction->details      = 'Airtime purchase reversed Via ' . strToUpper($wallet).' Wallet';
+            $refundTransaction->trx          = $refundTrx;
+            $refundTransaction->remark       = 'airtime_refund';
+            $refundTransaction->save();
+        });
+        $order->details = json_encode($resp,true);
+        $order->status = 'failed';
+        $order->balance_after = $credit['balance_after'];
+        $order->save();
         return response()->json(['ok'=>false,'status'=>'danger','message'=> 'We cant processs this request at the moment'.@$resp],400);
     }
 
     if(isset($reply['content']['errors'] ))
     {
+        $refundTrx = getTrx();
+        $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+            $refundTransaction               = new Transaction();
+            $refundTransaction->user_id      = $order->user_id;
+            $refundTransaction->amount       = $order->payment;
+            $refundTransaction->post_balance = (float) $balanceAfter;
+            $refundTransaction->charge       = 0;
+            $refundTransaction->trx_type     = '+';
+            $refundTransaction->details      = 'Airtime purchase reversed Via ' . strToUpper($wallet).' Wallet';
+            $refundTransaction->trx          = $refundTrx;
+            $refundTransaction->remark       = 'airtime_refund';
+            $refundTransaction->save();
+        });
+        $order->details = json_encode($resp,true);
+        $order->status = 'failed';
+        $order->balance_after = $credit['balance_after'];
+        $order->save();
         return response()->json(['ok'=>false,'status'=>'danger','message'=> 'We cant processs this request at the moment'.@$resp],400);
     }
 
 
     if(!isset($reply['content']['transactions']['transactionId']))
     {
+        $refundTrx = getTrx();
+        $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+            $refundTransaction               = new Transaction();
+            $refundTransaction->user_id      = $order->user_id;
+            $refundTransaction->amount       = $order->payment;
+            $refundTransaction->post_balance = (float) $balanceAfter;
+            $refundTransaction->charge       = 0;
+            $refundTransaction->trx_type     = '+';
+            $refundTransaction->details      = 'Airtime purchase reversed Via ' . strToUpper($wallet).' Wallet';
+            $refundTransaction->trx          = $refundTrx;
+            $refundTransaction->remark       = 'airtime_refund';
+            $refundTransaction->save();
+        });
+        $order->details = json_encode($resp,true);
+        $order->status = 'failed';
+        $order->balance_after = $credit['balance_after'];
+        $order->save();
         return response()->json(['ok'=>false,'status'=>'danger','message'=> 'We cant processs this request at the moment'],400);
     }
 
-        // END AIRTIME VENDING \\
         if($reply['content']['transactions']['transactionId'] && $reply['content']['transactions']['status'] != "failed")
         {
-            if($wallet == 'main')
-            {
-                $user->balance -= $amount;
-                $balance_after = $user->balance;
-            }
-            else
-            {
-                $user->ref_balance -= $amount;
-                $balance_after = $user->ref_balance;
-            }
-            $user->save();
-            $order               = new Order();
-            $order->user_id      = $user->id;
-            $order->type         =  'airtime';
-            $order->val_1        = $phone;
-            $order->product_id   = $operator;
-            $order->product_name = @$operator;
-            $order->product_logo = @$operator;
             $order->details      = json_encode($response,true);
-            $order->quantity     = 1;
-            $order->price        = @$reply['content']['transactions']['amount'];
-            $order->currency     = @$reply['content']['transactions']['product_name'];
-            $order->status       = @$reply['content']['transactions']['status'];
-            $order->payment      = @$amount;
-            $order->trx          = $trx;
-            $order->source       = $wallet;
-            $order->balance_before  = $balance;
-            $order->balance_after   = $balance_after;
-            $order->transaction_id  = @$reply['content']['transactions']['transactionId'];
+            $order->price        = (float) ($reply['content']['transactions']['amount'] ?? $order->price);
+            $order->currency     = 'NGN';
+            $order->status       = @$reply['content']['transactions']['status'] ?? 'success';
+            $order->transaction_id  = @$reply['content']['transactions']['transactionId'] ?? null;
             $order->save();
-
-            $transaction               = new Transaction();
-            $transaction->user_id      = $order->user_id;
-            $transaction->amount       = $order->payment;
-            $transaction->post_balance = $order->balance_after;
-            $transaction->charge       = 0;
-            $transaction->trx_type     = '-';
-            $transaction->details      = 'Purchase airtime Via ' . strToUpper($wallet).' Wallet';
-            $transaction->trx          = $order->trx;
-            $transaction->remark       = 'airtime';
-            $transaction->save();
 
             notify($user,'AIRTIME_BUY', [
                 'provider'        => @$operator,
@@ -587,7 +650,24 @@ class AirtimeController extends Controller
         }
         else
         {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> $response['message']. 'API ERROR'],400);
+            $refundTrx = getTrx();
+            $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                $refundTransaction               = new Transaction();
+                $refundTransaction->user_id      = $order->user_id;
+                $refundTransaction->amount       = $order->payment;
+                $refundTransaction->post_balance = (float) $balanceAfter;
+                $refundTransaction->charge       = 0;
+                $refundTransaction->trx_type     = '+';
+                $refundTransaction->details      = 'Airtime purchase reversed Via ' . strToUpper($wallet).' Wallet';
+                $refundTransaction->trx          = $refundTrx;
+                $refundTransaction->remark       = 'airtime_refund';
+                $refundTransaction->save();
+            });
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->balance_after = $credit['balance_after'];
+            $order->save();
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> ($reply['response_description'] ?? 'Request failed'). ' API ERROR'],400);
         }
         //return json_decode($resp,true);
     }
@@ -627,18 +707,48 @@ class AirtimeController extends Controller
                 return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
             }
 
+        $wallet = $wallet === 'main' ? 'main' : 'ref';
+        $payment = (float) $amount;
+        $code = getTrx();
 
-        if($wallet == 'main')
-        {
-            $balance = $user->balance;
-        }
-        else
-        {
-            $balance = $user->ref_balance;
-        }
-        if($amount > $balance)
-        {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Insufficient wallet balance'],400);
+        $walletService = app(WalletLedgerService::class);
+        $order = null;
+
+        try {
+            $debit = $walletService->debit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use (&$order, $user, $phone, $operator, $amount, $wallet, $payment, $code) {
+                $order               = new Order();
+                $order->user_id      = $user->id;
+                $order->type         =  'airtime';
+                $order->val_1        = $phone;
+                $order->product_id   = $operator;
+                $order->product_name = @$operator;
+                $order->product_logo = @$operator;
+                $order->details      = null;
+                $order->quantity     = 1;
+                $order->price        = (float) $amount;
+                $order->currency     = 'NGN';
+                $order->status       = 'processing';
+                $order->payment      = (float) $payment;
+                $order->trx          = $code;
+                $order->source       = $wallet;
+                $order->balance_before  = (float) $balanceBefore;
+                $order->balance_after   = (float) $balanceAfter;
+                $order->transaction_id  = null;
+                $order->save();
+
+                $transaction               = new Transaction();
+                $transaction->user_id      = $order->user_id;
+                $transaction->amount       = $order->payment;
+                $transaction->post_balance = $order->balance_after;
+                $transaction->charge       = 0;
+                $transaction->trx_type     = '-';
+                $transaction->details      = 'Purchase airtime Via ' . strToUpper($wallet).' Wallet';
+                $transaction->trx          = $order->trx;
+                $transaction->remark       = 'airtime';
+                $transaction->save();
+            });
+        } catch (\RuntimeException $e) {
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> $e->getMessage()],400);
         }
         $token = getN3TToken();
         $url = 'https://n3tdata.com/api/topup';
@@ -652,7 +762,6 @@ class AirtimeController extends Controller
         "Content-Type: application/json",
         );
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        $code = getTrx();
         $data = <<<DATA
         {
             "network": "$operatorId",
@@ -674,53 +783,34 @@ class AirtimeController extends Controller
 
         if(!isset($response['status']) && !isset($response['newbal']))
         {
+            $refundTrx = getTrx();
+            $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                $refundTransaction               = new Transaction();
+                $refundTransaction->user_id      = $order->user_id;
+                $refundTransaction->amount       = $order->payment;
+                $refundTransaction->post_balance = (float) $balanceAfter;
+                $refundTransaction->charge       = 0;
+                $refundTransaction->trx_type     = '+';
+                $refundTransaction->details      = 'Airtime purchase reversed Via ' . strToUpper($wallet).' Wallet';
+                $refundTransaction->trx          = $refundTrx;
+                $refundTransaction->remark       = 'airtime_refund';
+                $refundTransaction->save();
+            });
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->balance_after = $credit['balance_after'];
+            $order->save();
             return response()->json(['ok'=>false,'status'=>'danger','message'=> json_encode($response).'Sorry we cant process this request at the moment'],400);
         }
 
         // END AIRTIME VENDING \\
         if($response['status'] == 'success')
         {
-            if($wallet == 'main')
-            {
-                $user->balance -= $amount;
-                $balance_after = $user->balance;
-            }
-            else
-            {
-                $user->ref_balance -= $amount;
-                $balance_after = $user->ref_balance;
-            }
-            $user->save();
-            $order               = new Order();
-            $order->user_id      = $user->id;
-            $order->type         =  'airtime';
-            $order->val_1        = $phone;
-            $order->product_id   = $operator;
-            $order->product_name = @$operator;
-            $order->product_logo = @$operator;
             $order->details      = json_encode($response,true);
-            $order->quantity     = 1;
-            $order->price        = @$response['amount'];
-            $order->currency     = @$response['content']['transactions']['product_name'];
-            $order->status       = @$response['status'];
-            $order->payment      = @$amount;
-            $order->trx          = getTrx();
-            $order->source       = $wallet;
-            $order->balance_before  = $balance;
-            $order->balance_after   = $balance_after;
-            $order->transaction_id  = @$response['transid'];
+            $order->price        = (float) ($response['amount'] ?? $order->price);
+            $order->status       = @$response['status'] ?? 'success';
+            $order->transaction_id  = @$response['transid'] ?? null;
             $order->save();
-
-            $transaction               = new Transaction();
-            $transaction->user_id      = $order->user_id;
-            $transaction->amount       = $order->payment;
-            $transaction->post_balance = $order->balance_after;
-            $transaction->charge       = 0;
-            $transaction->trx_type     = '-';
-            $transaction->details      = 'Purchase airtime Via ' . strToUpper($wallet).' Wallet';
-            $transaction->trx          = $order->trx;
-            $transaction->remark       = 'airtime';
-            $transaction->save();
 
             notify($user,'AIRTIME_BUY', [
                 'provider'        => @$operator,
@@ -729,14 +819,31 @@ class AirtimeController extends Controller
                 'rate'           =>  @showAmount($amount),
                 'beneficiary'     => @$phone,
                 'purchase_at'     => @Carbon::now(),
-                'trx'             => @$trx,
+                'trx'             => @$code,
             ]);
 
             return response()->json(['ok'=>true,'status'=>'success','message'=> 'Transaction Was Successful','orderid'=> $order->trx],200);
         }
         else
         {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> $response['message']. 'API ERROR'],400);
+            $refundTrx = getTrx();
+            $credit = $walletService->credit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use ($order, $wallet, $refundTrx) {
+                $refundTransaction               = new Transaction();
+                $refundTransaction->user_id      = $order->user_id;
+                $refundTransaction->amount       = $order->payment;
+                $refundTransaction->post_balance = (float) $balanceAfter;
+                $refundTransaction->charge       = 0;
+                $refundTransaction->trx_type     = '+';
+                $refundTransaction->details      = 'Airtime purchase reversed Via ' . strToUpper($wallet).' Wallet';
+                $refundTransaction->trx          = $refundTrx;
+                $refundTransaction->remark       = 'airtime_refund';
+                $refundTransaction->save();
+            });
+            $order->details = json_encode($response,true);
+            $order->status = 'failed';
+            $order->balance_after = $credit['balance_after'];
+            $order->save();
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> ($response['message'] ?? 'Request failed'). ' API ERROR'],400);
         }
         //return json_decode($resp,true);
     }

@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -75,8 +76,26 @@ class LoginController extends Controller
             ],401);
         }
 
-        $user = $request->user();
-        $tokenResult = $user->createToken('auth_token')->plainTextToken;
+        $user = User::findOrFail(Auth::id());
+        if ((int) $user->status === 0) {
+            $user->tokens()->delete();
+            $notify[] = 'Your account has been deactivated';
+            return response()->json([
+                'code'=>200,
+                'status'=>'ok',
+                'message'=>['success'=>$notify],
+            ]);
+        }
+
+        $tokenResult = DB::transaction(function () use ($user) {
+            $lockedUser = User::whereKey($user->id)->lockForUpdate()->firstOrFail();
+            $lockedUser->tokens()->delete();
+            $newToken = $lockedUser->createToken('auth_token');
+            $lockedUser->latest_api_token_id = $newToken->accessToken->id;
+            $lockedUser->save();
+            return $newToken->plainTextToken;
+        });
+
         $this->authenticated($request,$user);
         $response[] = 'Login Succesfull';
         return response()->json([
@@ -84,7 +103,7 @@ class LoginController extends Controller
             'status'=>'ok',
             'message'=>['success'=>$response],
             'data'=>[
-                'user' => auth()->user(),
+                'user' => User::find(Auth::id()),
                 'accessToken'=>$tokenResult,
                 'token_type'=>'Bearer'
             ]

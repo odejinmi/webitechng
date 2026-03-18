@@ -927,6 +927,16 @@
                     </a>
                   </li>
                   @endcan
+                  @can('admin.firebase.notifications')
+                  <li class="sidebar-item">
+                    <a href="{{ route('admin.firebase.notifications') }}" class="sidebar-link">
+                      <div class="round-16 d-flex align-items-center justify-content-center">
+                        <i class="ti ti-bell"></i>
+                      </div>
+                      <span class="hide-menu">Firebase Notifications</span>
+                    </a>
+                  </li>
+                      @endcan
                 </ul>
             </li>
             @endcan

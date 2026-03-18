@@ -60,6 +60,8 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.api' => \App\Http\Middleware\AuthenticateApi::class,
         'checkStatusApi' => \App\Http\Middleware\CheckStatusApi::class,
+        'latest.web.session' => \App\Http\Middleware\EnsureLatestWebSession::class,
+        'latest.api.token' => \App\Http\Middleware\EnsureLatestApiToken::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,

@@ -591,6 +591,16 @@ Route::middleware(['admin','adminPermission'])->group(function () {
             Route::post('manage-section/{id}', 'manageSectionUpdate')->name('manage.section.update');
         });
     });
+
+
+    // Firebase Notifications
+    Route::controller('FirebaseNotificationController')->prefix('firebase')->name('firebase.')->group(function () {
+        Route::get('notifications', 'index')->name('notifications');
+        Route::post('send-to-user', 'sendToUser')->name('send.to.user');
+        Route::post('send-to-multiple-users', 'sendToMultipleUsers')->name('send.to.multiple.users');
+        Route::post('send-to-all-users', 'sendToAllUsers')->name('send.to.all.users');
+        Route::post('subscribe-to-topic', 'subscribeToTopic')->name('subscribe.to.topic');
+    });
 });
 
 ?>

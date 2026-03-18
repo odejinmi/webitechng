@@ -14,7 +14,9 @@ use App\Models\Deposit;
 use App\Models\GatewayCurrency;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Services\WalletLedgerService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 class PaymentController extends Controller
 {
@@ -137,69 +139,75 @@ class PaymentController extends Controller
     public static function userDataDepositUpdate($deposit, $isManual = null)
     {
         if ($deposit->status == Status::PAYMENT_INITIATE || $deposit->status == Status::PAYMENT_PENDING) {
-            $deposit->status = Status::PAYMENT_SUCCESS;
-            $deposit->save();
+            DB::transaction(function () use ($deposit, $isManual) {
+                $deposit->status = Status::PAYMENT_SUCCESS;
+                $deposit->save();
 
-            $user = User::find($deposit->user_id);
+                $walletService = app(WalletLedgerService::class);
+                $user = User::findOrFail($deposit->user_id);
 
-            $user->balance += $deposit->amount;
-            $user->save();
+                $result = $walletService->credit($user->id, 'main', $deposit->amount, function ($lockedUser, $balanceBefore, $balanceAfter) use ($deposit) {
+                    if($deposit->type == 'deposit')
+                    {
+                        $transaction               = new Transaction();
+                        $transaction->user_id      = $deposit->user_id;
+                        $transaction->amount       = $deposit->amount;
+                        $transaction->post_balance = (float) $balanceAfter;
+                        $transaction->charge       = $deposit->charge;
+                        $transaction->trx_type     = '+';
+                        $transaction->details      = 'Deposit Via ' . $deposit->gatewayCurrency()->name;
+                        $transaction->trx          = $deposit->trx;
+                        $transaction->remark       = 'deposit';
+                        $transaction->save();
+                    }
+                    if($deposit->type == 'invoice')
+                    {
+                        $trx =  explode("|", $deposit->trx)[0];
+                        $transaction               = new Transaction();
+                        $transaction->user_id      = $deposit->user_id;
+                        $transaction->amount       = $deposit->amount;
+                        $transaction->post_balance = (float) $balanceAfter;
+                        $transaction->charge       = $deposit->charge;
+                        $transaction->trx_type     = '+';
+                        $transaction->val_1          = $trx;
+                        $transaction->details      = 'Invoice Payment Via ' . $deposit->gatewayCurrency()->name;
+                        $transaction->trx          = $deposit->trx;
+                        $transaction->remark       = 'invoice';
+                        $transaction->save();
+                    }
+                });
 
-            if($deposit->type == 'deposit')
-            {
-                $transaction               = new Transaction();
-                $transaction->user_id      = $deposit->user_id;
-                $transaction->amount       = $deposit->amount;
-                $transaction->post_balance = $user->balance;
-                $transaction->charge       = $deposit->charge;
-                $transaction->trx_type     = '+';
-                $transaction->details      = 'Deposit Via ' . $deposit->gatewayCurrency()->name;
-                $transaction->trx          = $deposit->trx;
-                $transaction->remark       = 'deposit';
-                $transaction->save();
+                $user = $result['user'];
 
-                $general = GeneralSetting::first();
-                if($general->deposit_commission == 1){
-                    $commissionType =  'Commission Rewarded For '. number_format($deposit->amount) . ' '.$general->cur_text.' Deposit';
-                    levelCommisionDeposit($user->id, $deposit->amount);
+                if($deposit->type == 'deposit')
+                {
+                    $general = GeneralSetting::first();
+                    if($general->deposit_commission == 1){
+                        $commissionType =  'Commission Rewarded For '. number_format($deposit->amount) . ' '.$general->cur_text.' Deposit';
+                        levelCommisionDeposit($user->id, $deposit->amount);
+                    }
+
+                    if (!$isManual) {
+                        $adminNotification            = new AdminNotification();
+                        $adminNotification->user_id   = $user->id;
+                        $adminNotification->title     = 'Deposit successful via ' . $deposit->gatewayCurrency()->name;
+                        $adminNotification->click_url = urlPath('admin.deposit.successful');
+                        $adminNotification->save();
+                    }
+
                 }
 
-                if (!$isManual) {
-                    $adminNotification            = new AdminNotification();
-                    $adminNotification->user_id   = $user->id;
-                    $adminNotification->title     = 'Deposit successful via ' . $deposit->gatewayCurrency()->name;
-                    $adminNotification->click_url = urlPath('admin.deposit.successful');
-                    $adminNotification->save();
-                }
-
-            }
-            if($deposit->type == 'invoice')
-            {
-
-                $trx =  explode("|", $deposit->trx)[0];
-                $transaction               = new Transaction();
-                $transaction->user_id      = $deposit->user_id;
-                $transaction->amount       = $deposit->amount;
-                $transaction->post_balance = $user->balance;
-                $transaction->charge       = $deposit->charge;
-                $transaction->trx_type     = '+';
-                $transaction->val_1          = $trx;
-                $transaction->details      = 'Invoice Payment Via ' . $deposit->gatewayCurrency()->name;
-                $transaction->trx          = $deposit->trx;
-                $transaction->remark       = 'invoice';
-                $transaction->save();
-            }
-
-            notify($user, $isManual ? 'DEPOSIT_APPROVE' : 'DEPOSIT_COMPLETE', [
-                'method_name'     => $deposit->gatewayCurrency()->name,
-                'method_currency' => $deposit->method_currency,
-                'method_amount'   => showAmount($deposit->final_amo),
-                'amount'          => showAmount($deposit->amount),
-                'charge'          => showAmount($deposit->charge),
-                'rate'            => showAmount($deposit->rate),
-                'trx'             => $deposit->trx,
-                'post_balance'    => showAmount($user->balance),
-            ]);
+                notify($user, $isManual ? 'DEPOSIT_APPROVE' : 'DEPOSIT_COMPLETE', [
+                    'method_name'     => $deposit->gatewayCurrency()->name,
+                    'method_currency' => $deposit->method_currency,
+                    'method_amount'   => showAmount($deposit->final_amo),
+                    'amount'          => showAmount($deposit->amount),
+                    'charge'          => showAmount($deposit->charge),
+                    'rate'            => showAmount($deposit->rate),
+                    'trx'             => $deposit->trx,
+                    'post_balance'    => showAmount($user->balance),
+                ]);
+            });
         }
     }
 

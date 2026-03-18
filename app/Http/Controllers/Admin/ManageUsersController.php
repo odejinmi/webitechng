@@ -11,6 +11,7 @@ use App\Models\Card;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Withdrawal;
+use App\Services\WalletLedgerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -592,43 +593,39 @@ class ManageUsersController extends Controller
         $amount  = $request->amount;
         $general = gs();
         $trx     = getTrx();
-
-        $transaction = new Transaction();
+        $walletService = app(WalletLedgerService::class);
 
         if ($request->act == 'add') {
-            $user->balance += $amount;
-
-            $transaction->trx_type = '+';
-            $transaction->remark   = 'balance_add';
+            $walletService->creditWithTransaction($user->id, 'main', $amount, [
+                'amount' => $amount,
+                'charge' => 0,
+                'details' => $request->remark,
+                'trx' => $trx,
+                'remark' => 'balance_add',
+            ]);
+            $user->refresh();
 
             $notifyTemplate = 'BAL_ADD';
 
             $notify[] = ['success', $general->cur_sym . $amount . ' added successfully'];
         } else {
-
-            if ($amount > $user->balance) {
+            try {
+                $walletService->debitWithTransaction($user->id, 'main', $amount, [
+                    'amount' => $amount,
+                    'charge' => 0,
+                    'details' => $request->remark,
+                    'trx' => $trx,
+                    'remark' => 'balance_subtract',
+                ]);
+            } catch (\RuntimeException $e) {
                 $notify[] = ['error', $user->username . ' doesn\'t have sufficient balance.'];
                 return back()->withNotify($notify);
             }
-
-            $user->balance -= $amount;
-
-            $transaction->trx_type = '-';
-            $transaction->remark   = 'balance_subtract';
+            $user->refresh();
 
             $notifyTemplate = 'BAL_SUB';
             $notify[]       = ['success', $general->cur_sym . $amount . ' subtracted successfully'];
         }
-
-        $user->save();
-
-        $transaction->user_id      = $user->id;
-        $transaction->amount       = $amount;
-        $transaction->post_balance = $user->balance;
-        $transaction->charge       = 0;
-        $transaction->trx          = $trx;
-        $transaction->details      = $request->remark;
-        $transaction->save();
 
         notify($user, $notifyTemplate, [
             'trx'          => $trx,

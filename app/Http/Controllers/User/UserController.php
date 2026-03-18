@@ -870,26 +870,30 @@ class UserController extends Controller
             $transaction->save();
 
             if($amount <= $user->ref_balance && $request->wallet == 'ref_wallet') {
-            $user->ref_balance -= $amount;
-            $user->save();
+            $debit = walletAtomicDebit($user->id, 'ref', $amount);
+            $user->refresh();
             //Create Debit Transaction
             $transaction               = new Transaction();
             $transaction->user_id      = $user->id;
-            $transaction->amount       = $amountamount;
-            $transaction->post_balance = $user->ref_balance;
-            $transaction->trx_type     = $user->wallet;
+            $transaction->amount       = $amount;
+            $transaction->balance_before = $debit['balance_before'];
+            $transaction->balance_after = $debit['balance_after'];
+            $transaction->post_balance = $debit['balance_after'];
+            $transaction->trx_type     = '-';
             $transaction->details      = 'P2P Transfer';
             $transaction->trx          = getTrx();
             $transaction->remark       = 'P2P';
             $transaction->save();
 
-            $beneficiary->ref_balance += $request->amount;
-            $beneficiary->save();
+            $credit = walletAtomicCredit($beneficiary->id, 'ref', $request->amount);
+            $beneficiary->refresh();
             //Create Credit Transaction
             $transaction               = new Transaction();
             $transaction->user_id      = $beneficiary->id;
             $transaction->amount       = $request->amount;
-            $transaction->post_balance = $beneficiary->ref_balance;
+            $transaction->balance_before = $credit['balance_before'];
+            $transaction->balance_after = $credit['balance_after'];
+            $transaction->post_balance = $credit['balance_after'];
             $transaction->trx_type     = '+';
             $transaction->details      = 'P2P Transfer';
             $transaction->trx          = getTrx();
@@ -898,28 +902,32 @@ class UserController extends Controller
 
             }
             if($request->amount <= $user->balance && $request->wallet == 'act_wallet') {
-            $user->balance -= $request->amount;
-            $user->save();
+            $debit = walletAtomicDebit($user->id, 'main', $request->amount);
+            $user->refresh();
 
             //Create Debit Transaction
             $transaction               = new Transaction();
             $transaction->user_id      = $user->id;
             $transaction->amount       = $request->amount;
-            $transaction->post_balance = $user->balance;
+            $transaction->balance_before = $debit['balance_before'];
+            $transaction->balance_after = $debit['balance_after'];
+            $transaction->post_balance = $debit['balance_after'];
             $transaction->trx_type     = '-';
             $transaction->details      = 'P2P Transfer';
             $transaction->trx          = getTrx();
             $transaction->remark       = 'P2P';
             $transaction->save();
 
-            $beneficiary->balance += $request->amount;
-            $beneficiary->save();
+            $credit = walletAtomicCredit($beneficiary->id, 'main', $request->amount);
+            $beneficiary->refresh();
 
             //Create Credit Transaction
             $transaction               = new Transaction();
             $transaction->user_id      = $beneficiary->id;
             $transaction->amount       = $request->amount;
-            $transaction->post_balance = $beneficiary->balance;
+            $transaction->balance_before = $credit['balance_before'];
+            $transaction->balance_after = $credit['balance_after'];
+            $transaction->post_balance = $credit['balance_after'];
             $transaction->trx_type     = '+';
             $transaction->details      = 'P2P Transfer';
             $transaction->trx          = getTrx();
@@ -950,14 +958,17 @@ class UserController extends Controller
                 return back()->withNotify($notify);
             }
             $nextEarn = Carbon::now()->addDay(1);
-            $user->balance += $general->login_earn;
             $user->earn_at = $nextEarn;
+            $credit = walletAtomicCredit($user->id, 'main', $general->login_earn);
+            $user->refresh();
             $user->save();
             //LOG
             $transaction = new Transaction();
             $transaction->user_id = $user->id;
             $transaction->amount = $general->login_earn;
-            $transaction->post_balance = $user->balance;
+            $transaction->balance_before = $credit['balance_before'];
+            $transaction->balance_after = $credit['balance_after'];
+            $transaction->post_balance = $credit['balance_after'];
             $transaction->charge = 0;
             $transaction->trx_type = '+';
             $transaction->remark = 'Login Earn';
@@ -1144,20 +1155,18 @@ class UserController extends Controller
 
         $withdraw->status = 2;
         $withdraw->save();
-        if ($withdraw->wallet == 'ref_wallet') {
-            $user->ref_balance  -=  $withdraw->amount;
-        }
-        if ($withdraw->wallet == 'act_wallet') {
-            $user->balance  -=  $withdraw->amount;
-        }
-        $user->save();
+        $wallet = $withdraw->wallet == 'ref_wallet' ? 'ref' : 'main';
+        $debit = walletAtomicDebit($user->id, $wallet, $withdraw->amount);
+        $user->refresh();
 
 
 
         $transaction = new Transaction();
         $transaction->user_id = $withdraw->user_id;
         $transaction->amount = $withdraw->amount;
-        $transaction->post_balance = $user->balance;
+        $transaction->balance_before = $debit['balance_before'];
+        $transaction->balance_after = $debit['balance_after'];
+        $transaction->post_balance = $debit['balance_after'];
         $transaction->charge = $withdraw->charge;
         $transaction->trx_type = '-';
         $transaction->remark = 'Payout';
@@ -1175,7 +1184,7 @@ class UserController extends Controller
             'currency' => $general->cur_text,
             'rate' => showAmount($withdraw->rate),
             'trx' => $withdraw->trx,
-            'post_balance' => showAmount($user->balance),
+            'post_balance' => showAmount($debit['balance_after']),
             'delay' => $withdraw->method->delay
         ]);
 

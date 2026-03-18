@@ -991,6 +991,17 @@
                     </a>
                   </li>
                   <?php endif ?>
+                  <?php $hasPermission = App\Models\Role::hasPermission('admin.firebase.notifications')  ? 1 : 0;
+            if($hasPermission == 1): ?>
+                  <li class="sidebar-item">
+                    <a href="<?php echo e(route('admin.firebase.notifications')); ?>" class="sidebar-link">
+                      <div class="round-16 d-flex align-items-center justify-content-center">
+                        <i class="ti ti-bell"></i>
+                      </div>
+                      <span class="hide-menu">Firebase Notifications</span>
+                    </a>
+                  </li>
+                      <?php endif ?>
                 </ul>
             </li>
             <?php endif ?>

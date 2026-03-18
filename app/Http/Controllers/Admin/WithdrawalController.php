@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Models\WithdrawMethod;
 use App\Models\Withdrawal;
+use App\Services\WalletLedgerService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -228,27 +229,18 @@ class WithdrawalController extends Controller
         $withdraw->admin_feedback = $request->details;
         $withdraw->save();
 
-        $user = User::find($withdraw->user_id);
-        if ($withdraw->wallet == 'ref_wallet') {
-            $user->ref_balance += $withdraw->amount;
-        }
-        if ($withdraw->wallet == 'act_wallet') {
-            $user->balance += $withdraw->amount;
-        }
-            $user->save();
-
-
-
-            $transaction = new Transaction();
-            $transaction->user_id = $withdraw->user_id;
-            $transaction->amount = $withdraw->amount;
-            $transaction->post_balance = $user->balance;
-            $transaction->charge = 0;
-            $transaction->remark = 'Payout Refund';
-            $transaction->trx_type = '+';
-            $transaction->details = showAmount($withdraw->amount) . ' ' . $general->cur_text . ' Refunded from withdrawal rejection';
-            $transaction->trx = $withdraw->trx;
-            $transaction->save();
+        $user = User::findOrFail($withdraw->user_id);
+        $wallet = $withdraw->wallet == 'ref_wallet' ? 'ref' : 'main';
+        $walletService = app(WalletLedgerService::class);
+        $walletService->creditWithTransaction($withdraw->user_id, $wallet, $withdraw->amount, [
+            'amount' => $withdraw->amount,
+            'charge' => 0,
+            'details' => showAmount($withdraw->amount) . ' ' . $general->cur_text . ' Refunded from withdrawal rejection',
+            'trx' => $withdraw->trx,
+            'remark' => 'withdraw_refund',
+        ]);
+        $user->refresh();
+        $walletBalance = $wallet === 'main' ? $user->balance : $user->ref_balance;
 
 
 
@@ -261,10 +253,9 @@ class WithdrawalController extends Controller
             'charge' => showAmount($withdraw->charge),
             'currency' => $general->cur_text,
             'rate' => showAmount($withdraw->rate),
-            'trx' => $withdraw->trx,
+            'post_balance' => showAmount($walletBalance),
             'post_balance' => showAmount($user->balance),
             'admin_details' => $request->details
-        ]);
 
         //Start Send Mail
         $general = GeneralSetting::first();

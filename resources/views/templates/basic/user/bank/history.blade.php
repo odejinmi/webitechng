@@ -52,7 +52,8 @@
                                     <th>@lang('Trx')</th>
                                     <th>@lang('Transacted')</th>
                                     <th>@lang('Amount')</th>
-                                    <th>@lang('Post Balance')</th>
+                                    <th>@lang('Balance Before')</th>
+                                    <th>@lang('Balance After')</th>
                                     <th>@lang('Narration')</th>
                                     <th>@lang('Beneficiary')</th>
                                 </tr>
@@ -79,7 +80,11 @@
                                     </td>
 
                                     <td class="budget">
-                                        {{ showAmount($trx->post_balance) }} {{ __($general->cur_text) }}
+                                        {{ $trx->balance_before !== null ? showAmount($trx->balance_before) : '—' }} {{ __($general->cur_text) }}
+                                    </td>
+
+                                    <td class="budget">
+                                        {{ $trx->balance_after !== null ? showAmount($trx->balance_after) : showAmount($trx->post_balance) }} {{ __($general->cur_text) }}
                                     </td>
 
                                     <td class="break_line">{{ __($trx->details) }}</td>
@@ -99,8 +104,10 @@
                                     <th>@lang('Trx')</th>
                                     <th>@lang('Transacted')</th>
                                     <th>@lang('Amount')</th>
-                                    <th>@lang('Post Balance')</th>
-                                    <th>@lang('Detail')</th>
+                                    <th>@lang('Balance Before')</th>
+                                    <th>@lang('Balance After')</th>
+                                    <th>@lang('Narration')</th>
+                                    <th>@lang('Beneficiary')</th>
                                 </tr>
                             </tfoot>
                         </table>

@@ -137,6 +137,7 @@ class LoginController extends Controller
     public function authenticated(Request $request, $user)
     {
         $user->tv = $user->ts == 1 ? 0 : 1;
+        $user->latest_web_session_id = $request->session()->getId();
         $user->save();
         $ip = getRealIP();
         $exist = UserLogin::where('user_ip', $ip)->first();

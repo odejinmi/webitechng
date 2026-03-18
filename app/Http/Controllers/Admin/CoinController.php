@@ -451,19 +451,15 @@ class CoinController extends Controller
         $user = User::whereId($order->user_id)->firstOrFail();
         $currency = Cryptocurrency::whereId($order->product_id)->firstOrFail();
 
-        if($order->source == 'main')
-        {
-          $user->balance += $order->value;
-        }
-        else
-        {
-          $user->ref_balance += $order->value;
-        }
-        $user->save();
+        $wallet = $order->source == 'main' ? 'main' : 'ref';
+        $credit = walletAtomicCredit($user->id, $wallet, $order->value);
+        $user->refresh();
         $transaction               = new Transaction();
         $transaction->user_id      = $order->user_id;
         $transaction->amount       = $order->value;
-        $transaction->post_balance = $user->balance;
+        $transaction->balance_before = $credit['balance_before'];
+        $transaction->balance_after = $credit['balance_after'];
+        $transaction->post_balance = $credit['balance_after'];
         $transaction->charge       = 0;
         $transaction->trx_type     = '+';
         $transaction->details      = 'Sold '. $currency->name.' Digital Asset';

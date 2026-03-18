@@ -93,8 +93,8 @@ class GiftcardController extends Controller
         $user = User::whereId($data->user_id)->first();
         if($data->trx_type == 'sell')
         {
-            $user->balance += $pay;
-            $user->save();
+            walletAtomicCredit($user->id, 'main', $pay);
+            $user->refresh();
         }
 
         $notify[] = ['success', 'Gift Card Trade Approved Successfully !!'];
@@ -115,8 +115,8 @@ class GiftcardController extends Controller
                 if($request->refund == 'on')
                 {
                     $user = User::whereId($data->user_id)->first();
-                    $user->balance += $data->amount;
-                    $user->save();
+                    walletAtomicCredit($user->id, 'main', $data->amount);
+                    $user->refresh();
                 }
             }
         }

@@ -12,6 +12,18 @@ class User extends Authenticatable
 {
     use HasApiTokens, Searchable;
 
+    protected static function booted()
+    {
+        static::saving(function (self $user) {
+            if (isset($user->balance) && (float) $user->balance < 0) {
+                throw new \RuntimeException('Negative balance not allowed');
+            }
+            if (isset($user->ref_balance) && (float) $user->ref_balance < 0) {
+                throw new \RuntimeException('Negative balance not allowed');
+            }
+        });
+    }
+
     protected $fillable = [
         'firstname',
         'lastname',

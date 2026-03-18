@@ -9,6 +9,7 @@ use App\Models\GeneralSetting;
 use App\Models\AdminNotification;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Services\WalletLedgerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -64,33 +65,33 @@ class VoucherController extends Controller
 
             $total = $request->amount * $request->unit;
             $user = auth()->user();
-            if($user->balance < $total)
-            {
-            $notify[] = ['error', 'Insufficient wallet balance'];
-            return back()->withNotify($notify);
-            }
-            $user->balance -= $total;
-            $user->save();
+            $walletService = app(WalletLedgerService::class);
+            try {
+                $walletService->debit($user->id, 'main', $total, function ($lockedUser, $balanceBefore, $balanceAfter) use ($user, $request, $total) {
+                    for ($i = 0; $i < $request->unit; $i++){
+                        $voucher               = new Voucher();
+                        $voucher->user_id      = $user->id;
+                        $voucher->amount       =  $request->amount;
+                        $voucher->code         =  getTrx();
+                        $voucher->status       = 1;
+                        $voucher->save();
+                    }
 
-            for ($i = 0; $i < $request->unit; $i++){
-            $voucher               = new Voucher();
-            $voucher->user_id      = $user->id;
-            $voucher->amount       =  $request->amount;
-            $voucher->code         =  getTrx();
-            $voucher->status       = 1;
-            $voucher->save();
+                    $transaction               = new Transaction();
+                    $transaction->user_id      = $user->id;
+                    $transaction->amount       = $total;
+                    $transaction->post_balance = (float) $balanceAfter;
+                    $transaction->charge       = 0;
+                    $transaction->trx_type     = '-';
+                    $transaction->details      = 'Generated voucher code';
+                    $transaction->trx          = getTrx();
+                    $transaction->remark       = 'voucher';
+                    $transaction->save();
+                });
+            } catch (\RuntimeException $e) {
+                $notify[] = ['error', $e->getMessage()];
+                return back()->withNotify($notify);
             }
-
-            $transaction               = new Transaction();
-            $transaction->user_id      = $voucher->user_id;
-            $transaction->amount       = $total;
-            $transaction->post_balance = $user->balance;
-            $transaction->charge       = 0;
-            $transaction->trx_type     = '-';
-            $transaction->details      = 'Generated voucher code';
-            $transaction->trx          = getTrx();
-            $transaction->remark       = 'voucher';
-            $transaction->save();
 
             $notify[] = ['success', 'You have successfuly generate voucher code.'];
             return back()->withNotify($notify);
@@ -135,23 +136,23 @@ class VoucherController extends Controller
             return back()->withNotify($notify);
             }
             $user = auth()->user();
-            $user->balance += $voucher->amount;
-            $user->save();
+            $walletService = app(WalletLedgerService::class);
+            $walletService->credit($user->id, 'main', $voucher->amount, function ($lockedUser, $balanceBefore, $balanceAfter) use ($user, $voucher) {
+                $voucher->beneficiary_id   = $user->id;
+                $voucher->status = 0;
+                $voucher->save();
 
-            $voucher->beneficiary_id   = $user->id;
-            $voucher->status = 0;
-            $voucher->save();
-
-            $transaction               = new Transaction();
-            $transaction->user_id      = $user->id;
-            $transaction->amount       = $voucher->amount;
-            $transaction->post_balance = $user->balance;
-            $transaction->charge       = 0;
-            $transaction->trx_type     = '+';
-            $transaction->details      = 'redeemed voucher code';
-            $transaction->trx          = getTrx();
-            $transaction->remark       = 'voucher';
-            $transaction->save();
+                $transaction               = new Transaction();
+                $transaction->user_id      = $user->id;
+                $transaction->amount       = $voucher->amount;
+                $transaction->post_balance = (float) $balanceAfter;
+                $transaction->charge       = 0;
+                $transaction->trx_type     = '+';
+                $transaction->details      = 'redeemed voucher code';
+                $transaction->trx          = getTrx();
+                $transaction->remark       = 'voucher';
+                $transaction->save();
+            });
 
             $notify[] = ['success', 'You have successfuly generate voucher code.'];
             return back()->withNotify($notify);

@@ -19,8 +19,10 @@ use App\Lib\CurlRequest;
 use App\Lib\FileManager;
 use App\Notify\Notify;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Session\Session;
+use App\Services\WalletLedgerService;
 
 function systemDetails()
 {
@@ -240,7 +242,7 @@ function getTrx($length = 12)
     for ($i = 0; $i < $length; $i++) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
-    return $randomString;
+    return 'web'.$randomString;
 }
 
 function getAmount($amount, $length = 2)
@@ -1135,4 +1137,30 @@ function isManager() {
 
 function authStaff() {
     return auth()->guard('branch_staff')->user();
+}
+
+function walletAtomicDebit(int $userId, string $wallet, $amount): array
+{
+    $service = app(WalletLedgerService::class);
+    $result = $service->debit($userId, $wallet, $amount, function () {
+    });
+
+    return [
+        'wallet' => $result['wallet'],
+        'balance_before' => $result['balance_before'],
+        'balance_after' => $result['balance_after'],
+    ];
+}
+
+function walletAtomicCredit(int $userId, string $wallet, $amount): array
+{
+    $service = app(WalletLedgerService::class);
+    $result = $service->credit($userId, $wallet, $amount, function () {
+    });
+
+    return [
+        'wallet' => $result['wallet'],
+        'balance_before' => $result['balance_before'],
+        'balance_after' => $result['balance_after'],
+    ];
 }

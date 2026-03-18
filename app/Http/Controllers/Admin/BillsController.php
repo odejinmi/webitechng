@@ -12,6 +12,7 @@ use App\Models\GeneralSetting;
 use App\Models\User;
 use App\Models\VirtualCard;
 use App\Models\Transaction;
+use App\Services\WalletLedgerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -84,19 +85,15 @@ class BillsController extends Controller
         $user = User::whereId($order->user_id)->firstOrFail();
         $order->status = 1;
         $order->save();
-        $user->balance += $order->payment;
-        $user->save();
-
-        $transaction               = new Transaction();
-        $transaction->user_id      = $order->user_id;
-        $transaction->amount       = $order->payment;
-        $transaction->post_balance = $user->balance;
-        $transaction->charge       = $order->val_1;
-        $transaction->trx_type     = '+';
-        $transaction->details      = 'Convert airtime For Cash';
-        $transaction->trx          = $order->trx;
-        $transaction->remark       = 'airtime2cash';
-        $transaction->save();
+        $walletService = app(WalletLedgerService::class);
+        $walletService->creditWithTransaction($order->user_id, 'main', $order->payment, [
+            'amount' => $order->payment,
+            'charge' => $order->val_1,
+            'details' => 'Convert airtime For Cash',
+            'trx' => $order->trx,
+            'remark' => 'airtime2cash',
+        ]);
+        $user->refresh();
          //Start Send Mail
          $general = GeneralSetting::first();
          $user = [
@@ -498,8 +495,14 @@ class BillsController extends Controller
             return back()->withNotify($notify);
         }
 
-        $user->balance -= $fee;
-        $user->save();
+        $walletService = app(WalletLedgerService::class);
+        $walletService->debitWithTransaction($user->id, 'main', $fee, [
+            'amount' => $fee,
+            'charge' => 0,
+            'details' => 'Virtual card funding fee',
+            'trx' => getTrx(),
+            'remark' => 'virtualcard_fee',
+        ]);
         $notify[] = ['success', $reply['message']];
         return back()->withNotify($notify);
 

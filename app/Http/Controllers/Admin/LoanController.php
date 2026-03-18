@@ -68,13 +68,15 @@ class LoanController extends Controller
         Installment::saveInstallments($loan, now()->addDays($loan->installment_interval));
 
         $user = $loan->user;
-        $user->balance += getAmount($loan->amount);
-        $user->save();
+        $credit = walletAtomicCredit($user->id, 'main', getAmount($loan->amount));
+        $user->refresh();
 
         $transaction               = new Transaction();
         $transaction->user_id      = $user->id;
         $transaction->amount       = $loan->amount;
-        $transaction->post_balance = $user->balance;
+        $transaction->balance_before = $credit['balance_before'];
+        $transaction->balance_after = $credit['balance_after'];
+        $transaction->post_balance = $credit['balance_after'];
         $transaction->charge       = 0;
         $transaction->trx_type     = '+';
         $transaction->details      = 'Loan taken';

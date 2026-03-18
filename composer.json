@@ -12,6 +12,7 @@
         "authorizenet/authorizenet": ">=1.9.3",
         "coingate/coingate-php": "^3.0",
         "ezyang/htmlpurifier": "^4.13",
+        "firebase/php-jwt": "^6.11",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.5",
         "laramin/utility": "dev-main",

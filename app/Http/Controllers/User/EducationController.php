@@ -10,6 +10,7 @@ use App\Models\GeneralSetting;
  use App\Models\AdminNotification;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Services\WalletLedgerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -352,50 +353,45 @@ class EducationController extends Controller
     }
         if($reply['code'] == 000)
         {
-            if($wallet == 'main')
-            {
-                $user->balance -= $payment;
-                $balance_after = $user->balance;
-            }
-            else
-            {
-                $user->ref_balance -= $payment;
-                $balance_after = $user->ref_balance;
-            }
-            //return $reply;
+            $walletService = app(WalletLedgerService::class);
+            $order = null;
+            try {
+                $walletService->debit($user->id, $wallet, $payment, function ($lockedUser, $balanceBefore, $balanceAfter) use (&$order, $user, $wallet, $payment, $reply, $response, $trx, $decoder, $plan, $number) {
+                    $order               = new Order();
+                    $order->user_id      = $user->id;
+                    $order->type         =  'education';
+                    $order->val_1   = @$reply['content']['transactions']['unique_element'];
+                    $order->val_2   = $number;
+                    $order->product_id   = @$decoder;
+                    $order->product_name = @$plan;
+                    $order->product_logo = @$decoder;
+                    $order->details      = @json_encode($response,true);
+                    $order->quantity     = 1;
+                    $order->price        = @$reply['content']['transactions']['amount'];
+                    $order->currency     = @$reply['content']['transactions']['product_name'];
+                    $order->status       = @$reply['content']['transactions']['status'];
+                    $order->payment      = (float) $payment;
+                    $order->trx          = @$trx;
+                    $order->source       = $wallet;
+                    $order->balance_before  = (float) $balanceBefore;
+                    $order->balance_after   = (float) $balanceAfter;
+                    $order->transaction_id  = @$reply['content']['transactions']['transactionId'];
+                    $order->save();
 
-            $user->save();
-            $order               = new Order();
-            $order->user_id      = $user->id;
-            $order->type         =  'education';
-            $order->val_1   = @$reply['content']['transactions']['unique_element'];
-            $order->val_2   = $number;
-            $order->product_id   = @$decoder;
-            $order->product_name = @$plan;
-            $order->product_logo = @$decoder;
-            $order->details      = @json_encode($response,true);
-            $order->quantity     = 1;
-            $order->price        = @$reply['content']['transactions']['amount'];
-            $order->currency     = @$reply['content']['transactions']['product_name'];
-            $order->status       = @$reply['content']['transactions']['status'];
-            $order->payment      = @$payment;
-            $order->trx          = @$trx;
-            $order->source       = $wallet;
-            $order->balance_before  = $user->ref_balance;
-            $order->balance_after   = $balance_after;
-            $order->transaction_id  = @$reply['content']['transactions']['transactionId'];
-            $order->save();
-
-            $transaction               = new Transaction();
-            $transaction->user_id      = $order->user_id;
-            $transaction->amount       = $order->payment;
-            $transaction->post_balance = $order->balance_after;
-            $transaction->charge       = env('CABLECHARGE');
-            $transaction->trx_type     = '-';
-            $transaction->details      = 'Paid education bill via ' . strToUpper($wallet).' Wallet '. $reply['content']['transactions']['unique_element'];
-            $transaction->trx          = $order->trx;
-            $transaction->remark       = 'education';
-            $transaction->save();
+                    $transaction               = new Transaction();
+                    $transaction->user_id      = $order->user_id;
+                    $transaction->amount       = $order->payment;
+                    $transaction->post_balance = $order->balance_after;
+                    $transaction->charge       = env('CABLECHARGE');
+                    $transaction->trx_type     = '-';
+                    $transaction->details      = 'Paid education bill via ' . strToUpper($wallet).' Wallet '. $reply['content']['transactions']['unique_element'];
+                    $transaction->trx          = $order->trx;
+                    $transaction->remark       = 'education';
+                    $transaction->save();
+                });
+            } catch (\RuntimeException $e) {
+                return response()->json(['ok'=>false,'status'=>'danger','message'=> $e->getMessage()],400);
+            }
 
             notify($user,'education_BUY', [
                 'provider'        => @$decoder,

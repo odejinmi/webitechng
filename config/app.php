@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => $timezone,
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
 
 
     /*
