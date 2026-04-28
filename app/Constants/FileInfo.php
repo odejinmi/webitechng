@@ -59,6 +59,12 @@ class FileInfo
 			'path'      => 'assets/images/admin/profile',
 			'size'      => '400x400',
 		];
+		$data['rnd_payment_proof'] = [
+			'path'      => 'assets/images/rnd/payment_proof',
+		];
+		$data['rnd_receipt'] = [
+			'path'      => 'assets/images/rnd/receipt',
+		];
 		return $data;
 	}
 }

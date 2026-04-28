@@ -531,6 +531,15 @@ function getFileExt($key)
 {
     return fileManager()->$key()->extensions;
 }
+
+function getFile($key, $filename)
+{
+    $filePath = getFilePath($key) . '/' . $filename;
+    if (file_exists($filePath) && is_file($filePath)) {
+        return asset($filePath);
+    }
+    return asset('assets/images/default.png');
+}
 function createBadge($type, $text)
 {
     return "<span class='badge text-white bg-$type'>" . trans($text) . '</span>';

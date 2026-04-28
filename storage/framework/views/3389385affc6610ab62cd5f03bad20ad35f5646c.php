@@ -427,6 +427,30 @@
 
 
             <!-- ============================= -->
+            <!-- RND Token -->
+            <!-- ============================= -->
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu"><?php echo app('translator')->get('RND Token'); ?></span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="<?php echo e(route('admin.rnd.purchases.index')); ?>" aria-expanded="false">
+                <span>
+                  <i class="ti ti-coin-bitcoin"></i>
+                </span>
+                <span class="hide-menu"><?php echo app('translator')->get('RND Purchases'); ?></span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="<?php echo e(route('admin.rnd.exchange.rate')); ?>" aria-expanded="false">
+                <span>
+                  <i class="ti ti-coin"></i>
+                </span>
+                <span class="hide-menu"><?php echo app('translator')->get('Exchange Rate'); ?></span>
+              </a>
+            </li>
+
+            <!-- ============================= -->
             <!-- Trade -->
             <!-- ============================= -->
             <?php $hasPermission = App\Models\Role::hasPermission(['admin.crypto.currency','admin.giftcardindex','admin.crypto.assetselltrade*','admin.crypto.assetbuytrade*','admin.sellpenex*','admin.selldecex*','admin.buypenex*','admin.buyproex*','admin.buydecex*'])  ? 1 : 0;

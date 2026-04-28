@@ -405,6 +405,30 @@
 
 
             <!-- ============================= -->
+            <!-- RND Token -->
+            <!-- ============================= -->
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">@lang('RND Token')</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('admin.rnd.purchases.index') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-coin-bitcoin"></i>
+                </span>
+                <span class="hide-menu">@lang('RND Purchases')</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('admin.rnd.exchange.rate') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-coin"></i>
+                </span>
+                <span class="hide-menu">@lang('Exchange Rate')</span>
+              </a>
+            </li>
+
+            <!-- ============================= -->
             <!-- Trade -->
             <!-- ============================= -->
             @can(['admin.crypto.currency','admin.giftcardindex','admin.crypto.assetselltrade*','admin.crypto.assetbuytrade*','admin.sellpenex*','admin.selldecex*','admin.buypenex*','admin.buyproex*','admin.buydecex*'])

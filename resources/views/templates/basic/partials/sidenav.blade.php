@@ -316,6 +316,30 @@
           </li>
           @endif
 
+
+              <!-- RND Token -->
+              @if($general->rnd > 0 && Auth::user()->vendor == 1)
+                  <li class="nav-small-cap">
+                      <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                      <span class="hide-menu">@lang('RND Token')</span>
+                  </li>
+                  <li class="sidebar-item">
+                      <a class="sidebar-link" href="{{ route('user.rnd.purchases.create') }}" aria-expanded="false">
+            <span>
+              <i class="ti ti-coin-bitcoin"></i>
+            </span>
+                          <span class="hide-menu">@lang('Buy RND Tokens')</span>
+                      </a>
+                  </li>
+                  <li class="sidebar-item">
+                      <a class="sidebar-link" href="{{ route('user.rnd.purchases.index') }}" aria-expanded="false">
+            <span>
+              <i class="ti ti-history"></i>
+            </span>
+                          <span class="hide-menu">@lang('RND Purchase History')</span>
+                      </a>
+                  </li>
+              @endif
             <!-- ============================= -->
             <!-- Bills -->
             <!-- ============================= -->

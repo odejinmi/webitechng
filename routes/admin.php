@@ -601,6 +601,19 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::post('send-to-all-users', 'sendToAllUsers')->name('send.to.all.users');
         Route::post('subscribe-to-topic', 'subscribeToTopic')->name('subscribe.to.topic');
     });
+
+    // RND Token Purchase Management
+    Route::controller('AdminRndTokenController')->prefix('rnd')->name('rnd.')->group(function () {
+        Route::get('purchases', 'index')->name('purchases.index');
+        Route::get('purchases/{purchase}', 'show')->name('purchases.show');
+        Route::post('purchases/{purchase}/process', 'processRequest')->name('purchases.process');
+        Route::post('purchases/{purchase}/approve', 'approve')->name('purchases.approve');
+        Route::post('purchases/{purchase}/decline', 'decline')->name('purchases.decline');
+        Route::get('purchases/{purchase}/download/payment-proof', 'downloadPaymentProof')->name('purchases.download.payment-proof');
+        Route::get('purchases/{purchase}/download/receipt', 'downloadReceipt')->name('purchases.download.receipt');
+        Route::get('exchange-rate', 'exchangeRate')->name('exchange.rate');
+        Route::post('exchange-rate/update', 'updateExchangeRate')->name('exchange.rate.update');
+    });
 });
 
 ?>
