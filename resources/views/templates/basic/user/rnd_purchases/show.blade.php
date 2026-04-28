@@ -22,7 +22,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <p><strong>Request ID:</strong> #{{ $purchase->id }}</p>
-                            <p><strong>RND Amount:</strong> {{ number_format($purchase->rnd_amount, 8) }} RND</p>
+                            <p><strong>RMB Amount:</strong> {{ number_format($purchase->rnd_amount, 8) }} RMB</p>
                             <p><strong>Exchange Rate:</strong> {{ number_format($purchase->exchange_rate, 2) }}</p>
                             <p><strong>Total Amount:</strong> {{ number_format($purchase->total_amount, 8) }}</p>
                         </div>

@@ -6,14 +6,14 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">{{ $pageTitle }}</h4>
-                    <p class="text-muted">Current Exchange Rate: 1 RND = {{ $currentRate }}</p>
+                    <p class="text-muted">Current Exchange Rate: 1 RMB = {{ $currentRate }}</p>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('user.rnd.purchases.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group mb-3">
-                            <label for="rnd_amount">RND Amount</label>
+                            <label for="rnd_amount">RMB Amount</label>
                             <input type="number"
                                    step="0.00000001"
                                    min="0.00000001"
@@ -21,8 +21,8 @@
                                    id="rnd_amount"
                                    name="rnd_amount"
                                    required
-                                   placeholder="Enter RND amount">
-                            <small class="text-muted">Amount of RND tokens you want to purchase</small>
+                                   placeholder="Enter RMB amount">
+                            <small class="text-muted">Amount of RMB tokens you want to purchase</small>
                         </div>
 
                         <div class="form-group mb-3">
@@ -60,7 +60,7 @@
                             <strong>Important:</strong>
                             <ul class="mb-0">
                                 <li>Your wallet will be charged: <span id="total_amount">0.00</span></li>
-                                <li>Calculation: RND Amount × {{ $currentRate }} = Total Amount</li>
+                                <li>Calculation: RMB Amount × {{ $currentRate }} = Total Amount</li>
                                 <li>Make sure you have sufficient balance in your wallet</li>
                             </ul>
                         </div>

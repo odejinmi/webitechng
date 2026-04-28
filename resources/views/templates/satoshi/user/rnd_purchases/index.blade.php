@@ -6,7 +6,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h3>{{ $pageTitle }}</h3>
                 <a href="{{ route('user.rnd.purchases.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Buy RND
+                    <i class="fas fa-plus"></i> Buy RMB
                 </a>
             </div>
         </div>
@@ -22,7 +22,7 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>RND Amount</th>
+                                        <th>RMB Amount</th>
                                         <th>Exchange Rate</th>
                                         <th>Total Amount</th>
                                         <th>Vendor</th>
@@ -35,7 +35,7 @@
                                     @foreach($purchases as $purchase)
                                         <tr>
                                             <td>#{{ $purchase->id }}</td>
-                                            <td>{{ number_format($purchase->rnd_amount, 8) }} RND</td>
+                                            <td>{{ number_format($purchase->rnd_amount, 8) }} RMB</td>
                                             <td>{{ number_format($purchase->exchange_rate, 2) }}</td>
                                             <td>{{ number_format($purchase->total_amount, 8) }}</td>
                                             <td>{{ $purchase->vendor_name }}</td>
@@ -65,10 +65,10 @@
                     @else
                         <div class="text-center py-5">
                             <i class="fas fa-coins fa-3x text-muted mb-3"></i>
-                            <h4>No RND Purchase Requests</h4>
-                            <p class="text-muted">You haven't made any RND purchase requests yet.</p>
+                            <h4>No RMB Purchase Requests</h4>
+                            <p class="text-muted">You haven't made any RMB purchase requests yet.</p>
                             <a href="{{ route('user.rnd.purchases.create') }}" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Buy RND
+                                <i class="fas fa-plus"></i> Buy RMB
                             </a>
                         </div>
                     @endif

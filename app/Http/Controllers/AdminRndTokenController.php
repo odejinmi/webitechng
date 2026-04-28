@@ -17,13 +17,13 @@ class AdminRndTokenController extends Controller
             ->latest()
             ->paginate(getPaginate());
 
-        $pageTitle = 'RND Token Purchase Requests';
+        $pageTitle = 'RMB Token Purchase Requests';
         return view('admin.rnd_purchases.index', compact('purchases', 'pageTitle'));
     }
 
     public function show(RndTokenPurchase $purchase)
     {
-        $pageTitle = 'RND Purchase Details';
+        $pageTitle = 'RMB Purchase Details';
         $currentRate = RndExchangeRate::getCurrentRate();
         return view('admin.rnd_purchases.show', compact('purchase', 'pageTitle', 'currentRate'));
     }
@@ -87,7 +87,7 @@ class AdminRndTokenController extends Controller
             'vendor_name' => $purchase->vendor_name,
         ]);
 
-        $notify[] = ['success', 'RND purchase approved successfully'];
+        $notify[] = ['success', 'RMB purchase approved successfully'];
         return back()->withNotify($notify);
     }
 
@@ -117,13 +117,13 @@ class AdminRndTokenController extends Controller
             'admin_note' => $request->admin_note,
         ]);
 
-        $notify[] = ['success', 'RND purchase declined and amount refunded'];
+        $notify[] = ['success', 'RMB purchase declined and amount refunded'];
         return back()->withNotify($notify);
     }
 
     public function exchangeRate()
     {
-        $pageTitle = 'RND Exchange Rate Management';
+        $pageTitle = 'RMB Exchange Rate Management';
         $currentRate = RndExchangeRate::getCurrentRate();
         $rateHistory = RndExchangeRate::with('updatedBy')
             ->latest()
@@ -146,7 +146,7 @@ class AdminRndTokenController extends Controller
             Auth::guard('admin')->id()
         );
 
-        $notify[] = ['success', 'RND exchange rate updated successfully'];
+        $notify[] = ['success', 'RMB exchange rate updated successfully'];
         return back()->withNotify($notify);
     }
 

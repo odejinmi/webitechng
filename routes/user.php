@@ -468,7 +468,7 @@ Route::middleware(['auth', 'latest.web.session'])->name('user.')->group(function
         Route::post('manual', 'manualDepositUpdate')->name('manual.update');
     });
 
-    // RND Token Purchases
+    // RMB Token Purchases
     Route::controller('RndTokenPurchaseController')->prefix('rnd')->name('rnd.')->group(function () {
         Route::get('purchases', 'index')->name('purchases.index');
         Route::get('purchases/create', 'create')->name('purchases.create');

@@ -602,7 +602,7 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::post('subscribe-to-topic', 'subscribeToTopic')->name('subscribe.to.topic');
     });
 
-    // RND Token Purchase Management
+    // RMB Token Purchase Management
     Route::controller('AdminRndTokenController')->prefix('rnd')->name('rnd.')->group(function () {
         Route::get('purchases', 'index')->name('purchases.index');
         Route::get('purchases/{purchase}', 'show')->name('purchases.show');

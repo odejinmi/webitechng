@@ -19,13 +19,13 @@ class RndTokenPurchaseController extends Controller
             ->latest()
             ->paginate(getPaginate());
 
-        $pageTitle = 'RND Token Purchases';
+        $pageTitle = 'RMB Token Purchases';
         return view(checkTemplate(). 'user.rnd_purchases.index', compact('purchases', 'pageTitle'));
     }
 
     public function create()
     {
-        $pageTitle = 'Buy RND Tokens';
+        $pageTitle = 'Buy RMB Tokens';
         $currentRate = RndExchangeRate::getCurrentRate();
         return view(checkTemplate(). 'user.rnd_purchases.create', compact('pageTitle', 'currentRate'));
     }
@@ -68,7 +68,7 @@ class RndTokenPurchaseController extends Controller
         $transaction->post_balance = $user->balance;
         $transaction->charge = 0;
         $transaction->trx_type = '-';
-        $transaction->details = 'RND Token Purchase - ' . $rndAmount . ' RND';
+        $transaction->details = 'RMB Token Purchase - ' . $rndAmount . ' RMB';
         $transaction->remark = 'rnd_purchase';
         $transaction->save();
 
@@ -83,7 +83,7 @@ class RndTokenPurchaseController extends Controller
             'status' => 'processing',
         ]);
 
-        $notify[] = ['success', 'RND purchase request submitted successfully'];
+        $notify[] = ['success', 'RMB purchase request submitted successfully'];
         return redirect()->route('user.rnd.purchases.index')->withNotify($notify);
     }
 
@@ -93,7 +93,7 @@ class RndTokenPurchaseController extends Controller
             abort(404);
         }
 
-        $pageTitle = 'RND Purchase Details';
+        $pageTitle = 'RMB Purchase Details';
         return view(checkTemplate(). 'user.rnd_purchases.show', compact('purchase', 'pageTitle'));
     }
 

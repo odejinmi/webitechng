@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends('admin.layouts.app')
 @section('panel')
 <div class="container-fluid">
     <div class="row mb-4">
@@ -29,7 +29,7 @@
                             </p>
                             <p><strong>Email:</strong> {{ $purchase->user->email }}</p>
                             <p><strong>User Balance:</strong> {{ number_format($purchase->user->balance, 8) }}</p>
-                            <p><strong>RND Amount:</strong> {{ number_format($purchase->rnd_amount, 8) }} RND</p>
+                            <p><strong>RMB Amount:</strong> {{ number_format($purchase->rnd_amount, 8) }} RMB</p>
                             <p><strong>Exchange Rate:</strong> {{ number_format($purchase->exchange_rate, 2) }}</p>
                         </div>
                         <div class="col-md-6">

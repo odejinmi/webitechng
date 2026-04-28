@@ -317,18 +317,18 @@
           <?php endif; ?>
 
 
-              <!-- RND Token -->
+              <!-- RMB Token -->
               <?php if($general->rnd > 0 && Auth::user()->vendor == 1): ?>
                   <li class="nav-small-cap">
                       <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                      <span class="hide-menu"><?php echo app('translator')->get('RND Token'); ?></span>
+                      <span class="hide-menu"><?php echo app('translator')->get('RMB Token'); ?></span>
                   </li>
                   <li class="sidebar-item">
                       <a class="sidebar-link" href="<?php echo e(route('user.rnd.purchases.create')); ?>" aria-expanded="false">
             <span>
               <i class="ti ti-coin-bitcoin"></i>
             </span>
-                          <span class="hide-menu"><?php echo app('translator')->get('Buy RND Tokens'); ?></span>
+                          <span class="hide-menu"><?php echo app('translator')->get('Buy RMB Tokens'); ?></span>
                       </a>
                   </li>
                   <li class="sidebar-item">
@@ -336,7 +336,7 @@
             <span>
               <i class="ti ti-history"></i>
             </span>
-                          <span class="hide-menu"><?php echo app('translator')->get('RND Purchase History'); ?></span>
+                          <span class="hide-menu"><?php echo app('translator')->get('RMB Purchase History'); ?></span>
                       </a>
                   </li>
               <?php endif; ?>
@@ -359,7 +359,7 @@
             </li>
             <?php endif; ?>
             <?php if($general->airtime > 0): ?>
-            
+
             <?php endif; ?>
             <?php if($general->airtimelocal > 0): ?>
             <li class="sidebar-item">

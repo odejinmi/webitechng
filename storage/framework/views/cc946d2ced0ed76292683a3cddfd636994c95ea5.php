@@ -5,7 +5,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h3><?php echo e($pageTitle); ?></h3>
                 <a href="<?php echo e(route('user.rnd.purchases.create')); ?>" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Buy RND
+                    <i class="fas fa-plus"></i> Buy RMB
                 </a>
             </div>
         </div>
@@ -21,7 +21,7 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>RND Amount</th>
+                                        <th>RMB Amount</th>
                                         <th>Exchange Rate</th>
                                         <th>Total Amount</th>
                                         <th>Vendor</th>
@@ -34,7 +34,7 @@
                                     <?php $__currentLoopData = $purchases; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $purchase): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <tr>
                                             <td>#<?php echo e($purchase->id); ?></td>
-                                            <td><?php echo e(number_format($purchase->rnd_amount, 8)); ?> RND</td>
+                                            <td><?php echo e(number_format($purchase->rnd_amount, 8)); ?> RMB</td>
                                             <td><?php echo e(number_format($purchase->exchange_rate, 2)); ?></td>
                                             <td><?php echo e(number_format($purchase->total_amount, 8)); ?></td>
                                             <td><?php echo e($purchase->vendor_name); ?></td>
@@ -65,10 +65,10 @@
                     <?php else: ?>
                         <div class="text-center py-5">
                             <i class="fas fa-coins fa-3x text-muted mb-3"></i>
-                            <h4>No RND Purchase Requests</h4>
-                            <p class="text-muted">You haven't made any RND purchase requests yet.</p>
+                            <h4>No RMB Purchase Requests</h4>
+                            <p class="text-muted">You haven't made any RMB purchase requests yet.</p>
                             <a href="<?php echo e(route('user.rnd.purchases.create')); ?>" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Buy RND
+                                <i class="fas fa-plus"></i> Buy RMB
                             </a>
                         </div>
                     <?php endif; ?>

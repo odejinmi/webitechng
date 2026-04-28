@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends('admin.layouts.app')
 @section('panel')
 <div class="container-fluid">
     <div class="row mb-4">
@@ -33,10 +33,10 @@
                                        value="{{ $currentRate }}"
                                        required>
                                 <div class="input-group-append">
-                                    <span class="input-group-text">per RND</span>
+                                    <span class="input-group-text">per RMB</span>
                                 </div>
                             </div>
-                            <small class="text-muted">1 RND = <span id="rate_display">{{ $currentRate }}</span></small>
+                            <small class="text-muted">1 RMB = <span id="rate_display">{{ $currentRate }}</span></small>
                         </div>
 
                         <div class="form-group">
@@ -49,9 +49,9 @@
                         </div>
 
                         <div class="alert alert-info">
-                            <strong>Current Rate:</strong> 1 RND = {{ $currentRate }}
+                            <strong>Current Rate:</strong> 1 RMB = {{ $currentRate }}
                             <br>
-                            <small>This rate will be used for all new RND purchase requests.</small>
+                            <small>This rate will be used for all new RMB purchase requests.</small>
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-block">

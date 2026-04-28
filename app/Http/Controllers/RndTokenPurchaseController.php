@@ -26,13 +26,13 @@ class RndTokenPurchaseController extends Controller
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
         $data['activeTemplateTrue'] = checkTemplate(true);
-        $pageTitle = 'RND Token Purchases';
+        $pageTitle = 'RMB Token Purchases';
         return view($activeTemplate. 'user.rnd_purchases.index', $data, compact('purchases', 'pageTitle'));
     }
 
     public function create()
     {
-        $pageTitle = 'Buy RND Tokens';
+        $pageTitle = 'Buy RMB Tokens';
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
         $data['activeTemplateTrue'] = checkTemplate(true);
@@ -83,7 +83,7 @@ class RndTokenPurchaseController extends Controller
             'vendor_name' => $purchase->vendor_name,
         ]);
 
-        $notify[] = ['success', 'RND purchase request submitted successfully'];
+        $notify[] = ['success', 'RMB purchase request submitted successfully'];
         return redirect()->route('user.rnd.purchases.index')->withNotify($notify);
     }
 
@@ -96,7 +96,7 @@ class RndTokenPurchaseController extends Controller
         $data['activeTemplate'] = $activeTemplate;
         $data['activeTemplateTrue'] = checkTemplate(true);
 
-        $pageTitle = 'RND Purchase Details';
+        $pageTitle = 'RMB Purchase Details';
         return view($activeTemplate. 'user.rnd_purchases.show', $data, compact('purchase', 'pageTitle'));
     }
 

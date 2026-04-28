@@ -1,5 +1,3 @@
-<?php $__env->startSection('title', $pageTitle); ?>
-
 <?php $__env->startSection('panel'); ?>
 <div class="container-fluid">
     <div class="row mb-4">
@@ -24,7 +22,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>User</th>
-                                        <th>RND Amount</th>
+                                        <th>RMB Amount</th>
                                         <th>Exchange Rate</th>
                                         <th>Total Amount</th>
                                         <th>Vendor</th>
@@ -45,7 +43,7 @@
                                                 <br>
                                                 <small class="text-muted"><?php echo e($purchase->user->email); ?></small>
                                             </td>
-                                            <td><?php echo e(number_format($purchase->rnd_amount, 8)); ?> RND</td>
+                                            <td><?php echo e(number_format($purchase->rnd_amount, 8)); ?> RMB</td>
                                             <td><?php echo e(number_format($purchase->exchange_rate, 2)); ?></td>
                                             <td><?php echo e(number_format($purchase->total_amount, 8)); ?></td>
                                             <td><?php echo e($purchase->vendor_name); ?></td>
@@ -84,8 +82,8 @@
                     <?php else: ?>
                         <div class="text-center py-5">
                             <i class="fas fa-coins fa-3x text-muted mb-3"></i>
-                            <h4>No RND Purchase Requests</h4>
-                            <p class="text-muted">No RND purchase requests have been submitted yet.</p>
+                            <h4>No RMB Purchase Requests</h4>
+                            <p class="text-muted">No RMB purchase requests have been submitted yet.</p>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -95,4 +93,4 @@
 </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\PhpstormProjects\webitechng\resources\views/admin/rnd_purchases/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\PhpstormProjects\webitechng\resources\views/admin/rnd_purchases/index.blade.php ENDPATH**/ ?>

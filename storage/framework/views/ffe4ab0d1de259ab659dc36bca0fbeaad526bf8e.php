@@ -137,11 +137,11 @@
                 </li>
                 <?php if($general->rnd > 0 && Auth::user()->vendor == 1): ?>
                 <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.rnd.purchases.create') ? 'active' : ''); ?>"
-                        href="<?php echo e(route('user.rnd.purchases.create')); ?>"><i class="bi bi-coin"></i> <span>Buy RND Tokens</span>
+                        href="<?php echo e(route('user.rnd.purchases.create')); ?>"><i class="bi bi-coin"></i> <span>Buy RMB Tokens</span>
                         </a>
                 </li>
                 <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill <?php echo e(Request::routeIs('user.rnd.purchases.index') ? 'active' : ''); ?>"
-                        href="<?php echo e(route('user.rnd.purchases.index')); ?>"><i class="bi bi-clock-history"></i> <span>RND History</span>
+                        href="<?php echo e(route('user.rnd.purchases.index')); ?>"><i class="bi bi-clock-history"></i> <span>RMB History</span>
                         </a>
                 </li>
                 <?php endif; ?>

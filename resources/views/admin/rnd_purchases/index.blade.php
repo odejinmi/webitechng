@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends('admin.layouts.app')
 @section('panel')
 <div class="container-fluid">
     <div class="row mb-4">
@@ -23,7 +23,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>User</th>
-                                        <th>RND Amount</th>
+                                        <th>RMB Amount</th>
                                         <th>Exchange Rate</th>
                                         <th>Total Amount</th>
                                         <th>Vendor</th>
@@ -43,7 +43,7 @@
                                                 <br>
                                                 <small class="text-muted">{{ $purchase->user->email }}</small>
                                             </td>
-                                            <td>{{ number_format($purchase->rnd_amount, 8) }} RND</td>
+                                            <td>{{ number_format($purchase->rnd_amount, 8) }} RMB</td>
                                             <td>{{ number_format($purchase->exchange_rate, 2) }}</td>
                                             <td>{{ number_format($purchase->total_amount, 8) }}</td>
                                             <td>{{ $purchase->vendor_name }}</td>
@@ -81,8 +81,8 @@
                     @else
                         <div class="text-center py-5">
                             <i class="fas fa-coins fa-3x text-muted mb-3"></i>
-                            <h4>No RND Purchase Requests</h4>
-                            <p class="text-muted">No RND purchase requests have been submitted yet.</p>
+                            <h4>No RMB Purchase Requests</h4>
+                            <p class="text-muted">No RMB purchase requests have been submitted yet.</p>
                         </div>
                     @endif
                 </div>

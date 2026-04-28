@@ -427,18 +427,18 @@
 
 
             <!-- ============================= -->
-            <!-- RND Token -->
+            <!-- RMB Token -->
             <!-- ============================= -->
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu"><?php echo app('translator')->get('RND Token'); ?></span>
+              <span class="hide-menu"><?php echo app('translator')->get('RMB Token'); ?></span>
             </li>
             <li class="sidebar-item">
               <a class="sidebar-link" href="<?php echo e(route('admin.rnd.purchases.index')); ?>" aria-expanded="false">
                 <span>
                   <i class="ti ti-coin-bitcoin"></i>
                 </span>
-                <span class="hide-menu"><?php echo app('translator')->get('RND Purchases'); ?></span>
+                <span class="hide-menu"><?php echo app('translator')->get('RMB Purchases'); ?></span>
               </a>
             </li>
             <li class="sidebar-item">
