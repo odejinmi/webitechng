@@ -110,7 +110,7 @@
 </div>
 @endsection
 
-@push('scripts')
+@push('script')
 <script>
 $(document).ready(function() {
     $('#rate').on('input', function() {

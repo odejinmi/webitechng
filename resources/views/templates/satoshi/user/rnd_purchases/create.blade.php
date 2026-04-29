@@ -51,8 +51,7 @@
                                    class="form-control"
                                    id="payment_proof"
                                    name="payment_proof"
-                                   accept="image/*"
-                                   required>
+                                   accept="image/*">
                             <small class="text-muted">Upload screenshot of payment proof (JPG, PNG, max 2MB)</small>
                         </div>
 
@@ -93,7 +92,7 @@
 </style>
 @endpush
 
-@push('scripts')
+@push('script')
 <script>
 $(document).ready(function() {
     $('#rnd_amount').on('input', function() {

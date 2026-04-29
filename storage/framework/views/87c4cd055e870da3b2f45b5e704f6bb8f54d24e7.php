@@ -111,7 +111,7 @@
 </div>
 <?php $__env->stopSection(); ?>
 
-<?php $__env->startPush('scripts'); ?>
+<?php $__env->startPush('script'); ?>
 <script>
 $(document).ready(function() {
     $('#rate').on('input', function() {

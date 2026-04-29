@@ -47,6 +47,14 @@ Route::namespace('User')->controller('QrController')->group(function () {
 
 
 Route::middleware(['auth', 'latest.web.session'])->name('user.')->group(function () {
+    // RND Token Purchases
+    Route::namespace('User')->controller('RndTokenPurchaseController')->prefix('rnd')->name('rnd.')->group(function () {
+        Route::get('purchases', 'index')->name('purchases.index');
+        Route::get('purchases/create', 'create')->name('purchases.create');
+        Route::post('purchases', 'store')->name('purchases.store');
+        Route::get('purchases/{purchase}', 'show')->name('purchases.show');
+        Route::get('purchases/{purchase}/download/receipt', 'downloadReceipt')->name('purchases.download.receipt');
+    });
     //authorization
     Route::namespace('User')->controller('AuthorizationController')->group(function () {
         Route::get('authorization', 'authorizeForm')->name('authorization');
@@ -466,15 +474,6 @@ Route::middleware(['auth', 'latest.web.session'])->name('user.')->group(function
         Route::get('confirm', 'depositConfirm')->name('confirm');
         Route::get('manual', 'manualDepositConfirm')->name('manual.confirm');
         Route::post('manual', 'manualDepositUpdate')->name('manual.update');
-    });
-
-    // RMB Token Purchases
-    Route::controller('RndTokenPurchaseController')->prefix('rnd')->name('rnd.')->group(function () {
-        Route::get('purchases', 'index')->name('purchases.index');
-        Route::get('purchases/create', 'create')->name('purchases.create');
-        Route::post('purchases', 'store')->name('purchases.store');
-        Route::get('purchases/{purchase}', 'show')->name('purchases.show');
-        Route::get('purchases/{purchase}/download/receipt', 'downloadReceipt')->name('purchases.download.receipt');
     });
 });
 

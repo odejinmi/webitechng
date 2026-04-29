@@ -1,5 +1,3 @@
-<?php $__env->startSection('title', $pageTitle); ?>
-
 <?php $__env->startSection('panel'); ?>
 <div class="container-fluid">
     <div class="row mb-4">
@@ -31,7 +29,7 @@
                             </p>
                             <p><strong>Email:</strong> <?php echo e($purchase->user->email); ?></p>
                             <p><strong>User Balance:</strong> <?php echo e(number_format($purchase->user->balance, 8)); ?></p>
-                            <p><strong>RMB Amount:</strong> <?php echo e(number_format($purchase->rnd_amount, 8)); ?> RND</p>
+                            <p><strong>RMB Amount:</strong> <?php echo e(number_format($purchase->rnd_amount, 8)); ?> RMB</p>
                             <p><strong>Exchange Rate:</strong> <?php echo e(number_format($purchase->exchange_rate, 2)); ?></p>
                         </div>
                         <div class="col-md-6">
@@ -234,4 +232,4 @@ $(document).ready(function() {
 </script>
 <?php $__env->stopPush(); ?>
 
-<?php echo $__env->make($activeTemplate . 'layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\PhpstormProjects\webitechng\resources\views/admin/rnd_purchases/show.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\PhpstormProjects\webitechng\resources\views/admin/rnd_purchases/show.blade.php ENDPATH**/ ?>

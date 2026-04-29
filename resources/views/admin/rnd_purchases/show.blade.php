@@ -217,7 +217,7 @@
 </div>
 @endsection
 
-@push('scripts')
+@push('script')
 <script>
 $(document).ready(function() {
     $('#exchange_rate').on('input', function() {

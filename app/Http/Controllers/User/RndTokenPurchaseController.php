@@ -13,30 +13,41 @@ use Illuminate\Validation\Rule;
 
 class RndTokenPurchaseController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->activeTemplate = activeTemplate();
+    }
+
     public function index()
     {
         $purchases = RndTokenPurchase::where('user_id', Auth::id())
             ->latest()
             ->paginate(getPaginate());
-
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
         $pageTitle = 'RMB Token Purchases';
-        return view(checkTemplate(). 'user.rnd_purchases.index', compact('purchases', 'pageTitle'));
+        return view($activeTemplate. 'user.rnd_purchases.index', $data, compact('purchases', 'pageTitle'));
     }
 
     public function create()
     {
         $pageTitle = 'Buy RMB Tokens';
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
         $currentRate = RndExchangeRate::getCurrentRate();
-        return view(checkTemplate(). 'user.rnd_purchases.create', compact('pageTitle', 'currentRate'));
+        return view($activeTemplate. 'user.rnd_purchases.create', $data, compact('pageTitle', 'currentRate'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'rnd_amount' => 'required|numeric|min:0.00000001',
+            'rnd_amount' => 'required|numeric|min:1000.0',
             'vendor_name' => 'required|string|max:255',
             'vendor_payment_details' => 'required|string|max:1000',
-            'payment_proof' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'payment_proof' => 'image|mimes:jpeg,jpg,png|max:2048',
         ]);
 
         $user = Auth::user();
@@ -55,23 +66,6 @@ class RndTokenPurchaseController extends Controller
             $paymentProof = fileUploader($request->payment_proof, getFilePath('rnd_payment_proof'));
         }
 
-        // Deduct amount from user wallet and log transaction
-        $debit = walletAtomicDebit($user->id, 'main', $totalAmount);
-        $user->refresh();
-
-        // Create debit transaction
-        $transaction = new Transaction();
-        $transaction->user_id = $user->id;
-        $transaction->amount = $totalAmount;
-        $transaction->balance_before = $debit['balance_before'];
-        $transaction->balance_after = $debit['balance_after'];
-        $transaction->post_balance = $user->balance;
-        $transaction->charge = 0;
-        $transaction->trx_type = '-';
-        $transaction->details = 'RMB Token Purchase - ' . $rndAmount . ' RMB';
-        $transaction->remark = 'rnd_purchase';
-        $transaction->save();
-
         $purchase = RndTokenPurchase::create([
             'user_id' => $user->id,
             'rnd_amount' => $rndAmount,
@@ -83,6 +77,13 @@ class RndTokenPurchaseController extends Controller
             'status' => 'processing',
         ]);
 
+        // Send notification
+        notify($user, 'RND_PURCHASE_SUBMITTED', [
+            'rnd_amount' => $purchase->rnd_amount,
+            'total_amount' => $purchase->total_amount,
+            'vendor_name' => $purchase->vendor_name,
+        ]);
+
         $notify[] = ['success', 'RMB purchase request submitted successfully'];
         return redirect()->route('user.rnd.purchases.index')->withNotify($notify);
     }
@@ -92,9 +93,12 @@ class RndTokenPurchaseController extends Controller
         if ($purchase->user_id != Auth::id()) {
             abort(404);
         }
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
 
         $pageTitle = 'RMB Purchase Details';
-        return view(checkTemplate(). 'user.rnd_purchases.show', compact('purchase', 'pageTitle'));
+        return view($activeTemplate. 'user.rnd_purchases.show', $data, compact('purchase', 'pageTitle'));
     }
 
     public function downloadReceipt(RndTokenPurchase $purchase)
