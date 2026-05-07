@@ -20,13 +20,14 @@ class SendBatchEmail implements ShouldQueue
     protected $batchSize;
     protected $delayMinutes;
     protected $testMode;
+    protected $currentBatch;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($recipients, $subject, $message, $batchSize = 30, $delayMinutes = 15, $testMode = false)
+    public function __construct($recipients, $subject, $message, $batchSize = 30, $delayMinutes = 15, $testMode = false, $currentBatch = 1)
     {
         $this->recipients = $recipients;
         $this->subject = $subject;
@@ -34,6 +35,7 @@ class SendBatchEmail implements ShouldQueue
         $this->batchSize = $batchSize;
         $this->delayMinutes = $delayMinutes;
         $this->testMode = $testMode;
+        $this->currentBatch = $currentBatch;
     }
 
     /**
@@ -45,50 +47,24 @@ class SendBatchEmail implements ShouldQueue
     {
         $recipients = collect($this->recipients);
         $totalRecipients = $recipients->count();
-        $batches = $recipients->chunk($this->batchSize);
-
-        Log::info("Starting " . ($this->testMode ? "TEST MODE - " : "") . "batch email sending", [
-            'total_recipients' => $totalRecipients,
-            'batch_size' => $this->batchSize,
-            'total_batches' => $batches->count(),
-            'delay_minutes' => $this->delayMinutes,
+        
+        Log::info("Processing " . ($this->testMode ? "TEST MODE - " : "") . "batch #{$this->currentBatch}", [
+            'total_recipients_in_batch' => $totalRecipients,
+            'batch_number' => $this->currentBatch,
             'test_mode' => $this->testMode
         ]);
 
-        foreach ($batches as $index => $batch) {
-            $this->sendBatch($batch, $index + 1);
-
-            // Add delay between batches (except for the last batch)
-            if ($index < $batches->count() - 1) {
-                $delaySeconds = $this->delayMinutes * 60;
-                Log::info("Waiting {$this->delayMinutes} minutes before next batch", [
-                    'current_batch' => $index + 1,
-                    'total_batches' => $batches->count(),
-                    'delay_seconds' => $delaySeconds
-                ]);
-                sleep($delaySeconds);
-            }
-        }
-
-        Log::info("Batch email sending completed", [
-            'total_recipients' => $totalRecipients,
-            'total_batches' => $batches->count()
-        ]);
-    }
-
-    protected function sendBatch($batch, $batchNumber)
-    {
         $successCount = 0;
         $failureCount = 0;
 
-        foreach ($batch as $recipient) {
+        foreach ($recipients as $recipient) {
             try {
                 if ($this->testMode) {
                     // Test mode - simulate sending without actual email
                     Log::info("TEST MODE - Simulating email send", [
                         'email' => $recipient['email'],
                         'subject' => $this->subject,
-                        'batch_number' => $batchNumber
+                        'batch_number' => $this->currentBatch
                     ]);
                     $successCount++;
                 } else {
@@ -110,7 +86,7 @@ class SendBatchEmail implements ShouldQueue
 
                     Log::info("Email sent successfully", [
                         'email' => $recipient['email'],
-                        'batch_number' => $batchNumber
+                        'batch_number' => $this->currentBatch
                     ]);
                 }
 
@@ -119,17 +95,16 @@ class SendBatchEmail implements ShouldQueue
                 Log::error("Failed to send email", [
                     'email' => $recipient['email'],
                     'error' => $e->getMessage(),
-                    'batch_number' => $batchNumber,
+                    'batch_number' => $this->currentBatch,
                     'test_mode' => $this->testMode
                 ]);
             }
         }
 
-        Log::info("Batch " . ($this->testMode ? "(TEST MODE) " : "") . "completed", [
-            'batch_number' => $batchNumber,
+        Log::info("Batch " . ($this->testMode ? "(TEST MODE) " : "") . "#{$this->currentBatch} completed", [
             'success_count' => $successCount,
             'failure_count' => $failureCount,
-            'batch_size' => $batch->count(),
+            'batch_size' => $totalRecipients,
             'test_mode' => $this->testMode
         ]);
     }

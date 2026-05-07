@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\SendBatchEmail;
+use App\Jobs\SendBatchEmailCoordinator;
 use App\Models\GeneralSetting;
 use App\Models\Subscriber;
 use Illuminate\Http\Request;
@@ -75,8 +75,8 @@ class SubscriberController extends Controller
         // Check if test mode is enabled
         $testMode = $request->has('test_mode');
         
-        // Dispatch batch email job
-        SendBatchEmail::dispatch($recipients, $request->subject, $request->body, $batchSize, $delayMinutes, $testMode);
+        // Dispatch batch email coordinator job
+        SendBatchEmailCoordinator::dispatch($recipients, $request->subject, $request->body, $batchSize, $delayMinutes, $testMode);
 
         $modeText = $testMode ? 'TEST MODE - ' : '';
         $notify[] = ['success', $modeText . 'Email batch job has been queued. ' . count($recipients) . ' emails will be ' . ($testMode ? 'simulated' : 'sent') . ' in batches of ' . $batchSize . ' with ' . $delayMinutes . ' minutes delay between batches.'];
