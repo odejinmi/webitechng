@@ -36,6 +36,19 @@
                                     <small class="form-text text-muted"><?php echo app('translator')->get('Minutes to wait between batches (1-60)'); ?></small>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="test_mode" id="test_mode_users" value="1">
+                                        <label class="form-check-label" for="test_mode_users">
+                                            <strong><?php echo app('translator')->get('Test Mode'); ?></strong> - <?php echo app('translator')->get('Simulate email sending without actually sending emails'); ?>
+                                        </label>
+                                    </div>
+                                    <small class="form-text text-warning">
+                                        <i class="fas fa-exclamation-triangle"></i> <?php echo app('translator')->get('When enabled, emails will be logged but not actually sent. Use for testing batch processing and timing.'); ?>
+                                    </small>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -110,6 +123,7 @@
                 var message = $(this).find('.nicEdit-main').html();
                 var batchSize = $(this).find('[name=batch_size]').val() || 30;
                 var delayMinutes = $(this).find('[name=delay_minutes]').val() || 15;
+                var testMode = $(this).find('[name=test_mode]').is(':checked') ? 1 : 0;
 
                 // Show progress modal
                 $('.progress-bar').css('width', `100%`);
@@ -122,7 +136,8 @@
                     "_token": _token,
                     "message": message,
                     "batch_size": batchSize,
-                    "delay_minutes": delayMinutes
+                    "delay_minutes": delayMinutes,
+                    "test_mode": testMode
                 }, function(response) {
                     if (response.error) {
                         response.error.forEach(error => {

@@ -19,19 +19,21 @@ class SendBatchEmail implements ShouldQueue
     protected $message;
     protected $batchSize;
     protected $delayMinutes;
+    protected $testMode;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($recipients, $subject, $message, $batchSize = 30, $delayMinutes = 15)
+    public function __construct($recipients, $subject, $message, $batchSize = 30, $delayMinutes = 15, $testMode = false)
     {
         $this->recipients = $recipients;
         $this->subject = $subject;
         $this->message = $message;
         $this->batchSize = $batchSize;
         $this->delayMinutes = $delayMinutes;
+        $this->testMode = $testMode;
     }
 
     /**
@@ -45,11 +47,12 @@ class SendBatchEmail implements ShouldQueue
         $totalRecipients = $recipients->count();
         $batches = $recipients->chunk($this->batchSize);
 
-        Log::info("Starting batch email sending", [
+        Log::info("Starting " . ($this->testMode ? "TEST MODE - " : "") . "batch email sending", [
             'total_recipients' => $totalRecipients,
             'batch_size' => $this->batchSize,
             'total_batches' => $batches->count(),
-            'delay_minutes' => $this->delayMinutes
+            'delay_minutes' => $this->delayMinutes,
+            'test_mode' => $this->testMode
         ]);
 
         foreach ($batches as $index => $batch) {
@@ -80,41 +83,54 @@ class SendBatchEmail implements ShouldQueue
 
         foreach ($batch as $recipient) {
             try {
-                $email = new Email();
-                $email->email = $recipient['email'];
-                $email->subject = $this->subject;
-                $email->receiverName = $recipient['fullname'];
+                if ($this->testMode) {
+                    // Test mode - simulate sending without actual email
+                    Log::info("TEST MODE - Simulating email send", [
+                        'email' => $recipient['email'],
+                        'subject' => $this->subject,
+                        'batch_number' => $batchNumber
+                    ]);
+                    $successCount++;
+                } else {
+                    // Production mode - actually send email
+                    $email = new Email();
+                    $email->email = $recipient['email'];
+                    $email->subject = $this->subject;
+                    $email->receiverName = $recipient['fullname'];
 
-                // Set the message content
-                $email->finalMessage = $this->message;
+                    // Set the message content
+                    $email->finalMessage = $this->message;
 
-                // Get the global settings
-                $email->setting = \App\Models\GeneralSetting::first();
+                    // Get the global settings
+                    $email->setting = \App\Models\GeneralSetting::first();
 
-                // Send the email
-                $email->send();
-                $successCount++;
+                    // Send the email
+                    $email->send();
+                    $successCount++;
 
-                Log::info("Email sent successfully", [
-                    'email' => $recipient['email'],
-                    'batch_number' => $batchNumber
-                ]);
+                    Log::info("Email sent successfully", [
+                        'email' => $recipient['email'],
+                        'batch_number' => $batchNumber
+                    ]);
+                }
 
             } catch (\Exception $e) {
                 $failureCount++;
                 Log::error("Failed to send email", [
                     'email' => $recipient['email'],
                     'error' => $e->getMessage(),
-                    'batch_number' => $batchNumber
+                    'batch_number' => $batchNumber,
+                    'test_mode' => $this->testMode
                 ]);
             }
         }
 
-        Log::info("Batch completed", [
+        Log::info("Batch " . ($this->testMode ? "(TEST MODE) " : "") . "completed", [
             'batch_number' => $batchNumber,
             'success_count' => $successCount,
             'failure_count' => $failureCount,
-            'batch_size' => $batch->count()
+            'batch_size' => $batch->count(),
+            'test_mode' => $this->testMode
         ]);
     }
 }

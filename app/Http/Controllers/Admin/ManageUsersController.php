@@ -724,6 +724,7 @@ class ManageUsersController extends Controller
             'subject' => 'required',
             'batch_size' => 'nullable|integer|min:1|max:100',
             'delay_minutes' => 'nullable|integer|min:1|max:60',
+            'test_mode' => 'nullable|boolean',
         ]);
 
         if ($validator->fails()) {
@@ -747,11 +748,15 @@ class ManageUsersController extends Controller
             ];
         }
 
+        // Check if test mode is enabled
+        $testMode = $request->has('test_mode');
+        
         // Dispatch batch email job
-        SendBatchEmail::dispatch($recipients, $request->subject, $request->message, $batchSize, $delayMinutes);
+        SendBatchEmail::dispatch($recipients, $request->subject, $request->message, $batchSize, $delayMinutes, $testMode);
 
+        $modeText = $testMode ? 'TEST MODE - ' : '';
         return response()->json([
-            'success'    => 'Email batch job has been queued. ' . count($recipients) . ' emails will be sent in batches of ' . $batchSize . ' with ' . $delayMinutes . ' minutes delay between batches.',
+            'success'    => $modeText . 'Email batch job has been queued. ' . count($recipients) . ' emails will be ' . ($testMode ? 'simulated' : 'sent') . ' in batches of ' . $batchSize . ' with ' . $delayMinutes . ' minutes delay between batches.',
             'total_sent' => count($recipients),
         ]);
     }

@@ -30,6 +30,17 @@
                                     value="{{ old('delay_minutes', $delayMinutes) }}" />
                                 <small class="form-text text-muted">@lang('Minutes to wait between batches (1-60)')</small>
                             </div>
+                            <div class="form-group col-md-12">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="test_mode" id="test_mode" value="1">
+                                    <label class="form-check-label" for="test_mode">
+                                        <strong>@lang('Test Mode')</strong> - @lang('Simulate email sending without actually sending emails')
+                                    </label>
+                                </div>
+                                <small class="form-text text-warning">
+                                    <i class="fas fa-exclamation-triangle"></i> @lang('When enabled, emails will be logged but not actually sent. Use for testing batch processing and timing.')
+                                </small>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">

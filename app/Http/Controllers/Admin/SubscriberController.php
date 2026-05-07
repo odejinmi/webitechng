@@ -51,6 +51,7 @@ class SubscriberController extends Controller
             'body' => 'required',
             'batch_size' => 'nullable|integer|min:1|max:100',
             'delay_minutes' => 'nullable|integer|min:1|max:60',
+            'test_mode' => 'nullable|boolean',
         ]);
 
         // Get batch settings from request or defaults
@@ -71,10 +72,14 @@ class SubscriberController extends Controller
             ];
         }
 
+        // Check if test mode is enabled
+        $testMode = $request->has('test_mode');
+        
         // Dispatch batch email job
-        SendBatchEmail::dispatch($recipients, $request->subject, $request->body, $batchSize, $delayMinutes);
+        SendBatchEmail::dispatch($recipients, $request->subject, $request->body, $batchSize, $delayMinutes, $testMode);
 
-        $notify[] = ['success', 'Email batch job has been queued. ' . count($recipients) . ' emails will be sent in batches of ' . $batchSize . ' with ' . $delayMinutes . ' minutes delay between batches.'];
+        $modeText = $testMode ? 'TEST MODE - ' : '';
+        $notify[] = ['success', $modeText . 'Email batch job has been queued. ' . count($recipients) . ' emails will be ' . ($testMode ? 'simulated' : 'sent') . ' in batches of ' . $batchSize . ' with ' . $delayMinutes . ' minutes delay between batches.'];
         return back()->withNotify($notify);
     }
 
