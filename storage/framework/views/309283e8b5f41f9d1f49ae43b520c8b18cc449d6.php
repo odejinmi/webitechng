@@ -1,45 +1,45 @@
-@extends('admin.layouts.app')
-@section('panel')
+
+<?php $__env->startSection('panel'); ?>
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
                 <form action="" class="notify-form">
-                    @csrf
+                    <?php echo csrf_field(); ?>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>@lang('Subject') </label>
-                                    <input type="text" class="form-control" placeholder="@lang('Email subject')" name="subject"
+                                    <label><?php echo app('translator')->get('Subject'); ?> </label>
+                                    <input type="text" class="form-control" placeholder="<?php echo app('translator')->get('Email subject'); ?>" name="subject"
                                         required />
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>@lang('Message') </label>
+                                    <label><?php echo app('translator')->get('Message'); ?> </label>
                                     <textarea name="message" rows="10" class="form-control nicEdit"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>@lang('Batch Size') <small class="text-muted">(@lang('Emails per batch, default'):</small> 30)</label>
+                                    <label><?php echo app('translator')->get('Batch Size'); ?> <small class="text-muted">(<?php echo app('translator')->get('Emails per batch, default'); ?>:</small> 30)</label>
                                     <input type="number" class="form-control" name="batch_size" min="1" max="100"
                                         value="30" />
-                                    <small class="form-text text-muted">@lang('Number of emails to send in each batch (1-100)')</small>
+                                    <small class="form-text text-muted"><?php echo app('translator')->get('Number of emails to send in each batch (1-100)'); ?></small>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>@lang('Delay Between Batches') <small class="text-muted">(@lang('Minutes, default'):</small> 15)</label>
+                                    <label><?php echo app('translator')->get('Delay Between Batches'); ?> <small class="text-muted">(<?php echo app('translator')->get('Minutes, default'); ?>:</small> 15)</label>
                                     <input type="number" class="form-control" name="delay_minutes" min="1" max="60"
                                         value="15" />
-                                    <small class="form-text text-muted">@lang('Minutes to wait between batches (1-60)')</small>
+                                    <small class="form-text text-muted"><?php echo app('translator')->get('Minutes to wait between batches (1-60)'); ?></small>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn w-100 h-45 btn--primary me-2">@lang('Submit')</button>
+                        <button type="submit" class="btn w-100 h-45 btn--primary me-2"><?php echo app('translator')->get('Submit'); ?></button>
                     </div>
                 </form>
             </div>
@@ -52,10 +52,10 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">@lang('Notification Sending')</h5>
+                    <h5 class="modal-title"><?php echo app('translator')->get('Notification Sending'); ?></h5>
                 </div>
                 <div class="modal-body">
-                    <h4 class="text--danger text-center">@lang('Don\'t close or refresh the window till finish')</h4>
+                    <h4 class="text--danger text-center"><?php echo app('translator')->get('Don\'t close or refresh the window till finish'); ?></h4>
                     <div class="mail-wrapper">
                         <div class="mail-icon world-icon"><i class="las la-globe"></i></div>
                         <div class='mailsent'>
@@ -72,33 +72,34 @@
                         <div class="progress">
                             <div class="progress-bar" style="width: 0%"></div>
                         </div>
-                        <p>@lang('Email sent') <span class="sent">0</span> @lang('users out of') {{ $users }}
-                            @lang('users')</p>
+                        <p><?php echo app('translator')->get('Email sent'); ?> <span class="sent">0</span> <?php echo app('translator')->get('users out of'); ?> <?php echo e($users); ?>
+
+                            <?php echo app('translator')->get('users'); ?></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('breadcrumb-plugins')
+<?php $__env->startPush('breadcrumb-plugins'); ?>
 
-    <span class="text--primary">@lang('Notification will send via ') @if ($general->en)
-            <span class="badge badge--warning">@lang('Email')</span>
-            @endif @if ($general->sn)
-                <span class="badge badge--warning">@lang('SMS')</span>
-            @endif
+    <span class="text--primary"><?php echo app('translator')->get('Notification will send via '); ?> <?php if($general->en): ?>
+            <span class="badge badge--warning"><?php echo app('translator')->get('Email'); ?></span>
+            <?php endif; ?> <?php if($general->sn): ?>
+                <span class="badge badge--warning"><?php echo app('translator')->get('SMS'); ?></span>
+            <?php endif; ?>
     </span>
 
-@endpush
+<?php $__env->stopPush(); ?>
 
 
-@push('script')
+<?php $__env->startPush('script'); ?>
     <script>
         (function($) {
             "use strict"
             $('.notify-form').on('submit', function(e) {
-                if ({{ $users }} <= 0) {
+                if (<?php echo e($users); ?> <= 0) {
                     notify('error', 'Users not found');
                     return false;
                 }
@@ -113,10 +114,10 @@
                 // Show progress modal
                 $('.progress-bar').css('width', `100%`);
                 $('.progress-bar').text(`100%`);
-                $('.sent').text({{ $users }});
+                $('.sent').text(<?php echo e($users); ?>);
                 $('#notificationSending').modal('show');
 
-                $.post("{{ route('admin.users.notification.all.send') }}", {
+                $.post("<?php echo e(route('admin.users.notification.all.send')); ?>", {
                     "subject": subject,
                     "_token": _token,
                     "message": message,
@@ -145,4 +146,6 @@
 
         })(jQuery);
     </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\PhpstormProjects\webitechng\resources\views/admin/users/notification_all.blade.php ENDPATH**/ ?>

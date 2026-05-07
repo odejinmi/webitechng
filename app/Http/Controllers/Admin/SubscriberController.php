@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendBatchEmail;
+use App\Models\GeneralSetting;
 use App\Models\Subscriber;
 use Illuminate\Http\Request;
 
@@ -24,7 +26,13 @@ class SubscriberController extends Controller
         $activeTemplate = checkTemplate();
         $data['activeTemplate'] = $activeTemplate;
         $data['activeTemplateTrue'] = checkTemplate(true);
-        return view('admin.subscriber.send_email', $data, compact('pageTitle'));
+        
+        // Get current batch settings
+        $general = GeneralSetting::first();
+        $batchSize = $general->email_batch_size ?? 30;
+        $delayMinutes = $general->email_batch_delay ?? 15;
+        
+        return view('admin.subscriber.send_email', $data, compact('pageTitle', 'batchSize', 'delayMinutes'));
     }
 
     public function remove($id)
@@ -41,21 +49,60 @@ class SubscriberController extends Controller
         $request->validate([
             'subject' => 'required',
             'body' => 'required',
+            'batch_size' => 'nullable|integer|min:1|max:100',
+            'delay_minutes' => 'nullable|integer|min:1|max:60',
         ]);
+
+        // Get batch settings from request or defaults
+        $general = GeneralSetting::first();
+        $batchSize = $request->batch_size ?? $general->email_batch_size ?? 30;
+        $delayMinutes = $request->delay_minutes ?? $general->email_batch_delay ?? 15;
+
+        // Prepare recipients
         $subscribers = Subscriber::cursor();
+        $recipients = [];
+        
         foreach ($subscribers as $subscriber) {
             $receiverName = explode('@', $subscriber->email)[0];
-            $user = [
-                'username'=>$subscriber->email,
-                'email'=>$subscriber->email,
-                'fullname'=>$receiverName,
+            $recipients[] = [
+                'username' => $subscriber->email,
+                'email' => $subscriber->email,
+                'fullname' => $receiverName,
             ];
-            notify($user,'DEFAULT',[
-                'subject'=>$request->subject,
-                'message'=>$request->body,
-            ],['email']);
         }
-        $notify[] = ['success', 'Email will be send to all subscribers'];
+
+        // Dispatch batch email job
+        SendBatchEmail::dispatch($recipients, $request->subject, $request->body, $batchSize, $delayMinutes);
+
+        $notify[] = ['success', 'Email batch job has been queued. ' . count($recipients) . ' emails will be sent in batches of ' . $batchSize . ' with ' . $delayMinutes . ' minutes delay between batches.'];
+        return back()->withNotify($notify);
+    }
+
+    public function batchSettings()
+    {
+        $pageTitle = 'Email Batch Settings';
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        
+        $general = GeneralSetting::first();
+        
+        return view('admin.subscriber.batch_settings', $data, compact('pageTitle', 'general'));
+    }
+
+    public function updateBatchSettings(Request $request)
+    {
+        $request->validate([
+            'email_batch_size' => 'required|integer|min:1|max:100',
+            'email_batch_delay' => 'required|integer|min:1|max:60',
+        ]);
+
+        $general = GeneralSetting::first();
+        $general->email_batch_size = $request->email_batch_size;
+        $general->email_batch_delay = $request->email_batch_delay;
+        $general->save();
+
+        $notify[] = ['success', 'Email batch settings updated successfully'];
         return back()->withNotify($notify);
     }
 }

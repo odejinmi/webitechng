@@ -1,0 +1,25 @@
+# AMAZON SES SMTP CONFIGURATION
+# Copy these settings to your .env file
+
+# Mail Configuration
+MAIL_MAILER=smtp
+MAIL_HOST=email-smtp.eu-north-1.amazonaws.com
+MAIL_PORT=587
+MAIL_USERNAME=YOUR_AWS_SES_SMTP_USERNAME
+MAIL_PASSWORD=YOUR_AWS_SES_SMTP_PASSWORD
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=your-verified-email@yourdomain.com
+MAIL_FROM_NAME=Your App Name
+
+# Alternative configurations:
+# For SSL/TLS Wrapper Port 465:
+# MAIL_PORT=465
+# MAIL_ENCRYPTION=ssl
+
+# For STARTTLS Port 25:
+# MAIL_PORT=25
+# MAIL_ENCRYPTION=tls
+
+# For STARTTLS Port 2587:
+# MAIL_PORT=2587
+# MAIL_ENCRYPTION=tls

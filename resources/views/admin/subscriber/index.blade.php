@@ -56,4 +56,6 @@
 @push('breadcrumb-plugins')
     <a href="{{ route('admin.subscriber.send.email') }}" class="btn btn-sm btn-outline-primary"><i
             class="las la-paper-plane"></i>@lang('Send Email')</a>
+    <a href="{{ route('admin.subscriber.batch.settings') }}" class="btn btn-sm btn-outline-info"><i
+            class="las la-cog"></i>@lang('Batch Settings')</a>
 @endpush

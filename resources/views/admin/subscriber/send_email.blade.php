@@ -18,6 +18,18 @@
                                 <label>@lang('Body')</label>
                                 <textarea name="body" rows="10" class="form-control nicEdit">{{ old('body') }}</textarea>
                             </div>
+                            <div class="form-group col-md-6">
+                                <label>@lang('Batch Size') <small class="text-muted">(@lang('Emails per batch, default'):</small> {{ $batchSize }})</label>
+                                <input type="number" class="form-control" name="batch_size" min="1" max="100"
+                                    value="{{ old('batch_size', $batchSize) }}" />
+                                <small class="form-text text-muted">@lang('Number of emails to send in each batch (1-100)')</small>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>@lang('Delay Between Batches') <small class="text-muted">(@lang('Minutes, default'):</small> {{ $delayMinutes }})</label>
+                                <input type="number" class="form-control" name="delay_minutes" min="1" max="60"
+                                    value="{{ old('delay_minutes', $delayMinutes) }}" />
+                                <small class="form-text text-muted">@lang('Minutes to wait between batches (1-60)')</small>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">

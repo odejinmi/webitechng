@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Status;
 use App\Http\Controllers\Controller;
+use App\Jobs\SendBatchEmail;
 use App\Models\Deposit;
+use App\Models\GeneralSetting;
 use App\Models\NotificationLog;
 use App\Models\Order;
 use App\Models\Card;
@@ -717,33 +719,40 @@ class ManageUsersController extends Controller
 
     public function sendNotificationAll(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'message' => 'required',
             'subject' => 'required',
+            'batch_size' => 'nullable|integer|min:1|max:100',
+            'delay_minutes' => 'nullable|integer|min:1|max:60',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()]);
         }
 
-        $user = User::active()->skip($request->skip)->first();
+        // Get batch settings from request or defaults
+        $general = GeneralSetting::first();
+        $batchSize = $request->batch_size ?? $general->email_batch_size ?? 30;
+        $delayMinutes = $request->delay_minutes ?? $general->email_batch_delay ?? 15;
 
-        if (!$user) {
-            return response()->json([
-                'error' => 'User not found',
-                'total_sent' => 0,
-            ]);
+        // Prepare recipients
+        $users = User::active()->cursor();
+        $recipients = [];
+        
+        foreach ($users as $user) {
+            $recipients[] = [
+                'username' => $user->username,
+                'email' => $user->email,
+                'fullname' => $user->fullname,
+            ];
         }
 
-        notify($user, 'DEFAULT', [
-            'subject' => $request->subject,
-            'message' => $request->message,
-        ]);
+        // Dispatch batch email job
+        SendBatchEmail::dispatch($recipients, $request->subject, $request->message, $batchSize, $delayMinutes);
 
         return response()->json([
-            'success'    => 'message sent',
-            'total_sent' => $request->skip + 1,
+            'success'    => 'Email batch job has been queued. ' . count($recipients) . ' emails will be sent in batches of ' . $batchSize . ' with ' . $delayMinutes . ' minutes delay between batches.',
+            'total_sent' => count($recipients),
         ]);
     }
 
