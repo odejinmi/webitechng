@@ -749,7 +749,7 @@ class ManageUsersController extends Controller
         }
 
         // Check if test mode is enabled
-        $testMode = $request->has('test_mode');
+        $testMode = $request->input('test_mode') == '1';
         
         // Dispatch batch email coordinator job
         SendBatchEmailCoordinator::dispatch($recipients, $request->subject, $request->message, $batchSize, $delayMinutes, $testMode);

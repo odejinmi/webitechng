@@ -1,0 +1,65 @@
+# QUEUE SETUP GUIDE FOR BATCH EMAIL SYSTEM
+
+## Current Issue
+Your queue is set to 'sync' which means jobs run immediately in the same HTTP request, causing timeout issues.
+
+## Recommended Solutions
+
+### Option 1: Use Database Queue (Recommended)
+Add to your .env file:
+```
+QUEUE_CONNECTION=database
+```
+
+Then run:
+```
+php artisan queue:table
+php artisan migrate
+```
+
+### Option 2: Use Redis Queue (Better for production)
+Add to your .env file:
+```
+QUEUE_CONNECTION=redis
+```
+
+Make sure Redis is running on your server.
+
+### Option 3: Increase PHP Max Execution Time
+Add to your php.ini or .htaccess:
+```
+max_execution_time = 300
+```
+
+## Queue Worker Setup
+
+After configuring queue connection, run the worker:
+```
+php artisan queue:work --timeout=300
+```
+
+For production, use supervisor to keep queue worker running:
+```
+[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /path/to/your/project/artisan queue:work --sleep=3 --tries=3 --max-time=300
+autostart=true
+autorestart=true
+user=www-data
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/path/to/your/project/storage/logs/worker.log
+stopwaitsecs=3600
+```
+
+## Testing
+1. Set QUEUE_CONNECTION=database in .env
+2. Run: php artisan queue:work --timeout=300
+3. Test batch email system
+4. Check logs for proper processing
+
+## Benefits of Real Queue
+- No HTTP timeout issues
+- Jobs run in background
+- Better error handling and retries
+- Scalable for high volume

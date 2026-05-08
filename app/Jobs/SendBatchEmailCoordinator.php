@@ -13,6 +13,13 @@ use Carbon\Carbon;
 class SendBatchEmailCoordinator implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    
+    /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 300; // 5 minutes timeout
 
     protected $recipients;
     protected $subject;

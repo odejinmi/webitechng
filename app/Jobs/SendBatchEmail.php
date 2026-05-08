@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Log;
 class SendBatchEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    
+    /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 300; // 5 minutes timeout
 
     protected $recipients;
     protected $subject;
@@ -68,20 +75,15 @@ class SendBatchEmail implements ShouldQueue
                     ]);
                     $successCount++;
                 } else {
-                    // Production mode - actually send email
-                    $email = new Email();
-                    $email->email = $recipient['email'];
-                    $email->subject = $this->subject;
-                    $email->receiverName = $recipient['fullname'];
-
-                    // Set the message content
-                    $email->finalMessage = $this->message;
-
-                    // Get the global settings
-                    $email->setting = \App\Models\GeneralSetting::first();
-
-                    // Send the email
-                    $email->send();
+                    // Production mode - actually send email using the same method as single email
+                    $user = (object) $recipient;
+                    
+                    // Use the notify helper function (same as single email method)
+                    notify($user, 'DEFAULT', [
+                        'subject' => $this->subject,
+                        'message' => $this->message,
+                    ], ['email']);
+                    
                     $successCount++;
 
                     Log::info("Email sent successfully", [
