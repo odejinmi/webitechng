@@ -78,6 +78,9 @@ class SendBatchEmail implements ShouldQueue
                     // Production mode - actually send email using the same method as single email
                     $user = (object) $recipient;
                     
+                    // Add missing username property (required by notify function)
+                    $user->username = $recipient['email']; // Use email as username if not provided
+                    
                     // Use the notify helper function (same as single email method)
                     notify($user, 'DEFAULT', [
                         'subject' => $this->subject,
