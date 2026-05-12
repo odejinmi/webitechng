@@ -15,7 +15,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // Process the queue every minute
+        // Using --stop-when-empty is recommended for cPanel/Shared Hosting to prevent process buildup
+        $schedule->command('queue:work --stop-when-empty')->everyMinute()->withoutOverlapping();
+
+        // If you need to process FDR installments daily, uncomment the line below:
+        // $schedule->call(function () { app(\App\Http\Controllers\ApiController::class)->fixed(); })->daily();
     }
 
     /**
