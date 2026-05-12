@@ -20,39 +20,37 @@
                                     <textarea name="message" rows="10" class="form-control nicEdit"></textarea>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>@lang('Batch Size') <small class="text-muted">(@lang('Emails per batch, default'):</small> 30)</label>
-                                    <input type="number" class="form-control" name="batch_size" min="1" max="100"
-                                        value="30" />
-                                    <small class="form-text text-muted">@lang('Number of emails to send in each batch (1-100)')</small>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>@lang('Delay Between Batches') <small class="text-muted">(@lang('Minutes, default'):</small> 15)</label>
-                                    <input type="number" class="form-control" name="delay_minutes" min="1" max="60"
-                                        value="15" />
-                                    <small class="form-text text-muted">@lang('Minutes to wait between batches (1-60)')</small>
-                                </div>
-                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" name="test_mode" id="test_mode_users" value="1">
-                                        <label class="form-check-label" for="test_mode_users">
-                                            <strong>@lang('Test Mode')</strong> - @lang('Simulate email sending without actually sending emails')
-                                        </label>
+                                    <label>@lang('Sending Mode')</label>
+                                    <select name="sending_mode" class="form-control" id="sending_mode" required>
+                                        <option value="live">@lang('Live Mode (With Progress Bar - No Cron Needed)')</option>
+                                        <option value="queue">@lang('Background Mode (Queued - Needs Cron Job)')</option>
+                                    </select>
+                                    <small class="form-text text-muted">@lang('Choose "Live Mode" if your cPanel cron jobs are not working.')</small>
+                                </div>
+                            </div>
+
+                            <div id="batch_settings_area" class="row w-100 d-none">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>@lang('Batch Size') <small class="text-muted">(@lang('Emails per batch, default'):</small> 30)</label>
+                                        <input type="number" class="form-control" name="batch_size" min="1" max="100"
+                                            value="30" />
                                     </div>
-                                    <small class="form-text text-warning">
-                                        <i class="fas fa-exclamation-triangle"></i> @lang('When enabled, emails will be logged but not actually sent. Use for testing batch processing and timing.')
-                                    </small>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>@lang('Delay Between Batches') <small class="text-muted">(@lang('Minutes, default'):</small> 15)</label>
+                                        <input type="number" class="form-control" name="delay_minutes" min="1" max="60"
+                                            value="15" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn w-100 h-45 btn--primary me-2">@lang('Submit')</button>
+                        <button type="submit" class="btn w-100 h-45 btn--primary me-2">@lang('Start Sending')</button>
                     </div>
                 </form>
             </div>
@@ -110,53 +108,73 @@
     <script>
         (function($) {
             "use strict"
+
+            $('#sending_mode').on('change', function() {
+                if ($(this).val() == 'queue') {
+                    $('#batch_settings_area').removeClass('d-none');
+                } else {
+                    $('#batch_settings_area').addClass('d-none');
+                }
+            }).change();
+
             $('.notify-form').on('submit', function(e) {
                 if ({{ $users }} <= 0) {
                     notify('error', 'Users not found');
                     return false;
                 }
                 e.preventDefault();
-                
-                var _token = $(this).find('[name=_token]').val();
-                var subject = $(this).find('[name=subject]').val();
+
+                var formData = $(this).serializeArray();
                 var message = $(this).find('.nicEdit-main').html();
-                var batchSize = $(this).find('[name=batch_size]').val() || 30;
-                var delayMinutes = $(this).find('[name=delay_minutes]').val() || 15;
-                var testMode = $(this).find('[name=test_mode]').is(':checked') ? 1 : 0;
+                formData.push({name: 'message', value: message});
 
-                // Show progress modal
-                $('.progress-bar').css('width', `100%`);
-                $('.progress-bar').text(`100%`);
-                $('.sent').text({{ $users }});
                 $('#notificationSending').modal('show');
+                $('.progress-bar').css('width', '0%').text('0%');
+                $('.sent').text('0');
 
-                $.post("{{ route('admin.users.notification.all.send') }}", {
-                    "subject": subject,
-                    "_token": _token,
-                    "message": message,
-                    "batch_size": batchSize,
-                    "delay_minutes": delayMinutes,
-                    "test_mode": testMode
-                }, function(response) {
+                $.post("{{ route('admin.users.notification.all.send') }}", formData, function(response) {
                     if (response.error) {
                         response.error.forEach(error => {
                             notify('error', error)
                         });
                         $('#notificationSending').modal('hide');
+                    } else if(response.live_mode) {
+                        sendBatchLive();
                     } else {
-                        // Show success message
+                        $('.progress-bar').css('width', '100%').text('100%');
+                        $('.sent').text(response.total_sent);
                         setTimeout(() => {
                             $('#notificationSending').modal('hide');
-                            $('form.notify-form')[0].reset();
-                            $('.nicEdit-main').html('<span></span>');
                             notify('success', response.success)
-                        }, 2000);
+                        }, 1000);
                     }
                 }).fail(function() {
                     notify('error', 'An error occurred while processing your request');
                     $('#notificationSending').modal('hide');
                 });
             });
+
+            function sendBatchLive() {
+                $.post("{{ route('admin.users.notification.all.send.live') }}", {
+                    _token: "{{ csrf_token() }}"
+                }, function (response) {
+                    if (response.complete) {
+                        $('.progress-bar').css('width', '100%').text('100%');
+                        setTimeout(() => {
+                            $('#notificationSending').modal('hide');
+                            notify('success', 'Notifications sent successfully');
+                        }, 1000);
+                    } else {
+                        let percent = response.percent;
+                        $('.progress-bar').css('width', percent + '%').text(percent + '%');
+                        $('.sent').text(response.sent);
+                        setTimeout(sendBatchLive, 1000);
+                    }
+                }).fail(function (xhr) {
+                    notify('error', 'Live sending failed');
+                    $('#notificationSending').modal('hide');
+                });
+            }
 
         })(jQuery);
     </script>

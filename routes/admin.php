@@ -118,6 +118,7 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         //User Data
         Route::get('send-notification', 'showNotificationAllForm')->name('notification.all');
         Route::post('send-notification', 'sendNotificationAll')->name('notification.all.send');
+        Route::post('send-notification-live', 'sendNotificationLive')->name('notification.all.send.live');
         Route::get('notification-log/{id}', 'notificationLog')->name('notification.log');
     });
 

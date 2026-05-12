@@ -91,7 +91,7 @@ class ManageUsersController extends Controller
         }
 
     }
-    
+
     public function generatenubanpayvessel($id)
     {
         try {
@@ -724,40 +724,87 @@ class ManageUsersController extends Controller
             'subject' => 'required',
             'batch_size' => 'nullable|integer|min:1|max:100',
             'delay_minutes' => 'nullable|integer|min:1|max:60',
-            'test_mode' => 'nullable|boolean',
+            'sending_mode' => 'required|in:queue,live',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()]);
         }
 
-        // Get batch settings from request or defaults
-        $general = GeneralSetting::first();
-        $batchSize = $request->batch_size ?? $general->email_batch_size ?? 30;
-        $delayMinutes = $request->delay_minutes ?? $general->email_batch_delay ?? 15;
+        $users = User::active()->get();
+        $total = $users->count();
 
-        // Prepare recipients
-        $users = User::active()->cursor();
-        $recipients = [];
-        
-        foreach ($users as $user) {
-            $recipients[] = [
-                'username' => $user->username,
-                'email' => $user->email,
-                'fullname' => $user->fullname,
-            ];
+        if ($total == 0) {
+            return response()->json(['error' => ['Users not found']]);
         }
 
-        // Check if test mode is enabled
-        $testMode = $request->input('test_mode') == '1';
-        
-        // Dispatch batch email coordinator job
-        SendBatchEmailCoordinator::dispatch($recipients, $request->subject, $request->message, $batchSize, $delayMinutes, $testMode);
+        if ($request->sending_mode == 'queue') {
+            $batchSize = $request->batch_size ?? 30;
+            $delayMinutes = $request->delay_minutes ?? 15;
+            $recipients = [];
+            foreach ($users as $user) {
+                $recipients[] = [
+                    'username' => $user->username,
+                    'email' => $user->email,
+                    'fullname' => $user->fullname,
+                ];
+            }
+            \App\Jobs\SendBatchEmailCoordinator::dispatch($recipients, $request->subject, $request->message, $batchSize, $delayMinutes, false);
+            return response()->json([
+                'success'    => 'Email batch job has been queued via Background Cron.',
+                'total_sent' => count($recipients),
+            ]);
+        }
 
-        $modeText = $testMode ? 'TEST MODE - ' : '';
+        // Live Mode
+        session()->put('user_notification_data', [
+            'subject' => $request->subject,
+            'message' => $request->message,
+            'total' => $total,
+            'sent' => 0,
+            'user_ids' => $users->pluck('id')->toArray(),
+        ]);
+
         return response()->json([
-            'success'    => $modeText . 'Email batch job has been queued. ' . count($recipients) . ' emails will be ' . ($testMode ? 'simulated' : 'sent') . ' in batches of ' . $batchSize . ' with ' . $delayMinutes . ' minutes delay between batches.',
-            'total_sent' => count($recipients),
+            'live_mode' => true,
+            'total' => $total
+        ]);
+    }
+
+    public function sendNotificationLive(Request $request)
+    {
+        $data = session()->get('user_notification_data');
+        if (!$data) {
+            return response()->json(['error' => 'No active session found.'], 400);
+        }
+
+        $userIds = $data['user_ids'];
+        $chunkSize = 10;
+        $currentBatch = array_slice($userIds, $data['sent'], $chunkSize);
+
+        if (empty($currentBatch)) {
+            session()->forget('user_notification_data');
+            return response()->json(['complete' => true]);
+        }
+
+        foreach ($currentBatch as $id) {
+            $user = User::find($id);
+            if ($user) {
+                notify($user, 'DEFAULT', [
+                    'subject' => $data['subject'],
+                    'message' => $data['message'],
+                ]);
+            }
+        }
+
+        $data['sent'] += count($currentBatch);
+        session()->put('user_notification_data', $data);
+
+        return response()->json([
+            'sent' => $data['sent'],
+            'total' => $data['total'],
+            'percent' => round(($data['sent'] / $data['total']) * 100, 2),
+            'complete' => false
         ]);
     }
 
