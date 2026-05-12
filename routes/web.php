@@ -8,6 +8,7 @@ Route::get('/clear', function () {
 
 //Cron Controller
 Route::get('cron', 'CronController@placeOrderToApi')->name('cron');
+Route::get('cron/queue', 'CronController@runQueue')->name('cron.queue');
 // User Support Ticket
 Route::controller('TicketController')->prefix('ticket')->name('ticket.')->group(function () {
     Route::get('/', 'supportTicket')->name('index');
@@ -20,7 +21,7 @@ Route::controller('TicketController')->prefix('ticket')->name('ticket.')->group(
 });
 
 Route::get('app/deposit/confirm/{hash}', 'Gateway\PaymentController@appDepositConfirm')->name('deposit.app.confirm');
- 
+
 
 //Cart
 Route::controller('CartController')->group(function () {
@@ -29,7 +30,7 @@ Route::controller('CartController')->group(function () {
 });
 
 Route::controller('SiteController')->group(function () {
-    
+
     Route::get('/contact', 'contact')->name('contact');
     Route::get('/custompage/{id}', 'custompage')->name('custompage');
     Route::post('/contact', 'contactSubmit');
@@ -46,7 +47,7 @@ Route::controller('SiteController')->group(function () {
     Route::get('placeholder-image/{size}', 'placeholderImage')->name('placeholder.image');
     Route::post('subscribe', 'subscribe')->name('subscribe');
     Route::get('/api', 'apiDocumentation')->name('api.documentation');
-    Route::get('/blog', 'blog')->name('blog'); 
+    Route::get('/blog', 'blog')->name('blog');
 
     Route::get('/{slug}', 'pages')->name('pages');
     Route::get('/page/{slug}', 'page')->name('page');

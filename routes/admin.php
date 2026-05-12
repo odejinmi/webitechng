@@ -142,6 +142,7 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::get('send-email', 'sendEmailForm')->name('send.email');
         Route::post('remove/{id}', 'remove')->name('remove');
         Route::post('send-email', 'sendEmail')->name('send.email');
+        Route::post('send-email-live', 'sendEmailLive')->name('send.email.live');
         Route::get('batch-settings', 'batchSettings')->name('batch.settings');
         Route::post('batch-settings', 'updateBatchSettings')->name('batch.settings.update');
     });
