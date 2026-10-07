@@ -33,3 +33,7 @@ Route::post('create/customer', 'ApiMerchantController@CREATECUSTOMER');
 Route::post('fetch/customer', 'ApiMerchantController@FETCHCUSTOMER');
 Route::post('identity/verify', 'ApiMerchantController@IDVERIFY');
 });
+
+// Mobile User API Routes
+Route::prefix('user')->group(base_path('routes/api/user.php'));
+

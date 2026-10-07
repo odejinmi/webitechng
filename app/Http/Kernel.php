@@ -41,6 +41,8 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            \App\Http\Middleware\ForceJsonResponse::class,
+            \App\Http\Middleware\ApiPayloadEncryptionMiddleware::class,
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -55,6 +57,8 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
+        'api.encrypt' => \App\Http\Middleware\ApiPayloadEncryptionMiddleware::class,
+        'force.json' => \App\Http\Middleware\ForceJsonResponse::class,
         'adminPermission'  => \App\Http\Middleware\AdminPermissionMiddleware::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
@@ -98,7 +102,7 @@ class Kernel extends HttpKernel
         'buy_giftcard.status' => \App\Http\Middleware\AllowBuyGiftcard::class,
         'giftauto.status' => \App\Http\Middleware\AllowAutoGiftcard::class,
         'sell_giftcard.status' => \App\Http\Middleware\AllowSellGiftcard::class,
-        
+
         'demo' => \App\Http\Middleware\Demo::class,
         'registration.complete' => \App\Http\Middleware\RegistrationStep::class,
         'maintenance' => \App\Http\Middleware\MaintenanceMode::class,

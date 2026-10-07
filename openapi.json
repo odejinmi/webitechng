@@ -1,0 +1,346 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "WEBITECHNG API Documentation",
+    "description": "Comprehensive OpenAPI 3.0 specification for WEBITECHNG Mobile and Merchant APIs with 4-Layer Encryption support.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://your-domain.com/api",
+      "description": "Production Server"
+    },
+    {
+      "url": "http://127.0.0.1:8000/api",
+      "description": "Local Development Server"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/user/login": {
+      "post": {
+        "summary": "User Login",
+        "description": "Authenticates a user and returns a Sanctum Bearer token.",
+        "tags": ["Authentication"],
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "johndoe@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "Secret123!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/register": {
+      "post": {
+        "summary": "Register User",
+        "description": "Creates a new user account.",
+        "tags": ["Authentication"],
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["firstname", "lastname", "email", "username", "mobile", "password", "password_confirmation"],
+                "properties": {
+                  "firstname": { "type": "string", "example": "John" },
+                  "lastname": { "type": "string", "example": "Doe" },
+                  "email": { "type": "string", "example": "john@example.com" },
+                  "username": { "type": "string", "example": "johndoe" },
+                  "mobile": { "type": "string", "example": "08012345678" },
+                  "password": { "type": "string", "example": "Password123!" },
+                  "password_confirmation": { "type": "string", "example": "Password123!" },
+                  "ref_by": { "type": "string", "example": "referrer_user" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User created successfully"
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "post": {
+        "summary": "User Logout",
+        "description": "Revokes active Sanctum bearer tokens.",
+        "tags": ["Authentication"],
+        "responses": {
+          "200": {
+            "description": "Logged out successfully"
+          }
+        }
+      }
+    },
+    "/user/dashboard": {
+      "get": {
+        "summary": "User Dashboard",
+        "description": "Fetches wallet balances, transaction counts, deposits, and chart stats.",
+        "tags": ["Dashboard & Profile"],
+        "responses": {
+          "200": {
+            "description": "Dashboard data fetched successfully"
+          }
+        }
+      }
+    },
+    "/user/profile/profile-setting": {
+      "get": {
+        "summary": "Get Profile Settings",
+        "tags": ["Dashboard & Profile"],
+        "responses": {
+          "200": { "description": "Profile data" }
+        }
+      },
+      "post": {
+        "summary": "Update Profile Settings",
+        "tags": ["Dashboard & Profile"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstname": { "type": "string" },
+                  "lastname": { "type": "string" },
+                  "address": { "type": "string" },
+                  "state": { "type": "string" },
+                  "zip": { "type": "string" },
+                  "city": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Profile updated" }
+        }
+      }
+    },
+    "/user/transactions": {
+      "get": {
+        "summary": "Transaction Log",
+        "tags": ["Dashboard & Profile"],
+        "responses": {
+          "200": { "description": "Paginated list of transactions" }
+        }
+      }
+    },
+    "/user/airtime/buy/airtime": {
+      "post": {
+        "summary": "Purchase Airtime",
+        "tags": ["VTU Services"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["operator", "amount", "phone", "password"],
+                "properties": {
+                  "operator": { "type": "string", "example": "123" },
+                  "amount": { "type": "number", "example": 1000 },
+                  "phone": { "type": "string", "example": "08012345678" },
+                  "wallet": { "type": "string", "example": "main" },
+                  "password": { "type": "string", "example": "123456" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Airtime purchase successful" }
+        }
+      }
+    },
+    "/user/internet/buy/internet": {
+      "post": {
+        "summary": "Purchase Internet Data",
+        "tags": ["VTU Services"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["operator", "plan", "phone", "password"],
+                "properties": {
+                  "operator": { "type": "string", "example": "mtn" },
+                  "plan": { "type": "string", "example": "500MB" },
+                  "phone": { "type": "string", "example": "08012345678" },
+                  "password": { "type": "string", "example": "123456" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Data purchase successful" }
+        }
+      }
+    },
+    "/user/bank/transfer/strowallet": {
+      "post": {
+        "summary": "Bank Transfer (Strowallet)",
+        "tags": ["Financial Services"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["bank_code", "account_number", "amount", "pin"],
+                "properties": {
+                  "bank_code": { "type": "string", "example": "011" },
+                  "account_number": { "type": "string", "example": "0123456789" },
+                  "amount": { "type": "number", "example": 5000 },
+                  "pin": { "type": "string", "example": "1234" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Bank transfer processed" }
+        }
+      }
+    },
+    "/user/virtualcard/request": {
+      "post": {
+        "summary": "Request Virtual Card",
+        "tags": ["Virtual Cards"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["amount", "card_type"],
+                "properties": {
+                  "amount": { "type": "number", "example": 10 },
+                  "card_type": { "type": "string", "example": "visa" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Virtual card created" }
+        }
+      }
+    },
+    "/user/crypto/currencies": {
+      "get": {
+        "summary": "List Crypto Currencies",
+        "tags": ["Crypto Services"],
+        "responses": {
+          "200": { "description": "Crypto currencies list" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Sanctum"
+      },
+      "encryptedHeaders": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Signature"
+      }
+    },
+    "schemas": {
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "integer", "example": 200 },
+          "status": { "type": "string", "example": "ok" },
+          "message": {
+            "type": "object",
+            "properties": {
+              "success": {
+                "type": "array",
+                "items": { "type": "string" },
+                "example": ["Login Successful"]
+              }
+            }
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "user": { "type": "object" },
+              "accessToken": { "type": "string", "example": "1|abcdef123456..." },
+              "token_type": { "type": "string", "example": "Bearer" }
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "integer", "example": 401 },
+          "status": { "type": "string", "example": "error" },
+          "message": { "type": "string", "example": "Unauthorized user" }
+        }
+      },
+      "EncryptedRequest": {
+        "type": "object",
+        "required": ["payload", "iv", "tag"],
+        "properties": {
+          "payload": { "type": "string", "description": "AES-256-GCM Base64 Ciphertext" },
+          "iv": { "type": "string", "description": "Base64 12-byte IV" },
+          "tag": { "type": "string", "description": "Base64 16-byte Auth Tag" }
+        }
+      }
+    }
+  }
+}
