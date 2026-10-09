@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "WEBITECHNG API Collection",
-    "description": "Ready-to-import Postman Collection for WEBITECHNG Mobile and Merchant APIs.",
+    "description": "Ready-to-import Postman Collection for WEBITECHNG Mobile and Merchant APIs with pre-populated JSON payloads for all POST requests.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -21,31 +21,6 @@
       "name": "Authentication",
       "item": [
         {
-          "name": "User Login",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"username\": \"johndoe@example.com\",\n  \"password\": \"Secret123!\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/user/login",
-              "host": ["{{base_url}}"],
-              "path": ["user", "login"]
-            }
-          }
-        },
-        {
           "name": "User Register",
           "request": {
             "method": "POST",
@@ -57,11 +32,82 @@
               "mode": "raw",
               "raw": "{\n  \"firstname\": \"John\",\n  \"lastname\": \"Doe\",\n  \"email\": \"john@example.com\",\n  \"username\": \"johndoe\",\n  \"mobile\": \"08012345678\",\n  \"password\": \"Password123!\",\n  \"password_confirmation\": \"Password123!\"\n}"
             },
-            "url": {
-              "raw": "{{base_url}}/user/register",
-              "host": ["{{base_url}}"],
-              "path": ["user", "register"]
-            }
+            "url": { "raw": "{{base_url}}/user/register", "host": ["{{base_url}}"], "path": ["user", "register"] }
+          }
+        },
+        {
+          "name": "User Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"johndoe@example.com\",\n  \"password\": \"Secret123!\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/login", "host": ["{{base_url}}"], "path": ["user", "login"] }
+          }
+        },
+        {
+          "name": "Check Mail",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/check-mail", "host": ["{{base_url}}"], "path": ["user", "check-mail"] }
+          }
+        },
+        {
+          "name": "Password Reset Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/password/email", "host": ["{{base_url}}"], "path": ["user", "password", "email"] }
+          }
+        },
+        {
+          "name": "Password Reset Verify Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"code\": \"123456\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/password/verify-code", "host": ["{{base_url}}"], "path": ["user", "password", "verify-code"] }
+          }
+        },
+        {
+          "name": "Password Reset Submit",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"code\": \"123456\",\n  \"password\": \"NewPassword123!\",\n  \"password_confirmation\": \"NewPassword123!\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/password/reset", "host": ["{{base_url}}"], "path": ["user", "password", "reset"] }
           }
         },
         {
@@ -72,17 +118,66 @@
               { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
               { "key": "Accept", "value": "application/json" }
             ],
-            "url": {
-              "raw": "{{base_url}}/user/logout",
-              "host": ["{{base_url}}"],
-              "path": ["user", "logout"]
-            }
+            "url": { "raw": "{{base_url}}/user/logout", "host": ["{{base_url}}"], "path": ["user", "logout"] }
           }
         }
       ]
     },
     {
-      "name": "User Core & Dashboard",
+      "name": "Verification & Authorization",
+      "item": [
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email_verified_code\": \"123456\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/verify-email", "host": ["{{base_url}}"], "path": ["user", "verify-email"] }
+          }
+        },
+        {
+          "name": "Verify Mobile SMS",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sms_verified_code\": \"123456\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/verify-mobile", "host": ["{{base_url}}"], "path": ["user", "verify-mobile"] }
+          }
+        },
+        {
+          "name": "Verify Google 2FA",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"123456\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/verify-g2fa", "host": ["{{base_url}}"], "path": ["user", "verify-g2fa"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Core Dashboard & Profile",
       "item": [
         {
           "name": "Get Dashboard Data",
@@ -92,26 +187,92 @@
               { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
               { "key": "Accept", "value": "application/json" }
             ],
-            "url": {
-              "raw": "{{base_url}}/user/dashboard",
-              "host": ["{{base_url}}"],
-              "path": ["user", "dashboard"]
-            }
+            "url": { "raw": "{{base_url}}/user/dashboard", "host": ["{{base_url}}"], "path": ["user", "dashboard"] }
           }
         },
         {
-          "name": "Get Transactions",
+          "name": "Update Profile Settings",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [
               { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
+              { "key": "Content-Type", "value": "application/json" },
               { "key": "Accept", "value": "application/json" }
             ],
-            "url": {
-              "raw": "{{base_url}}/user/transactions",
-              "host": ["{{base_url}}"],
-              "path": ["user", "transactions"]
-            }
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstname\": \"John\",\n  \"lastname\": \"Doe\",\n  \"address\": \"123 Main Street\",\n  \"state\": \"Lagos\",\n  \"zip\": \"100001\",\n  \"city\": \"Ikeja\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/profile/profile-setting", "host": ["{{base_url}}"], "path": ["user", "profile", "profile-setting"] }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"current_password\": \"OldPassword123!\",\n  \"password\": \"NewPassword123!\",\n  \"password_confirmation\": \"NewPassword123!\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/profile/change-password", "host": ["{{base_url}}"], "path": ["user", "profile", "change-password"] }
+          }
+        },
+        {
+          "name": "Change Transaction PIN",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"current_password\": \"OldPassword123!\",\n  \"trx_password\": \"123456\",\n  \"trx_password_confirmation\": \"123456\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/profile/change-trxpassword", "host": ["{{base_url}}"], "path": ["user", "profile", "change-trxpassword"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Deposits & Withdrawals",
+      "item": [
+        {
+          "name": "Initiate Deposit",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 5000,\n  \"method_code\": \"101\",\n  \"currency\": \"NGN\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/deposit/insert", "host": ["{{base_url}}"], "path": ["user", "deposit", "insert"] }
+          }
+        },
+        {
+          "name": "Request Withdrawal",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"method_code\": \"1\",\n  \"amount\": 10000\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/withdraw", "host": ["{{base_url}}"], "path": ["user", "withdraw"] }
           }
         }
       ]
@@ -132,11 +293,7 @@
               "mode": "raw",
               "raw": "{\n  \"operator\": \"123\",\n  \"amount\": 1000,\n  \"phone\": \"08012345678\",\n  \"wallet\": \"main\",\n  \"password\": \"123456\"\n}"
             },
-            "url": {
-              "raw": "{{base_url}}/user/airtime/buy/airtime",
-              "host": ["{{base_url}}"],
-              "path": ["user", "airtime", "buy", "airtime"]
-            }
+            "url": { "raw": "{{base_url}}/user/airtime/buy/airtime", "host": ["{{base_url}}"], "path": ["user", "airtime", "buy", "airtime"] }
           }
         },
         {
@@ -150,13 +307,41 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"operator\": \"mtn\",\n  \"plan\": \"500MB\",\n  \"phone\": \"08012345678\",\n  \"password\": \"123456\"\n}"
+              "raw": "{\n  \"operator\": \"mtn\",\n  \"plan\": \"500MB\",\n  \"phone\": \"08012345678\",\n  \"wallet\": \"main\",\n  \"password\": \"123456\"\n}"
             },
-            "url": {
-              "raw": "{{base_url}}/user/internet/buy/internet",
-              "host": ["{{base_url}}"],
-              "path": ["user", "internet", "buy", "internet"]
-            }
+            "url": { "raw": "{{base_url}}/user/internet/buy/internet", "host": ["{{base_url}}"], "path": ["user", "internet", "buy", "internet"] }
+          }
+        },
+        {
+          "name": "Pay Utility Bill",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operator_id\": \"1\",\n  \"meter_number\": \"11223344556\",\n  \"amount\": 3000,\n  \"meter_type\": \"prepaid\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/utility/buy/utility", "host": ["{{base_url}}"], "path": ["user", "utility", "buy", "utility"] }
+          }
+        },
+        {
+          "name": "Subscribe Cable TV",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operator_id\": \"1\",\n  \"iuc_number\": \"1234567890\",\n  \"plan_id\": \"dstv_compact\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/cabletv/buy/cabletv", "host": ["{{base_url}}"], "path": ["user", "cabletv", "buy", "cabletv"] }
           }
         }
       ]
@@ -175,13 +360,62 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"bank_code\": \"011\",\n  \"account_number\": \"0123456789\",\n  \"amount\": 5000,\n  \"pin\": \"1234\"\n}"
+              "raw": "{\n  \"bank_code\": \"011\",\n  \"account_number\": \"0123456789\",\n  \"amount\": 5000,\n  \"pin\": \"123456\",\n  \"narration\": \"Payment for goods\"\n}"
             },
-            "url": {
-              "raw": "{{base_url}}/user/bank/transfer/strowallet",
-              "host": ["{{base_url}}"],
-              "path": ["user", "bank", "transfer", "strowallet"]
-            }
+            "url": { "raw": "{{base_url}}/user/bank/transfer/strowallet", "host": ["{{base_url}}"], "path": ["user", "bank", "transfer", "strowallet"] }
+          }
+        },
+        {
+          "name": "Peer to Peer Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"recipient_username\",\n  \"amount\": 2500,\n  \"pin\": \"123456\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/p2p/transfer", "host": ["{{base_url}}"], "path": ["user", "p2p", "transfer"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Virtual Cards & Crypto",
+      "item": [
+        {
+          "name": "Request Virtual Card",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 10,\n  \"card_type\": \"visa\",\n  \"currency\": \"USD\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/virtualcard/request", "host": ["{{base_url}}"], "path": ["user", "virtualcard", "request"] }
+          }
+        },
+        {
+          "name": "Buy Crypto Asset",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{bearer_token}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"coin_id\": \"BTC\",\n  \"amount\": 100,\n  \"wallet_address\": \"1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/user/buy/asset/coin/buy", "host": ["{{base_url}}"], "path": ["user", "buy", "asset", "coin", "buy"] }
           }
         }
       ]

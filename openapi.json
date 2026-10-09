@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "WEBITECHNG API Documentation",
-    "description": "Comprehensive OpenAPI 3.0 specification for WEBITECHNG Mobile and Merchant APIs with 4-Layer Encryption support.",
+    "title": "WEBITECHNG API Specification",
+    "description": "Comprehensive OpenAPI 3.0 specification for WEBITECHNG Mobile and Merchant APIs with explicit JSON Request Body Payloads.",
     "version": "1.0.0"
   },
   "servers": [
@@ -21,61 +21,9 @@
     }
   ],
   "paths": {
-    "/user/login": {
-      "post": {
-        "summary": "User Login",
-        "description": "Authenticates a user and returns a Sanctum Bearer token.",
-        "tags": ["Authentication"],
-        "security": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["username", "password"],
-                "properties": {
-                  "username": {
-                    "type": "string",
-                    "example": "johndoe@example.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "Secret123!"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Login",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/user/register": {
       "post": {
         "summary": "Register User",
-        "description": "Creates a new user account.",
         "tags": ["Authentication"],
         "security": [],
         "requestBody": {
@@ -99,82 +47,296 @@
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "User created successfully"
-          }
-        }
+        "responses": { "200": { "description": "Registration successful" } }
       }
     },
-    "/user/logout": {
+    "/user/login": {
       "post": {
-        "summary": "User Logout",
-        "description": "Revokes active Sanctum bearer tokens.",
+        "summary": "User Login",
         "tags": ["Authentication"],
-        "responses": {
-          "200": {
-            "description": "Logged out successfully"
-          }
-        }
-      }
-    },
-    "/user/dashboard": {
-      "get": {
-        "summary": "User Dashboard",
-        "description": "Fetches wallet balances, transaction counts, deposits, and chart stats.",
-        "tags": ["Dashboard & Profile"],
-        "responses": {
-          "200": {
-            "description": "Dashboard data fetched successfully"
-          }
-        }
-      }
-    },
-    "/user/profile/profile-setting": {
-      "get": {
-        "summary": "Get Profile Settings",
-        "tags": ["Dashboard & Profile"],
-        "responses": {
-          "200": { "description": "Profile data" }
-        }
-      },
-      "post": {
-        "summary": "Update Profile Settings",
-        "tags": ["Dashboard & Profile"],
+        "security": [],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
+                "required": ["username", "password"],
                 "properties": {
-                  "firstname": { "type": "string" },
-                  "lastname": { "type": "string" },
-                  "address": { "type": "string" },
-                  "state": { "type": "string" },
-                  "zip": { "type": "string" },
-                  "city": { "type": "string" }
+                  "username": { "type": "string", "example": "johndoe@example.com" },
+                  "password": { "type": "string", "example": "Secret123!" }
                 }
               }
             }
           }
         },
-        "responses": {
-          "200": { "description": "Profile updated" }
-        }
+        "responses": { "200": { "description": "Login successful" } }
       }
     },
-    "/user/transactions": {
-      "get": {
-        "summary": "Transaction Log",
-        "tags": ["Dashboard & Profile"],
-        "responses": {
-          "200": { "description": "Paginated list of transactions" }
-        }
+    "/user/check-mail": {
+      "post": {
+        "summary": "Check Email Availability",
+        "tags": ["Authentication"],
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": { "email": { "type": "string", "example": "john@example.com" } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Email status" } }
+      }
+    },
+    "/user/password/email": {
+      "post": {
+        "summary": "Send Password Reset Email",
+        "tags": ["Authentication"],
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": { "email": { "type": "string", "example": "john@example.com" } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Reset email sent" } }
+      }
+    },
+    "/user/password/verify-code": {
+      "post": {
+        "summary": "Verify Password Reset Code",
+        "tags": ["Authentication"],
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "code"],
+                "properties": {
+                  "email": { "type": "string", "example": "john@example.com" },
+                  "code": { "type": "string", "example": "123456" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Code verified" } }
+      }
+    },
+    "/user/password/reset": {
+      "post": {
+        "summary": "Update Password",
+        "tags": ["Authentication"],
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "code", "password", "password_confirmation"],
+                "properties": {
+                  "email": { "type": "string", "example": "john@example.com" },
+                  "code": { "type": "string", "example": "123456" },
+                  "password": { "type": "string", "example": "NewPassword123!" },
+                  "password_confirmation": { "type": "string", "example": "NewPassword123!" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Password updated" } }
+      }
+    },
+    "/user/verify-email": {
+      "post": {
+        "summary": "Verify Email",
+        "tags": ["Verification"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email_verified_code"],
+                "properties": { "email_verified_code": { "type": "string", "example": "123456" } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Email verified" } }
+      }
+    },
+    "/user/verify-mobile": {
+      "post": {
+        "summary": "Verify Mobile SMS",
+        "tags": ["Verification"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["sms_verified_code"],
+                "properties": { "sms_verified_code": { "type": "string", "example": "123456" } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Mobile verified" } }
+      }
+    },
+    "/user/verify-g2fa": {
+      "post": {
+        "summary": "Verify Google 2FA",
+        "tags": ["Verification"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["code"],
+                "properties": { "code": { "type": "string", "example": "123456" } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "2FA verified" } }
+      }
+    },
+    "/user/profile/change-password": {
+      "post": {
+        "summary": "Change Account Password",
+        "tags": ["Profile"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["current_password", "password", "password_confirmation"],
+                "properties": {
+                  "current_password": { "type": "string", "example": "OldPassword123!" },
+                  "password": { "type": "string", "example": "NewPassword123!" },
+                  "password_confirmation": { "type": "string", "example": "NewPassword123!" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Password changed" } }
+      }
+    },
+    "/user/deposit/insert": {
+      "post": {
+        "summary": "Initiate Wallet Deposit",
+        "tags": ["Deposits & Withdrawals"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["amount", "method_code", "currency"],
+                "properties": {
+                  "amount": { "type": "number", "example": 5000 },
+                  "method_code": { "type": "string", "example": "101" },
+                  "currency": { "type": "string", "example": "NGN" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Deposit initiated" } }
+      }
+    },
+    "/user/withdraw": {
+      "post": {
+        "summary": "Request Withdrawal",
+        "tags": ["Deposits & Withdrawals"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["method_code", "amount"],
+                "properties": {
+                  "method_code": { "type": "string", "example": "1" },
+                  "amount": { "type": "number", "example": 10000 }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Withdrawal requested" } }
+      }
+    },
+    "/user/bank/transfer/strowallet": {
+      "post": {
+        "summary": "Submit Bank Transfer (Strowallet)",
+        "tags": ["Financial Services"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["bank_code", "account_number", "amount", "pin"],
+                "properties": {
+                  "bank_code": { "type": "string", "example": "011" },
+                  "account_number": { "type": "string", "example": "0123456789" },
+                  "amount": { "type": "number", "example": 5000 },
+                  "pin": { "type": "string", "example": "123456" },
+                  "narration": { "type": "string", "example": "Payment for goods" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Transfer processed" } }
+      }
+    },
+    "/user/p2p/transfer": {
+      "post": {
+        "summary": "Peer to Peer Transfer",
+        "tags": ["Financial Services"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "amount", "pin"],
+                "properties": {
+                  "username": { "type": "string", "example": "recipient_user" },
+                  "amount": { "type": "number", "example": 2500 },
+                  "pin": { "type": "string", "example": "123456" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "P2P transfer completed" } }
       }
     },
     "/user/airtime/buy/airtime": {
       "post": {
-        "summary": "Purchase Airtime",
+        "summary": "Buy Airtime",
         "tags": ["VTU Services"],
         "requestBody": {
           "required": true,
@@ -194,14 +356,12 @@
             }
           }
         },
-        "responses": {
-          "200": { "description": "Airtime purchase successful" }
-        }
+        "responses": { "200": { "description": "Airtime purchased" } }
       }
     },
     "/user/internet/buy/internet": {
       "post": {
-        "summary": "Purchase Internet Data",
+        "summary": "Buy Internet Data",
         "tags": ["VTU Services"],
         "requestBody": {
           "required": true,
@@ -214,41 +374,63 @@
                   "operator": { "type": "string", "example": "mtn" },
                   "plan": { "type": "string", "example": "500MB" },
                   "phone": { "type": "string", "example": "08012345678" },
+                  "wallet": { "type": "string", "example": "main" },
                   "password": { "type": "string", "example": "123456" }
                 }
               }
             }
           }
         },
-        "responses": {
-          "200": { "description": "Data purchase successful" }
-        }
+        "responses": { "200": { "description": "Internet data purchased" } }
       }
     },
-    "/user/bank/transfer/strowallet": {
+    "/user/utility/buy/utility": {
       "post": {
-        "summary": "Bank Transfer (Strowallet)",
-        "tags": ["Financial Services"],
+        "summary": "Pay Electricity Bill",
+        "tags": ["VTU Services"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["bank_code", "account_number", "amount", "pin"],
+                "required": ["operator_id", "meter_number", "amount", "meter_type", "password"],
                 "properties": {
-                  "bank_code": { "type": "string", "example": "011" },
-                  "account_number": { "type": "string", "example": "0123456789" },
-                  "amount": { "type": "number", "example": 5000 },
-                  "pin": { "type": "string", "example": "1234" }
+                  "operator_id": { "type": "string", "example": "1" },
+                  "meter_number": { "type": "string", "example": "11223344556" },
+                  "amount": { "type": "number", "example": 3000 },
+                  "meter_type": { "type": "string", "example": "prepaid" },
+                  "password": { "type": "string", "example": "123456" }
                 }
               }
             }
           }
         },
-        "responses": {
-          "200": { "description": "Bank transfer processed" }
-        }
+        "responses": { "200": { "description": "Electricity bill paid" } }
+      }
+    },
+    "/user/cabletv/buy/cabletv": {
+      "post": {
+        "summary": "Subscribe Cable TV",
+        "tags": ["VTU Services"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["operator_id", "iuc_number", "plan_id", "password"],
+                "properties": {
+                  "operator_id": { "type": "string", "example": "1" },
+                  "iuc_number": { "type": "string", "example": "1234567890" },
+                  "plan_id": { "type": "string", "example": "dstv_compact" },
+                  "password": { "type": "string", "example": "123456" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Cable TV subscribed" } }
       }
     },
     "/user/virtualcard/request": {
@@ -261,27 +443,40 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["amount", "card_type"],
+                "required": ["amount", "card_type", "currency"],
                 "properties": {
                   "amount": { "type": "number", "example": 10 },
-                  "card_type": { "type": "string", "example": "visa" }
+                  "card_type": { "type": "string", "example": "visa" },
+                  "currency": { "type": "string", "example": "USD" }
                 }
               }
             }
           }
         },
-        "responses": {
-          "200": { "description": "Virtual card created" }
-        }
+        "responses": { "200": { "description": "Virtual card created" } }
       }
     },
-    "/user/crypto/currencies": {
-      "get": {
-        "summary": "List Crypto Currencies",
+    "/user/buy/asset/coin/buy": {
+      "post": {
+        "summary": "Buy Crypto Asset",
         "tags": ["Crypto Services"],
-        "responses": {
-          "200": { "description": "Crypto currencies list" }
-        }
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["coin_id", "amount", "wallet_address"],
+                "properties": {
+                  "coin_id": { "type": "string", "example": "BTC" },
+                  "amount": { "type": "number", "example": 100 },
+                  "wallet_address": { "type": "string", "example": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Crypto buy order placed" } }
       }
     }
   },
@@ -291,55 +486,6 @@
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "Sanctum"
-      },
-      "encryptedHeaders": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "X-Signature"
-      }
-    },
-    "schemas": {
-      "LoginResponse": {
-        "type": "object",
-        "properties": {
-          "code": { "type": "integer", "example": 200 },
-          "status": { "type": "string", "example": "ok" },
-          "message": {
-            "type": "object",
-            "properties": {
-              "success": {
-                "type": "array",
-                "items": { "type": "string" },
-                "example": ["Login Successful"]
-              }
-            }
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "user": { "type": "object" },
-              "accessToken": { "type": "string", "example": "1|abcdef123456..." },
-              "token_type": { "type": "string", "example": "Bearer" }
-            }
-          }
-        }
-      },
-      "ErrorResponse": {
-        "type": "object",
-        "properties": {
-          "code": { "type": "integer", "example": 401 },
-          "status": { "type": "string", "example": "error" },
-          "message": { "type": "string", "example": "Unauthorized user" }
-        }
-      },
-      "EncryptedRequest": {
-        "type": "object",
-        "required": ["payload", "iv", "tag"],
-        "properties": {
-          "payload": { "type": "string", "description": "AES-256-GCM Base64 Ciphertext" },
-          "iv": { "type": "string", "description": "Base64 12-byte IV" },
-          "tag": { "type": "string", "description": "Base64 16-byte Auth Tag" }
-        }
       }
     }
   }
