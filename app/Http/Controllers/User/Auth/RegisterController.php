@@ -159,6 +159,8 @@ class RegisterController extends Controller
         $general = gs();
         //User Create
         $user = new User();
+        $user->firstname = trim($data['firstname']);
+        $user->lastname = trim($data['lastname']);
         $user->email = strtolower(trim($data['email']));
         $user->password = Hash::make($data['password']);
         $user->username = trim($data['username']);
@@ -219,7 +221,7 @@ class RegisterController extends Controller
             $userLogin->city =  @implode(',', $info['city']);
             $userLogin->country_code = @implode(',', $info['code']);
             $userLogin->country =  @implode(',', $info['country']);
-        }
+        }åQ
 
         $userAgent          = osBrowser();
         $userLogin->user_id = $user->id;
