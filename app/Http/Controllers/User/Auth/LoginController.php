@@ -164,8 +164,11 @@ class LoginController extends Controller
         $userLogin->browser = @$userAgent['browser'];
         $userLogin->os = @$userAgent['os_platform'];
         $userLogin->save();
-        session()->put('default_template', $user->theme);
-        Session::put('default_template', $user->theme);
+        if (!empty($user->theme) && $user->theme !== 'default' && is_dir(resource_path('views/templates/' . $user->theme))) {
+            session()->put('default_template', $user->theme);
+        } else {
+            session()->forget('default_template');
+        }
         return to_route('user.home');
     }
 
@@ -222,7 +225,7 @@ class LoginController extends Controller
                 'sv' => 1, // SMS verified (if applicable)
                 'ts' => 0, // Two-factor security
                 'tv' => 1, // Two-factor verified
-                'theme' => 'default', // Default theme
+                'theme' => 'basic', // Default theme
             ]);
 
             Auth::login($newUser, true);

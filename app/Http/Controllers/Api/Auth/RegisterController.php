@@ -136,8 +136,8 @@ class RegisterController extends Controller
 
         //User Create
         $user = new User();
-        //$user->firstname = isset($data['firstname']) ? $data['firstname'] : null;
-        //$user->lastname = isset($data['lastname']) ? $data['lastname'] : null;
+        $user->firstname = isset($data['firstname']) ? $data['firstname'] : null;
+        $user->lastname = isset($data['lastname']) ? $data['lastname'] : null;
         $user->email = strtolower(trim($data['email']));
         $user->password = Hash::make($data['password']);
         $user->username = trim($data['username']);

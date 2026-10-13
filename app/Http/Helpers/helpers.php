@@ -174,7 +174,10 @@ function getNumber($length = 8)
 function activeTemplate($asset = false)
 {
     $general = gs();
-    $template = $general->active_template;
+    $template = $general->active_template ?? 'basic';
+    if (empty($template) || !is_dir(resource_path('views/templates/' . $template))) {
+        $template = 'basic';
+    }
     if ($asset) return 'assets/templates/' . $template . '/';
     return 'templates.' . $template . '.';
 }
@@ -182,21 +185,28 @@ function activeTemplate($asset = false)
 
 function checkTemplate($asset = false)
 {
-    $template = 'basic';
-    if (auth()->user() != null) {
+    $general = gs();
+    $defaultTemplate = $general->active_template ?? 'basic';
+
+    $template = null;
+
+    if (auth()->check() && !empty(auth()->user()->theme)) {
         $template = auth()->user()->theme;
     }
-    $default = session()->get('default_template');
-    if($default != null || $default != '')
-    {
-        $template = $default;
+
+    $sessionTemplate = session()->get('default_template');
+    if (!empty($sessionTemplate)) {
+        $template = $sessionTemplate;
     }
 
+    if (empty($template) || $template === 'default' || !is_dir(resource_path('views/templates/' . $template))) {
+        $template = $defaultTemplate;
+    }
 
-    $session = new Session();
+    if (empty($template) || !is_dir(resource_path('views/templates/' . $template))) {
+        $template = 'basic';
+    }
 
-    //session()->put('default_template', 'satoshi');
-    //session()->get('default_template');
     if ($asset) return 'assets/templates/' . $template . '/';
     return 'templates.' . $template . '.';
 }
@@ -204,11 +214,13 @@ function checkTemplate($asset = false)
 function activeTemplateName()
 {
     $general = gs();
-    $template = $general->active_template;
+    $template = $general->active_template ?? 'basic';
     $default = session()->get('default_template');
-    if(isset($default))
-    {
+    if (!empty($default) && $default !== 'default' && is_dir(resource_path('views/templates/' . $default))) {
         $template = $default;
+    }
+    if (empty($template) || !is_dir(resource_path('views/templates/' . $template))) {
+        $template = 'basic';
     }
     return $template;
 }

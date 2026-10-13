@@ -97,15 +97,14 @@ class ProfileController extends Controller
                 $user->en = $request->en ? 1 : 0;
                 $message = 'Notification Status Updated';
             }
-            
+
             if(!empty($request->theme))
             {
                 $user->theme = $request->theme;
                 $message = 'Theme Updated';
+                session()->put('default_template', $request->theme);
             }
 
-        $user->theme = $request->theme;
-        session()->put('default_template', $request->theme);
         $user->save();
         $notify[] = ['success', $message];
         return back()->withNotify($notify);
@@ -202,7 +201,7 @@ class ProfileController extends Controller
         $user = auth()->user();
         if (Hash::check($request->password, $user->password)) {
             $user->status     = 0;
-            $user->ban_reason = 'Self Action';
+            $user->ban_reason = $request->reason != null ? $request->reason : 'Self Action';
             $user->save();
             $notify[] = ['success', 'Account Deactivated Successfully'];
             return redirect()->route('user.login')->withNotify($notify);

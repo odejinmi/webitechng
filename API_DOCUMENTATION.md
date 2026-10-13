@@ -392,7 +392,25 @@ The JSON payloads documented below represent the **inner decrypted JSON structur
 * **Auth Required**: Yes (`auth:sanctum`)
 
 ### 6.1 Bank Transfers
-* `POST /api/user/bank/validate/strowallet`: Validate bank account (Strowallet)
+
+* `GET /api/user/bank/transfer/list`: Get list of available banks
+```json
+{
+  "code": 200,
+  "status": "ok",
+  "message": "Bank list retrieved successfully.",
+  "data": {
+    "banks": [
+      {
+        "bankCode": "044",
+        "bankName": "Access Bank"
+      }
+    ]
+  }
+}
+```
+
+* `POST /api/user/bank/validate`: Validate bank account (Strowallet)
 ```json
 {
   "bank_code": "011",
@@ -400,7 +418,7 @@ The JSON payloads documented below represent the **inner decrypted JSON structur
 }
 ```
 
-* `POST /api/user/bank/transfer/strowallet`: Submit bank transfer (Strowallet)
+* `POST /api/user/bank/transfer`: Submit bank transfer (Strowallet)
 ```json
 {
   "bank_code": "011",
@@ -408,36 +426,6 @@ The JSON payloads documented below represent the **inner decrypted JSON structur
   "amount": 5000,
   "pin": "123456",
   "narration": "Payment for services"
-}
-```
-
-* `POST /api/user/bank/validate/monnify`: Validate bank account (Monnify)
-```json
-{
-  "bank_code": "058",
-  "account_number": "0123456789"
-}
-```
-
-* `POST /api/user/bank/transfer/monnify`: Submit bank transfer (Monnify)
-```json
-{
-  "bank_code": "058",
-  "account_number": "0123456789",
-  "amount": 5000,
-  "pin": "123456"
-}
-```
-
-* `POST /api/user/bank/validate/blochq` & `POST /api/user/bank/transfer/blochq`: Same schema for Blochq.
-
-### 6.2 Peer-to-Peer (P2P) Transfer
-* `POST /api/user/p2p/transfer`: Transfer funds directly to another user
-```json
-{
-  "username": "recipient_username",
-  "amount": 2500,
-  "pin": "123456"
 }
 ```
 

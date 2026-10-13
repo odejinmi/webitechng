@@ -27,10 +27,24 @@ class KycStatus
             ->first();
 
         if ($user->kyc_complete != 1) {
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response()->json([
+                    'code' => 403,
+                    'status' => 'error',
+                    'message' => 'Please complete your KYC before proceeding'
+                ], 403);
+            }
             $notify[] = ['error', 'Please complete your KYC before proceding'];
             return back()->withNotify($notify);
         }
         if (!isset($transaction)) {
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response()->json([
+                    'code' => 403,
+                    'status' => 'error',
+                    'message' => 'Please fund your account before proceeding'
+                ], 403);
+            }
             $notify[] = ['error', 'Please Fund your account before proceding'];
             return back()->withNotify($notify);
         }

@@ -39,8 +39,8 @@ class ApiPayloadEncryptionMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // Skip third-party webhooks & crons
-        if ($this->shouldSkip($request)) {
+        // Skip third-party webhooks, crons & GET requests
+        if ($this->shouldSkip($request) || $request->isMethod('GET')) {
             return $next($request);
         }
 

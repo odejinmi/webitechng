@@ -106,8 +106,9 @@ Route::name('api.user.')->group(function () {
 
             Route::match(['get', 'post'], 'generatenuban', 'generatenuban')->name('generate.nuban');
             Route::match(['get', 'post'], 'qrcode', 'qrcode')->name('qr.index');
-            Route::get('kyc', 'kyc')->name('kyc.index');
-            Route::post('kyc', 'kycpost');
+//             Route::get('kyc', 'kyc')->name('kyc.index');
+//             Route::post('kyc', 'kycpost');
+            Route::post('kyc', 'kycbvnpost');
 
             // P2P
             Route::get('p2p/log', 'p2plog')->name('p2p.history');
@@ -248,16 +249,17 @@ Route::name('api.user.')->group(function () {
         });
 
         // Bank Transfer
-        Route::namespace('User')->controller('BankTransferController')->prefix('bank/transfer')->group(function () {
-            Route::get('/', 'index')->name('bank.transfer');
-            Route::get('new', 'start')->name('bank.transfer.start');
-            Route::post('validate/strowallet', 'validatebankstrowallet')->name('bank.validate.strowallet');
-            Route::post('strowallet', 'banktransferStrowallet')->name('bank.transfer.strowallet');
-            Route::post('validate/monnify', 'validatebankmonnify')->name('bank.validate.monnify');
-            Route::post('monnify', 'banktransfernubanMonnify')->name('bank.transfer.monnify');
-            Route::post('validate/blochq', 'validatebankblochq')->name('bank.validate.blochq');
-            Route::post('blochq', 'banktransfernubanBlochq')->name('bank.transfer.blochq');
-            Route::get('log', 'history')->name('bank.transfer.history');
+        Route::namespace('User')->controller('BankTransferController')->prefix('bank')->group(function () {
+            Route::get('transfer', 'index')->name('bank.transfer');
+            Route::get('transfer/list', 'getBankList')->name('bank.list');
+            Route::get('transfer/new', 'start')->name('bank.transfer.start');
+//             Route::post('validate', 'validatebankstrowallet')->name('bank.validate');
+//             Route::post('transfer/strowallet', 'banktransferStrowallet')->name('bank.transfer.strowallet');
+//             Route::post('validate/monnify', 'validatebankmonnify')->name('bank.validate.monnify');
+//             Route::post('transfer/monnify', 'banktransfernubanMonnify')->name('bank.transfer.monnify');
+            Route::post('validate', 'validatebankblochq')->name('bank.validate.blochq');
+            Route::post('transfer/blochq', 'banktransfernubanBlochq')->name('bank.transfer.blochq');
+            Route::get('transfer/log', 'history')->name('bank.transfer.history');
         });
 
         // VCard

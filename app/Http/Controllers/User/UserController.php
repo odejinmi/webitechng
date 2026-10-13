@@ -1470,5 +1470,39 @@ class UserController extends Controller
 
     }
 
+    public function kycbvnpost(Request $request)
+    {
+        $user = auth()->user();
+        if($user->kyc_complete == 3)
+        {
+            $notify[] = ['error', 'Your KYC document is pending'];
+            return back()->withNotify($notify)->withInput();
+        }
+        if($user->kyc_complete == 1)
+        {
+            $notify[] = ['error', 'Your KYC document is already approved'];
+            return back()->withNotify($notify)->withInput();
+        }
+
+        $user->kyc   = [
+            'type' => $request->type,
+            'response'   => $request->response,
+            'date'     => @Carbon::now(),
+        ];
+        $user->kyc_complete = 1;
+        $user->kyc_source = 'mobile';
+        $user->save();
+
+
+        // Send Mail
+        notify($user, 'USER_MESSAGE', [
+                'message' => 'You have successfuly submitted your '. $request->type .' and it has been verified successfully',
+            'subject' => $request->type . ' Verified'
+        ]);
+
+        $notify[] = ['success', 'KYC document submitted successfuly'];
+        return response()->json(['ok'=>true,'status'=>'success','message'=> 'KYC document submitted successfuly'],200);
+//        return back()->withNotify($notify)->withInput();
+    }
 
 }

@@ -26,7 +26,7 @@ class UserController extends Controller
 
     public function dashboard()
     {
-        $user  = User::whereId(auth()->user()->id)->with('plan')->first();
+        $user  = User::whereId(auth()->user()->id)->first();
         $last30 = date('Y-m-d', strtotime('-30 days'));
 		$last7 = date('Y-m-d', strtotime('-7 days'));
 		$today = today();
@@ -500,7 +500,7 @@ class UserController extends Controller
             'data'=>[
                 'cashbacks'=>$cashbacks,
             ]
-        ]);   
+        ]);
      }
 
     public function cashbackbalance()
@@ -512,7 +512,7 @@ class UserController extends Controller
             'data'=>[
                 'balance'=>$user->cashback_balance,
             ]
-        ]);   
+        ]);
      }
 
      public function orderDetails($order_number)
@@ -525,7 +525,7 @@ class UserController extends Controller
             'data'=>[
                 'order'=>$order,
             ]
-        ]); 
+        ]);
      }
 
 }

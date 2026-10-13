@@ -110,8 +110,73 @@ class BankTransferController extends Controller
         return view($activeTemplate.'user.bank.strowallet', $data, compact('pageTitle', 'user', 'banks'));
 	}
 
+    /**
+     * API Endpoint to fetch the list of available banks
+     */
+    public function getBankList()
+    {
+        try {
+            $publicKey = env('STROPAYKEY');
+            $url = "https://strowallet.com/api/banks/lists?public_key=" . urlencode($publicKey);
 
-	public function validatebankstrowallet()
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                ),
+            ));
+
+            $response = curl_exec($curl);
+            $error = curl_error($curl);
+            curl_close($curl);
+
+            if ($error) {
+                return response()->json([
+                    'code' => 500,
+                    'status' => 'error',
+                    'message' => 'Failed to connect to the bank provider.',
+                ], 500);
+            }
+
+            $reply = json_decode($response, true);
+
+            if(!isset($reply['data']['bank_list'])) {
+                return response()->json([
+                    'code' => 404,
+                    'status' => 'error',
+                    'message' => 'Bank list is currently unavailable.',
+                ], 404);
+            }
+
+            return response()->json([
+                'code' => 200,
+                'status' => 'ok',
+                'message' => 'Bank list retrieved successfully.',
+                'data' => [
+                    'banks' => $reply['data']['bank_list']
+                ]
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'status' => 'error',
+                'message' => 'An error occurred while fetching the bank list.',
+            ], 500);
+        }
+    }
+
+	public function validatebankstrowallet(Request $request)
 	{
 		$user = auth()->user();
 		$json = file_get_contents('php://input');
@@ -149,15 +214,31 @@ class BankTransferController extends Controller
 		$reply = json_decode($response,true);
 			if(!isset($reply['data']['account_name']))
 			{
-				return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Error,'.$reply['message']],400);
+				return response()->json([
+                    'code' => 400,
+                    'status' => 'error',
+                    'message' => 'Error, ' . ($reply['message'] ?? 'Unable to resolve account name')
+                ], 400);
 			}
 			if($reply['data']['account_name'])
 			{
-				return response()->json(['ok'=>true,'status'=>'success','message'=> $reply['data']['account_name'],'sessionId'=> $reply['data']['sessionId'],'content'=> json_encode($reply)],200);
+				return response()->json([
+                    'code' => 200,
+                    'status' => 'ok',
+                    'message' => 'Account resolved successfully',
+                    'data' => [
+                        'account_name' => $reply['data']['account_name'],
+                        'sessionId' => $reply['data']['sessionId'] ?? null,
+                    ]
+                ], 200);
 			}
 		}
 		catch (\Exception $e) {
-			return response()->json(['ok'=>false,'status'=>'danger','message'=> $e->getMessage()],400);
+			return response()->json([
+                'code' => 400,
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 400);
 		}
 
 	}
@@ -481,13 +562,15 @@ class BankTransferController extends Controller
 
     }
 
-	public function validatebankblochq()
+	public function validatebankblochq(Request $request)
 	{
 		$user = auth()->user();
 		$json = file_get_contents('php://input');
 		$input = json_decode($json, true);
-		$bank = $input['bankcode'];
-		$account = $input['account'];
+// 		$bank = $input['bankcode'];
+// 		$account = $input['account'];
+		$bank = $request->bankcode;
+		$account = $request->account;
 		try{
 			$url = "https://api.blochq.io/v1/resolve-account?account_number=".$account."&bank_code=".$bank;
 			$curl = curl_init();
