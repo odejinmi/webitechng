@@ -51,7 +51,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         $general = GeneralSetting::first();
-        $password_validation = Password::min(6);
+        $password_validation = Password::min(8);
         if ($general->secure_password) {
             $password_validation = $password_validation->mixedCase()->numbers()->symbols()->uncompromised();
         }

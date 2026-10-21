@@ -77,6 +77,7 @@ class GeneralSettingController extends Controller
         $general->internet_api_sme_provider = $request->internet_api_sme_provider;
         $general->airtime_provider = $request->airtime_provider;
         $general->cabletv_provider = $request->cabletv_provider;
+        $general->bills_provider = $request->bills_provider;
         $general->request_account              = $request->request_account ? Status::ENABLE : Status::DISABLE;
         $general->loan              = $request->loan ? Status::ENABLE : Status::DISABLE;
         $general->cabletv              = $request->cabletv ? Status::ENABLE : Status::DISABLE;
@@ -100,6 +101,7 @@ class GeneralSettingController extends Controller
         $general->store_front_fee               = $request->store_front_fee;
         $general->qr                    = $request->qr ? Status::ENABLE : Status::DISABLE;
         $general->virtualcard              = $request->virtualcard ? Status::ENABLE : Status::DISABLE;
+        $general->virtualcard_provider              = $request->virtualcard_provider;
         $general->virtualcard_fee_type              = $request->virtualcard_fee_type;
         $general->nuban_provider             = $request->nuban_provider;
         $general->transfer_provider             = $request->transfer_provider;

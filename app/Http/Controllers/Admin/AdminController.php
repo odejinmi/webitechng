@@ -361,13 +361,17 @@ class AdminController extends Controller
 
     public function downloadAttachment($fileHash)
     {
-        $filePath = decrypt($fileHash);
+        $directory = realpath(getFilePath('verify'));
+        $filePath = realpath(decrypt($fileHash));
+
+        if (!$directory || !$filePath || !is_file($filePath) || !str_starts_with($filePath, $directory.DIRECTORY_SEPARATOR)) {
+            abort(404);
+        }
+
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
         $general = gs();
         $title = slug($general->site_name) . '- attachments.' . $extension;
-        $mimetype = mime_content_type($filePath);
-        header('Content-Disposition: attachment; filename="' . $title);
-        header("Content-Type: " . $mimetype);
-        return readfile($filePath);
+
+        return response()->download($filePath, $title);
     }
 }

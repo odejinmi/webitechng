@@ -111,7 +111,10 @@ class ForgotPasswordController extends Controller
         ]);
 
         $code = $request->code;
-        if (PasswordReset::where('token', $code)->where('email', $request->email)->count() != 1) {
+        if (PasswordReset::where('token', $code)
+            ->where('email', $request->email)
+            ->where('created_at', '>=', now()->subMinutes(15))
+            ->count() != 1) {
             $notify[] = ['error', 'Verification code doesn\'t match'];
             return to_route('user.password.request')->withNotify($notify);
         }

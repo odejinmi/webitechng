@@ -15,6 +15,9 @@ use Illuminate\Support\Str;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use App\Services\PayVesselService;
+use App\Services\WalletLedgerService;
+use RuntimeException;
 
 class BankTransferController extends Controller
 {
@@ -38,6 +41,23 @@ class BankTransferController extends Controller
 	public function start()
 	{
 		$general = gs();
+		if ($general->transfer_provider === 'PAYVESSEL') {
+            try {
+                $reply = app(PayVesselService::class)->banks();
+                $bankList = $reply['data']['banks'] ?? $reply['data']['bank_list'] ?? $reply['data'] ?? [];
+                $banks = collect($bankList)->map(function ($bank) {
+                    return [
+                        'bankCode' => $bank['bank_code'] ?? $bank['bankCode'] ?? $bank['code'] ?? '',
+                        'bankName' => $bank['bank_name'] ?? $bank['bankName'] ?? $bank['name'] ?? '',
+                    ];
+                })->filter(fn ($bank) => $bank['bankCode'] && $bank['bankName'])->values()->all();
+
+                return $this->payVesselTransferView($banks);
+            } catch (RuntimeException $exception) {
+                $notify[] = ['error', $exception->getMessage()];
+                return back()->withNotify($notify);
+            }
+        }
 		/*
 		if($general->transfer_provider == "MONNIFY")
         {
@@ -75,8 +95,8 @@ class BankTransferController extends Controller
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 0,
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_SSL_VERIFYHOST => 2,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => array(
@@ -110,11 +130,49 @@ class BankTransferController extends Controller
         return view($activeTemplate.'user.bank.strowallet', $data, compact('pageTitle', 'user', 'banks'));
 	}
 
+    private function payVesselTransferView(array $banks)
+    {
+        $user = Auth::user();
+        $pageTitle = 'Bank Transfer';
+        $activeTemplate = checkTemplate();
+        $data['activeTemplate'] = $activeTemplate;
+        $data['activeTemplateTrue'] = checkTemplate(true);
+        $transactions = Transaction::where('user_id', auth()->id())->searchable(['trx'])->filter(['trx_type', 'remark'])->whereRemark('Bank Transfer')->orderBy('created_at', 'desc')->paginate(getPaginate());
+        $data['totaltransfer'] = Transaction::where('user_id', auth()->id())->whereRemark('Bank Transfer')->sum('amount');
+        $data['totaltransfercount'] = $transactions->count();
+        $data['transferlog'] = $transactions;
+        $data['yearTf'] = Transaction::where('user_id', auth()->id())->selectRaw('YEAR(created_at) as year')->distinct()->orderBy('year', 'desc')->pluck('year');
+
+        return view($activeTemplate.'user.bank.strowallet', $data, compact('pageTitle', 'user', 'banks'));
+    }
+
     /**
      * API Endpoint to fetch the list of available banks
      */
     public function getBankList()
     {
+        if (gs()->transfer_provider === 'PAYVESSEL') {
+            try {
+                $reply = app(PayVesselService::class)->banks();
+                $bankList = $reply['data']['banks'] ?? $reply['data']['bank_list'] ?? $reply['data'] ?? [];
+                $banks = collect($bankList)->map(function ($bank) {
+                    return [
+                        'bankCode' => $bank['bank_code'] ?? $bank['bankCode'] ?? $bank['code'] ?? '',
+                        'bankName' => $bank['bank_name'] ?? $bank['bankName'] ?? $bank['name'] ?? '',
+                    ];
+                })->filter(fn ($bank) => $bank['bankCode'] && $bank['bankName'])->values()->all();
+
+                return response()->json([
+                    'code' => 200,
+                    'status' => 'ok',
+                    'message' => 'Bank list retrieved successfully.',
+                    'data' => ['banks' => $banks],
+                ]);
+            } catch (RuntimeException $exception) {
+                return response()->json(['code' => 400, 'status' => 'error', 'message' => $exception->getMessage()], 400);
+            }
+        }
+
         try {
             $publicKey = env('STROPAYKEY');
             $url = "https://strowallet.com/api/banks/lists?public_key=" . urlencode($publicKey);
@@ -127,8 +185,8 @@ class BankTransferController extends Controller
                 CURLOPT_MAXREDIRS => 10,
                 CURLOPT_TIMEOUT => 30,
                 CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_SSL_VERIFYPEER => true,
+                CURLOPT_SSL_VERIFYHOST => 2,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'GET',
                 CURLOPT_HTTPHEADER => array(
@@ -178,6 +236,32 @@ class BankTransferController extends Controller
 
 	public function validatebankstrowallet(Request $request)
 	{
+		if (gs()->transfer_provider === 'PAYVESSEL') {
+            try {
+                $reply = app(PayVesselService::class)->validateAccount(
+                    (string) $request->input('account'),
+                    (string) $request->input('bankcode')
+                );
+                $account = $reply['data'] ?? [];
+                $accountName = $account['account_name'] ?? $account['accountName'] ?? null;
+
+                if (!$accountName) {
+                    throw new RuntimeException($reply['message'] ?? 'Unable to resolve account name.');
+                }
+
+                return response()->json([
+                    'ok' => true,
+                    'code' => 200,
+                    'status' => 'success',
+                    'message' => $accountName,
+                    'sessionId' => $account['session_id'] ?? $account['sessionId'] ?? null,
+                    'data' => $account,
+                ]);
+            } catch (RuntimeException $exception) {
+                return response()->json(['ok' => false, 'status' => 'danger', 'message' => $exception->getMessage()], 400);
+            }
+        }
+
 		$user = auth()->user();
 		$json = file_get_contents('php://input');
 		$input = json_decode($json, true);
@@ -198,8 +282,8 @@ class BankTransferController extends Controller
                 CURLOPT_MAXREDIRS => 10,
                 CURLOPT_TIMEOUT => 0,
                 CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_SSL_VERIFYPEER => false, // Ignore SSL verification (not recommended for production)
-                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_SSL_VERIFYPEER => true, // Ignore SSL verification (not recommended for production)
+                CURLOPT_SSL_VERIFYHOST => 2,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'GET',
                 CURLOPT_HTTPHEADER => [
@@ -248,6 +332,9 @@ class BankTransferController extends Controller
 		$user = auth()->user();
 		$json = file_get_contents('php://input');
 		$input = json_decode($json, true);
+		if (gs()->transfer_provider === 'PAYVESSEL') {
+            return $this->banktransferPayVessel($input ?: []);
+        }
 		try{
 		$bankcode = $input['bankcode'];
 		$account = $input['account'];
@@ -313,8 +400,8 @@ class BankTransferController extends Controller
 		CURLOPT_MAXREDIRS => 10,
 		CURLOPT_TIMEOUT => 0,
 		CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_SSL_VERIFYPEER => true,
+        CURLOPT_SSL_VERIFYHOST => 2,
 		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 		CURLOPT_CUSTOMREQUEST => 'POST',
 		CURLOPT_POSTFIELDS =>'{
@@ -399,8 +486,92 @@ class BankTransferController extends Controller
 
 
 	}
+    private function banktransferPayVessel(array $input)
+    {
+        $validator = Validator::make($input, [
+            'bankcode' => 'required|string',
+            'account' => 'required|string',
+            'account_name' => 'required|string',
+            'bank_name' => 'required|string',
+            'amount' => 'required|numeric|min:1|max:50000',
+            'wallet' => 'required|in:main,ref',
+            'pin' => 'required|string',
+        ]);
 
+        if ($validator->fails()) {
+            return response()->json(['ok' => false, 'status' => 'danger', 'message' => $validator->errors()->first()], 400);
+        }
 
+        $user = auth()->user();
+        if (!Hash::check($input['pin'], $user->trx_password)) {
+            return response()->json(['ok' => false, 'status' => 'danger', 'message' => 'Invalid transaction PIN'], 400);
+        }
+
+        $amount = (float) $input['amount'];
+        $todayTotal = Transaction::where('user_id', $user->id)
+            ->where('remark', 'Bank Transfer')
+            ->whereBetween('created_at', [Carbon::today(), Carbon::tomorrow()])
+            ->sum('amount');
+
+        if (($todayTotal + $amount) > 200000) {
+            return response()->json(['ok' => false, 'status' => 'danger', 'message' => 'Daily limit exceeded'], 400);
+        }
+
+        $fee = (float) env('TRANSFERFEE', 0);
+        $total = $amount + $fee;
+        $reference = getTrx();
+        $narration = !empty($input['narration']) ? $input['narration'] : 'transfer';
+        $ledger = app(WalletLedgerService::class);
+        $debit = null;
+
+        try {
+            $debit = $ledger->debit($user->id, $input['wallet'], $total, function ($lockedUser, $balanceBefore, $balanceAfter) use ($amount, $fee, $reference, $narration, $input) {
+                $transaction = new Transaction();
+                $transaction->user_id = $lockedUser->id;
+                $transaction->amount = $amount;
+                $transaction->charge = $fee;
+                $transaction->post_balance = $balanceAfter;
+                $transaction->trx_type = '-';
+                $transaction->details = $narration;
+                $transaction->trx = $reference;
+                $transaction->val_1 = [
+                    'bank' => $input['bank_name'],
+                    'account_name' => $input['account_name'],
+                    'account_number' => $input['account'],
+                ];
+                $transaction->remark = 'Bank Transfer';
+                $transaction->save();
+            });
+
+            $reply = app(PayVesselService::class)->transfer([
+                'amount' => number_format($amount, 2, '.', ''),
+                'account_number' => $input['account'],
+                'bank_code' => $input['bankcode'],
+                'account_name' => $input['account_name'],
+                'narration' => $narration,
+                'reference' => $reference,
+            ]);
+
+            return response()->json(['ok' => true, 'status' => 'success', 'message' => $reply['message'] ?? 'Transaction Successful', 'data' => $reply['data'] ?? null]);
+        } catch (RuntimeException $exception) {
+            if ($debit) {
+                $ledger->credit($user->id, $input['wallet'], $total, function ($lockedUser, $balanceBefore, $balanceAfter) use ($amount, $reference) {
+                    $transaction = new Transaction();
+                    $transaction->user_id = $lockedUser->id;
+                    $transaction->amount = $amount;
+                    $transaction->charge = 0;
+                    $transaction->post_balance = $balanceAfter;
+                    $transaction->trx_type = '+';
+                    $transaction->details = 'PayVessel bank transfer reversal';
+                    $transaction->trx = $reference;
+                    $transaction->remark = 'Bank Transfer Refund';
+                    $transaction->save();
+                });
+            }
+
+            return response()->json(['ok' => false, 'status' => 'danger', 'message' => $exception->getMessage()], 400);
+        }
+    }
 
 	public function validatebankmonnify()
 	{

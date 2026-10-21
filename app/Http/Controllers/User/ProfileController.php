@@ -145,7 +145,7 @@ class ProfileController extends Controller
     public function submitPassword(Request $request)
     {
 
-        $passwordValidation = Password::min(6);
+        $passwordValidation = Password::min(8);
         $general            = gs();
 
         if ($general->secure_password) {
@@ -174,7 +174,7 @@ class ProfileController extends Controller
     public function submitTrxPassword(Request $request)
     {
 
-        $passwordValidation = Password::min(6);
+        $passwordValidation = Password::min(8);
         $general            = gs();
 
         $this->validate($request, [

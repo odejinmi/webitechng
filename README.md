@@ -7,6 +7,47 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Mobile API Documentation
+
+- Swagger UI: `/mobile-api/docs`
+- OpenAPI JSON: `/mobile-api/openapi.json`
+- The specification is generated from the registered Laravel `/api` routes, so newly added mobile routes appear automatically.
+- Set `API_DOCUMENTATION_ENABLED=true` only when the documentation should be public. The title and version can be customized with `API_DOCUMENTATION_TITLE` and `API_DOCUMENTATION_VERSION`.
+
+## PayVessel Configuration
+
+```env
+PAYVESSEL_BASE_URL=https://api.payvessel.com
+PAYVESSELAPIKEY=
+PAYVESSELSEK=
+PAYVESSELBIZID=
+PAYVESSEL_VIRTUAL_ACCOUNT_BANKS=999991,120001
+```
+
+## Production Security
+
+```env
+APP_ENV=production
+APP_DEBUG=false
+LOG_LEVEL=warning
+LOG_VIEWER_ENABLED=false
+API_DOCUMENTATION_ENABLED=false
+SESSION_SECURE_COOKIE=true
+SESSION_SAME_SITE=lax
+CORS_ALLOWED_ORIGINS=https://your-web-domain.example
+CRON_SECRET=generate-a-long-random-secret
+TRUSTED_PROXIES=127.0.0.1
+MONNIFY_SECRET_KEY=
+VPAY_PRIVATE_KEY=
+```
+
+- Generate `APP_KEY` with `php artisan key:generate`; never reuse the blank example value.
+- Cron endpoints accept `POST` only and require the secret in the `X-Cron-Secret` header.
+- Enable API documentation temporarily or restrict it at the reverse proxy when sharing it with mobile developers.
+- Configure `APP_URL` with the exact HTTPS production host because host-header validation is enabled.
+- If a reverse proxy or load balancer is used, set `TRUSTED_PROXIES` to its exact IP or CIDR; never use `*`.
+- After deployment, run `php artisan optimize:clear` and then `php artisan config:cache`.
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

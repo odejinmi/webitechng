@@ -11,10 +11,10 @@ use App\Models\GeneralSetting;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Transaction;
+use App\Services\PayVesselService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 use DB;
 use Carbon\Carbon;
 class VirtualCardController extends Controller
@@ -47,12 +47,11 @@ class VirtualCardController extends Controller
             $notify[] = ['error', 'Feature is currently disabled'];
             return back()->withNotify($notify);
         }
-        $passwordValidation = Password::min(6);
         $general            = gs();
         $this->validate($request, [
             'code_1' => 'required',
             'type' => 'required',
-            'bvn' => 'required|string|max:11',
+            'bvn' => 'required|digits:11',
         ]);
 
         $user = auth()->user();
@@ -65,6 +64,10 @@ class VirtualCardController extends Controller
         $code = $request->code_1.$request->code_2.$request->code_3.$request->code_4.$request->code_5.$request->code_6;
         if(Hash::check($code, $user->trx_password))
         {
+		if (($general->virtualcard_provider ?? 'BLOCHQ') === 'PAYVESSEL') {
+            return $this->requestPayVesselCard($request, $user, $general);
+        }
+
         	$user = auth()->user();
 
         if($request->type == 'visa' && $user->customer_id_visa == null)
@@ -282,6 +285,83 @@ class VirtualCardController extends Controller
         }
     }
 
+    private function requestPayVesselCard(Request $request, $user, $general)
+    {
+        if (strtolower($request->type) === 'verve') {
+            $notify[] = ['error', 'PayVessel supports Visa and Mastercard virtual cards only'];
+            return back()->withNotify($notify);
+        }
+
+        $address = $user->address;
+        $imagePath = public_path('assets/images/kyc/'.$user->username.'/front_kyc_image.png');
+        if (!$user->nin || !preg_match('/^\d{11}$/', $user->nin) || !$user->dob || !$address || !is_file($imagePath)) {
+            $notify[] = ['error', 'Please complete your profile, NIN and KYC before requesting a PayVessel card'];
+            return back()->withNotify($notify);
+        }
+
+        try {
+            $reply = app(PayVesselService::class)->createCard([
+                'first_name' => $user->firstname,
+                'last_name' => $user->lastname,
+                'email' => $user->email,
+                'phone' => $user->mobile,
+                'bvn' => $request->bvn,
+                'nin' => $user->nin,
+                'dob' => date('Y-m-d', strtotime($user->dob)),
+                'image' => 'data:image/png;base64,'.base64_encode(file_get_contents($imagePath)),
+                'state' => $address->state ?? '',
+                'lga' => $address->city ?? '',
+                'street' => $address->address ?? '',
+                'postal_code' => $address->zip ?? '',
+                'brand' => strtoupper($request->type),
+                'currency' => 'USD',
+            ]);
+            $cardData = $reply['data']['card'] ?? $reply['data'] ?? [];
+            $cardId = $cardData['id'] ?? $cardData['card_id'] ?? null;
+            if (!$cardId) {
+                throw new \RuntimeException('PayVessel did not return a card ID.');
+            }
+
+            $user->balance -= $general->virtualcard_request_fee;
+            $user->save();
+
+            $transaction = new Transaction();
+            $transaction->user_id = $user->id;
+            $transaction->amount = $general->virtualcard_request_fee;
+            $transaction->post_balance = $user->balance;
+            $transaction->charge = 0;
+            $transaction->trx_type = '-';
+            $transaction->details = 'Request PayVessel virtual card via wallet balance';
+            $transaction->trx = getTrx();
+            $transaction->remark = 'request card';
+            $transaction->save();
+
+            $card = new VirtualCard();
+            $card->user_id = $user->id;
+            $card->customer_id = $cardData['customer_id'] ?? '';
+            $card->card_id = $cardId;
+            $card->brand = $cardData['brand'] ?? strtoupper($request->type);
+            $card->currency = $cardData['currency'] ?? 'USD';
+            $card->status = strtolower($cardData['status'] ?? 'pending');
+            $expiry = explode('/', $cardData['expiry'] ?? '/');
+            $card->expiry_month = $cardData['expiry_month'] ?? $expiry[0] ?? '';
+            $card->expiry_year = $cardData['expiry_year'] ?? $expiry[1] ?? '';
+            $cardNumber = preg_replace('/\D/', '', $cardData['card_number'] ?? '');
+            $card->pan = $cardData['masked_pan'] ?? ($cardNumber ? '**** **** **** '.substr($cardNumber, -4) : '');
+            $card->environment = 'PAYVESSEL';
+            $card->provider = 'PAYVESSEL';
+            unset($cardData['card_number'], $cardData['pan'], $cardData['cvv']);
+            $card->api = json_encode($cardData);
+            $card->save();
+
+            $notify[] = ['success', $reply['message'] ?? 'Virtual Card Created Successfully'];
+            return redirect()->route('user.virtualcard.history')->withNotify($notify);
+        } catch (\Exception $exception) {
+            $notify[] = ['error', $exception->getMessage()];
+            return back()->withNotify($notify);
+        }
+    }
+
     public function history(Request $request)
     {
         $pageTitle       = 'Card History';
@@ -300,6 +380,34 @@ class VirtualCardController extends Controller
         $pageTitle       = 'Details';
         $user = auth()->user();
         $card = VirtualCard::whereUserId($user->id)->whereCardId($id)->orderBy('id', 'desc')->firstOrFail();
+
+        if (($card->provider ?? null) === 'PAYVESSEL') {
+            try {
+                $response = app(PayVesselService::class)->card($id);
+                $cardData = $response['data']['card'] ?? $response['data'] ?? [];
+                $expiry = explode('/', $cardData['expiry'] ?? '/');
+                $reply = ['data' => [
+                    'id' => $cardData['id'] ?? $cardData['card_id'] ?? $id,
+                    'status' => strtolower($cardData['status'] ?? $card->status),
+                    'pin' => $cardData['pin'] ?? null,
+                    'pan' => $cardData['pan'] ?? $cardData['card_number'] ?? $cardData['masked_pan'] ?? $card->pan,
+                    'expiry_month' => $cardData['expiry_month'] ?? $expiry[0] ?? $card->expiry_month,
+                    'expiry_year' => $cardData['expiry_year'] ?? $expiry[1] ?? $card->expiry_year,
+                    'cvv' => $cardData['cvv'] ?? '',
+                    'currency' => $cardData['currency'] ?? $card->currency,
+                ]];
+                $card->status = $reply['data']['status'];
+                $card->save();
+
+                $activeTemplate = checkTemplate();
+                $data['activeTemplate'] = $activeTemplate;
+                $data['activeTemplateTrue'] = checkTemplate(true);
+                return view($activeTemplate. 'user.vendor.virtualcard.details', $data, compact('pageTitle', 'card', 'reply'));
+            } catch (\Exception $exception) {
+                $notify[] = ['error', $exception->getMessage()];
+                return back()->withNotify($notify);
+            }
+        }
 
         $url = 'https://api.blochq.io/v1/cards/secure-data/'.$id;
         $curl = curl_init();
@@ -340,6 +448,10 @@ class VirtualCardController extends Controller
         $pageTitle       = 'Details';
         $user = auth()->user();
         $card = VirtualCard::whereUserId($user->id)->whereCardId($id)->orderBy('id', 'desc')->firstOrFail();
+
+        if (($card->provider ?? null) === 'PAYVESSEL') {
+            return $this->setPayVesselCardFreezeStatus($card, true);
+        }
 
         $url = 'https://api.blochq.io/v1/cards/freeze/'.$id;
         $curl = curl_init();
@@ -382,6 +494,10 @@ class VirtualCardController extends Controller
         $user = auth()->user();
         $card = VirtualCard::whereUserId($user->id)->whereCardId($id)->orderBy('id', 'desc')->firstOrFail();
 
+        if (($card->provider ?? null) === 'PAYVESSEL') {
+            return $this->setPayVesselCardFreezeStatus($card, false);
+        }
+
         $url = 'https://api.blochq.io/v1/cards/unfreeze/'.$id;
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -422,6 +538,10 @@ class VirtualCardController extends Controller
         $pageTitle       = 'Details';
         $user = auth()->user();
         $card = VirtualCard::whereUserId($user->id)->whereCardId($id)->orderBy('id', 'desc')->firstOrFail();
+
+        if (($card->provider ?? null) === 'PAYVESSEL') {
+            return $this->setPayVesselCardFreezeStatus($card, true);
+        }
 
         $url = 'https://api.blochq.io/v1/cards/block/'.$id;
         $curl = curl_init();
@@ -464,6 +584,26 @@ class VirtualCardController extends Controller
     }
 
 
+    private function setPayVesselCardFreezeStatus(VirtualCard $card, bool $freeze)
+    {
+        try {
+            $reply = $freeze
+                ? app(PayVesselService::class)->freezeCard($card->card_id)
+                : app(PayVesselService::class)->unfreezeCard($card->card_id);
+            $cardData = $reply['data']['card'] ?? $reply['data'] ?? [];
+            $card->status = strtolower($cardData['status'] ?? ($freeze ? 'frozen' : 'active'));
+            unset($cardData['card_number'], $cardData['pan'], $cardData['cvv']);
+            $card->api = json_encode($cardData);
+            $card->save();
+
+            $notify[] = ['success', $reply['message'] ?? ($freeze ? 'Card frozen successfully' : 'Card unfrozen successfully')];
+            return back()->withNotify($notify);
+        } catch (\Exception $exception) {
+            $notify[] = ['error', $exception->getMessage()];
+            return back()->withNotify($notify);
+        }
+    }
+
     public function password(Request $request, $id)
     {
         $this->validate($request, [
@@ -474,6 +614,11 @@ class VirtualCardController extends Controller
 
         $user = auth()->user();
         $card = VirtualCard::whereUserId($user->id)->whereCardId($id)->orderBy('id', 'desc')->firstOrFail();
+
+        if (($card->provider ?? null) === 'PAYVESSEL') {
+            $notify[] = ['error', 'Card PIN changes are not supported by PayVessel'];
+            return back()->withNotify($notify);
+        }
 
         if (Hash::check($request->password, $user->trx_password))
      {
@@ -562,6 +707,31 @@ class VirtualCardController extends Controller
 
         if (Hash::check($request->password, $user->trx_password))
         {
+        if (($card->provider ?? null) === 'PAYVESSEL') {
+            try {
+                $reply = app(PayVesselService::class)->fundCard($id, $request->amount);
+                $user->balance -= $total;
+                $user->save();
+
+                $transaction = new Transaction();
+                $transaction->user_id = $user->id;
+                $transaction->amount = $amount;
+                $transaction->post_balance = $user->balance;
+                $transaction->charge = $fee;
+                $transaction->trx_type = '-';
+                $transaction->details = 'Fund PayVessel virtual card';
+                $transaction->trx = getTrx();
+                $transaction->remark = 'fund card';
+                $transaction->save();
+
+                $notify[] = ['success', $reply['message'] ?? 'Card funded successfully'];
+                return back()->withNotify($notify);
+            } catch (\Exception $exception) {
+                $notify[] = ['error', $exception->getMessage()];
+                return back()->withNotify($notify);
+            }
+        }
+
         $url = 'https://api.blochq.io/v1/cards/fund/'.$id;
         $curl = curl_init();
         curl_setopt_array($curl, array(

@@ -5,21 +5,21 @@ use Illuminate\Support\Facades\Route;
 Route::namespace('Auth')->group(function () {
     Route::controller('LoginController')->group(function () {
         Route::get('/', 'showLoginForm')->name('login');
-        Route::post('/', 'login')->name('login');
-        Route::get('logout', 'logout')->name('logout');
+        Route::post('/', 'login')->middleware('throttle:login')->name('login');
+        Route::get('logout', 'logout')->middleware('same.origin')->name('logout');
     });
 
     // Admin Password Reset
     Route::controller('ForgotPasswordController')->prefix('password')->name('password.')->group(function () {
         Route::get('reset', 'showLinkRequestForm')->name('reset');
-        Route::post('reset', 'sendResetCodeEmail');
+        Route::post('reset', 'sendResetCodeEmail')->middleware('throttle:password-reset');
         Route::get('code-verify', 'codeVerify')->name('code.verify');
-        Route::post('verify-code', 'verifyCode')->name('verify.code');
+        Route::post('verify-code', 'verifyCode')->middleware('throttle:password-reset')->name('verify.code');
     });
 
     Route::controller('ResetPasswordController')->prefix('password')->name('password.')->group(function () {
-        Route::get('reset/{token}', 'showResetForm')->name('reset.form');
-        Route::post('reset/change', 'reset')->name('change');
+        Route::get('reset/{token}', 'showResetForm')->middleware('throttle:password-reset')->name('reset.form');
+        Route::post('reset/change', 'reset')->middleware('throttle:password-reset')->name('change');
     });
 });
 
@@ -95,8 +95,8 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::get('/', 'allUsers')->name('all');
         Route::get('/kyc/pending', 'kycpending')->name('kyc.pending');
         Route::get('/kyc/approved', 'kycapproved')->name('kyc.approved');
-        Route::get('/kyc/approve/{id}', 'kycapprove')->name('kyc.approve');
-        Route::get('/kyc/reject/{id}', 'kycreject')->name('kyc.reject');
+        Route::get('/kyc/approve/{id}', 'kycapprove')->middleware('same.origin')->name('kyc.approve');
+        Route::get('/kyc/reject/{id}', 'kycreject')->middleware('same.origin')->name('kyc.reject');
         Route::get('card', 'card')->name('card');
         Route::get('vendor', 'activeVendor')->name('vendor');
         Route::get('active', 'activeUsers')->name('active');
@@ -269,7 +269,7 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::post('status/{id}', 'status')->name('status');
         Route::post('delete/{id}', 'delete')->name('delete');
         Route::get('request/{id?}', 'request')->name('request');
-        Route::get('approve/{id}', 'approve')->name('approve');
+        Route::get('approve/{id}', 'approve')->middleware('same.origin')->name('approve');
         Route::get('decline/{id}', 'decline')->name('decline');
     });
 
@@ -307,7 +307,7 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::get('index', 'log')->name('log');
         Route::get('create', 'create')->name('create');
         Route::post('create', 'createPost');
-        Route::get('delete/{id}', 'delete')->name('delete');
+        Route::get('delete/{id}', 'delete')->middleware('same.origin')->name('delete');
     });
 
 
@@ -367,8 +367,8 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::get('card/add/page', 'addPage')->name('card.add.page');
         Route::post('card/add', 'add')->name('card.add');
         Route::get('card/edit/{id}', 'editPage')->name('card.edit.page');
-        Route::get('card/approve/{id}', 'Approve')->name('card.approve');
-        Route::get('card/reject/{id}', 'Reject')->name('card.reject');
+        Route::get('card/approve/{id}', 'Approve')->middleware('same.origin')->name('card.approve');
+        Route::get('card/reject/{id}', 'Reject')->middleware('same.origin')->name('card.reject');
         Route::post('card/edit', 'edit')->name('card.edit');
         Route::post('card/delete', 'delete')->name('card.delete');
      });
@@ -381,7 +381,7 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::post('airtime2cash/settings/update', 'airtime2cashFeesUpdate')->name('airtime2cashFees.update');
         Route::get('airtime2cash/{id?}', 'airtime2cash')->name('airtime2cash');
         Route::get('airtime/decline/{id?}', 'airtime2cash_decline')->name('airtime2cash.decline');
-        Route::get('airtime/approve/{id?}', 'airtime2cash_approve')->name('airtime2cash.approve');
+        Route::get('airtime/approve/{id?}', 'airtime2cash_approve')->middleware('same.origin')->name('airtime2cash.approve');
         Route::get('insurance/{id?}', 'insurance')->name('insurance');
         Route::get('internet/{id?}', 'internet')->name('internet');
         Route::get('cabletv/{id?}', 'cabletv')->name('cabletv');
@@ -390,9 +390,9 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::get('virtualcard/{id?}', 'virtualcardDetails')->name('virtualcard.details');
         Route::post('virtualcard/fund/{id?}', 'virtualcardDetails')->name('virtualcard.fund.balance');
         Route::post('virtualcard/password/{id?}', 'virtualcardPassword')->name('virtualcard.status.password');
-        Route::get('virtualcard/activate/{id?}', 'virtualcardActivate')->name('virtualcard.status.activate');
-        Route::get('virtualcard/deactivate/{id?}', 'virtualcardDeactivate')->name('virtualcard.status.deactivate');
-        Route::get('virtualcard/block/{id?}', 'virtualcardBlock')->name('virtualcard.status.block');
+        Route::get('virtualcard/activate/{id?}', 'virtualcardActivate')->middleware('same.origin')->name('virtualcard.status.activate');
+        Route::get('virtualcard/deactivate/{id?}', 'virtualcardDeactivate')->middleware('same.origin')->name('virtualcard.status.deactivate');
+        Route::get('virtualcard/block/{id?}', 'virtualcardBlock')->middleware('same.origin')->name('virtualcard.status.block');
     });
 
 
@@ -407,16 +407,16 @@ Route::middleware(['admin','adminPermission'])->group(function () {
     Route::controller('CoinController')->prefix('crypto')->name('crypto.')->group(function () {
         Route::get('/currency', 'CoinController@index')->name('currency');
         Route::get('/currency/edit/{id}', 'edit')->name('edit');
-        Route::get('/activate-coin/{id}', 'activate')->name('activatecoin');
-        Route::get('/deactivate-coin/{id}', 'deactivate')->name('deactivatecoin');
+        Route::get('/activate-coin/{id}', 'activate')->middleware('same.origin')->name('activatecoin');
+        Route::get('/deactivate-coin/{id}', 'deactivate')->middleware('same.origin')->name('deactivatecoin');
         Route::post('/update-coin/{id}', 'apiupdate')->name('postcoin');
-        Route::get('/delete-coin/{id}', 'delete')->name('deletecoin');
+        Route::get('/delete-coin/{id}', 'delete')->middleware('same.origin')->name('deletecoin');
         Route::post('/add-coin', 'coinAdd')->name('addcoin');
 
         Route::get('/wallet', 'CoinController@wallet')->name('wallet');
         Route::get('/wallet/{id}', 'CoinController@viewwallet')->name('viewwallet');
-        Route::get('/deactivatewallet/{id}', 'CoinController@deactivatewallet')->name('deactivatewallet');
-        Route::get('/activatewallet/{id}', 'CoinController@activatewallet')->name('activatewallet');
+        Route::get('/deactivatewallet/{id}', 'CoinController@deactivatewallet')->middleware('same.origin')->name('deactivatewallet');
+        Route::get('/activatewallet/{id}', 'CoinController@activatewallet')->middleware('same.origin')->name('activatewallet');
         Route::get('/viewwallet/{id}', 'CoinController@viewwalletaddress')->name('viewwalletd');
         Route::post('/creditwallet/{id}', 'CoinController@creditwallet')->name('creditwallet');
         Route::post('/debitwallet/{id}', 'CoinController@debitwallet')->name('debitwallet');
@@ -424,20 +424,20 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::get('/swap', 'CoinController@swap')->name('swap');
 
         Route::get('/buy/coin/{id}', 'buylog')->name('assetbuytrade');
-        Route::get('/buy/coin/approve/{id}', 'buylogApprove')->name('assetbuytrade.approve');
+        Route::get('/buy/coin/approve/{id}', 'buylogApprove')->middleware('same.origin')->name('assetbuytrade.approve');
         Route::get('/buy/coin/decline/{id}', 'buylogDecline')->name('assetbuytrade.decline');
         Route::get('/sell/coin/{id}', 'selllog')->name('assetselltrade');
-        Route::get('/sell/coin/approve/{id}', 'selllogApprove')->name('assetselltrade.approve');
+        Route::get('/sell/coin/approve/{id}', 'selllogApprove')->middleware('same.origin')->name('assetselltrade.approve');
         Route::get('/sell/coin/decline/{id}', 'selllogDecline')->name('assetselltrade.decline');
     });
 
 
     //GIFTCARD SYSTEM
     Route::controller('GiftcardController')->prefix('giftcard')->group(function () {
-        Route::get('/sell/giftcard/approved/{id}', 'giftcardlog')->name('sellproex');
+        Route::get('/sell/giftcard/approved/{id}', 'giftcardlog')->middleware('same.origin')->name('sellproex');
         Route::get('/sell/giftcard/pending/{id}', 'giftcardlog')->name('sellpenex');
         Route::get('/sell/giftcard/declined/{id}', 'giftcardlog')->name('selldecex');
-        Route::get('/buy/giftcard/approved/{id}', 'giftcardlog')->name('buyproex');
+        Route::get('/buy/giftcard/approved/{id}', 'giftcardlog')->middleware('same.origin')->name('buyproex');
         Route::get('/buy/giftcard/pending/{id}', 'giftcardlog')->name('buypenex');
         Route::get('/buy/giftcard/declined/{id}', 'giftcardlog')->name('buydecex');
         Route::get('/card-info/{id}', 'cardinfo')->name('card-info');
@@ -452,13 +452,13 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::post('card/create/type/{id}', 'addcardType')->name('storecardType');;
         Route::post('card/update/type/{id}', 'updatecardType')->name('updatecardType');
 
-        Route::get('card/approve/{id}', 'activate')->name('activatecard');
-        Route::get('card/reject/{id}', 'deactivate')->name('deactivatecard');
-        Route::get('card/delete/{id}', 'delete')->name('deletecard');
+        Route::get('card/approve/{id}', 'activate')->middleware('same.origin')->name('activatecard');
+        Route::get('card/reject/{id}', 'deactivate')->middleware('same.origin')->name('deactivatecard');
+        Route::get('card/delete/{id}', 'delete')->middleware('same.origin')->name('deletecard');
 
-        Route::get('card/approve/type/{id}', 'activatetype')->name('activatecardtype');
-        Route::get('card/reject/type/{id}', 'deactivatetype')->name('deactivatecardtype');
-        Route::get('card/delete/type/{id}', 'deletetype')->name('deletecardtype');
+        Route::get('card/approve/type/{id}', 'activatetype')->middleware('same.origin')->name('activatecardtype');
+        Route::get('card/reject/type/{id}', 'deactivatetype')->middleware('same.origin')->name('deactivatecardtype');
+        Route::get('card/delete/type/{id}', 'deletetype')->middleware('same.origin')->name('deletecardtype');
 
     });
 
@@ -467,7 +467,7 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::get('storefront', 'storefront')->name('storefront.index');
         Route::get('storefront/manage/{id}', 'manage')->name('storefront.edit');
         Route::post('storefront/manage/{id}', 'update');
-        Route::get('storefront/status/{id}', 'status')->name('storefront.order.status');
+        Route::get('storefront/status/{id}', 'status')->middleware('same.origin')->name('storefront.order.status');
     });
 
     Route::controller('GeneralSettingController')->group(function () {

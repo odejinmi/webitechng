@@ -18,6 +18,8 @@ use App\Models\GeneralSetting;
 use App\Models\WithdrawMethod;
 use App\Models\Withdrawal;
 use App\Rules\FileTypeValidate;
+use App\Services\PayVesselService;
+use App\Support\PublicWebhookUrl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -283,6 +285,19 @@ class UserController extends Controller
 
     public function apiWebhook(Request $request)
     {
+        $request->validate([
+            'webhook' => ['nullable', 'url', function ($attribute, $value, $fail) {
+                if (!PublicWebhookUrl::isAllowed($value)) {
+                    $fail('The '.$attribute.' must be a public HTTPS URL.');
+                }
+            }],
+            'callback' => ['nullable', 'url', function ($attribute, $value, $fail) {
+                if (!PublicWebhookUrl::isAllowed($value)) {
+                    $fail('The '.$attribute.' must be a public HTTPS URL.');
+                }
+            }],
+        ]);
+
         $user = auth()->user();
         $user->webhook_url  = $request->webhook;
         $user->redirect_url  = $request->callback;
@@ -613,71 +628,50 @@ class UserController extends Controller
     public function generatenubanpayvessel()
     {
         try {
-        $user = auth()->user();
-        $json = file_get_contents('php://input');
-        $input = json_decode($json, true);
-        $fee = env('DEDICATEDACCOUNTFEE');
+            $user = auth()->user();
+            if ($user->nuban != null) {
+                return response()->json(['ok' => false, 'status' => 'danger', 'message' => 'You already have an account number'], 400);
+            }
 
-        if($user->nuban != null)
-        {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'You already have an account number'],400);
-        }
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://api.payvessel.com/api/external/request/customerReservedAccount/',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS =>'{
-            "businessid": "'.env('PAYVESSELBIZID').'",
-            "email": "'.$user->email.'",
-            "name": "'.$user->fullname.'",
-            "phoneNumber": "'.$user->mobile.'",
-            "bankcode":["120001"],
-            "bvn": "'.$user->nin.'"
-        }',
-        CURLOPT_HTTPHEADER => array(
-        'api-key: '.env('PAYVESSELAPIKEY'),
-        'api-secret: Bearer '.env('PAYVESSELSEK'),
-        'Content-Type: application/json'
-        ),
-        ));
-        $response = curl_exec($curl);
-        curl_close($curl);
-        $reply = json_decode($response,true);
-        if(!isset($reply['status']))
-        {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'Sorry we cant process this request at the moment'],400);
-        }
-        if($reply['status'] != true)
-        {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> @$reply['message']],400);
-        }
-        if($reply['status'] = true)
-        {
-        $bank = $reply['banks'][0];
-        $user->nuban   = [
-                'bank_name' => @$bank['bankName'],
-                'account_name' => @$bank['accountName'],
-                'account_number'   => @$bank['accountNumber']
-        ];
+            $payload = [
+                'businessid' => config('payvessel.business_id'),
+                'email' => $user->email,
+                'name' => $user->fullname,
+                'phoneNumber' => $user->mobile,
+                'bankcode' => config('payvessel.virtual_account_banks'),
+                'account_type' => 'STATIC',
+            ];
+            if ($user->nin) {
+                $payload['nin'] = $user->nin;
+            }
 
-        $user->nuban_ref = @$bank['accountNumber'];
-        $user->save();
-        // Send Mail
-        notify($user, 'USER_MESSAGE', [
-            'message' => 'A dedicated account number has been generated for you successfuly. Please login to  your account to check details',
-            'subject' => 'Account Number Generated'
-        ]);
-        return response()->json(['ok'=>true,'status'=>'success','message'=> @$reply['message']],200);
-        }
+            $reply = app(PayVesselService::class)->createVirtualAccount($payload);
+            $banks = $reply['banks'] ?? $reply['data']['banks'] ?? [];
+            if (isset($banks['accountNumber']) || isset($banks['account_number'])) {
+                $banks = [$banks];
+            }
+            $bank = $banks[0] ?? null;
+            if (!$bank) {
+                throw new \RuntimeException('PayVessel did not return an account number.');
+            }
+
+            $accountNumber = $bank['accountNumber'] ?? $bank['account_number'] ?? null;
+            $user->nuban = [
+                'bank_name' => $bank['bankName'] ?? $bank['bank_name'] ?? '',
+                'account_name' => $bank['accountName'] ?? $bank['account_name'] ?? $user->fullname,
+                'account_number' => $accountNumber,
+            ];
+            $user->nuban_ref = $accountNumber;
+            $user->save();
+
+            notify($user, 'USER_MESSAGE', [
+                'message' => 'A dedicated account number has been generated for you successfully. Please login to your account to check details',
+                'subject' => 'Account Number Generated'
+            ]);
+
+            return response()->json(['ok' => true, 'status' => 'success', 'message' => $reply['message'] ?? 'Account number generated successfully']);
         } catch (\Exception $exp) {
-            return response()->json(['ok'=>false,'status'=>'error','message'=> $exp->getMessage()],200);
-
+            return response()->json(['ok' => false, 'status' => 'error', 'message' => $exp->getMessage()], 400);
         }
     }
 
@@ -1387,14 +1381,18 @@ class UserController extends Controller
     }
     public function attachmentDownload($fileHash)
     {
-        $filePath  = decrypt($fileHash);
+        $directory = realpath(getFilePath('verify'));
+        $filePath = realpath(decrypt($fileHash));
+
+        if (!$directory || !$filePath || !is_file($filePath) || !str_starts_with($filePath, $directory.DIRECTORY_SEPARATOR)) {
+            abort(404);
+        }
+
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
         $general   = gs();
         $title     = slug($general->site_name) . '- attachments.' . $extension;
-        $mimetype  = mime_content_type($filePath);
-        header('Content-Disposition: attachment; filename="' . $title);
-        header("Content-Type: " . $mimetype);
-        return readfile($filePath);
+
+        return response()->download($filePath, $title);
     }
 
     public function userData()

@@ -68,14 +68,15 @@ class ForgotPasswordController extends Controller
         $admin = Admin::where('email', $request->email)->first();
 
         if (!$admin) {
-            return back()->withErrors(['Email Not Available']);
+            session()->put('pass_res_mail', $request->email);
+            return to_route('admin.password.code.verify');
         }
 
         $code                           = verificationCode(6);
         $adminPasswordReset             = new AdminPasswordReset();
         $adminPasswordReset->email      = $admin->email;
         $adminPasswordReset->token      = $code;
-        $adminPasswordReset->created_at = date("Y-m-d h:i:s");
+        $adminPasswordReset->created_at = now();
         $adminPasswordReset->save();
 
         $adminIpInfo  = getIpInfo();

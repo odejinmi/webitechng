@@ -58,7 +58,7 @@ class StaffController extends Controller
             'name'        => 'required',
             'email'       => 'required|unique:admins,email,' . $id,
             'role_id'     => 'required|integer|gt:0',
-            'password'    => !$id ? 'required|min:6' : 'nullable',
+            'password'    => !$id ? 'required|min:8' : 'nullable',
         ]);
     }
 

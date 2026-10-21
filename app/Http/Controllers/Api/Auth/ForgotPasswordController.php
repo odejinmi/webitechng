@@ -116,7 +116,10 @@ class ForgotPasswordController extends Controller
 
         $code =  $request->code;
 
-        if (PasswordReset::where('token', $code)->where('email', $request->email)->count() != 1) {
+        if (PasswordReset::where('token', $code)
+            ->where('email', $request->email)
+            ->where('created_at', '>=', now()->subMinutes(15))
+            ->count() != 1) {
             $notify[] = 'Invalid token';
             return response()->json([
                 'code'=>200,

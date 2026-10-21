@@ -106,8 +106,8 @@ class EducationController extends Controller
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_SSL_VERIFYPEER => true,
+        CURLOPT_SSL_VERIFYHOST => 2,
         CURLOPT_CUSTOMREQUEST => "GET",
       CURLOPT_HTTPHEADER => array(
     'Authorization: Basic '.$auth,
@@ -451,8 +451,8 @@ class EducationController extends Controller
         DATA;
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         //for debug only!
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
         $resp = curl_exec($curl);
         curl_close($curl);
         //var_dump($resp);
