@@ -64,8 +64,29 @@ class ApiDocumentationController
 
     private function baseSpecification(): array
     {
-        $contents = file_get_contents(base_path('openapi.json'));
-        $specification = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+        $specification = [
+            'openapi' => '3.0.3',
+            'info' => [],
+            'paths' => [],
+            'components' => [],
+        ];
+        $path = base_path('openapi.json');
+
+        if (is_file($path) && is_readable($path)) {
+            $contents = file_get_contents($path);
+
+            if ($contents !== false) {
+                try {
+                    $decoded = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+
+                    if (is_array($decoded)) {
+                        $specification = array_replace_recursive($specification, $decoded);
+                    }
+                } catch (\JsonException) {
+                }
+            }
+        }
+
         $this->curatedPaths = $specification['paths'] ?? [];
         $specification['paths'] = [];
         $specification['components'] = $specification['components'] ?? [];
