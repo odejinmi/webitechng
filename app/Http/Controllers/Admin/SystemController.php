@@ -46,22 +46,29 @@ class SystemController extends Controller
 
         try {
             $exitCode = Artisan::call('migrate', ['--force' => true]);
+            $output = trim(Artisan::output());
         } catch (\Throwable $exception) {
             report($exception);
-            $notify[] = ['error', 'Migration failed. Check the application log.'];
+            $notify[] = ['error', 'Migration failed. Check the details below.'];
 
-            return back()->withNotify($notify);
+            return back()
+                ->withNotify($notify)
+                ->with('migration_output', $exception->getMessage());
         }
 
         if ($exitCode !== 0) {
-            $notify[] = ['error', 'Migration failed. Check the application log.'];
+            $notify[] = ['error', 'Migration failed. Check the details below.'];
 
-            return back()->withNotify($notify);
+            return back()
+                ->withNotify($notify)
+                ->with('migration_output', $output ?: 'The migration command failed without returning output.');
         }
 
         $notify[] = ['success', 'Database migration completed successfully.'];
 
-        return back()->withNotify($notify);
+        return back()
+            ->withNotify($notify)
+            ->with('migration_output', $output ?: 'Nothing to migrate.');
     }
 
     private function ensureMigrationEnabled(): void

@@ -16,6 +16,13 @@
                             @lang('Run Migration Now')
                         </button>
                     </form>
+
+                    @if (session('migration_output'))
+                        <div class="mt-4">
+                            <h5>@lang('Migration Output')</h5>
+                            <pre class="bg-dark text-white p-3 rounded" style="white-space: pre-wrap;">{{ session('migration_output') }}</pre>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
