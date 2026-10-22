@@ -59,6 +59,8 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    'temporary_admin_migration_enabled' => (bool) env('TEMPORARY_ADMIN_MIGRATION_ENABLED', false),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

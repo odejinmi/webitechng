@@ -31,6 +31,45 @@ class SystemController extends Controller
         return back()->withNotify($notify);
     }
 
+    public function migration()
+    {
+        $this->ensureMigrationEnabled();
+
+        $pageTitle = 'Run Database Migration';
+
+        return view('admin.system.migration', compact('pageTitle'));
+    }
+
+    public function runMigration()
+    {
+        $this->ensureMigrationEnabled();
+
+        try {
+            $exitCode = Artisan::call('migrate', ['--force' => true]);
+        } catch (\Throwable $exception) {
+            report($exception);
+            $notify[] = ['error', 'Migration failed. Check the application log.'];
+
+            return back()->withNotify($notify);
+        }
+
+        if ($exitCode !== 0) {
+            $notify[] = ['error', 'Migration failed. Check the application log.'];
+
+            return back()->withNotify($notify);
+        }
+
+        $notify[] = ['success', 'Database migration completed successfully.'];
+
+        return back()->withNotify($notify);
+    }
+
+    private function ensureMigrationEnabled(): void
+    {
+        abort_unless(config('app.temporary_admin_migration_enabled'), 404);
+        abort_unless(auth('admin')->id() === 1, 403);
+    }
+
     public function systemServerInfo(){
         $currentPHP = phpversion();
         $pageTitle = 'Server Information';
