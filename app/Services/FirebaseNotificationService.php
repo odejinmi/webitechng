@@ -54,7 +54,7 @@ class FirebaseNotificationService
                     'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
                     'assertion' => $jwt
                 ]),
-                CURLOPT_SSL_VERIFYPEER => false // For local dev
+                CURLOPT_SSL_VERIFYPEER => true // For local dev
             ]);
 
             $response = curl_exec($curl);
@@ -207,7 +207,7 @@ class FirebaseNotificationService
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYPEER => true,
             CURLOPT_POSTFIELDS => json_encode($payload),
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Bearer ' . $accessToken,
@@ -268,7 +268,7 @@ class FirebaseNotificationService
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYPEER => true,
             CURLOPT_POSTFIELDS => json_encode($payload),
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Bearer ' . $accessToken,

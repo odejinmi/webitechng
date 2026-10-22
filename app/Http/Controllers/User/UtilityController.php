@@ -251,8 +251,8 @@ class UtilityController extends Controller
         DATA;
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         //for debug only!
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
         $resp = curl_exec($curl);
         curl_close($curl);
         //var_dump($resp);

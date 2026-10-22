@@ -37,7 +37,10 @@ class ResetPasswordController extends Controller
 
         $email = session('fpass_email');
         $token = session()->has('token') ? session('token') : $token;
-        if (PasswordReset::where('token', $token)->where('email', $email)->count() != 1) {
+        if (PasswordReset::where('token', $token)
+            ->where('email', $email)
+            ->where('created_at', '>=', now()->subMinutes(15))
+            ->count() != 1) {
             $notify[] = ['error', 'Invalid token'];
             return to_route('user.password.request')->withNotify($notify);
         }
@@ -56,15 +59,26 @@ class ResetPasswordController extends Controller
     {
         session()->put('fpass_email', $request->email);
         $request->validate($this->rules(), $this->validationErrorMessages());
-        $reset = PasswordReset::where('token', $request->token)->orderBy('created_at', 'desc')->first();
+        $reset = PasswordReset::where('token', $request->token)
+            ->where('email', $request->email)
+            ->where('created_at', '>=', now()->subMinutes(15))
+            ->orderBy('created_at', 'desc')
+            ->first();
         if (!$reset) {
             $notify[] = ['error', 'Invalid verification code'];
             return to_route('user.login')->withNotify($notify);
         }
 
         $user = User::where('email', $reset->email)->first();
+        if (!$user) {
+            $notify[] = ['error', 'Invalid verification code'];
+            return to_route('user.login')->withNotify($notify);
+        }
+
         $user->password = Hash::make($request->password);
         $user->save();
+        $user->tokens()->delete();
+        PasswordReset::where('email', $user->email)->delete();
 
         $userIpInfo = getIpInfo();
         $userBrowser = osBrowser();
@@ -89,7 +103,7 @@ class ResetPasswordController extends Controller
      */
     protected function rules()
     {
-        $passwordValidation = Password::min(6);
+        $passwordValidation = Password::min(8);
         $general = gs();
         if ($general->secure_password) {
             $passwordValidation = $passwordValidation->mixedCase()->numbers()->symbols()->uncompromised();

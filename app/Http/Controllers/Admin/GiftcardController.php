@@ -68,7 +68,7 @@ class GiftcardController extends Controller
             {
              $this->validate($request,
             [
-            'front' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'front' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
             ]);
                 $data->image = uniqid().'.jpg';
                 $request->front->move('giftcards',$data->image);
@@ -77,7 +77,7 @@ class GiftcardController extends Controller
             {
              $this->validate($request,
             [
-            'back' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'back' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
             ]);
                 $data->image2 = uniqid().'.jpg';
                 $request->back->move('giftcards',$data->image2);

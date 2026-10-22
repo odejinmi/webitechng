@@ -51,7 +51,11 @@ class ResetPasswordController extends Controller
                 'data'=>null
             ]);
         }
-        $reset = PasswordReset::where('token', $request->token)->orderBy('created_at', 'desc')->first();
+        $reset = PasswordReset::where('token', $request->token)
+            ->where('email', $request->email)
+            ->where('created_at', '>=', now()->subMinutes(15))
+            ->orderBy('created_at', 'desc')
+            ->first();
         if (!$reset) {
             $notify[] = 'Invalid verification code';
             return response()->json([
@@ -62,8 +66,18 @@ class ResetPasswordController extends Controller
         }
 
         $user = User::where('email', $reset->email)->first();
+        if (!$user) {
+            return response()->json([
+                'code'=>200,
+                'status'=>'ok',
+                'message'=>['error'=>['Invalid verification code']],
+            ]);
+        }
+
         $user->password = bcrypt($request->password);
         $user->save();
+        $user->tokens()->delete();
+        PasswordReset::where('email', $user->email)->delete();
 
 
 
@@ -94,7 +108,7 @@ class ResetPasswordController extends Controller
      */
     protected function rules()
     {
-        $password_validation = Password::min(6);
+        $password_validation = Password::min(8);
         $general = GeneralSetting::first();
         if ($general->secure_password) {
             $password_validation = $password_validation->mixedCase()->numbers()->symbols()->uncompromised();

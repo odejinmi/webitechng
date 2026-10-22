@@ -60,7 +60,7 @@
                                             {{ showDateTime($deposit->created_at) }}<br>{{ diffForHumans($deposit->created_at) }}
                                         </td>
                                         <td class="text-center">
-                                          {!!$deposit->val_3!!}
+                                          {{$deposit->val_3}}
                                           @if($deposit->deposit_code == 'motor')
                                           <br>
                                           <a href="{{ __($deposit->val_2) }}" class="btn btn-sm btn-primary">Download Certificate</a>

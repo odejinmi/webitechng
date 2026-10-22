@@ -14,13 +14,14 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
-        // \App\Http\Middleware\TrustHosts::class,
+        \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\SecurityHeaders::class,
     ];
 
     /**
@@ -41,8 +42,8 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            \App\Http\Middleware\ForceJsonResponse::class,
             \App\Http\Middleware\ApiPayloadEncryptionMiddleware::class,
+            \App\Http\Middleware\ForceJsonResponse::class,
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -66,6 +67,8 @@ class Kernel extends HttpKernel
         'checkStatusApi' => \App\Http\Middleware\CheckStatusApi::class,
         'latest.web.session' => \App\Http\Middleware\EnsureLatestWebSession::class,
         'latest.api.token' => \App\Http\Middleware\EnsureLatestApiToken::class,
+        'cron.secret' => \App\Http\Middleware\VerifyCronSecret::class,
+        'same.origin' => \App\Http\Middleware\RequireSameOrigin::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,

@@ -2,13 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/clear', function () {
-    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
-});
-
 //Cron Controller
-Route::get('cron', 'CronController@placeOrderToApi')->name('cron');
-Route::get('cron/queue', 'CronController@runQueue')->name('cron.queue');
+Route::middleware(['cron.secret', 'throttle:api'])->group(function () {
+    Route::post('cron', 'CronController@placeOrderToApi')->name('cron');
+    Route::post('cron/queue', 'CronController@runQueue')->name('cron.queue');
+});
 // User Support Ticket
 Route::controller('TicketController')->prefix('ticket')->name('ticket.')->group(function () {
     Route::get('/', 'supportTicket')->name('index');
@@ -27,6 +25,11 @@ Route::get('app/deposit/confirm/{hash}', 'Gateway\PaymentController@appDepositCo
 Route::controller('CartController')->group(function () {
     Route::get('storefront/{id}', 'storefront')->name('storefront');
     Route::get('product/{id}', 'product')->name('storefront.product');
+});
+
+Route::controller('ApiDocumentationController')->prefix('mobile-api')->name('mobile.api.')->group(function () {
+    Route::get('docs', 'index')->name('docs');
+    Route::get('openapi.json', 'specification')->name('openapi');
 });
 
 Route::controller('SiteController')->group(function () {

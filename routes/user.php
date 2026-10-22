@@ -1,52 +1,65 @@
 <?php
 
-use App\Http\Controllers\GoogleAuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::namespace('User\Auth')->name('user.')->group(function () {
+$isMobileRoute = $isMobileRoute ?? false;
+$authenticatedMiddleware = $isMobileRoute
+    ? ['auth:sanctum', 'latest.api.token']
+    : ['auth', 'latest.web.session'];
+$authenticatedRouteName = $isMobileRoute ? 'api.user.' : 'user.';
+$statusMiddleware = $isMobileRoute ? 'checkStatusApi' : 'check.status';
 
-    Route::controller('LoginController')->group(function () {
-        Route::get('/login', 'showLoginForm')->name('login');
-        Route::post('/login', 'login');
-        Route::get('logout', 'logout')->name('logout');
-        Route::get('auth/google', 'redirectToGoogle')->name('google.login');
-        Route::get('auth/google/callback', 'handleGoogleCallback');
+if (!$isMobileRoute) {
+    Route::namespace('User\Auth')->name('user.')->group(function () {
+
+        Route::controller('LoginController')->group(function () {
+            Route::get('/login', 'showLoginForm')->name('login');
+            Route::post('/login', 'login')->middleware('throttle:login');
+            Route::get('logout', 'logout')->middleware('same.origin')->name('logout');
+            Route::get('auth/google', 'redirectToGoogle')->name('google.login');
+            Route::get('auth/google/callback', 'handleGoogleCallback');
+        });
+
+        Route::controller('RegisterController')->group(function () {
+            Route::get('register/{ref?}', 'showRegistrationForm')->name('register');
+            Route::post('register', 'register')->middleware(['registration.status', 'throttle:registration']);
+            Route::post('check-mail', 'checkUser')->middleware('throttle:registration')->name('checkUser');
+        });
+
+        Route::controller('ForgotPasswordController')->prefix('password')->name('password.')->group(function () {
+            Route::get('reset', 'showLinkRequestForm')->name('request');
+            Route::post('email', 'sendResetCodeEmail')->middleware('throttle:password-reset')->name('email');
+            Route::get('code-verify', 'codeVerify')->name('code.verify');
+            Route::post('verify-code', 'verifyCode')->middleware('throttle:password-reset')->name('verify.code');
+        });
+        Route::controller('ResetPasswordController')->group(function () {
+            Route::post('password/reset', 'reset')->middleware('throttle:password-reset')->name('password.update');
+            Route::get('password/reset/{token}', 'showResetForm')->name('password.reset');
+        });
+    });
+}
+
+$registerPublicUserRoutes = function () {
+    Route::namespace('User')->controller('InvoiceController')->prefix('invoice')->group(function () {
+        Route::get('/pay/{id}', 'invoice_pay');
+        Route::post('/pay/{id}', 'invoice_pay_submit');
+        Route::get('/confirm', 'invoiceConfirm')->name('invoice.confirm');
+        Route::get('/request/account', 'request_account')->name('request_account');
     });
 
-    Route::controller('RegisterController')->group(function () {
-        Route::get('register/{ref?}', 'showRegistrationForm')->name('register');
-        Route::post('register', 'register')->middleware('registration.status');
-        Route::post('check-mail', 'checkUser')->name('checkUser');
+    Route::namespace('User')->controller('QrController')->group(function () {
+        Route::get('/qr/{id?}', 'index')->name('qr');
+        Route::post('/qr/{id}', 'receivepayment');
     });
+};
 
-    Route::controller('ForgotPasswordController')->prefix('password')->name('password.')->group(function () {
-        Route::get('reset', 'showLinkRequestForm')->name('request');
-        Route::post('email', 'sendResetCodeEmail')->name('email');
-        Route::get('code-verify', 'codeVerify')->name('code.verify');
-        Route::post('verify-code', 'verifyCode')->name('verify.code');
-    });
-    Route::controller('ResetPasswordController')->group(function () {
-        Route::post('password/reset', 'reset')->name('password.update');
-        Route::get('password/reset/{token}', 'showResetForm')->name('password.reset');
-    });
-});
+if ($isMobileRoute) {
+    Route::name('api.user.')->group($registerPublicUserRoutes);
+} else {
+    $registerPublicUserRoutes();
+}
 
-
-Route::namespace('User')->controller('InvoiceController')->prefix('invoice')->group(function () {
-    Route::get('/pay/{id}', 'invoice_pay');
-    Route::post('/pay/{id}', 'invoice_pay_submit');
-    Route::get('/confirm', 'invoiceConfirm')->name('invoice.confirm');
-    Route::get('/request/account', 'request_account')->name('request_account');
-});
-
-
-Route::namespace('User')->controller('QrController')->group(function () {
-    Route::get('/qr/{id?}', 'index')->name('qr');
-    Route::post('/qr/{id}', 'receivepayment');
-});
-
-
-Route::middleware(['auth', 'latest.web.session'])->name('user.')->group(function () {
+Route::middleware($authenticatedMiddleware)->name($authenticatedRouteName)->group(function () use ($statusMiddleware) {
     // RND Token Purchases
     Route::namespace('User')->controller('RndTokenPurchaseController')->prefix('rnd')->name('rnd.')->group(function () {
         Route::get('purchases', 'index')->name('purchases.index');
@@ -58,13 +71,13 @@ Route::middleware(['auth', 'latest.web.session'])->name('user.')->group(function
     //authorization
     Route::namespace('User')->controller('AuthorizationController')->group(function () {
         Route::get('authorization', 'authorizeForm')->name('authorization');
-        Route::get('resend-verify/{type}', 'sendVerifyCode')->name('send.verify.code');
+        Route::get('resend-verify/{type}', 'sendVerifyCode')->middleware(['same.origin', 'throttle:password-reset'])->name('send.verify.code');
         Route::post('verify-email', 'emailVerification')->name('verify.email');
         Route::post('verify-mobile', 'mobileVerification')->name('verify.mobile');
         Route::post('verify-g2fa', 'g2faVerification')->name('go2fa.verify');
     });
 
-    Route::middleware(['check.status'])->namespace('User')->group(function () {
+    Route::middleware([$statusMiddleware])->namespace('User')->group(function () {
         Route::get('user-data', 'UserController@userData')->name('data');
         Route::post('user-data-submit', 'UserController@userDataSubmit')->name('data.submit');
 
@@ -166,9 +179,9 @@ Route::middleware(['auth', 'latest.web.session'])->name('user.')->group(function
                 Route::get('/', 'index')->name('requestaccount.index');
                 Route::get('/create', 'create')->name('requestaccount.create');
                 Route::post('/create', 'createRequest');
-                Route::get('/confirm/{id}', 'confirm')->name('requestaccount.confirm');
+                Route::get('/confirm/{id}', 'confirm')->middleware('same.origin')->name('requestaccount.confirm');
                 Route::post('/confirm/{id}', 'confirmPost');
-                Route::get('/cancel/{id}', 'cancel')->name('requestaccount.cancel');
+                Route::get('/cancel/{id}', 'cancel')->middleware('same.origin')->name('requestaccount.cancel');
                 Route::get('/history', 'history')->name('requestaccount.history');
             });
 
@@ -228,6 +241,7 @@ Route::middleware(['auth', 'latest.web.session'])->name('user.')->group(function
             Route::controller('BankTransferController')->group(function () {
                 Route::get('bank/transfer', 'index')->name('bank.transfer');
                 Route::get('bank/transfer/new', 'start')->name('bank.transfer.start');
+                Route::get('bank/list', 'getBankList')->name('bank.list');
                 Route::post('bank/validate/strowallet', 'validatebankstrowallet')->name('bank.validate.strowallet');
                 Route::post('bank/transfer/strowallet', 'banktransferStrowallet')->name('bank.transfer.strowallet');
                 Route::post('bank/validate/monnify', 'validatebankmonnify')->name('bank.validate.monnify');
@@ -235,6 +249,13 @@ Route::middleware(['auth', 'latest.web.session'])->name('user.')->group(function
                 Route::post('bank/validate/blochq', 'validatebankblochq')->name('bank.validate.blochq');
                 Route::post('bank/transfer/blochq', 'banktransfernubanBlochq')->name('bank.transfer.blochq');
                 Route::get('bank/transfer/log', 'history')->name('bank.transfer.history');
+            });
+
+            Route::controller('PayVesselBillsController')->prefix('bills')->name('bills.')->group(function () {
+                Route::get('billers', 'billers')->name('billers');
+                Route::get('billers/{billerId}/items', 'items')->name('items');
+                Route::post('validate-account', 'validateAccount')->name('validate');
+                Route::post('orders', 'order')->name('order');
             });
             Route::controller('VCardController')->group(function () {
                 Route::get('create/customer', 'showCreateForm')->name('create.customer');
@@ -310,7 +331,7 @@ Route::middleware(['auth', 'latest.web.session'])->name('user.')->group(function
                         Route::get('storefront/{id}', 'storefront')->name('storefront');
                         Route::post('product/buy/{id}', 'productBuy')->name('product.buy');
                         Route::get('purchase/order', 'Myorder')->name('storefront.purchase.order');
-                        Route::get('order/status/{id}', 'orderStatus')->name('storefront.order.status');
+                        Route::get('order/status/{id}', 'orderStatus')->middleware('same.origin')->name('storefront.order.status');
                     });
 
                     Route::controller('VirtualCardController')->prefix('virtualcard')->group(function () {
@@ -318,9 +339,9 @@ Route::middleware(['auth', 'latest.web.session'])->name('user.')->group(function
                         Route::post('/request', 'Request_virtualCard');
                         Route::get('history', 'history')->name('virtualcard.history');
                         Route::get('details/{id}', 'details')->name('virtualcard.details');
-                        Route::get('status/block/{id}', 'block')->name('virtualcard.status.block');
-                        //Route::get('status/activate/{id}', 'activate')->name('virtualcard.status.activate');
-                        //Route::get('status/deactivate/{id}', 'deactivate')->name('virtualcard.status.deactivate');
+                        Route::get('status/block/{id}', 'block')->middleware('same.origin')->name('virtualcard.status.block');
+                        Route::get('status/activate/{id}', 'activate')->middleware('same.origin')->name('virtualcard.status.activate');
+                        Route::get('status/deactivate/{id}', 'deactivate')->middleware('same.origin')->name('virtualcard.status.deactivate');
                         Route::post('status/password/{id}', 'password')->name('virtualcard.status.password');
                         Route::post('fund/balance/{id}', 'fundbalance')->name('virtualcard.fund.balance');
                     });

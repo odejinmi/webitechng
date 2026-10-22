@@ -96,8 +96,8 @@ class GiftcardController extends Controller
             {
               $this->validate($request,
             [
-            'front' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-            'back' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'front' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'back' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
             ]);
 
             }
@@ -137,7 +137,7 @@ class GiftcardController extends Controller
             {
              $this->validate($request,
             [
-            'front' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'front' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
             ]);
                 $docm['image'] = uniqid().'.jpg';
                 $request->front->move('assets/images/giftcards',$docm['image']);
@@ -146,7 +146,7 @@ class GiftcardController extends Controller
             {
              $this->validate($request,
             [
-            'back' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'back' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
             ]);
                 $docm['image2'] = uniqid().'.jpg';
                 $request->back->move('assets/images/giftcards',$docm['image2']);

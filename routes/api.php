@@ -14,19 +14,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('v1', 'ApiController@process')->name('api.v1');
 Route::post('/verify/voucher', 'SiteController@verifypinPost')->name('api.verifyvoucher');
-Route::any('/strowallet/webhook', 'ApiController@strowalletwebhook')->name('api.nuban.strowalletwebhook');
-Route::any('/paylony/webhook', 'ApiController@paylonywebhook')->name('api.nuban.paylonywebhook');
-Route::any('/monnify/webhook', 'ApiController@monnifywebhook')->name('api.nuban.monnifywebhook');
-Route::any('/payvessel/webhook', 'ApiController@payvesselwebhook')->name('api.nuban.payvesselwebhook');
-Route::any('/vpay/webhook', 'ApiController@vpaywebhook');
-Route::any('/savings/cronjob', 'ApiController@savings')->name('api.savings');
-Route::any('/fixed/cronjob', 'ApiController@fixed')->name('api.fixed');
-Route::any('/crypto/wallet', 'ApiController@cryptoWallet');
+Route::middleware('throttle:webhooks')->group(function () {
+    Route::post('/strowallet/webhook', 'ApiController@strowalletwebhook')->name('api.nuban.strowalletwebhook');
+    Route::post('/paylony/webhook', 'ApiController@paylonywebhook')->name('api.nuban.paylonywebhook');
+    Route::post('/monnify/webhook', 'ApiController@monnifywebhook')->name('api.nuban.monnifywebhook');
+    Route::post('/payvessel/webhook', 'ApiController@payvesselwebhook')->name('api.nuban.payvesselwebhook');
+    Route::post('/vpay/webhook', 'ApiController@vpaywebhook');
+    Route::post('/crypto/wallet', 'ApiController@cryptoWallet');
+});
+Route::middleware(['cron.secret', 'throttle:api'])->group(function () {
+    Route::post('/savings/cronjob', 'ApiController@savings')->name('api.savings');
+    Route::post('/fixed/cronjob', 'ApiController@fixed')->name('api.fixed');
+});
 
 
 Route::prefix('v1')->group(function () {
-Route::any('networks', 'ApiMerchantController@networks');
-Route::any('intenet/plans', 'ApiMerchantController@dataplans');
+Route::get('networks', 'ApiMerchantController@networks');
+Route::get('intenet/plans', 'ApiMerchantController@dataplans');
 Route::post('intenet/buy', 'ApiMerchantController@dataplanBuy');
 Route::post('transaction/verify', 'ApiMerchantController@TRXVERIFY');
 Route::post('create/customer', 'ApiMerchantController@CREATECUSTOMER');

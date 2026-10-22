@@ -16,7 +16,9 @@
               <div id="stats" class="my-4">
                 @if ($reply['data']['status'] == 'active')
                 <span class="badge bg-success text-white">{{ strToUpper($reply['data']['status']) }}</span>
+                @if (($card->provider ?? null) != 'PAYVESSEL' && !empty($reply['data']['pin']))
                 <span class="badge bg-success text-white">PIN: {{ strToUpper($reply['data']['pin']) }}</span>
+                @endif
                 @else
                 <span class="badge bg-warning text-white">{{ strToUpper($reply['data']['status']) }}</span>
                 @endif
@@ -86,17 +88,25 @@
               </div>
               <hr>
               @if ($reply['data']['status'] == 'active')
+              @if (($card->provider ?? null) == 'PAYVESSEL')
+              <a href="{{ route('user.virtualcard.status.deactivate',$reply['data']['id']) }}" class="btn btn-danger btn-sm"><i class="ti ti-alert-circle"></i> @lang('Freeze')</a>
+              @else
               <a href="{{ route('user.virtualcard.status.block',$reply['data']['id']) }}" class="btn btn-danger btn-sm"><i class="ti ti-lock"></i> @lang('Block')</a>
              {{--
               <a href="{{ route('user.virtualcard.status.activate',$reply['data']['id']) }}" class="btn btn-success btn-sm"><i class="ti ti-check"></i> @lang('Unfreeze')</a>
               <a href="{{ route('user.virtualcard.status.deactivate',$reply['data']['id']) }}" class="btn btn-danger btn-sm"><i class="ti ti-alert-circle"></i> @lang('Freeze')</a>
               --}}
               <a  data-bs-toggle="modal" data-bs-target="#pin-modal" data-bs-whatever="@getbootstrap" href="#" class="btn btn-primary btn-sm"><i class="ti ti-key"></i> @lang('Card Pin')</a>
+              @endif
               <a  data-bs-toggle="modal" data-bs-target="#fund-modal" data-bs-whatever="@getbootstrap" href="#" class="btn btn-success btn-sm"><i class="ti ti-wallet"></i> @lang('Fund')</a>
+             @else
+             @if (($card->provider ?? null) == 'PAYVESSEL' && $reply['data']['status'] == 'frozen')
+             <a href="{{ route('user.virtualcard.status.activate',$reply['data']['id']) }}" class="btn btn-success btn-sm"><i class="ti ti-check"></i> @lang('Unfreeze')</a>
              @else
              <div class="alert alert-danger" role="alert">
               <strong>Card Is {{strToUpper($reply['data']['status'])}} - </strong> @lang('Please contact admin to activate card')
               </div>
+             @endif
               @endif
 
             </div>

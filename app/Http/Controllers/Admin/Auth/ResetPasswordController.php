@@ -56,7 +56,12 @@ class ResetPasswordController extends Controller
     public function showResetForm(Request $request, $token)
     {
         $pageTitle  = "Account Recovery";
-        $resetToken = AdminPasswordReset::where('token', $token)->where('status', Status::ENABLE)->first();
+        $email = session()->get('pass_res_mail');
+        $resetToken = AdminPasswordReset::where('token', $token)
+            ->where('email', $email)
+            ->where('status', Status::ENABLE)
+            ->where('created_at', '>=', now()->subMinutes(15))
+            ->first();
 
         if (!$resetToken) {
             $notify[] = ['error', 'Verification code mismatch'];
@@ -75,13 +80,23 @@ class ResetPasswordController extends Controller
         $this->validate($request, [
             'email'    => 'required|email',
             'token'    => 'required',
-            'password' => 'required|confirmed|min:4',
+            'password' => 'required|confirmed|min:8',
         ]);
 
-        $reset = AdminPasswordReset::where('token', $request->token)->orderBy('created_at', 'desc')->first();
-        $admin = Admin::where('email', $reset->email)->first();
+        $reset = AdminPasswordReset::where('token', $request->token)
+            ->where('email', $request->email)
+            ->where('status', Status::ENABLE)
+            ->where('created_at', '>=', now()->subMinutes(15))
+            ->orderBy('created_at', 'desc')
+            ->first();
 
-        if ($reset->status == Status::DISABLE) {
+        if (!$reset) {
+            $notify[] = ['error', 'Invalid code'];
+            return to_route('admin.login')->withNotify($notify);
+        }
+
+        $admin = Admin::where('email', $reset->email)->first();
+        if (!$admin) {
             $notify[] = ['error', 'Invalid code'];
             return to_route('admin.login')->withNotify($notify);
         }

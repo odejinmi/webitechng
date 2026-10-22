@@ -57,6 +57,7 @@
                                      <option  @if ($general->transfer_provider == 'MONNIFY') selected @endif >MONNIFY</option> 
                                      <option  @if ($general->transfer_provider == 'STROWALLET') selected @endif>STROWALLET</option>
                                      <option  @if ($general->transfer_provider == 'BLOCHQ') selected @endif>BLOCHQ</option> 
+                                     <option  @if ($general->transfer_provider == 'PAYVESSEL') selected @endif>PAYVESSEL</option>
 
                                     </select>
                             </div>
@@ -161,6 +162,32 @@
                                 <div class="form-check form-switch form-check-success">
                                     <input type="checkbox" class="form-check-input" @if ($general->store_front) checked @endif name="store_front" id="store_front" /> 
                                 </div>   
+                                </div>
+                            </li>
+
+                            <li class="list-group-item d-flex flex-wrap flex-sm-nowrap gap-2 justify-content-between align-items-center">
+                                <div>
+                                    <p class="fw-bold mb-0">@lang('Virtual Card Provider')</p>
+                                    <p class="mb-0"><small>@lang('Select the provider used for new virtual cards.')</small></p>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" name="virtualcard_provider" id="virtualcard_provider">
+                                        <option @if (($general->virtualcard_provider ?? 'BLOCHQ') == 'BLOCHQ') selected @endif>BLOCHQ</option>
+                                        <option @if (($general->virtualcard_provider ?? '') == 'PAYVESSEL') selected @endif>PAYVESSEL</option>
+                                    </select>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item d-flex flex-wrap flex-sm-nowrap gap-2 justify-content-between align-items-center">
+                                <div>
+                                    <p class="fw-bold mb-0">@lang('Bills Provider')</p>
+                                    <p class="mb-0"><small>@lang('Select PayVessel for its supported airtime, data and betting billers.')</small></p>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" name="bills_provider" id="bills_provider">
+                                        <option value="CURRENT" @if (($general->bills_provider ?? 'CURRENT') == 'CURRENT') selected @endif>CURRENT</option>
+                                        <option value="PAYVESSEL" @if (($general->bills_provider ?? '') == 'PAYVESSEL') selected @endif>PAYVESSEL</option>
+                                    </select>
                                 </div>
                             </li>
                             <li class="list-group-item d-flex flex-wrap flex-sm-nowrap gap-2 justify-content-between align-items-center">

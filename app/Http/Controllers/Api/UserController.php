@@ -166,7 +166,7 @@ class UserController extends Controller
 	}
 
 	public function submitPassword(Request $request){
-		$password_validation = Password::min(6);
+		$password_validation = Password::min(8);
         $general = GeneralSetting::first();
         if ($general->secure_password) {
             $password_validation = $password_validation->mixedCase()->numbers()->symbols()->uncompromised();

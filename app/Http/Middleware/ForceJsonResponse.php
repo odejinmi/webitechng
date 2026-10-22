@@ -30,8 +30,13 @@ class ForceJsonResponse
         }
 
         // Intercept View responses (e.g. return view('...')) and convert to JSON
-        if (isset($response->original) && $response->original instanceof View) {
-            $data = $response->original->getData();
+        $view = $response instanceof View ? $response : null;
+        if (!$view && isset($response->original) && $response->original instanceof View) {
+            $view = $response->original;
+        }
+
+        if ($view) {
+            $data = $view->getData();
 
             // Remove internal blade layout variables to keep API response clean
             unset($data['activeTemplate'], $data['activeTemplateTrue'], $data['app']);
@@ -46,15 +51,17 @@ class ForceJsonResponse
 
         // Intercept Redirect responses (e.g. return back()->withNotify(...))
         if ($response instanceof RedirectResponse) {
-            $session = $request->hasSession() ? $request->session() : null;
+            $session = $request->hasSession() ? $request->session() : app('session')->driver();
             $notify = $session ? $session->get('notify') : null;
             $errors = $session ? $session->get('errors') : null;
 
             $messages = [];
+            $hasError = false;
             if ($notify) {
                 foreach ($notify as $item) {
                     if (is_array($item) && isset($item[1])) {
                         $messages[] = $item[1];
+                        $hasError = $hasError || in_array($item[0] ?? null, ['error', 'danger'], true);
                     } elseif (is_string($item)) {
                         $messages[] = $item;
                     }
@@ -65,10 +72,10 @@ class ForceJsonResponse
                 $errorBag = $errors->getBag('default');
                 if ($errorBag) {
                     $messages = array_merge($messages, $errorBag->all());
+                    $hasError = true;
                 }
             }
 
-            $hasError = count($messages) > 0;
             $statusCode = $hasError ? 400 : 200;
 
             return response()->json([

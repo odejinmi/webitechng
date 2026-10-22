@@ -45,9 +45,14 @@
                                 <select type="text" class="form-control form-control-lg form-control-solid  username @error('card') is-invalid @enderror" id="card"
                                     name="type">
                                     <option selected disabled>Select An Option</option>
-                                    <option value="Verve">Verve (NGN)</option>
-                                    <option value="MasterCard" disabled>MasterCard (USD)</option>
-                                    <option value="visa">Visa (USD)</option>
+                                    @if ((gs()->virtualcard_provider ?? 'BLOCHQ') == 'PAYVESSEL')
+                                        <option value="MasterCard">MasterCard (USD)</option>
+                                        <option value="visa">Visa (USD)</option>
+                                    @else
+                                        <option value="Verve">Verve (NGN)</option>
+                                        <option value="MasterCard" disabled>MasterCard (USD)</option>
+                                        <option value="visa">Visa (USD)</option>
+                                    @endif
                                 </select>
                                 <!--end::Input-->
                             </div>

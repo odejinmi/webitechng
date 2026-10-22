@@ -13,7 +13,7 @@ class CurlRequest
 	public static function curlContent($url,$header = null)
 	{
 	    $ch = curl_init();
-	    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 	    if ($header) {
 	    	curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 	    }
@@ -38,7 +38,7 @@ class CurlRequest
 	        $params = $postData;
 	    }
 	    $ch = curl_init();
-	    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 	    if ($header) {
 	    	curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 	    }
