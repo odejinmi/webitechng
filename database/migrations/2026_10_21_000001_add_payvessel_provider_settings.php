@@ -8,14 +8,23 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('general_settings', function (Blueprint $table) {
-            $table->string('virtualcard_provider')->default('BLOCHQ');
-            $table->string('bills_provider')->default('CURRENT');
-        });
+        if (!Schema::hasColumn('general_settings', 'virtualcard_provider')) {
+            Schema::table('general_settings', function (Blueprint $table) {
+                $table->string('virtualcard_provider')->default('BLOCHQ');
+            });
+        }
 
-        Schema::table('virtual_cards', function (Blueprint $table) {
-            $table->string('provider')->nullable();
-        });
+        if (!Schema::hasColumn('general_settings', 'bills_provider')) {
+            Schema::table('general_settings', function (Blueprint $table) {
+                $table->string('bills_provider')->default('CURRENT');
+            });
+        }
+
+        if (!Schema::hasColumn('virtual_cards', 'provider')) {
+            Schema::table('virtual_cards', function (Blueprint $table) {
+                $table->string('provider')->nullable();
+            });
+        }
     }
 
     public function down()

@@ -45,7 +45,10 @@ class SystemController extends Controller
         $this->ensureMigrationEnabled();
 
         try {
-            $exitCode = Artisan::call('migrate', ['--force' => true]);
+            $exitCode = Artisan::call('migrate', [
+                '--path' => 'database/migrations/2026_10_21_000001_add_payvessel_provider_settings.php',
+                '--force' => true,
+            ]);
             $output = trim(Artisan::output());
         } catch (\Throwable $exception) {
             report($exception);
