@@ -19,6 +19,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
+    public const HOME = '/user/dashboard';
 
     protected $namespace = 'App\Http\Controllers';
 
