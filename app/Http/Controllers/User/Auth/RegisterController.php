@@ -221,7 +221,7 @@ class RegisterController extends Controller
             $userLogin->city =  @implode(',', $info['city']);
             $userLogin->country_code = @implode(',', $info['code']);
             $userLogin->country =  @implode(',', $info['country']);
-        }åQ
+        }
 
         $userAgent          = osBrowser();
         $userLogin->user_id = $user->id;

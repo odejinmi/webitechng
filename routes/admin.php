@@ -568,6 +568,8 @@ Route::middleware(['admin','adminPermission'])->group(function () {
         Route::get('server-info', 'systemServerInfo')->name('server.info');
         Route::get('optimize', 'optimize')->name('optimize');
         Route::get('optimize-clear', 'optimizeClear')->name('optimize.clear');
+        Route::get('migrate', 'migration')->name('migration');
+        Route::post('migrate', 'runMigration')->name('migration.run');
     });
 
     // SEO
