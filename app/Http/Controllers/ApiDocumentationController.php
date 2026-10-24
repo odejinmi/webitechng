@@ -36,6 +36,7 @@ class ApiDocumentationController
         $specification['info']['title'] = config('api-docs.title');
         $specification['info']['version'] = config('api-docs.version');
         $specification['info']['description'] = $this->description();
+        $specification['tags'] = $this->tags();
         $specification['servers'] = [
             [
                 'url' => url('/api'),
@@ -145,6 +146,7 @@ class ApiDocumentationController
                 $this->generatedOperation($route, $path, $method, $middleware),
                 $existing
             );
+            $operation['tags'] = [$this->tag($path)];
 
             $operation['parameters'] = $this->mergeParameters(
                 $operation['parameters'] ?? [],
@@ -281,17 +283,146 @@ class ApiDocumentationController
 
     private function tag(string $path): string
     {
-        $segments = explode('/', trim($path, '/'));
-        if (($segments[0] ?? null) === 'user') {
-            $area = $segments[1] ?? 'account';
-            if (in_array($area, ['login', 'register', 'check-mail', 'password'], true)) {
-                return 'Authentication';
-            }
-
-            return Str::headline($area);
+        if (Str::startsWith($path, [
+            '/user/login',
+            '/user/register',
+            '/user/check-mail',
+            '/user/password',
+            '/user/logout',
+        ])) {
+            return '01. Authentication';
         }
 
-        return Str::headline($segments[0] ?? 'API');
+        if (Str::startsWith($path, [
+            '/user/authorization',
+            '/user/change-password',
+            '/user/change-trxpassword',
+            '/user/deactivate-account',
+            '/user/kyc',
+            '/user/resend-verify',
+            '/user/trxpass',
+            '/user/twofactor',
+            '/user/user-data',
+            '/user/verify-',
+        ])) {
+            return '02. Verification & Security';
+        }
+
+        if (Str::startsWith($path, [
+            '/user/dashboard',
+            '/user/downlines',
+            '/user/login_earn',
+            '/user/profile-setting',
+            '/user/attachment-download',
+            '/user/api/',
+        ])) {
+            return '03. Account & Profile';
+        }
+
+        if (Str::startsWith($path, [
+            '/user/bank',
+            '/user/p2p',
+            '/user/transaction',
+            '/user/transactions',
+        ])) {
+            return '04. Transfers & Transactions';
+        }
+
+        if (Str::startsWith($path, [
+            '/user/deposit',
+            '/user/withdraw',
+            '/user/generatenuban',
+            '/user/request/account',
+            '/user/create/customer',
+        ])) {
+            return '05. Wallet & Virtual Accounts';
+        }
+
+        if (Str::startsWith($path, [
+            '/user/create/card',
+            '/user/freez/card',
+            '/user/fund/card',
+            '/user/list/card',
+            '/user/post_fund/card',
+            '/user/post_withdraw/card',
+            '/user/unfreez/card',
+            '/user/view/card',
+            '/user/virtualcard',
+            '/user/withdraw/card',
+        ])) {
+            return '06. Virtual Cards';
+        }
+
+        if (Str::startsWith($path, [
+            '/user/airtime',
+            '/user/betting',
+            '/user/bills',
+            '/user/cabletv',
+            '/user/education',
+            '/user/insurance',
+            '/user/internet',
+            '/user/utility',
+        ])) {
+            return '07. Bills & Services';
+        }
+
+        if (Str::startsWith($path, [
+            '/user/loan',
+            '/user/rnd',
+            '/user/savings',
+        ])) {
+            return '08. Savings & Loans';
+        }
+
+        if (Str::startsWith($path, [
+            '/user/buy/asset',
+            '/user/crypto',
+            '/user/sell/asset',
+            '/user/trade/assets',
+            '/crypto/',
+        ])) {
+            return '09. Crypto & Assets';
+        }
+
+        if (Str::startsWith($path, [
+            '/user/escrow',
+            '/user/event',
+            '/user/giftcard',
+            '/user/invoice',
+            '/user/storefront',
+            '/user/voucher',
+        ])) {
+            return '10. Commerce';
+        }
+
+        if (Str::startsWith($path, ['/v1', '/verify/voucher'])) {
+            return '11. Merchant API';
+        }
+
+        if (Str::contains($path, ['/webhook', '/cronjob'])) {
+            return '12. Webhooks & Automation';
+        }
+
+        return '13. Other';
+    }
+
+    private function tags(): array
+    {
+        return [
+            ['name' => '01. Authentication', 'description' => 'Start here: signup, login, logout, and password recovery for the mobile app.'],
+            ['name' => '02. Verification & Security', 'description' => 'Email, mobile, KYC, transaction PIN, password, and two-factor verification.'],
+            ['name' => '03. Account & Profile', 'description' => 'Dashboard, profile, referrals, attachments, and developer API settings.'],
+            ['name' => '04. Transfers & Transactions', 'description' => 'Bank transfers, internal transfers, transaction history, and receipts.'],
+            ['name' => '05. Wallet & Virtual Accounts', 'description' => 'Deposits, withdrawals, dedicated accounts, and virtual account requests.'],
+            ['name' => '06. Virtual Cards', 'description' => 'Create, view, fund, withdraw, freeze, and manage virtual cards.'],
+            ['name' => '07. Bills & Services', 'description' => 'Airtime, data, cable TV, utilities, education, insurance, and betting payments.'],
+            ['name' => '08. Savings & Loans', 'description' => 'Savings plans, loans, instalments, and RND purchases.'],
+            ['name' => '09. Crypto & Assets', 'description' => 'Crypto wallets, rates, buying, selling, swapping, and asset history.'],
+            ['name' => '10. Commerce', 'description' => 'Gift cards, invoices, storefronts, events, vouchers, and escrow.'],
+            ['name' => '11. Merchant API', 'description' => 'Merchant-facing customer, data vending, identity, and transaction endpoints.'],
+            ['name' => '12. Webhooks & Automation', 'description' => 'Provider callbacks and protected scheduled jobs.'],
+            ['name' => '13. Other', 'description' => 'Additional endpoints that do not belong to the primary mobile groups.'],
+        ];
     }
 
     private function description(): string
