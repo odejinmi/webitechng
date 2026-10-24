@@ -23,7 +23,8 @@
   "paths": {
     "/user/register": {
       "post": {
-        "summary": "Register User",
+        "summary": "Mobile Signup / Register",
+        "description": "Create a new mobile user account. On success, the response contains a Sanctum bearer token and the created user.",
         "tags": ["Authentication"],
         "security": [],
         "requestBody": {
@@ -32,27 +33,54 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["firstname", "lastname", "email", "username", "mobile", "password", "password_confirmation"],
+                "required": ["email", "username", "mobile", "mobile_code", "country_code", "country", "password", "password_confirmation"],
                 "properties": {
                   "firstname": { "type": "string", "example": "John" },
                   "lastname": { "type": "string", "example": "Doe" },
-                  "email": { "type": "string", "example": "john@example.com" },
-                  "username": { "type": "string", "example": "johndoe" },
-                  "mobile": { "type": "string", "example": "08012345678" },
-                  "password": { "type": "string", "example": "Password123!" },
-                  "password_confirmation": { "type": "string", "example": "Password123!" },
-                  "ref_by": { "type": "string", "example": "referrer_user" }
+                  "email": { "type": "string", "format": "email", "example": "john@example.com" },
+                  "username": { "type": "string", "minLength": 6, "example": "johndoe" },
+                  "mobile": { "type": "string", "description": "Phone number without the international dial code.", "example": "8012345678" },
+                  "mobile_code": { "type": "string", "description": "International dial code selected from the supported country list.", "example": "+234" },
+                  "country_code": { "type": "string", "description": "ISO country code selected from the supported country list.", "example": "NG" },
+                  "country": { "type": "string", "example": "Nigeria" },
+                  "password": { "type": "string", "format": "password", "minLength": 8, "example": "Password123!" },
+                  "password_confirmation": { "type": "string", "format": "password", "example": "Password123!" },
+                  "ref_by": { "type": "string", "nullable": true, "example": "referrer_user" },
+                  "agree": { "type": "boolean", "description": "Required when terms acceptance is enabled by the administrator.", "example": true },
+                  "captcha": { "type": "string", "description": "Required only when captcha is enabled.", "nullable": true }
                 }
               }
             }
           }
         },
-        "responses": { "200": { "description": "Registration successful" } }
+        "responses": {
+          "202": {
+            "description": "Registration successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 202,
+                  "status": "created",
+                  "message": { "success": ["Registration successfull"] },
+                  "data": {
+                    "access_token": "1|sanctum-token",
+                    "token_type": "Bearer",
+                    "user": { "id": 123, "username": "johndoe", "email": "john@example.com" }
+                  }
+                }
+              }
+            }
+          },
+          "200": { "description": "Validation failed; inspect message.error" },
+          "409": { "description": "Mobile number already exists" },
+          "422": { "description": "Invalid request payload" }
+        }
       }
     },
     "/user/login": {
       "post": {
-        "summary": "User Login",
+        "summary": "Mobile Login",
+        "description": "Authenticate with either username or email plus password. Use data.accessToken as the Bearer token for protected endpoints.",
         "tags": ["Authentication"],
         "security": [],
         "requestBody": {
@@ -63,14 +91,34 @@
                 "type": "object",
                 "required": ["username", "password"],
                 "properties": {
-                  "username": { "type": "string", "example": "johndoe@example.com" },
-                  "password": { "type": "string", "example": "Secret123!" }
+                  "username": { "type": "string", "description": "Username or email address.", "example": "john@example.com" },
+                  "password": { "type": "string", "format": "password", "example": "Secret123!" }
                 }
               }
             }
           }
         },
-        "responses": { "200": { "description": "Login successful" } }
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 200,
+                  "status": "ok",
+                  "message": { "success": ["Login Succesfull"] },
+                  "data": {
+                    "accessToken": "1|sanctum-token",
+                    "token_type": "Bearer",
+                    "user": { "id": 123, "username": "johndoe", "email": "john@example.com" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Invalid credentials or validation failure" },
+          "422": { "description": "Invalid request payload" }
+        }
       }
     },
     "/user/check-mail": {
