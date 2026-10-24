@@ -143,7 +143,8 @@
     },
     "/user/password/email": {
       "post": {
-        "summary": "Send Password Reset Email",
+        "summary": "Request Password Reset Code",
+        "description": "Send the user's email address. A six-digit reset code is emailed when the account exists. The legacy type/value payload is also supported.",
         "tags": ["Authentication"],
         "security": [],
         "requestBody": {
@@ -153,12 +154,29 @@
               "schema": {
                 "type": "object",
                 "required": ["email"],
-                "properties": { "email": { "type": "string", "example": "john@example.com" } }
+                "properties": {
+                  "email": { "type": "string", "format": "email", "example": "john@example.com" }
+                }
               }
             }
           }
         },
-        "responses": { "200": { "description": "Reset email sent" } }
+        "responses": {
+          "200": {
+            "description": "Reset request processed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 200,
+                  "status": "ok",
+                  "message": { "success": ["Password reset email sent successfully"] },
+                  "data": { "email": "john@example.com" }
+                }
+              }
+            }
+          },
+          "422": { "description": "Invalid email address" }
+        }
       }
     },
     "/user/password/verify-code": {
