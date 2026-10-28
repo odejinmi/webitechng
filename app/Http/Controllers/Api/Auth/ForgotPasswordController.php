@@ -32,7 +32,25 @@ class ForgotPasswordController extends Controller
 
     public function sendResetCodeEmail(Request $request)
     {
-        if ($request->type == 'email') {
+        $type = $request->input('type');
+        $value = $request->input('value');
+
+        if (!$value && $request->filled('email')) {
+            $type = 'email';
+            $value = $request->input('email');
+        } elseif (!$value && $request->filled('username')) {
+            $type = 'username';
+            $value = $request->input('username');
+        } elseif (!$type && $value) {
+            $type = filter_var($value, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        }
+
+        $request->merge([
+            'type' => $type,
+            'value' => $value,
+        ]);
+
+        if ($type === 'email') {
             $validationRule = [
                 'value'=>'required|email'
             ];
@@ -40,7 +58,7 @@ class ForgotPasswordController extends Controller
                 'value.required'=>'Email field is required',
                 'value.email'=>'Email must be an valide email'
             ];
-        }elseif($request->type == 'username'){
+        } elseif ($type === 'username') {
             $validationRule = [
                 'value'=>'required'
             ];
@@ -61,7 +79,7 @@ class ForgotPasswordController extends Controller
             ]);
         }
 
-        $user = User::where($request->type, $request->value)->first();
+        $user = User::where($type, $value)->first();
         
         if (!$user) {
             $notify[] = 'User not found.';
