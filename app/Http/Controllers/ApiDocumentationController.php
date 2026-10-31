@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 class ApiDocumentationController
 {
     private array $curatedPaths = [];
+    private array $actionSourceCache = [];
 
     private const ENCRYPTION_EXCLUSIONS = [
         '/strowallet/webhook',
@@ -195,21 +196,277 @@ class ApiDocumentationController
         ];
 
         if (in_array($method, ['post', 'put', 'patch', 'delete'], true)) {
+            $requestSchema = $this->inferredRequestSchema($route, $path);
+            $hasDocumentedFields = isset($requestSchema['properties']);
             $operation['requestBody'] = [
-                'required' => true,
-                'description' => 'JSON request payload. For encrypted endpoints, this is the inner business payload.',
+                'required' => $hasDocumentedFields,
+                'description' => $hasDocumentedFields
+                    ? 'Business payload inferred from controller validation and request usage. For encrypted endpoints, encrypt this object and send the resulting envelope.'
+                    : 'This operation has no fixed controller-level fields. It either requires no business payload or uses provider-configured dynamic fields.',
                 'content' => [
                     'application/json' => [
-                        'schema' => [
-                            'type' => 'object',
-                            'additionalProperties' => true,
-                        ],
+                        'schema' => $requestSchema,
                     ],
                 ],
             ];
         }
 
         return $operation;
+    }
+
+    private function inferredRequestSchema(LaravelRoute $route, string $path): array
+    {
+        $source = $this->actionSource($route);
+        $fields = [];
+        $rules = [];
+
+        preg_match_all(
+            '/[\'\"]([A-Za-z_][A-Za-z0-9_.-]*)[\'\"]\s*=>\s*(?:[\'\"]([^\'\"]*)[\'\"]|\[([^\]]*)\])/s',
+            $source,
+            $validationMatches,
+            PREG_SET_ORDER
+        );
+
+        foreach ($validationMatches as $match) {
+            $scalarRule = trim($match[2] ?? '');
+            $arrayRule = trim($match[3] ?? '');
+            $rule = trim($scalarRule . ' ' . $arrayRule);
+            if (($scalarRule !== '' && preg_match('/\s/', $scalarRule)) ||
+                str_contains($arrayRule, '=>') ||
+                !$this->looksLikeValidationRule($rule)) {
+                continue;
+            }
+
+            $field = $match[1];
+            if (preg_match('/\.(required|nullable|email|numeric|integer|string|array|date|file|image)$/i', $field)) {
+                continue;
+            }
+
+            $fields[$field] = true;
+            $rules[$field] = $rule;
+        }
+
+        $fieldPatterns = [
+            '/\$request->(?:input|get|filled|has|hasFile|file|boolean|integer)\(\s*[\'\"]([A-Za-z_][A-Za-z0-9_.-]*)[\'\"]/',
+            '/request\(\)->(?:input|get|filled|has|hasFile|file|boolean|integer)\(\s*[\'\"]([A-Za-z_][A-Za-z0-9_.-]*)[\'\"]/',
+            '/request\(\s*[\'\"]([A-Za-z_][A-Za-z0-9_.-]*)[\'\"]\s*\)/',
+            '/request\(\)->([A-Za-z_][A-Za-z0-9_]*)/',
+            '/\$request->([A-Za-z_][A-Za-z0-9_]*)/',
+            '/\$input\s*\[\s*[\'\"]([A-Za-z_][A-Za-z0-9_.-]*)[\'\"]\s*\]/',
+            '/\$_(?:POST|REQUEST)\s*\[\s*[\'\"]([A-Za-z_][A-Za-z0-9_.-]*)[\'\"]\s*\]/',
+        ];
+
+        foreach ($fieldPatterns as $pattern) {
+            preg_match_all($pattern, $source, $matches);
+            foreach ($matches[1] ?? [] as $field) {
+                if (!$this->isRequestMethod($field)) {
+                    $fields[$field] = true;
+                }
+            }
+        }
+
+        preg_match_all('/(?:\$request|request\(\))->(?:only)\(\s*\[([^\]]*)\]/s', $source, $onlyMatches);
+        foreach ($onlyMatches[1] ?? [] as $fieldList) {
+            preg_match_all('/[\'\"]([A-Za-z_][A-Za-z0-9_.-]*)[\'\"]/', $fieldList, $matches);
+            foreach ($matches[1] ?? [] as $field) {
+                $fields[$field] = true;
+            }
+        }
+
+        preg_match_all('/\{([^}]+)\}/', $path, $pathMatches);
+        foreach ($pathMatches[1] ?? [] as $pathParameter) {
+            unset($fields[$pathParameter], $fields[rtrim($pathParameter, '?')]);
+        }
+
+        unset($fields['_token'], $fields['_method']);
+
+        $properties = [];
+        $required = [];
+        foreach (array_keys($fields) as $field) {
+            $rule = $rules[$field] ?? '';
+            $properties[$field] = $this->fieldSchema($field, $rule);
+
+            if (preg_match('/(?:^|[|,\s\'\"])required(?:$|[|,\s\'\"])/i', $rule)) {
+                $required[] = $field;
+            }
+        }
+
+        ksort($properties);
+        sort($required);
+
+        $schema = [
+            'type' => 'object',
+            'additionalProperties' => true,
+        ];
+
+        if ($properties !== []) {
+            $schema['properties'] = $properties;
+        }
+
+        if ($required !== []) {
+            $schema['required'] = $required;
+        }
+
+        return $schema;
+    }
+
+    private function actionSource(LaravelRoute $route): string
+    {
+        $action = $route->getActionName();
+        if ($action === 'Closure' || !str_contains($action, '@')) {
+            return '';
+        }
+
+        if (array_key_exists($action, $this->actionSourceCache)) {
+            return $this->actionSourceCache[$action];
+        }
+
+        [$controller, $method] = explode('@', $action, 2);
+
+        try {
+            $reflection = new \ReflectionMethod($controller, $method);
+            $source = $this->reflectionSource($reflection);
+
+            preg_match_all('/\$this->([A-Za-z_][A-Za-z0-9_]*)\s*\(/', $source, $calledMethods);
+            foreach (array_unique($calledMethods[1] ?? []) as $calledMethod) {
+                if (!method_exists($controller, $calledMethod)) {
+                    continue;
+                }
+
+                $calledReflection = new \ReflectionMethod($controller, $calledMethod);
+                if ($calledReflection->getDeclaringClass()->getName() === $controller) {
+                    $source .= "\n" . $this->reflectionSource($calledReflection);
+                }
+            }
+
+            return $this->actionSourceCache[$action] = $source;
+        } catch (\Throwable) {
+            return $this->actionSourceCache[$action] = '';
+        }
+    }
+
+    private function reflectionSource(\ReflectionMethod $reflection): string
+    {
+        $lines = file($reflection->getFileName());
+        if ($lines === false) {
+            return '';
+        }
+
+        return implode('', array_slice(
+            $lines,
+            $reflection->getStartLine() - 1,
+            $reflection->getEndLine() - $reflection->getStartLine() + 1
+        ));
+    }
+
+    private function looksLikeValidationRule(string $rule): bool
+    {
+        return (bool) preg_match(
+            '/\b(required|nullable|sometimes|string|numeric|integer|decimal|boolean|array|email|date|file|image|mimes|confirmed|exists|unique|in)\b/i',
+            $rule
+        );
+    }
+
+    private function isRequestMethod(string $field): bool
+    {
+        return in_array($field, [
+            'all', 'ajax', 'bearerToken', 'boolean', 'cookie', 'except', 'expectsJson',
+            'file', 'filled', 'get', 'has', 'hasAny', 'hasFile', 'header', 'input',
+            'integer', 'ip', 'isMethod', 'merge', 'method', 'missing', 'only', 'query',
+            'replace', 'route', 'session', 'user', 'validate', 'validated',
+        ], true);
+    }
+
+    private function fieldSchema(string $field, string $rule): array
+    {
+        $normalizedField = strtolower($field);
+        $normalizedRule = strtolower($rule);
+        $schema = ['type' => 'string'];
+
+        if (str_contains($normalizedRule, 'array')) {
+            $schema = ['type' => 'array', 'items' => ['type' => 'string']];
+        } elseif (str_contains($normalizedRule, 'boolean') || preg_match('/^(is_|has_|agree|status$)/', $normalizedField)) {
+            $schema = ['type' => 'boolean'];
+        } elseif (str_contains($normalizedRule, 'integer') || preg_match('/(^|_)(quantity|count|page|limit)$/', $normalizedField)) {
+            $schema = ['type' => 'integer'];
+        } elseif (preg_match('/\b(numeric|decimal)\b/', $normalizedRule) || preg_match('/(^|_)(amount|price|fee|rate|balance)$/', $normalizedField)) {
+            $schema = ['type' => 'number', 'format' => 'double'];
+        } elseif (str_contains($normalizedRule, 'email') || str_contains($normalizedField, 'email')) {
+            $schema['format'] = 'email';
+        } elseif (preg_match('/\b(file|image|mimes)\b/', $normalizedRule)) {
+            $schema['format'] = 'binary';
+        } elseif (str_contains($normalizedRule, 'date')) {
+            $schema['format'] = 'date';
+        } elseif (str_contains($normalizedField, 'password')) {
+            $schema['format'] = 'password';
+        }
+
+        if (str_contains($normalizedRule, 'nullable')) {
+            $schema['nullable'] = true;
+        }
+
+        if (preg_match('/(?:^|\|)in:([^|\'\"\]]+)/i', $rule, $enumMatch)) {
+            $enum = array_values(array_filter(array_map('trim', explode(',', $enumMatch[1]))));
+            if ($enum !== []) {
+                $schema['enum'] = $enum;
+                $schema['example'] = $enum[0];
+            }
+        }
+
+        if (!array_key_exists('example', $schema) && $schema['type'] !== 'array') {
+            $schema['example'] = $this->fieldExample($normalizedField, $schema['type']);
+        }
+
+        return $schema;
+    }
+
+    private function fieldExample(string $field, string $type)
+    {
+        if ($type === 'boolean') {
+            return true;
+        }
+
+        if ($type === 'integer') {
+            return 1;
+        }
+
+        if ($type === 'number') {
+            return 1000;
+        }
+
+        if (str_contains($field, 'email')) {
+            return 'user@example.com';
+        }
+
+        if (str_contains($field, 'password')) {
+            return 'Password123!';
+        }
+
+        if (preg_match('/(^|_)(pin|code|otp)$/', $field)) {
+            return '123456';
+        }
+
+        if (str_contains($field, 'mobile_code')) {
+            return '+234';
+        }
+
+        if (str_contains($field, 'country_code')) {
+            return 'NG';
+        }
+
+        if (preg_match('/(mobile|phone)/', $field)) {
+            return '8012345678';
+        }
+
+        if (str_contains($field, 'account')) {
+            return '0123456789';
+        }
+
+        if (str_contains($field, 'bank')) {
+            return '058';
+        }
+
+        return 'string';
     }
 
     private function pathParameters(string $path): array
