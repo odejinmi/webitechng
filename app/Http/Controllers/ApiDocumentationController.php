@@ -50,6 +50,7 @@ class ApiDocumentationController
         }
 
         ksort($specification['paths']);
+        $specification['tags'] = $this->usedTags($specification);
 
         return response()->json(
             $specification,
@@ -142,6 +143,10 @@ class ApiDocumentationController
                 continue;
             }
 
+            if (!$this->shouldDocumentRoute($route, $path, $method)) {
+                continue;
+            }
+
             $existing = $this->curatedPaths[$path][$method] ?? [];
             $operation = array_replace_recursive(
                 $this->generatedOperation($route, $path, $method, $middleware),
@@ -183,7 +188,7 @@ class ApiDocumentationController
 
         $operation = [
             'summary' => $this->summary($action, $method, $path),
-            'description' => 'Controller: `' . $action . '`',
+            'description' => 'Mobile API operation for ' . Str::lower($this->summary($action, $method, $path)) . '.',
             'operationId' => preg_replace('/[^A-Za-z0-9_]/', '_', $operationId),
             'tags' => [$this->tag($path)],
             'security' => $authenticated ? [['bearerAuth' => []]] : [],
@@ -212,6 +217,53 @@ class ApiDocumentationController
         }
 
         return $operation;
+    }
+
+    private function shouldDocumentRoute(LaravelRoute $route, string $path, string $method): bool
+    {
+        if (!Str::startsWith($path, '/user/')) {
+            return false;
+        }
+
+        if (($this->curatedPaths[$path][$method] ?? []) !== []) {
+            return true;
+        }
+
+        $source = $this->actionSource($route);
+        if ($source === '') {
+            return false;
+        }
+
+        $returnsJson = (bool) preg_match(
+            '/response\s*\(\s*\)\s*->\s*json|new\s+JsonResponse|JsonResponse\s*\(/i',
+            $source
+        );
+        $returnsBrowserResponse = (bool) preg_match(
+            '/return\s+(?:view|redirect|back|to_route)\s*\(|->withNotify\s*\(/i',
+            $source
+        );
+
+        if ($method === 'get' && $returnsBrowserResponse) {
+            return false;
+        }
+
+        return !$returnsBrowserResponse || $returnsJson;
+    }
+
+    private function usedTags(array $specification): array
+    {
+        $used = [];
+        foreach ($specification['paths'] as $operations) {
+            foreach ($operations as $operation) {
+                foreach ($operation['tags'] ?? [] as $tag) {
+                    $used[$tag] = true;
+                }
+            }
+        }
+
+        return array_values(array_filter($this->tags(), function ($tag) use ($used) {
+            return isset($used[$tag['name']]);
+        }));
     }
 
     private function inferredRequestSchema(LaravelRoute $route, string $path): array
