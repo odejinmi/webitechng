@@ -65,9 +65,6 @@ class BettingController extends Controller
         $merchantid = env('OPAYMERCHANTID');
         $curl = curl_init();
 
-        $json = file_get_contents('php://input');
-        $input = json_decode($json, true);
-
         curl_setopt_array($curl, array(
         CURLOPT_URL => 'https://cashierapi.opayweb.com/api/v3/bills/validate',
         CURLOPT_RETURNTRANSFER => true,
@@ -90,11 +87,8 @@ class BettingController extends Controller
         ));
 
         $response = curl_exec($curl);
+        $reply = json_decode($response, true);
         curl_close($curl);
-        $resp = curl_exec($curl);
-        $reply = json_decode($resp, true);
-
-    curl_close($curl);
     //$rep = json_encode($reply);
     if(!isset($reply['data']['customerId']))
     {
@@ -111,12 +105,11 @@ class BettingController extends Controller
 
 
 
-    public function fund_wallet_post()
+    public function fund_wallet_post(Request $request)
     {
 
         $user = auth()->user();
-        $json = file_get_contents('php://input');
-        $input = json_decode($json, true);
+        $input = $request->all();
         $password = $input['password'];
         $amount = $input['amount'];
         $customername = $input['customerName'];

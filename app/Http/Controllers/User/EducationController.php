@@ -239,11 +239,10 @@ class EducationController extends Controller
 
 
 
-    public function buy_education_post()
+    public function buy_education_post(Request $request)
     {
         $user = auth()->user();
-        $json = file_get_contents('php://input');
-        $input = json_decode($json, true);
+        $input = $request->all();
         $password = $input['password'];
         $arr = explode("|", $input['plan'], 2);
         $amount =  @$arr[1];

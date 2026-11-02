@@ -242,12 +242,11 @@ class InternetSmeController extends Controller
         }
     }
 
-    public function buy_internet_post_n3tdata()
+    public function buy_internet_post_n3tdata(Request $request)
     {
         try {
         $user = auth()->user();
-        $json = file_get_contents('php://input');
-        $input = json_decode($json, true);
+        $input = $request->all();
         $password = $input['password'];
         $arr = explode("|", $input['amount'], 3);
 
@@ -411,12 +410,11 @@ class InternetSmeController extends Controller
     }
 
 
-    public function buy_internet_post_gsubz()
+    public function buy_internet_post_gsubz(Request $request)
     {
         try {
         $user = auth()->user();
-        $json = file_get_contents('php://input');
-        $input = json_decode($json, true);
+        $input = $request->all();
         $password = $input['password'];
         $arr = explode("|", $input['amount'], 3);
 
@@ -581,12 +579,11 @@ class InternetSmeController extends Controller
         //return json_decode($resp,true);
     }
 
-    public function buy_internet_sme_gtidings()
+    public function buy_internet_sme_gtidings(Request $request)
     {
         try {
         $user = auth()->user();
-        $json = file_get_contents('php://input');
-        $input = json_decode($json, true);
+        $input = $request->all();
         $password = $input['password'];
         $arr = explode("|", $input['amount'], 3);
 
@@ -750,12 +747,11 @@ class InternetSmeController extends Controller
         //return json_decode($resp,true);
     }
 
-    public function buy_internet_sme_natkemlinks()
+    public function buy_internet_sme_natkemlinks(Request $request)
     {
         try {
         $user = auth()->user();
-        $json = file_get_contents('php://input');
-        $input = json_decode($json, true);
+        $input = $request->all();
         $password = $input['password'];
         $arr = explode("|", $input['amount'], 3);
 
@@ -920,12 +916,11 @@ class InternetSmeController extends Controller
 
 
 
-    public function buy_internet_sme_techhub()
+    public function buy_internet_sme_techhub(Request $request)
     {
         try {
         $user = auth()->user();
-        $json = file_get_contents('php://input');
-        $input = json_decode($json, true);
+        $input = $request->all();
         $password = $input['password'];
         $arr = explode("|", $input['amount'], 3);
 

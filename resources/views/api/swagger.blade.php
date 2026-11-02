@@ -25,11 +25,15 @@
 <body>
     <div class="api-docs-banner">
         <div class="quick-links">
-            <strong>Mobile quick start:</strong>
-            <a href="#/01.%20Authentication/api_user_register_post">Signup</a>
-            <a href="#/01.%20Authentication/api_user_login_post">Login</a>
-            <a href="#/01.%20Authentication">Password recovery</a>
-            <a href="{{ route('mobile.api.openapi') }}" download>Download OpenAPI JSON</a>
+            <strong>{{ $bannerTitle }}:</strong>
+            @if ($showAuthLinks)
+                <a href="#/01.%20Authentication/api_user_register_post">Signup</a>
+                <a href="#/01.%20Authentication/api_user_login_post">Login</a>
+                <a href="#/01.%20Authentication">Password recovery</a>
+            @else
+                <span>Use a bearer token from the main mobile API login endpoint.</span>
+            @endif
+            <a href="{{ $openapiUrl }}" download>Download OpenAPI JSON</a>
         </div>
         Base URL: <code>{{ url('/api') }}</code>. POST, PUT, PATCH, and DELETE requests require the encrypted payload and security headers described in each operation.
     </div>
@@ -39,7 +43,7 @@
     <script>
         window.onload = function () {
             window.ui = SwaggerUIBundle({
-                url: @json(route('mobile.api.openapi')),
+                url: @json($openapiUrl),
                 dom_id: '#swagger-ui',
                 deepLinking: true,
                 docExpansion: 'none',

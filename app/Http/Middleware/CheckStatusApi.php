@@ -17,9 +17,24 @@ class CheckStatusApi
         $user = auth()->user();
         if ($user->status  && $user->ev  && $user->sv  && $user->tv) {
             return $next($request);
-        } else {
-            return redirect()->route('api.user.authorization');
         }
-        
+
+        if (!$user->status) {
+            return response()->json([
+                'code' => 403,
+                'status' => 'error',
+                'message' => 'Your account has been deactivated.',
+            ], 403);
+        }
+
+        return response()->json([
+            'code' => 403,
+            'status' => 'verification_required',
+            'message' => 'Complete account verification before using this service.',
+            'data' => [
+                'authorization_url' => route('api.user.authorization'),
+                'authorization_method' => 'GET',
+            ],
+        ], 403);
     }
 }

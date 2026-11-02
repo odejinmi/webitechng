@@ -26,6 +26,9 @@ class ApiDocumentationController
 
         return view('api.swagger', [
             'title' => config('api-docs.title'),
+            'openapiUrl' => route('mobile.api.openapi'),
+            'bannerTitle' => 'Mobile quick start',
+            'showAuthLinks' => true,
         ]);
     }
 
@@ -33,8 +36,36 @@ class ApiDocumentationController
     {
         $this->ensureEnabled();
 
+        return $this->buildSpecification(config('api-docs.title'));
+    }
+
+    public function billsIndex()
+    {
+        $this->ensureEnabled();
+
+        return view('api.swagger', [
+            'title' => config('api-docs.bills_title'),
+            'openapiUrl' => route('mobile.bills.api.openapi'),
+            'bannerTitle' => 'Mobile bills API',
+            'showAuthLinks' => false,
+        ]);
+    }
+
+    public function billsSpecification()
+    {
+        $this->ensureEnabled();
+
+        return $this->buildSpecification(
+            config('api-docs.bills_title'),
+            fn (LaravelRoute $route) => $this->isBillsDocumentationRoute($route)
+        );
+    }
+
+    private function buildSpecification(string $title, ?callable $routeFilter = null)
+    {
+
         $specification = $this->baseSpecification();
-        $specification['info']['title'] = config('api-docs.title');
+        $specification['info']['title'] = $title;
         $specification['info']['version'] = config('api-docs.version');
         $specification['info']['description'] = $this->description();
         $specification['tags'] = $this->tags();
@@ -46,6 +77,9 @@ class ApiDocumentationController
         ];
 
         foreach (app('router')->getRoutes() as $route) {
+            if ($routeFilter && !$routeFilter($route)) {
+                continue;
+            }
             $this->addRoute($specification, $route);
         }
 
@@ -58,6 +92,14 @@ class ApiDocumentationController
             [],
             JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
         );
+    }
+
+    private function isBillsDocumentationRoute(LaravelRoute $route): bool
+    {
+        return Str::contains($route->getActionName(), [
+            'Api\\Mobile\\BillsController@',
+            'Api\\Mobile\\SecurityController@',
+        ]);
     }
 
     private function ensureEnabled(): void
@@ -148,6 +190,9 @@ class ApiDocumentationController
             }
 
             $existing = $this->curatedPaths[$path][$method] ?? [];
+            if (Str::contains($route->getActionName(), 'Api\\Mobile\\BillsController@')) {
+                unset($existing['requestBody']);
+            }
             $operation = array_replace_recursive(
                 $this->generatedOperation($route, $path, $method, $middleware),
                 $existing
@@ -357,6 +402,13 @@ class ApiDocumentationController
 
         if ($required !== []) {
             $schema['required'] = $required;
+        }
+
+        if (isset($properties['pin'], $properties['password'])) {
+            $schema['anyOf'] = [
+                ['required' => ['pin']],
+                ['required' => ['password']],
+            ];
         }
 
         return $schema;
@@ -609,6 +661,7 @@ class ApiDocumentationController
             '/user/deactivate-account',
             '/user/kyc',
             '/user/resend-verify',
+            '/user/security',
             '/user/trxpass',
             '/user/twofactor',
             '/user/user-data',

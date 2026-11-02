@@ -2,16 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Mobile User Authentication Routes
-|--------------------------------------------------------------------------
-|
-| Authentication remains API-specific because mobile clients need Sanctum
-| tokens. Public and authenticated product routes are loaded from the web
-| user route file so both clients execute the same controller methods.
-|
-*/
+Route::get('security/public-key', 'Api\Mobile\SecurityController@publicKey')->name('api.user.security.public-key');
 
 Route::namespace('Api\Auth')->name('api.user.')->group(function () {
     Route::post('login', 'LoginController@login')->middleware('throttle:login')->name('login');
@@ -30,12 +21,18 @@ Route::namespace('User\Auth')->name('api.user.')->group(function () {
     Route::post('check-mail', 'RegisterController@checkUser')->middleware('throttle:registration')->name('checkUser');
 });
 
-Route::middleware(['auth:sanctum', 'latest.api.token'])
-    ->name('api.user.')
-    ->group(function () {
-        Route::post('logout', 'Api\Auth\LoginController@logout')->name('logout');
-    });
+Route::middleware(['auth:sanctum', 'latest.api.token'])->name('api.user.')->group(function () {
+    Route::post('logout', 'Api\Auth\LoginController@logout')->name('logout');
 
-$isMobileRoute = true;
-require base_path('routes/user.php');
-unset($isMobileRoute);
+    Route::controller('Api\AuthorizationController')->group(function () {
+        Route::get('authorization', 'authorization')->name('authorization');
+        Route::get('resend-verify', 'sendVerifyCode')->middleware('throttle:password-reset')->name('send.verify.code');
+        Route::post('verify-email', 'emailVerification')->name('verify.email');
+        Route::post('verify-mobile', 'smsVerification')->name('verify.sms');
+        Route::post('verify-g2fa', 'g2faVerification')->name('go2fa.verify');
+    });
+});
+
+Route::middleware(['auth:sanctum', 'latest.api.token', 'checkStatusApi'])
+    ->name('api.user.')
+    ->group(base_path('routes/api/bills.php'));
