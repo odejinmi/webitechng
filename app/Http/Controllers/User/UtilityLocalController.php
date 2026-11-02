@@ -160,12 +160,11 @@ class UtilityLocalController extends Controller
 
 
 
-    public function buy_utility_post()
+    public function buy_utility_post(Request $request)
     {
 
         $user = auth()->user();
-        $json = file_get_contents('php://input');
-        $input = json_decode($json, true);
+        $input = $request->all();
         $password = $input['password'];
 
         $amount =  @$input['amount'];

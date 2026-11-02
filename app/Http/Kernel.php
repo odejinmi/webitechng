@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'api.encrypt' => \App\Http\Middleware\ApiPayloadEncryptionMiddleware::class,
         'force.json' => \App\Http\Middleware\ForceJsonResponse::class,
+        'mobile.feature' => \App\Http\Middleware\EnsureMobileFeatureEnabled::class,
         'adminPermission'  => \App\Http\Middleware\AdminPermissionMiddleware::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,

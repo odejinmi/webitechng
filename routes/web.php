@@ -32,6 +32,11 @@ Route::controller('ApiDocumentationController')->prefix('mobile-api')->name('mob
     Route::get('openapi.json', 'specification')->name('openapi');
 });
 
+Route::controller('ApiDocumentationController')->prefix('mobile-bills-api')->name('mobile.bills.api.')->group(function () {
+    Route::get('docs', 'billsIndex')->name('docs');
+    Route::get('openapi.json', 'billsSpecification')->name('openapi');
+});
+
 Route::controller('SiteController')->group(function () {
 
     Route::get('/contact', 'contact')->name('contact');

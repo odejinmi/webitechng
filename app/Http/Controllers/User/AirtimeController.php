@@ -440,12 +440,11 @@ class AirtimeController extends Controller
         return view($activeTemplate. 'user.bills.airtime.airtime_buy_local', $data, compact('pageTitle','countries','networks'));
      }
 
-     public function buy_airtime_post_local()
+     public function buy_airtime_post_local(Request $request)
     {
         $general   = gs();
         $user = auth()->user();
-        $json = file_get_contents('php://input');
-        $input = json_decode($json, true);
+        $input = $request->all();
 
         if($general->airtime_provider == 'VTPASS')
         {
@@ -883,12 +882,11 @@ class AirtimeController extends Controller
         return view($activeTemplate. 'user.bills.airtime2cash.create', $data, compact('pageTitle'));
     }
 
-    public function to_cash_request_fee()
+    public function to_cash_request_fee(Request $request)
     {
 
         $user = auth()->user();
-        $json = file_get_contents('php://input');
-        $input = json_decode($json, true);
+        $input = $request->all();
         $fee = $input['fee'];
         $network = $input['network'];
         $range = AirtimeCash::whereNetwork($network)->whereStatus(1)->get();
@@ -952,10 +950,25 @@ class AirtimeController extends Controller
             $order->status       = 0;
             $order->trx          = getTrx();
             $order->save();
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'ok' => true,
+                    'status' => 'success',
+                    'message' => 'Airtime conversion request submitted successfully',
+                    'data' => $order,
+                ]);
+            }
             $notify[] = ['success', 'Airtime Logged Successfuly'];
             return redirect()->route('user.airtime.tocash.history')->withNotify($notify);
 
         } else {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'ok' => false,
+                    'status' => 'error',
+                    'message' => 'Invalid transaction PIN',
+                ], 400);
+            }
             $notify[] = ['error', 'Invalid transaction password'];
             return back()->withNotify($notify);
         }
