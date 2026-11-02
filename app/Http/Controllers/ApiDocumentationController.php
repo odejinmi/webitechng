@@ -393,7 +393,7 @@ class ApiDocumentationController
 
         $schema = [
             'type' => 'object',
-            'additionalProperties' => true,
+            'additionalProperties' => false,
         ];
 
         if ($properties !== []) {
@@ -402,13 +402,6 @@ class ApiDocumentationController
 
         if ($required !== []) {
             $schema['required'] = $required;
-        }
-
-        if (isset($properties['pin'], $properties['password'])) {
-            $schema['anyOf'] = [
-                ['required' => ['pin']],
-                ['required' => ['password']],
-            ];
         }
 
         return $schema;

@@ -178,7 +178,7 @@ class UtilityLocalController extends Controller
             $passcheck = true;
             } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
+                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
             }
 
 
@@ -346,9 +346,9 @@ class UtilityLocalController extends Controller
         $input = json_decode($json, true);
         $password = $input['password'];
         if (Hash::check($password, $user->trx_password)) {
-            return response()->json(['ok'=>true,'status'=>'success','message'=>'The password Correct!'],200);
+            return response()->json(['ok'=>true,'status'=>'success','message'=>'The transaction PIN is correct!'],200);
         } else {
-            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
         }
 
     }

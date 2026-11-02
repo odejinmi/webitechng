@@ -346,13 +346,10 @@ class BillsController extends Controller
     private function normalizeTransactionPin(Request $request): void
     {
         $request->validate([
-            'pin' => 'nullable|required_without:password|string',
-            'password' => 'nullable|required_without:pin|string',
+            'pin' => 'required|string',
         ]);
 
-        if (!$request->filled('password')) {
-            $request->merge(['password' => $request->input('pin')]);
-        }
+        $request->merge(['password' => $request->input('pin')]);
     }
 
     private function internetProviderMethod(string $operation): ?string
