@@ -263,7 +263,7 @@ class InternetSmeController extends Controller
             $passcheck = true;
             } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
+                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
             }
 
         $wallet = $wallet === 'main' ? 'main' : 'ref';
@@ -432,7 +432,7 @@ class InternetSmeController extends Controller
             $passcheck = true;
             } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
+                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
             }
 
         $wallet = $wallet === 'main' ? 'main' : 'ref';
@@ -600,7 +600,7 @@ class InternetSmeController extends Controller
             $passcheck = true;
             } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
+                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
             }
 
         $wallet = $wallet === 'main' ? 'main' : 'ref';
@@ -768,7 +768,7 @@ class InternetSmeController extends Controller
             $passcheck = true;
             } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
+                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
             }
 
         $wallet = $wallet === 'main' ? 'main' : 'ref';
@@ -937,7 +937,7 @@ class InternetSmeController extends Controller
             $passcheck = true;
             } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
+                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
             }
 
         $wallet = 'main';

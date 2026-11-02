@@ -242,7 +242,7 @@ class AirtimeController extends Controller
             $passcheck = true;
             } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction password doesn\'t match!'],400);
+                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
             }
 
         // return $this->operatorsdetails($operatorId);
@@ -469,7 +469,7 @@ class AirtimeController extends Controller
             $passcheck = true;
             } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
+                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
             }
 
 
@@ -703,7 +703,7 @@ class AirtimeController extends Controller
             $passcheck = true;
             } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
+                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
             }
 
         $wallet = $wallet === 'main' ? 'main' : 'ref';
@@ -969,7 +969,7 @@ class AirtimeController extends Controller
                     'message' => 'Invalid transaction PIN',
                 ], 400);
             }
-            $notify[] = ['error', 'Invalid transaction password'];
+            $notify[] = ['error', 'Invalid transaction PIN'];
             return back()->withNotify($notify);
         }
     }
