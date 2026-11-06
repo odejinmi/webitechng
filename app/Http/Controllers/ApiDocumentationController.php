@@ -543,6 +543,22 @@ class ApiDocumentationController
             return '123456';
         }
 
+        if ($field === 'data_plan') {
+            return '1114';
+        }
+
+        if ($field === 'data_type') {
+            return 'Gifting';
+        }
+
+        if ($field === 'networkid') {
+            return '1';
+        }
+
+        if ($field === 'networkname') {
+            return 'mtn';
+        }
+
         if (str_contains($field, 'mobile_code')) {
             return '+234';
         }
