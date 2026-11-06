@@ -109,14 +109,42 @@ class BillsController extends Controller
     {
         $this->normalizeTransactionPin($request);
         $request->validate([
-            'amount' => 'required|string',
+            'amount' => 'required|numeric|min:1',
             'data_plan' => 'required|string',
             'networkname' => 'required|string',
             'phone' => 'required|string|max:20',
-            'networkid' => 'nullable|string',
+            'networkid' => 'required|string',
             'data_type' => 'nullable|string',
             'wallet' => 'nullable|in:main,ref',
         ]);
+
+        $provider = strtoupper((string) gs()->internetsme_provider);
+        $plan = $this->resolveInternetPlan($provider, $request);
+
+        if (!$plan) {
+            return response()->json([
+                'code' => 422,
+                'status' => 'error',
+                'message' => 'The selected data plan is invalid or no longer available.',
+            ], 422);
+        }
+
+        if (abs((float) $request->input('amount') - $plan['amount']) > 0.01) {
+            return response()->json([
+                'code' => 422,
+                'status' => 'error',
+                'message' => 'The selected data plan price has changed. Refresh the plans and try again.',
+                'data' => ['amount' => $plan['amount']],
+            ], 422);
+        }
+
+        $legacyPlan = $provider === 'GSUBZ' ? $plan['id'] : $plan['name'];
+        $request->merge([
+            'amount' => $legacyPlan . '|' . $plan['amount'] . '|' . $plan['network'],
+            'data_plan' => $plan['id'],
+            'data_type' => $plan['category'],
+        ]);
+
         $method = $this->internetProviderMethod('purchase');
 
         if (!$method) {
@@ -124,6 +152,75 @@ class BillsController extends Controller
         }
 
         return $controller->{$method}($request);
+    }
+
+    private function resolveInternetPlan(string $provider, Request $request): ?array
+    {
+        $files = [
+            'N3TDATA' => 'n3tdata.json',
+            'GSUBZ' => 'gsubzdata.json',
+            'GTIDINGSDATA' => 'gtidingsdata.json',
+            'NATKEMLINKS' => 'natkemlinks.json',
+            'TECHHUB' => 'APITechHub.json',
+        ];
+
+        if (!isset($files[$provider])) {
+            return null;
+        }
+
+        $plans = json_decode(
+            file_get_contents(resource_path('views/partials/' . $files[$provider])),
+            true
+        );
+        $selection = trim(explode('|', (string) $request->input('data_plan'), 2)[0]);
+        $network = $this->normalizeInternetNetwork((string) $request->input('networkname'));
+
+        foreach ($plans ?: [] as $rawPlan) {
+            $plan = $this->normalizeInternetPlan($provider, $rawPlan);
+            if (!$plan || $this->normalizeInternetNetwork($plan['network']) !== $network) {
+                continue;
+            }
+
+            if ((string) $plan['id'] === $selection || strcasecmp($plan['name'], $selection) === 0) {
+                return $plan;
+            }
+        }
+
+        return null;
+    }
+
+    private function normalizeInternetPlan(string $provider, array $plan): ?array
+    {
+        $id = $provider === 'GSUBZ' ? ($plan['value'] ?? null) : ($plan['plan_id'] ?? null);
+        $name = $provider === 'GSUBZ' ? ($plan['displayName'] ?? null) : ($plan['plan_name'] ?? null);
+        $amount = $provider === 'GSUBZ' ? ($plan['price'] ?? null) : ($plan['amount'] ?? null);
+        $category = $provider === 'GSUBZ'
+            ? ($plan['type'] ?? null)
+            : ($plan['plan_type'] ?? $plan['category'] ?? null);
+
+        if ($id === null || $name === null || $amount === null || !isset($plan['network'])) {
+            return null;
+        }
+
+        $numericAmount = (float) str_replace(',', '', (string) $amount);
+        if ($numericAmount <= 0) {
+            return null;
+        }
+
+        return [
+            'id' => (string) $id,
+            'name' => (string) $name,
+            'amount' => $numericAmount,
+            'category' => (string) ($category ?: 'smedata'),
+            'network' => (string) $plan['network'],
+        ];
+    }
+
+    private function normalizeInternetNetwork(string $network): string
+    {
+        $network = strtolower(trim($network));
+
+        return in_array($network, ['9mobile', 'etisalat'], true) ? '9mobile' : $network;
     }
 
     public function utilityProviders()
