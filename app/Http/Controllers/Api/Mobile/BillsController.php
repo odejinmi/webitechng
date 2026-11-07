@@ -458,9 +458,18 @@ class BillsController extends Controller
         }
 
         if (!Hash::check($pin, $user->trx_password)) {
-            throw ValidationException::withMessages([
-                'pin' => ['The transaction PIN does not match.'],
-            ]);
+            $hashInfo = password_get_info((string) $user->trx_password);
+            $isLegacyPlainPin = ($hashInfo['algoName'] ?? 'unknown') === 'unknown'
+                && hash_equals((string) $user->trx_password, $pin);
+
+            if ($isLegacyPlainPin) {
+                $user->trx_password = Hash::make($pin);
+                $user->save();
+            } else {
+                throw ValidationException::withMessages([
+                    'pin' => ['The transaction PIN does not match.'],
+                ]);
+            }
         }
 
         $request->merge(['pin' => $pin, 'password' => $pin]);
