@@ -13,6 +13,8 @@ use App\Services\PayVesselService;
 use App\Services\WalletLedgerService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class BillsController extends Controller
 {
@@ -442,11 +444,26 @@ class BillsController extends Controller
 
     private function normalizeTransactionPin(Request $request): void
     {
-        $request->validate([
-            'pin' => 'required|string',
+        $validated = $request->validate([
+            'pin' => ['required', 'string', 'regex:/^\d{4,6}$/'],
         ]);
 
-        $request->merge(['password' => $request->input('pin')]);
+        $pin = trim($validated['pin']);
+        $user = $request->user();
+
+        if (empty($user->trx_password)) {
+            throw ValidationException::withMessages([
+                'pin' => ['Transaction PIN is not configured. Set it from the security settings first.'],
+            ]);
+        }
+
+        if (!Hash::check($pin, $user->trx_password)) {
+            throw ValidationException::withMessages([
+                'pin' => ['The transaction PIN does not match.'],
+            ]);
+        }
+
+        $request->merge(['pin' => $pin, 'password' => $pin]);
     }
 
     private function internetProviderMethod(string $operation): ?string

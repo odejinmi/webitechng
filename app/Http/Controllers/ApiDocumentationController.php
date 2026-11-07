@@ -99,6 +99,7 @@ class ApiDocumentationController
         return Str::contains($route->getActionName(), [
             'Api\\Mobile\\BillsController@',
             'Api\\Mobile\\SecurityController@',
+            'Api\\Mobile\\TransactionPinController@',
         ]);
     }
 
