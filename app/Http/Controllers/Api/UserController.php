@@ -10,7 +10,6 @@ use App\Models\User;
 use App\Models\Deposit;
 use App\Models\GeneralSetting;
 use App\Models\Transaction;
-use App\Models\Upgrade;
 use App\Models\WithdrawMethod;
 use App\Models\Withdrawal;
 use App\Models\UserLogin;
@@ -83,7 +82,7 @@ class UserController extends Controller
 
 		$data['yearDeposit'] = $yearDeposit;
 		$data['yearPayout'] = $yearPayout;
-        $data['plan'] = Upgrade::where('user_id', $user->id)->latest()->take(1)->first();
+        $data['plan'] = $user->plan;
         $data['trx'] = Transaction::where('user_id', $user->id)->orderBy('id', 'desc')->take(6)->get();
         $data['ref'] = User::where('ref_by', $user->id)->orderBy('id', 'desc')->count();
         $data['last_login']      = UserLogin::where('user_id', $user->id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
