@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Transaction;
 use App\Services\PayVesselService;
+use App\Services\TransactionPinService;
 use App\Services\WalletLedgerService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use RuntimeException;
 
 class PayVesselBillsController extends Controller
@@ -59,12 +59,14 @@ class PayVesselBillsController extends Controller
             'item_id' => 'required|string|max:64',
             'recharge_account' => 'required|string|max:64',
             'amount' => 'required|integer|min:1',
-            'password' => 'required|string',
+            'pin' => 'nullable|required_without:password|string',
+            'password' => 'nullable|required_without:pin|string',
             'wallet' => 'nullable|in:main,ref',
         ]);
 
         $user = auth()->user();
-        if (!Hash::check($validated['password'], $user->trx_password)) {
+        $transactionPin = $validated['pin'] ?? $validated['password'];
+        if (!app(TransactionPinService::class)->matches($user, $transactionPin)) {
             return response()->json(['ok' => false, 'status' => 'danger', 'message' => 'Invalid transaction PIN'], 400);
         }
 

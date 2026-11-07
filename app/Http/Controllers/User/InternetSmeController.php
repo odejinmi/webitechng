@@ -247,7 +247,7 @@ class InternetSmeController extends Controller
         try {
         $user = auth()->user();
         $input = $request->all();
-        $password = $input['password'];
+        $password = $input['pin'] ?? $input['password'] ?? '';
         $arr = explode("|", $input['amount'], 3);
 
         $amount =  $arr[1];
@@ -415,7 +415,7 @@ class InternetSmeController extends Controller
         try {
         $user = auth()->user();
         $input = $request->all();
-        $password = $input['password'];
+        $password = $input['pin'] ?? $input['password'] ?? '';
         $arr = explode("|", $input['amount'], 3);
 
         $amount =  $arr[1];
@@ -584,7 +584,7 @@ class InternetSmeController extends Controller
         try {
         $user = auth()->user();
         $input = $request->all();
-        $password = $input['password'];
+        $password = $input['pin'] ?? $input['password'] ?? '';
         $arr = explode("|", $input['amount'], 3);
 
         $amount =  $arr[1];
@@ -752,7 +752,7 @@ class InternetSmeController extends Controller
         try {
         $user = auth()->user();
         $input = $request->all();
-        $password = $input['password'];
+        $password = $input['pin'] ?? $input['password'] ?? '';
         $arr = explode("|", $input['amount'], 3);
 
         $amount =  $arr[1];
@@ -921,7 +921,7 @@ class InternetSmeController extends Controller
         try {
         $user = auth()->user();
         $input = $request->all();
-        $password = $input['password'];
+        $password = $input['pin'] ?? $input['password'] ?? '';
         $arr = explode("|", $input['amount'], 3);
 
         $amount =  $arr[1];
