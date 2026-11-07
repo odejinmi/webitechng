@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AdminNotification;
 use App\Models\User;
 use App\Models\UserLogin;
+use App\Services\TransactionPinService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -91,6 +92,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|unique:users',
             'mobile' => 'required|regex:/^([0-9]*)$/',
             'password' => ['required', 'confirmed', $passwordValidation],
+            'pin' => 'required|digits_between:4,6',
             'username' => 'required|unique:users|min:6',
             'captcha' => 'sometimes|required',
             'nin' => 'required',
@@ -163,6 +165,7 @@ class RegisterController extends Controller
         $user->lastname = trim($data['lastname']);
         $user->email = strtolower(trim($data['email']));
         $user->password = Hash::make($data['password']);
+        $user->trx_password = app(TransactionPinService::class)->hash($data['pin']);
         $user->username = trim($data['username']);
         $user->country_code = $data['country_code'];
         $user->mobile = $data['mobile'];

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Mobile;
 
+use App\Services\TransactionPinService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -34,7 +35,7 @@ class TransactionPinController extends Controller
             ]);
         }
 
-        $user->trx_password = Hash::make(trim($validated['pin']));
+        $user->trx_password = app(TransactionPinService::class)->hash($validated['pin']);
         $user->save();
 
         return response()->json([
