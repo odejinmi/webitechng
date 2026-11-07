@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Transaction;
 use App\Http\Controllers\Controller;
 use App\Rules\FileTypeValidate;
+use App\Services\TransactionPinService;
 use App\Lib\GoogleAuthenticator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -179,12 +180,11 @@ class ProfileController extends Controller
 
         $this->validate($request, [
             'password' => 'required',
-            'pin' => 'required|min:4|max:6',
+            'pin' => 'required|digits_between:4,6',
         ]);
         $user = auth()->user();
         if (Hash::check($request->password, $user->password)) {
-            $password       = Hash::make($request->pin);
-            $user->trx_password = $password;
+            $user->trx_password = app(TransactionPinService::class)->hash($request->pin);
             $user->save();
             $notify[] = ['success', 'Transaction Pin Updated Successfully'];
             return back()->withNotify($notify);

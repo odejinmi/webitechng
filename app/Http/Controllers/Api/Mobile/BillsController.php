@@ -10,10 +10,10 @@ use App\Http\Controllers\User\InternetSmeController;
 use App\Http\Controllers\User\PayVesselBillsController;
 use App\Http\Controllers\User\UtilityLocalController;
 use App\Services\PayVesselService;
+use App\Services\TransactionPinService;
 use App\Services\WalletLedgerService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class BillsController extends Controller
@@ -457,19 +457,10 @@ class BillsController extends Controller
             ]);
         }
 
-        if (!Hash::check($pin, $user->trx_password)) {
-            $hashInfo = password_get_info((string) $user->trx_password);
-            $isLegacyPlainPin = ($hashInfo['algoName'] ?? 'unknown') === 'unknown'
-                && hash_equals((string) $user->trx_password, $pin);
-
-            if ($isLegacyPlainPin) {
-                $user->trx_password = Hash::make($pin);
-                $user->save();
-            } else {
-                throw ValidationException::withMessages([
-                    'pin' => ['The transaction PIN does not match.'],
-                ]);
-            }
+        if (!app(TransactionPinService::class)->matches($user, $pin)) {
+            throw ValidationException::withMessages([
+                'pin' => ['The transaction PIN does not match.'],
+            ]);
         }
 
         $request->merge(['pin' => $pin, 'password' => $pin]);
