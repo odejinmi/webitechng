@@ -232,7 +232,7 @@ class AirtimeController extends Controller
             return back()->withNotify($notify);
         }
 
-        $password = $input['password'];
+        $password = $input['pin'] ?? $input['password'] ?? '';
         $amount = $input['amount'];
         $phone = $input['phone'];
         $wallet = @$input['wallet'];
@@ -459,13 +459,13 @@ class AirtimeController extends Controller
     public function buy_airtime_post_vtpass($input)
     {
         $user = auth()->user();
-        $password = $input['password'];
+        $transactionPin = $input['pin'] ?? $input['password'] ?? '';
         $amount =  @$input['amount'];
         $operator = @$input['operator'];
         $wallet = @$input['wallet'];
         $phone = @$input['phone'];
 
-        if (Hash::check($password, $user->trx_password)) {
+        if (Hash::check($transactionPin, $user->trx_password)) {
             $passcheck = true;
             } else {
             $passcheck = false;
@@ -675,7 +675,7 @@ class AirtimeController extends Controller
     public function buy_airtime_post_n3tdata($input)
     {
         $user = auth()->user();
-        $password = $input['password'];
+        $transactionPin = $input['pin'] ?? $input['password'] ?? '';
         $amount =  @$input['amount'];
         $operator = @$input['operator'];
         $wallet = @$input['wallet'];
@@ -699,7 +699,7 @@ class AirtimeController extends Controller
         }
 
 
-        if (Hash::check($password, $user->trx_password)) {
+        if (Hash::check($transactionPin, $user->trx_password)) {
             $passcheck = true;
             } else {
             $passcheck = false;

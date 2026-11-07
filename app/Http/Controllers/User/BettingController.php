@@ -110,7 +110,7 @@ class BettingController extends Controller
 
         $user = auth()->user();
         $input = $request->all();
-        $password = $input['password'];
+        $password = $input['pin'] ?? $input['password'] ?? '';
         $amount = $input['amount'];
         $customername = $input['customerName'];
         $customerId = $input['customerId'];

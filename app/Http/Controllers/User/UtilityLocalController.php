@@ -165,7 +165,7 @@ class UtilityLocalController extends Controller
 
         $user = auth()->user();
         $input = $request->all();
-        $password = $input['password'];
+        $password = $input['pin'] ?? $input['password'] ?? '';
 
         $amount =  @$input['amount'];
         $customername = $input['customername'];
@@ -344,7 +344,7 @@ class UtilityLocalController extends Controller
         $user = auth()->user();
         $json = file_get_contents('php://input');
         $input = json_decode($json, true);
-        $password = $input['password'];
+        $password = $input['pin'] ?? $input['password'] ?? '';
         if (Hash::check($password, $user->trx_password)) {
             return response()->json(['ok'=>true,'status'=>'success','message'=>'The transaction PIN is correct!'],200);
         } else {
