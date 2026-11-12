@@ -11,6 +11,7 @@ use App\Models\GeneralSetting;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Services\WalletLedgerService;
+use App\Services\TransactionPinService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -243,20 +244,24 @@ class EducationController extends Controller
     {
         $user = auth()->user();
         $input = $request->all();
-        $password = $input['pin'] ?? $input['password'] ?? '';
-        $arr = explode("|", $input['plan'], 2);
+        if (empty($input)) {
+            $json = file_get_contents('php://input');
+            $input = json_decode($json, true) ?? [];
+        }
+        $password = (string) ($input['pin'] ?? $input['password'] ?? $input['trx_password'] ?? '');
+        $arr = explode("|", @$input['plan'], 2);
         $amount =  @$arr[1];
         $plan = @$arr['0'];
-        $customername = $input['customername'];
-        $number = $input['number'];
+        $customername = @$input['customername'];
+        $number = @$input['number'];
         $wallet = @$input['wallet'];
         $decoder = @$input['decoder'];
         $profilecode = @$input['profilecode'];
         $general   = gs();
 
-        if (Hash::check($password, $user->trx_password)) {
+        if (app(TransactionPinService::class)->matches($user, $password)) {
             $passcheck = true;
-            } else {
+        } else {
             $passcheck = false;
             return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
         }
@@ -535,8 +540,11 @@ class EducationController extends Controller
         $user = auth()->user();
         $json = file_get_contents('php://input');
         $input = json_decode($json, true);
-        $password = $input['pin'] ?? $input['password'] ?? '';
-        if (Hash::check($password, $user->trx_password)) {
+        if (empty($input)) {
+            $input = $request->all();
+        }
+        $password = (string) ($input['pin'] ?? $input['password'] ?? $input['trx_password'] ?? '');
+        if (app(TransactionPinService::class)->matches($user, $password)) {
             return response()->json(['ok'=>true,'status'=>'success','message'=>'The transaction PIN is correct!'],200);
         } else {
             return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);

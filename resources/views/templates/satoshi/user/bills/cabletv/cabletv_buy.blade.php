@@ -366,20 +366,29 @@
 @endpush
 @push('script')
     <script>
-        function submitform() {
+        function submitform(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            var passwordVal = document.getElementById('password') ? document.getElementById('password').value : '';
+            var decodernumberVal = document.getElementById('decodernumber') ? document.getElementById('decodernumber').value : '';
+            var customernameVal = document.getElementById('customername') ? document.getElementById('customername').value : '';
+            var planVal = document.getElementById('plan') ? document.getElementById('plan').value : '';
+            var decodertypeVal = document.getElementById('decodertype') ? document.getElementById('decodertype').value : '';
+
             var raw = JSON.stringify({
                 _token: "{{ csrf_token() }}",
-              password: document.getElementById('password').value,
-              number: document.getElementById('decodernumber').value,
-              customername: document.getElementById('customername').value,
-              plan: document.getElementById('plan').value,
-              decoder: document.getElementById('decodertype').value,
+                password: passwordVal,
+                pin: passwordVal,
+                number: decodernumberVal,
+                customername: customernameVal,
+                plan: planVal,
+                decoder: decodertypeVal,
                 wallet: "main"
             });
 
             var requestOptions = {
                 method: 'POST',
                 headers: {
+                    'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 body: raw

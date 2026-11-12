@@ -13,6 +13,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Services\TransactionPinService;
 use Illuminate\Validation\Rules\Password;
 use DB;
 use Carbon\Carbon;
@@ -133,7 +134,10 @@ class InsuranceController extends Controller
         $user = auth()->user();
         $json = file_get_contents('php://input');
         $input = json_decode($json, true);
-        $password = $input['password'];
+        if (empty($input)) {
+            $input = request()->all();
+        }
+        $password = (string) ($input['pin'] ?? $input['password'] ?? $input['trx_password'] ?? '');
 
         $customername = @$input['customername'];
         $wallet = @$input['wallet'];
@@ -152,12 +156,12 @@ class InsuranceController extends Controller
         $phone = @$input['phone'];
         $amount = @$input['amount'];
 
-        if (Hash::check($password, $user->trx_password)) {
+        if (app(TransactionPinService::class)->matches($user, $password)) {
             $passcheck = true;
-            } else {
+        } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
-            }
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
+        }
 
 
         $total = env('INSURANCECHARGE')+$amount;
@@ -351,12 +355,12 @@ class InsuranceController extends Controller
         $phone = @$input['phone'];
         $amount = @$input['amount'];
 
-        if (Hash::check($password, $user->trx_password)) {
+        if (app(TransactionPinService::class)->matches($user, (string) ($input['pin'] ?? $input['password'] ?? $input['trx_password'] ?? ''))) {
             $passcheck = true;
-            } else {
+        } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
-            }
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The password doesn\'t match!'],400);
+        }
 
 
         $total = env('INSURANCECHARGE')+$amount;

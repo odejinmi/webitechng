@@ -20,7 +20,6 @@ class TransactionPinService
         $freshUser = User::query()->find($user->getKey());
 
         Log::info('TransactionPinService::matches - Check initiated', [
-            'user' => $user,
             'user_id' => $user->getKey(),
             'raw_pin' => $rawPin,
             'normalized_pin' => $pin,
