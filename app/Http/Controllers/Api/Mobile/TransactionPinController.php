@@ -12,11 +12,14 @@ class TransactionPinController extends Controller
 {
     public function status(Request $request)
     {
+        $user = $request->user()->fresh();
+
         return response()->json([
             'code' => 200,
             'status' => 'ok',
             'data' => [
-                'configured' => !empty($request->user()->trx_password),
+                'user_id' => $user->id,
+                'configured' => !empty($user->trx_password),
             ],
         ]);
     }
@@ -47,7 +50,35 @@ class TransactionPinController extends Controller
             'code' => 200,
             'status' => 'ok',
             'message' => 'Transaction PIN updated successfully.',
-            'data' => ['configured' => true],
+            'data' => [
+                'user_id' => $user->id,
+                'configured' => true,
+                'verified' => true,
+            ],
+        ]);
+    }
+
+    public function verify(Request $request)
+    {
+        $validated = $request->validate([
+            'pin' => 'required|digits_between:4,6',
+        ]);
+
+        $user = $request->user();
+        if (!app(TransactionPinService::class)->matches($user, $validated['pin'])) {
+            throw ValidationException::withMessages([
+                'pin' => ['The transaction PIN does not match this account.'],
+            ]);
+        }
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'ok',
+            'message' => 'Transaction PIN verified successfully.',
+            'data' => [
+                'user_id' => $user->id,
+                'verified' => true,
+            ],
         ]);
     }
 }

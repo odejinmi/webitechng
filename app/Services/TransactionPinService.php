@@ -15,13 +15,20 @@ class TransactionPinService
     public function matches(User $user, string $pin): bool
     {
         $pin = $this->normalize($pin);
-        $storedPin = (string) $user->trx_password;
+        $freshUser = User::query()->find($user->getKey());
+        if (!$freshUser) {
+            return false;
+        }
+
+        $storedPin = (string) $freshUser->trx_password;
 
         if ($storedPin === '') {
             return false;
         }
 
         if (Hash::check($pin, $storedPin)) {
+            $user->setAttribute('trx_password', $storedPin);
+
             return true;
         }
 
@@ -33,8 +40,9 @@ class TransactionPinService
             return false;
         }
 
-        $user->trx_password = $this->hash($pin);
-        $user->save();
+        $freshUser->trx_password = $this->hash($pin);
+        $freshUser->save();
+        $user->setAttribute('trx_password', $freshUser->trx_password);
 
         return true;
     }
