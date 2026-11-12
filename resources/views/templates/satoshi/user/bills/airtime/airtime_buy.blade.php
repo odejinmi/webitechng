@@ -232,7 +232,7 @@
                                             <div class="vstack gap-2">
                                                  <div id="purchasemessage"></div>
                                                 <div class="text-center">
-                                                    <button type="button" id="submit" onclick="submitform()" class="btn btn-primary w-100"><a id="submitloader">Buy</a></button>
+                                                    <button type="button" id="submit" onclick="submitform(event)" class="btn btn-primary w-100"><span id="submitloader">Buy</span></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -248,18 +248,28 @@
 @endpush
 @push('script')
     <script>
-        function submitform() {
+        function submitform(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            console.log("submitform triggered");
+
+            var passwordVal = document.getElementById('password') ? document.getElementById('password').value : '';
+            var amountVal = document.getElementById('amount') ? document.getElementById('amount').value : '';
+            var phoneVal = document.getElementById('phone') ? document.getElementById('phone').value : '';
+            var networkidVal = document.getElementById('networkid') ? document.getElementById('networkid').value : '';
+
             var raw = JSON.stringify({
                 _token: "{{ csrf_token() }}",
-                password: document.getElementById('password').value,
-                amount: document.getElementById('amount').value,
-                phone: document.getElementById('phone').value,
-                operator: document.getElementById('networkid').value,
+                password: passwordVal,
+                amount: amountVal,
+                phone: phoneVal,
+                operator: networkidVal,
                 wallet: "main",
             });
+
             var requestOptions = {
                 method: 'POST',
                 headers: {
+                    'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 body: raw
