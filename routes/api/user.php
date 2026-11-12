@@ -28,6 +28,7 @@ Route::middleware(['auth:sanctum', 'latest.api.token'])->name('api.user.')->grou
     Route::controller('Api\Mobile\TransactionPinController')->prefix('security/transaction-pin')->name('security.transaction-pin.')->group(function () {
         Route::get('/', 'status')->name('status');
         Route::post('/', 'update')->middleware('throttle:password-reset')->name('update');
+        Route::post('verify', 'verify')->middleware('throttle:password-reset')->name('verify');
     });
 
     Route::controller('Api\AuthorizationController')->group(function () {
