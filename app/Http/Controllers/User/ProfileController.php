@@ -184,8 +184,10 @@ class ProfileController extends Controller
         ]);
         $user = auth()->user();
         if (Hash::check($request->password, $user->password)) {
-            $user->trx_password = app(TransactionPinService::class)->hash($request->pin);
-            $user->save();
+            if (!app(TransactionPinService::class)->update($user, $request->pin)) {
+                $notify[] = ['error', 'The transaction PIN could not be saved. Please try again.'];
+                return back()->withNotify($notify);
+            }
             $notify[] = ['success', 'Transaction Pin Updated Successfully'];
             return back()->withNotify($notify);
         } else {

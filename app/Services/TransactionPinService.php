@@ -39,6 +39,16 @@ class TransactionPinService
         return true;
     }
 
+    public function update(User $user, string $pin): bool
+    {
+        $pin = $this->normalize($pin);
+        $user->trx_password = $this->hash($pin);
+        $user->saveOrFail();
+        $user->refresh();
+
+        return Hash::check($pin, (string) $user->trx_password);
+    }
+
     private function normalize(string $pin): string
     {
         return trim($pin);
