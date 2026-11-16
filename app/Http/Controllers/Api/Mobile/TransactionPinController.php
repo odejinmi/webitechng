@@ -27,17 +27,27 @@ class TransactionPinController extends Controller
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'current_password' => 'nullable|required_without:password|string',
-            'password' => 'nullable|required_without:current_password|string',
+            'current_pin' => 'nullable|required_without_all:current_password,password|digits_between:4,6',
+            'current_password' => 'nullable|required_without_all:current_pin,password|string',
+            'password' => 'nullable|required_without_all:current_pin,current_password|string',
             'pin' => 'required|digits_between:4,6',
+            'pin_confirmation' => 'nullable|digits_between:4,6|same:pin',
         ]);
 
         $user = $request->user();
-        $accountPassword = $validated['current_password'] ?? $validated['password'];
-        if (!Hash::check($accountPassword, $user->password)) {
-            throw ValidationException::withMessages([
-                'current_password' => ['The account password is invalid.'],
-            ]);
+        if (!empty($validated['current_pin'])) {
+            if (!app(TransactionPinService::class)->matches($user, $validated['current_pin'])) {
+                throw ValidationException::withMessages([
+                    'current_pin' => ['The current transaction PIN is incorrect.'],
+                ]);
+            }
+        } else {
+            $accountPassword = $validated['current_password'] ?? $validated['password'];
+            if (!Hash::check($accountPassword, $user->password)) {
+                throw ValidationException::withMessages([
+                    'current_password' => ['The account password is invalid.'],
+                ]);
+            }
         }
 
         if (!app(TransactionPinService::class)->update($user, $validated['pin'])) {

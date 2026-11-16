@@ -330,20 +330,30 @@
 @endpush
 @push('script')
     <script>
-        function submitform() {
+        function submitform(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            var passwordVal = document.getElementById('password') ? document.getElementById('password').value : '';
+            var discosVal = document.getElementById('discos') ? document.getElementById('discos').value : '';
+            var meternumberVal = document.getElementById('meternumber') ? document.getElementById('meternumber').value : '';
+            var customernameVal = document.getElementById('customername') ? document.getElementById('customername').value : '';
+            var metertypeVal = document.getElementById('metertype') ? document.getElementById('metertype').value : '';
+            var amountVal = document.getElementById('amount') ? document.getElementById('amount').value : '';
+
             var raw = JSON.stringify({
                 _token: "{{ csrf_token() }}",
-                password: document.getElementById('password').value,
-                company: document.getElementById('discos').value,
-                number: document.getElementById('meternumber').value,
-                customername: document.getElementById('customername').value,
-                metertype: document.getElementById('metertype').value,
-                amount: document.getElementById('amount').value,
+                password: passwordVal,
+                pin: passwordVal,
+                company: discosVal,
+                number: meternumberVal,
+                customername: customernameVal,
+                metertype: metertypeVal,
+                amount: amountVal,
                 wallet: "main"
             });
             var requestOptions = {
                 method: 'POST',
                 headers: {
+                    'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 body: raw

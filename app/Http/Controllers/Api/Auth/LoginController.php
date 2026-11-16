@@ -57,23 +57,27 @@ class LoginController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'code'=>401,
-                'type'=> 'error',
-                'status'=>'ok',
-                'message'=>'Validation Error',
-                'error'=>['error'=>$validator->errors()->all()],
-            ],401);
+                'code' => 422,
+                'type' => 'error',
+                'status' => 'validation_error',
+                'message' => 'Please provide valid login details.',
+                'errors' => $validator->errors(),
+            ], 422);
         }
 
-        $credentials = request([$this->username, 'password']);
-        if(!Auth::attempt($credentials)){
-            $response[] = 'Unauthorized user';
+        $credentials = $request->only([$this->username, 'password']);
+        if (!Auth::attempt($credentials)) {
+            $message = 'The username/email or password is incorrect.';
+
             return response()->json([
-                'code'=>401,
-                'type'=> 'error',
-                'status'=>'unauthorized',
-                'message'=>'Unauthorized user',
-            ],401);
+                'code' => 401,
+                'type' => 'error',
+                'status' => 'unauthorized',
+                'message' => $message,
+                'errors' => [
+                    'credentials' => [$message],
+                ],
+            ], 401);
         }
 
         $user = User::findOrFail(Auth::id());

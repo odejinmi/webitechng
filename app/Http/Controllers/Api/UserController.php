@@ -465,15 +465,57 @@ class UserController extends Controller
         ]);
     }
 
-    public function transactions(){
-        $user = auth()->user();
-        $transactions = $user->transactions()->paginate(getPaginate());
+    public function transactions(Request $request)
+    {
+        $validated = $request->validate([
+            'search' => 'nullable|string|max:100',
+            'type' => 'nullable|in:all,in,out,bills',
+            'per_page' => 'nullable|integer|min:1|max:50',
+        ]);
+
+        $query = $request->user()->transactions();
+
+        if (!empty($validated['search'])) {
+            $search = '%' . trim($validated['search']) . '%';
+            $query->where(function ($query) use ($search) {
+                $query->where('trx', 'like', $search)
+                    ->orWhere('details', 'like', $search)
+                    ->orWhere('remark', 'like', $search);
+            });
+        }
+
+        $type = $validated['type'] ?? 'all';
+        if ($type === 'in') {
+            $query->where('trx_type', '+');
+        } elseif ($type === 'out') {
+            $query->where('trx_type', '-');
+        } elseif ($type === 'bills') {
+            $query->whereIn('remark', [
+                'airtime',
+                'airtime_refund',
+                'internet',
+                'internet_refund',
+                'utility',
+                'cabletv',
+                'education',
+                'betting',
+                'insurance',
+                'bill_payment',
+                'bill_payment_refund',
+            ]);
+        }
+
+        $transactions = $query
+            ->orderByDesc('id')
+            ->paginate($validated['per_page'] ?? getPaginate())
+            ->withQueryString();
+
         return response()->json([
-            'code'=>200,
-            'status'=>'ok',
-            'data'=>[
-                'transactions'=>$transactions,
-            ]
+            'code' => 200,
+            'status' => 'ok',
+            'data' => [
+                'transactions' => $transactions,
+            ],
         ]);
     }
     public function orders(){
