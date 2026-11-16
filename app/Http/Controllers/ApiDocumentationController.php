@@ -684,6 +684,7 @@ class ApiDocumentationController
             '/user/dashboard',
             '/user/downlines',
             '/user/login_earn',
+            '/user/profile',
             '/user/profile-setting',
             '/user/attachment-download',
             '/user/api/',

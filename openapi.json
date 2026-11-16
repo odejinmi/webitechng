@@ -284,9 +284,71 @@
         "responses": { "200": { "description": "2FA verified" } }
       }
     },
-    "/user/profile/change-password": {
+    "/user/profile": {
+      "get": {
+        "summary": "Get Mobile Profile",
+        "description": "Return the authenticated user's profile and security status.",
+        "tags": ["Profile"],
+        "responses": {
+          "200": { "description": "Profile returned successfully" },
+          "401": { "description": "Unauthenticated or invalid token" }
+        }
+      },
       "post": {
-        "summary": "Change Account Password",
+        "summary": "Update Mobile Profile",
+        "description": "Update profile fields. The optional image field must be a base64 JPEG or PNG data URI no larger than 5 MB.",
+        "tags": ["Profile"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstname": { "type": "string", "maxLength": 50, "example": "Sarah" },
+                  "lastname": { "type": "string", "maxLength": 50, "example": "Jenkins" },
+                  "gender": { "type": "string", "nullable": true, "example": "female" },
+                  "dob": { "type": "string", "format": "date", "nullable": true, "example": "1995-06-20" },
+                  "address": { "type": "string", "nullable": true, "example": "12 Marina Road" },
+                  "state": { "type": "string", "nullable": true, "example": "Lagos" },
+                  "city": { "type": "string", "nullable": true, "example": "Lagos" },
+                  "zip": { "type": "string", "nullable": true, "example": "100001" },
+                  "country": { "type": "string", "nullable": true, "example": "Nigeria" },
+                  "image": { "type": "string", "nullable": true, "description": "Base64 JPEG or PNG data URI.", "example": "data:image/jpeg;base64,/9j/4AAQSk..." }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Profile updated successfully" },
+          "401": { "description": "Unauthenticated or invalid token" },
+          "422": { "description": "Validation failed" }
+        }
+      }
+    },
+    "/user/transactions": {
+      "get": {
+        "summary": "Get Mobile Transaction History",
+        "description": "Return the authenticated user's paginated transaction history.",
+        "tags": ["Transactions"],
+        "parameters": [
+          { "name": "type", "in": "query", "required": false, "schema": { "type": "string", "enum": ["all", "in", "out", "bills"], "default": "all" } },
+          { "name": "search", "in": "query", "required": false, "schema": { "type": "string", "maxLength": 100 } },
+          { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "minimum": 1 } },
+          { "name": "per_page", "in": "query", "required": false, "schema": { "type": "integer", "minimum": 1, "maximum": 50, "default": 20 } }
+        ],
+        "responses": {
+          "200": { "description": "Transaction history returned successfully" },
+          "401": { "description": "Unauthenticated or invalid token" },
+          "422": { "description": "Invalid filter" }
+        }
+      }
+    },
+    "/user/security/password": {
+      "post": {
+        "summary": "Change Login Password",
         "tags": ["Profile"],
         "requestBody": {
           "required": true,
@@ -304,7 +366,136 @@
             }
           }
         },
-        "responses": { "200": { "description": "Password changed" } }
+        "responses": {
+          "200": { "description": "Password changed successfully" },
+          "401": { "description": "Unauthenticated or invalid token" },
+          "422": { "description": "Current password is incorrect or validation failed" }
+        }
+      }
+    },
+    "/user/security/transaction-pin": {
+      "get": {
+        "summary": "Get Transaction PIN Status",
+        "tags": ["Profile"],
+        "responses": {
+          "200": { "description": "Transaction PIN status returned" },
+          "401": { "description": "Unauthenticated or invalid token" }
+        }
+      },
+      "post": {
+        "summary": "Change Transaction PIN",
+        "description": "Authorize with current_pin. current_password may be used when initially setting or recovering the PIN.",
+        "tags": ["Profile"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["pin"],
+                "properties": {
+                  "current_pin": { "type": "string", "pattern": "^[0-9]{4,6}$", "example": "123456" },
+                  "current_password": { "type": "string", "format": "password", "example": "Password123!" },
+                  "pin": { "type": "string", "pattern": "^[0-9]{4,6}$", "example": "654321" },
+                  "pin_confirmation": { "type": "string", "pattern": "^[0-9]{4,6}$", "example": "654321" }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Transaction PIN updated successfully" },
+          "401": { "description": "Unauthenticated or invalid token" },
+          "422": { "description": "Current PIN/password is incorrect or validation failed" }
+        }
+      }
+    },
+    "/user/security/transaction-pin/verify": {
+      "post": {
+        "summary": "Verify Transaction PIN",
+        "tags": ["Profile"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["pin"],
+                "properties": {
+                  "pin": { "type": "string", "pattern": "^[0-9]{4,6}$", "example": "123456" }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Transaction PIN verified" },
+          "422": { "description": "Transaction PIN does not match" }
+        }
+      }
+    },
+    "/user/security/2fa/setup": {
+      "post": {
+        "summary": "Create 2FA Setup Secret",
+        "description": "Return a secret and otpauth URI for an authenticator app.",
+        "tags": ["Profile"],
+        "responses": {
+          "200": { "description": "2FA setup details returned" },
+          "422": { "description": "2FA is already enabled" }
+        }
+      }
+    },
+    "/user/security/2fa/enable": {
+      "post": {
+        "summary": "Enable 2FA",
+        "tags": ["Profile"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["key", "code"],
+                "properties": {
+                  "key": { "type": "string", "example": "JBSWY3DPEHPK3PXP" },
+                  "code": { "type": "string", "pattern": "^[0-9]{6}$", "example": "123456" }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "2FA enabled successfully" },
+          "422": { "description": "Authenticator code is invalid" }
+        }
+      }
+    },
+    "/user/security/2fa/disable": {
+      "post": {
+        "summary": "Disable 2FA",
+        "tags": ["Profile"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["code"],
+                "properties": {
+                  "code": { "type": "string", "pattern": "^[0-9]{6}$", "example": "123456" }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "2FA disabled successfully" },
+          "422": { "description": "Authenticator code is invalid" }
+        }
       }
     },
     "/user/deposit/insert": {

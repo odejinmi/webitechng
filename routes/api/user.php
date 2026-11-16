@@ -24,6 +24,16 @@ Route::namespace('User\Auth')->name('api.user.')->group(function () {
 Route::middleware(['auth:sanctum', 'latest.api.token'])->name('api.user.')->group(function () {
     Route::post('logout', 'Api\Auth\LoginController@logout')->name('logout');
     Route::get('dashboard', 'Api\UserController@dashboard')->middleware('checkStatusApi')->name('dashboard');
+    Route::get('transactions', 'Api\UserController@transactions')->middleware('checkStatusApi')->name('transactions');
+
+    Route::controller('Api\Mobile\ProfileController')->middleware('checkStatusApi')->group(function () {
+        Route::get('profile', 'show')->name('profile.show');
+        Route::post('profile', 'update')->name('profile.update');
+        Route::post('security/password', 'updatePassword')->middleware('throttle:password-reset')->name('security.password.update');
+        Route::post('security/2fa/setup', 'twoFactorSetup')->middleware('throttle:password-reset')->name('security.2fa.setup');
+        Route::post('security/2fa/enable', 'enableTwoFactor')->middleware('throttle:password-reset')->name('security.2fa.enable');
+        Route::post('security/2fa/disable', 'disableTwoFactor')->middleware('throttle:password-reset')->name('security.2fa.disable');
+    });
 
     Route::controller('Api\Mobile\TransactionPinController')->prefix('security/transaction-pin')->name('security.transaction-pin.')->group(function () {
         Route::get('/', 'status')->name('status');
