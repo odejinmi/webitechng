@@ -19,6 +19,7 @@ use App\Models\WithdrawMethod;
 use App\Models\Withdrawal;
 use App\Rules\FileTypeValidate;
 use App\Services\PayVesselService;
+use App\Services\TransactionPinService;
 use App\Support\PublicWebhookUrl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -1453,14 +1454,17 @@ class UserController extends Controller
     public function trxpass(Request $request)
     {
         $user = auth()->user();
-        if($user->trx_password == null)
+        if(empty($user->trx_password))
         {
             return response()->json(['ok'=>false,'status'=>'danger','message'=> 'You have not setup your transaction password yet. Try setting up your transaction password from account settings page!'],400);
         }
         $json = file_get_contents('php://input');
         $input = json_decode($json, true);
-        $password = $input['password'];
-        if (Hash::check($password, $user->trx_password)) {
+        if (empty($input)) {
+            $input = $request->all();
+        }
+        $password = (string) ($input['pin'] ?? $input['password'] ?? $input['trx_password'] ?? '');
+        if (app(TransactionPinService::class)->matches($user, $password)) {
             return response()->json(['ok'=>true,'status'=>'success','message'=>'The password Correct!'],200);
         } else {
             return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction password doesn\'t match!'],400);

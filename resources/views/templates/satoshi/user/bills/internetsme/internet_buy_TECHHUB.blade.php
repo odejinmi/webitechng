@@ -360,20 +360,30 @@
 @endpush
 @push('script')
     <script>
-        function submitform() {
+        function submitform(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            var passwordVal = document.getElementById('password') ? document.getElementById('password').value : '';
+            var networknameVal = document.getElementById('networkname') ? document.getElementById('networkname').value : '';
+            var amountVal = document.getElementById('amount') ? document.getElementById('amount').value : '';
+            var phoneVal = document.getElementById('phone') ? document.getElementById('phone').value : '';
+            var networkidVal = document.getElementById('networkid') ? document.getElementById('networkid').value : '';
+            var data_planVal = document.getElementById('data_plan') ? document.getElementById('data_plan').value : '';
+
             var raw = JSON.stringify({
                 _token: "{{ csrf_token() }}",
-                password: document.getElementById('password').value,
-                networkname: document.getElementById('networkname').value,
-                amount: document.getElementById('amount').value,
-                phone: document.getElementById('phone').value,
-                networkid: document.getElementById('networkid').value,
-                data_plan: document.getElementById('data_plan').value,
+                password: passwordVal,
+                pin: passwordVal,
+                networkname: networknameVal,
+                amount: amountVal,
+                phone: phoneVal,
+                networkid: networkidVal,
+                data_plan: data_planVal,
                 wallet: "main"
             });
             var requestOptions = {
                 method: 'POST',
                 headers: {
+                    'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 body: raw

@@ -11,6 +11,7 @@ use App\Models\GeneralSetting;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Services\WalletLedgerService;
+use App\Services\TransactionPinService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -247,24 +248,28 @@ class InternetSmeController extends Controller
         try {
         $user = auth()->user();
         $input = $request->all();
-        $password = $input['pin'] ?? $input['password'] ?? '';
-        $arr = explode("|", $input['amount'], 3);
+        if (empty($input)) {
+            $json = file_get_contents('php://input');
+            $input = json_decode($json, true) ?? [];
+        }
+        $password = (string) ($input['pin'] ?? $input['password'] ?? $input['trx_password'] ?? '');
+        $arr = explode("|", @$input['amount'], 3);
 
-        $amount =  $arr[1];
-        $data_plan = $input['data_plan'];
-        $networkname = $input['networkname'];
-        $plan = $arr[0];
-        $network = $arr[2];
-        $phone = $input['phone'];
+        $amount =  @$arr[1];
+        $data_plan = @$input['data_plan'];
+        $networkname = @$input['networkname'];
+        $plan = @$arr[0];
+        $network = @$arr[2];
+        $phone = @$input['phone'];
         $wallet = @$input['wallet'];
         $operatorId = @$input['networkid'];
 
-        if (Hash::check($password, $user->trx_password)) {
+        if (app(TransactionPinService::class)->matches($user, $password)) {
             $passcheck = true;
-            } else {
+        } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
-            }
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
+        }
 
         $wallet = $wallet === 'main' ? 'main' : 'ref';
         $payment = (float) $amount;
@@ -428,12 +433,12 @@ class InternetSmeController extends Controller
         $wallet = @$input['wallet'];
         $operatorId = @$input['networkid'];
 
-        if (Hash::check($password, $user->trx_password)) {
+        if (app(TransactionPinService::class)->matches($user, (string) ($input['pin'] ?? $input['password'] ?? $input['trx_password'] ?? ''))) {
             $passcheck = true;
-            } else {
+        } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
-            }
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
+        }
 
         $wallet = $wallet === 'main' ? 'main' : 'ref';
         $payment = (float) $amount;
@@ -596,12 +601,12 @@ class InternetSmeController extends Controller
         $wallet = @$input['wallet'];
         $operatorId = @$input['networkid'];
 
-        if (Hash::check($password, $user->trx_password)) {
+        if (app(TransactionPinService::class)->matches($user, (string) ($input['pin'] ?? $input['password'] ?? $input['trx_password'] ?? ''))) {
             $passcheck = true;
-            } else {
+        } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
-            }
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
+        }
 
         $wallet = $wallet === 'main' ? 'main' : 'ref';
         $payment = (float) $amount;
@@ -764,12 +769,12 @@ class InternetSmeController extends Controller
         $wallet = @$input['wallet'];
         $operatorId = @$input['networkid'];
 
-        if (Hash::check($password, $user->trx_password)) {
+        if (app(TransactionPinService::class)->matches($user, (string) ($input['pin'] ?? $input['password'] ?? $input['trx_password'] ?? ''))) {
             $passcheck = true;
-            } else {
+        } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
-            }
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
+        }
 
         $wallet = $wallet === 'main' ? 'main' : 'ref';
         $payment = (float) $amount;
@@ -933,12 +938,12 @@ class InternetSmeController extends Controller
         $wallet = 'main';
         $operatorId = @$input['networkid'];
 
-        if (Hash::check($password, $user->trx_password)) {
+        if (app(TransactionPinService::class)->matches($user, (string) ($input['pin'] ?? $input['password'] ?? $input['trx_password'] ?? ''))) {
             $passcheck = true;
-            } else {
+        } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
-            }
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
+        }
 
         $wallet = 'main';
         $payment = (float) $amount;

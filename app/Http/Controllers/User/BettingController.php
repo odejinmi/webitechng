@@ -13,6 +13,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Services\TransactionPinService;
 use Illuminate\Validation\Rules\Password;
 use DB;
 use Carbon\Carbon;
@@ -110,19 +111,23 @@ class BettingController extends Controller
 
         $user = auth()->user();
         $input = $request->all();
-        $password = $input['pin'] ?? $input['password'] ?? '';
-        $amount = $input['amount'];
-        $customername = $input['customerName'];
-        $customerId = $input['customerId'];
+        if (empty($input)) {
+            $json = file_get_contents('php://input');
+            $input = json_decode($json, true) ?? [];
+        }
+        $password = (string) ($input['pin'] ?? $input['password'] ?? $input['trx_password'] ?? '');
+        $amount = @$input['amount'];
+        $customername = @$input['customerName'];
+        $customerId = @$input['customerId'];
         $wallet = @$input['wallet'];
         $companyId = @$input['companyId'];
 
-        if (Hash::check($password, $user->trx_password)) {
+        if (app(TransactionPinService::class)->matches($user, $password)) {
             $passcheck = true;
-            } else {
+        } else {
             $passcheck = false;
-                return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
-            }
+            return response()->json(['ok'=>false,'status'=>'danger','message'=> 'The transaction PIN doesn\'t match!'],400);
+        }
 
 
         $total = env('BETTINGCHARGE')+$amount;

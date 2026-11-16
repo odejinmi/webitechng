@@ -974,7 +974,10 @@
 
                                                 var requestOptions = {
                                                   method: 'POST',
-                                                  headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                                  headers: {
+                                                      'Content-Type': 'application/json',
+                                                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                  },
                                                   body: raw
                                                 };
                                                 fetch("{{ route('user.buy.airtime') }}", requestOptions)
